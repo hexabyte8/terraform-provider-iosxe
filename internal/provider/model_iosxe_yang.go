@@ -92,6 +92,19 @@ func (data Yang) toBody(ctx context.Context) string {
 				var listAttributes map[string]string
 				data.Lists[i].Items[ii].ElementsAs(ctx, &listAttributes, false)
 				attrs := restconf.Body{}
+				
+				// Process key elements first to ensure consistent ordering
+				keys := strings.Split(data.Lists[i].Key.ValueString(), ",")
+				for _, key := range keys {
+					key = strings.TrimSpace(key)
+					if value, exists := listAttributes[key]; exists {
+						key = strings.ReplaceAll(key, "/", ".")
+						attrs = attrs.Set(key, value)
+						delete(listAttributes, key)
+					}
+				}
+				
+				// Process remaining attributes
 				for attr, value := range listAttributes {
 					attr = strings.ReplaceAll(attr, "/", ".")
 					attrs = attrs.Set(attr, value)
@@ -123,6 +136,18 @@ func (data Yang) toBodyXML(ctx context.Context) string {
 				var listAttributes map[string]string
 				data.Lists[i].Items[ii].ElementsAs(ctx, &listAttributes, false)
 				attrs := netconf.Body{}
+				
+				// Process key elements first to ensure proper XML ordering
+				keys := strings.Split(data.Lists[i].Key.ValueString(), ",")
+				for _, key := range keys {
+					key = strings.TrimSpace(key)
+					if value, exists := listAttributes[key]; exists {
+						attrs = helpers.SetFromXPath(attrs, key, value)
+						delete(listAttributes, key)
+					}
+				}
+				
+				// Process remaining attributes
 				for attr, value := range listAttributes {
 					attrs = helpers.SetFromXPath(attrs, attr, value)
 				}
