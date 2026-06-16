@@ -24,23 +24,23 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
+	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -109,10 +109,10 @@ func (r *EVPNInstanceResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 			},
 			"vlan_based_encapsulation": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Data encapsulation method").AddStringEnumDescription("mpls", "vxlan").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Data encapsulation method").AddStringEnumDescription("mpls", "vxlan", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("mpls", "vxlan"),
+					stringvalidator.OneOf("mpls", "vxlan", ),
 				},
 			},
 			"vlan_based_auto_route_target_legacy": schema.BoolAttribute{
@@ -182,10 +182,10 @@ func (r *EVPNInstanceResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 			},
 			"vlan_based_default_gateway_advertise": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Advertise Default Gateway MAC/IP routes").AddStringEnumDescription("disable", "enable").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Advertise Default Gateway MAC/IP routes").AddStringEnumDescription("disable", "enable", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("disable", "enable"),
+					stringvalidator.OneOf("disable", "enable", ),
 				},
 			},
 			"vlan_based_re_originate_route_type5": schema.BoolAttribute{
@@ -193,10 +193,10 @@ func (r *EVPNInstanceResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 			},
 			"vlan_based_multicast_advertise": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Advertise L2 multicast capability").AddStringEnumDescription("disable", "enable", "sync-only").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Advertise L2 multicast capability").AddStringEnumDescription("disable", "enable", "sync-only", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("disable", "enable", "sync-only"),
+					stringvalidator.OneOf("disable", "enable", "sync-only", ),
 				},
 			},
 		},
@@ -291,7 +291,7 @@ func (r *EVPNInstanceResource) Create(ctx context.Context, req resource.CreateRe
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -339,7 +339,7 @@ func (r *EVPNInstanceResource) Read(ctx context.Context, req resource.ReadReques
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

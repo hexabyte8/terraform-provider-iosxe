@@ -23,48 +23,48 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type Username struct {
-	Device             types.String `tfsdk:"device"`
-	Id                 types.String `tfsdk:"id"`
-	Name               types.String `tfsdk:"name"`
-	Privilege          types.Int64  `tfsdk:"privilege"`
-	Description        types.String `tfsdk:"description"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Privilege types.Int64 `tfsdk:"privilege"`
+	Description types.String `tfsdk:"description"`
 	PasswordEncryption types.String `tfsdk:"password_encryption"`
-	Password           types.String `tfsdk:"password"`
-	PasswordWO         types.String `tfsdk:"password_wo"`
-	PasswordWOVersion  types.Int64  `tfsdk:"password_wo_version"`
-	SecretEncryption   types.String `tfsdk:"secret_encryption"`
-	Secret             types.String `tfsdk:"secret"`
-	SecretWO           types.String `tfsdk:"secret_wo"`
-	SecretWOVersion    types.Int64  `tfsdk:"secret_wo_version"`
+	Password types.String `tfsdk:"password"`
+	PasswordWO types.String `tfsdk:"password_wo"`
+	PasswordWOVersion types.Int64 `tfsdk:"password_wo_version"`
+	SecretEncryption types.String `tfsdk:"secret_encryption"`
+	Secret types.String `tfsdk:"secret"`
+	SecretWO types.String `tfsdk:"secret_wo"`
+	SecretWOVersion types.Int64 `tfsdk:"secret_wo_version"`
 }
 
 type UsernameData struct {
-	Device             types.String `tfsdk:"device"`
-	Id                 types.String `tfsdk:"id"`
-	Name               types.String `tfsdk:"name"`
-	Privilege          types.Int64  `tfsdk:"privilege"`
-	Description        types.String `tfsdk:"description"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Privilege types.Int64 `tfsdk:"privilege"`
+	Description types.String `tfsdk:"description"`
 	PasswordEncryption types.String `tfsdk:"password_encryption"`
-	Password           types.String `tfsdk:"password"`
-	SecretEncryption   types.String `tfsdk:"secret_encryption"`
-	Secret             types.String `tfsdk:"secret"`
+	Password types.String `tfsdk:"password"`
+	SecretEncryption types.String `tfsdk:"secret_encryption"`
+	Secret types.String `tfsdk:"secret"`
 }
 
 // End of section. //template:end types
@@ -148,32 +148,32 @@ func (data Username) toBody(ctx context.Context, config Username) string {
 func (data Username) toBodyXML(ctx context.Context, config Username) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Privilege.IsNull() && !data.Privilege.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/privilege", strconv.FormatInt(data.Privilege.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/privilege", strconv.FormatInt(data.Privilege.ValueInt64(), 10))
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.PasswordEncryption.IsNull() && !data.PasswordEncryption.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/password/encryption", data.PasswordEncryption.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/password/encryption", data.PasswordEncryption.ValueString())
 	}
 	if !data.Password.IsNull() && !data.Password.IsUnknown() {
 		if !config.PasswordWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/password/password", config.PasswordWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/password/password", config.PasswordWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/password/password", data.Password.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/password/password", data.Password.ValueString())
 		}
 	}
 	if !data.SecretEncryption.IsNull() && !data.SecretEncryption.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/secret/encryption", data.SecretEncryption.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/secret/encryption", data.SecretEncryption.ValueString())
 	}
 	if !data.Secret.IsNull() && !data.Secret.IsUnknown() {
 		if !config.SecretWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/secret/secret", config.SecretWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/secret/secret", config.SecretWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/secret/secret", data.Secret.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/secret/secret", data.Secret.ValueString())
 		}
 	}
 	bodyString, err := body.String()
@@ -192,17 +192,17 @@ func (data *Username) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "privilege"); value.Exists() && !data.Privilege.IsNull() {
+	if value := res.Get(prefix+"privilege"); value.Exists() && !data.Privilege.IsNull() {
 		data.Privilege = types.Int64Value(value.Int())
 	} else {
 		data.Privilege = types.Int64Null()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
@@ -214,17 +214,17 @@ func (data *Username) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *Username) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/privilege"); value.Exists() && !data.Privilege.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/privilege"); value.Exists() && !data.Privilege.IsNull() {
 		data.Privilege = types.Int64Value(value.Int())
 	} else {
 		data.Privilege = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
@@ -240,22 +240,22 @@ func (data *Username) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "privilege"); value.Exists() {
+	if value := res.Get(prefix+"privilege"); value.Exists() {
 		data.Privilege = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "password.encryption"); value.Exists() {
+	if value := res.Get(prefix+"password.encryption"); value.Exists() {
 		data.PasswordEncryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "password.password"); value.Exists() {
+	if value := res.Get(prefix+"password.password"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "secret.encryption"); value.Exists() {
+	if value := res.Get(prefix+"secret.encryption"); value.Exists() {
 		data.SecretEncryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "secret.secret"); value.Exists() {
+	if value := res.Get(prefix+"secret.secret"); value.Exists() {
 		data.Secret = types.StringValue(value.String())
 	}
 }
@@ -269,22 +269,22 @@ func (data *UsernameData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "privilege"); value.Exists() {
+	if value := res.Get(prefix+"privilege"); value.Exists() {
 		data.Privilege = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "password.encryption"); value.Exists() {
+	if value := res.Get(prefix+"password.encryption"); value.Exists() {
 		data.PasswordEncryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "password.password"); value.Exists() {
+	if value := res.Get(prefix+"password.password"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "secret.encryption"); value.Exists() {
+	if value := res.Get(prefix+"secret.encryption"); value.Exists() {
 		data.SecretEncryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "secret.secret"); value.Exists() {
+	if value := res.Get(prefix+"secret.secret"); value.Exists() {
 		data.Secret = types.StringValue(value.String())
 	}
 }
@@ -294,22 +294,22 @@ func (data *UsernameData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *Username) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/privilege"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/privilege"); value.Exists() {
 		data.Privilege = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/encryption"); value.Exists() {
 		data.PasswordEncryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/password"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/password"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/secret/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/secret/encryption"); value.Exists() {
 		data.SecretEncryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/secret/secret"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/secret/secret"); value.Exists() {
 		data.Secret = types.StringValue(value.String())
 	}
 }
@@ -319,22 +319,22 @@ func (data *Username) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *UsernameData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/privilege"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/privilege"); value.Exists() {
 		data.Privilege = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/encryption"); value.Exists() {
 		data.PasswordEncryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/password"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/password"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/secret/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/secret/encryption"); value.Exists() {
 		data.SecretEncryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/secret/secret"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/secret/secret"); value.Exists() {
 		data.Secret = types.StringValue(value.String())
 	}
 }

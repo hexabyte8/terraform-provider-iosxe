@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeVLANAccessMap(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_vlan_access_map.test", "match_ipv6_address.0", "ACL2"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_vlan_access_map.test", "match_ip_address.0", "ACL1"))
@@ -45,7 +44,7 @@ func TestAccDataSourceIosxeVLANAccessMap(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeVLANAccessMapConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -66,7 +65,7 @@ func testAccDataSourceIosxeVLANAccessMapConfig() string {
 	config += `	match_ip_address = ["ACL1"]` + "\n"
 	config += `	action = "forward"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_vlan_access_map" "test" {
 			name = "VAM1"

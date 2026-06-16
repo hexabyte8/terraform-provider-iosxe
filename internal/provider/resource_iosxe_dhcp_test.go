@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -43,10 +41,10 @@ func TestAccIosxeDHCP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_dhcp.test", "snooping_information_option", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_dhcp.test", "snooping_information_option_allow_untrusted", "true"))
 	if os.Getenv("IOSXE1712") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_dhcp.test", "snooping_vlans_legacy.0.vlan_id", "3-4"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_dhcp.test", "snooping_vlans_legacy.0.vlan_id", "3-4"))
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_dhcp.test", "snooping_vlans.0.vlan_id", "3"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_dhcp.test", "snooping_vlans.0.vlan_id", "3"))
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -57,15 +55,15 @@ func TestAccIosxeDHCP(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeDHCPConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_dhcp.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeDHCPImportStateIdFunc("iosxe_dhcp.test"),
-				ImportStateVerifyIgnore: []string{"snooping_information_option_format_remote_id_hostname"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_dhcp.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeDHCPImportStateIdFunc("iosxe_dhcp.test"),
+				ImportStateVerifyIgnore: []string{ "snooping_information_option_format_remote_id_hostname", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -78,7 +76,7 @@ func TestAccIosxeDHCP(t *testing.T) {
 func iosxeDHCPImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 
@@ -109,14 +107,14 @@ func testAccIosxeDHCPConfig_all() string {
 	config += `	snooping_information_option = true` + "\n"
 	config += `	snooping_information_option_allow_untrusted = true` + "\n"
 	if os.Getenv("IOSXE1712") != "" {
-		config += `	snooping_vlans_legacy = [{` + "\n"
-		config += `		vlan_id = "3-4"` + "\n"
-		config += `	}]` + "\n"
+	config += `	snooping_vlans_legacy = [{` + "\n"
+	config += `		vlan_id = "3-4"` + "\n"
+	config += `	}]` + "\n"
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		config += `	snooping_vlans = [{` + "\n"
-		config += `		vlan_id = 3` + "\n"
-		config += `	}]` + "\n"
+	config += `	snooping_vlans = [{` + "\n"
+	config += `		vlan_id = 3` + "\n"
+	config += `	}]` + "\n"
 	}
 	config += `}` + "\n"
 	return config

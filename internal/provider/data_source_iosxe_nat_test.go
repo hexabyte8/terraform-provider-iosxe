@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeNAT(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_nat.test", "inside_source_interfaces.0.id", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_nat.test", "inside_source_interfaces.0.interfaces.0.interface", "GigabitEthernet4"))
@@ -49,7 +48,7 @@ func TestAccDataSourceIosxeNAT(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeNATConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -71,17 +70,17 @@ func testAccDataSourceIosxeNATConfig() string {
 	config += `			interface = "GigabitEthernet4"` + "\n"
 	config += `			overload = true` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	inside_source_static_entries = [{` + "\n"
 	config += `		local_ip = "10.0.0.1"` + "\n"
 	config += `		global_ip = "203.0.113.1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	outside_source_static_entries = [{` + "\n"
 	config += `		global_ip = "198.51.100.1"` + "\n"
 	config += `		local_ip = "10.0.0.2"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_nat" "test" {
 			depends_on = [iosxe_nat.test]

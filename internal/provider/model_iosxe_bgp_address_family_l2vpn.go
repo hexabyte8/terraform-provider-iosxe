@@ -23,39 +23,39 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPAddressFamilyL2VPN struct {
-	Device                 types.String `tfsdk:"device"`
-	Id                     types.String `tfsdk:"id"`
-	DeleteMode             types.String `tfsdk:"delete_mode"`
-	Asn                    types.String `tfsdk:"asn"`
-	AfName                 types.String `tfsdk:"af_name"`
-	RewriteEvpnRtAsn       types.Bool   `tfsdk:"rewrite_evpn_rt_asn"`
-	BgpNexthopTriggerDelay types.Int64  `tfsdk:"bgp_nexthop_trigger_delay"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	AfName types.String `tfsdk:"af_name"`
+	RewriteEvpnRtAsn types.Bool `tfsdk:"rewrite_evpn_rt_asn"`
+	BgpNexthopTriggerDelay types.Int64 `tfsdk:"bgp_nexthop_trigger_delay"`
 }
 
 type BGPAddressFamilyL2VPNData struct {
-	Device                 types.String `tfsdk:"device"`
-	Id                     types.String `tfsdk:"id"`
-	Asn                    types.String `tfsdk:"asn"`
-	AfName                 types.String `tfsdk:"af_name"`
-	RewriteEvpnRtAsn       types.Bool   `tfsdk:"rewrite_evpn_rt_asn"`
-	BgpNexthopTriggerDelay types.Int64  `tfsdk:"bgp_nexthop_trigger_delay"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	AfName types.String `tfsdk:"af_name"`
+	RewriteEvpnRtAsn types.Bool `tfsdk:"rewrite_evpn_rt_asn"`
+	BgpNexthopTriggerDelay types.Int64 `tfsdk:"bgp_nexthop_trigger_delay"`
 }
 
 // End of section. //template:end types
@@ -121,17 +121,17 @@ func (data BGPAddressFamilyL2VPN) toBody(ctx context.Context, config BGPAddressF
 func (data BGPAddressFamilyL2VPN) toBodyXML(ctx context.Context, config BGPAddressFamilyL2VPN) string {
 	body := netconf.Body{}
 	if !data.AfName.IsNull() && !data.AfName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/af-name", data.AfName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/af-name", data.AfName.ValueString())
 	}
 	if !data.RewriteEvpnRtAsn.IsNull() && !data.RewriteEvpnRtAsn.IsUnknown() {
 		if data.RewriteEvpnRtAsn.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/l2vpn-evpn/rewrite-evpn-rt-asn", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/l2vpn-evpn/rewrite-evpn-rt-asn", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/l2vpn-evpn/rewrite-evpn-rt-asn")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/l2vpn-evpn/rewrite-evpn-rt-asn")
 		}
 	}
 	if !data.BgpNexthopTriggerDelay.IsNull() && !data.BgpNexthopTriggerDelay.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/l2vpn-evpn/bgp/nexthop/trigger/delay", strconv.FormatInt(data.BgpNexthopTriggerDelay.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/l2vpn-evpn/bgp/nexthop/trigger/delay", strconv.FormatInt(data.BgpNexthopTriggerDelay.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -149,12 +149,12 @@ func (data *BGPAddressFamilyL2VPN) updateFromBody(ctx context.Context, res gjson
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "af-name"); value.Exists() && !data.AfName.IsNull() {
+	if value := res.Get(prefix+"af-name"); value.Exists() && !data.AfName.IsNull() {
 		data.AfName = types.StringValue(value.String())
 	} else {
 		data.AfName = types.StringNull()
 	}
-	if value := res.Get(prefix + "l2vpn-evpn.rewrite-evpn-rt-asn"); !data.RewriteEvpnRtAsn.IsNull() {
+	if value := res.Get(prefix+"l2vpn-evpn.rewrite-evpn-rt-asn"); !data.RewriteEvpnRtAsn.IsNull() {
 		if value.Exists() {
 			data.RewriteEvpnRtAsn = types.BoolValue(true)
 		} else {
@@ -163,7 +163,7 @@ func (data *BGPAddressFamilyL2VPN) updateFromBody(ctx context.Context, res gjson
 	} else {
 		data.RewriteEvpnRtAsn = types.BoolNull()
 	}
-	if value := res.Get(prefix + "l2vpn-evpn.bgp.nexthop.trigger.delay"); value.Exists() && !data.BgpNexthopTriggerDelay.IsNull() {
+	if value := res.Get(prefix+"l2vpn-evpn.bgp.nexthop.trigger.delay"); value.Exists() && !data.BgpNexthopTriggerDelay.IsNull() {
 		data.BgpNexthopTriggerDelay = types.Int64Value(value.Int())
 	} else {
 		data.BgpNexthopTriggerDelay = types.Int64Null()
@@ -175,12 +175,12 @@ func (data *BGPAddressFamilyL2VPN) updateFromBody(ctx context.Context, res gjson
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPAddressFamilyL2VPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/af-name"); value.Exists() && !data.AfName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/af-name"); value.Exists() && !data.AfName.IsNull() {
 		data.AfName = types.StringValue(value.String())
 	} else {
 		data.AfName = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vpn-evpn/rewrite-evpn-rt-asn"); !data.RewriteEvpnRtAsn.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vpn-evpn/rewrite-evpn-rt-asn"); !data.RewriteEvpnRtAsn.IsNull() {
 		if value.Exists() {
 			data.RewriteEvpnRtAsn = types.BoolValue(true)
 		} else {
@@ -189,7 +189,7 @@ func (data *BGPAddressFamilyL2VPN) updateFromBodyXML(ctx context.Context, res xm
 	} else {
 		data.RewriteEvpnRtAsn = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vpn-evpn/bgp/nexthop/trigger/delay"); value.Exists() && !data.BgpNexthopTriggerDelay.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vpn-evpn/bgp/nexthop/trigger/delay"); value.Exists() && !data.BgpNexthopTriggerDelay.IsNull() {
 		data.BgpNexthopTriggerDelay = types.Int64Value(value.Int())
 	} else {
 		data.BgpNexthopTriggerDelay = types.Int64Null()
@@ -205,12 +205,12 @@ func (data *BGPAddressFamilyL2VPN) fromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "l2vpn-evpn.rewrite-evpn-rt-asn"); value.Exists() {
+	if value := res.Get(prefix+"l2vpn-evpn.rewrite-evpn-rt-asn"); value.Exists() {
 		data.RewriteEvpnRtAsn = types.BoolValue(true)
 	} else {
 		data.RewriteEvpnRtAsn = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "l2vpn-evpn.bgp.nexthop.trigger.delay"); value.Exists() {
+	if value := res.Get(prefix+"l2vpn-evpn.bgp.nexthop.trigger.delay"); value.Exists() {
 		data.BgpNexthopTriggerDelay = types.Int64Value(value.Int())
 	}
 }
@@ -224,12 +224,12 @@ func (data *BGPAddressFamilyL2VPNData) fromBody(ctx context.Context, res gjson.R
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "l2vpn-evpn.rewrite-evpn-rt-asn"); value.Exists() {
+	if value := res.Get(prefix+"l2vpn-evpn.rewrite-evpn-rt-asn"); value.Exists() {
 		data.RewriteEvpnRtAsn = types.BoolValue(true)
 	} else {
 		data.RewriteEvpnRtAsn = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "l2vpn-evpn.bgp.nexthop.trigger.delay"); value.Exists() {
+	if value := res.Get(prefix+"l2vpn-evpn.bgp.nexthop.trigger.delay"); value.Exists() {
 		data.BgpNexthopTriggerDelay = types.Int64Value(value.Int())
 	}
 }
@@ -239,12 +239,12 @@ func (data *BGPAddressFamilyL2VPNData) fromBody(ctx context.Context, res gjson.R
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPAddressFamilyL2VPN) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vpn-evpn/rewrite-evpn-rt-asn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vpn-evpn/rewrite-evpn-rt-asn"); value.Exists() {
 		data.RewriteEvpnRtAsn = types.BoolValue(true)
 	} else {
 		data.RewriteEvpnRtAsn = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vpn-evpn/bgp/nexthop/trigger/delay"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vpn-evpn/bgp/nexthop/trigger/delay"); value.Exists() {
 		data.BgpNexthopTriggerDelay = types.Int64Value(value.Int())
 	}
 }
@@ -254,12 +254,12 @@ func (data *BGPAddressFamilyL2VPN) fromBodyXML(ctx context.Context, res xmldot.R
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPAddressFamilyL2VPNData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vpn-evpn/rewrite-evpn-rt-asn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vpn-evpn/rewrite-evpn-rt-asn"); value.Exists() {
 		data.RewriteEvpnRtAsn = types.BoolValue(true)
 	} else {
 		data.RewriteEvpnRtAsn = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vpn-evpn/bgp/nexthop/trigger/delay"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vpn-evpn/bgp/nexthop/trigger/delay"); value.Exists() {
 		data.BgpNexthopTriggerDelay = types.Int64Value(value.Int())
 	}
 }

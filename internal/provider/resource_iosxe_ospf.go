@@ -24,23 +24,23 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
+	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -358,10 +358,10 @@ func (r *OSPFResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				Optional:            true,
 			},
 			"fast_reroute_per_prefix_enable_prefix_priority": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Priority of prefixes to be protected").AddStringEnumDescription("high", "low").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Priority of prefixes to be protected").AddStringEnumDescription("high", "low", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("high", "low"),
+					stringvalidator.OneOf("high", "low", ),
 				},
 			},
 			"redistribute_static_subnets": schema.BoolAttribute{
@@ -632,7 +632,7 @@ func (r *OSPFResource) Create(ctx context.Context, req resource.CreateRequest, r
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -680,7 +680,7 @@ func (r *OSPFResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

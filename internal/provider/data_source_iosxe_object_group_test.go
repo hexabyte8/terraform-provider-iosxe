@@ -48,7 +48,7 @@ func TestAccDataSourceIosxeObjectGroup(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeObjectGroupConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,7 +69,7 @@ func testAccDataSourceIosxeObjectGroupConfig() string {
 	config += `		patterns = [{` + "\n"
 	config += `			fqdn_pattern = ".*\\.cisco\\.com"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	network = [{` + "\n"
 	config += `		name = "NETWORK_GROUP_1"` + "\n"
 	config += `		description = "My network object group"` + "\n"
@@ -84,9 +84,9 @@ func testAccDataSourceIosxeObjectGroupConfig() string {
 	config += `			start = "10.1.3.1"` + "\n"
 	config += `			end = "10.1.3.10"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_object_group" "test" {
 			depends_on = [iosxe_object_group.test]

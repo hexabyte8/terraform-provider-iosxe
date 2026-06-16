@@ -23,62 +23,62 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BFDTemplateSingleHop struct {
-	Device                               types.String `tfsdk:"device"`
-	Id                                   types.String `tfsdk:"id"`
-	Name                                 types.String `tfsdk:"name"`
-	AuthenticationMd5Keychain            types.String `tfsdk:"authentication_md5_keychain"`
-	AuthenticationMeticulousMd5Keychain  types.String `tfsdk:"authentication_meticulous_md5_keychain"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	AuthenticationMd5Keychain types.String `tfsdk:"authentication_md5_keychain"`
+	AuthenticationMeticulousMd5Keychain types.String `tfsdk:"authentication_meticulous_md5_keychain"`
 	AuthenticationMeticulousSha1Keychain types.String `tfsdk:"authentication_meticulous_sha_1_keychain"`
-	AuthenticationSha1Keychain           types.String `tfsdk:"authentication_sha_1_keychain"`
-	IntervalMillisecondsMinTx            types.Int64  `tfsdk:"interval_milliseconds_min_tx"`
-	IntervalMillisecondsMinRx            types.Int64  `tfsdk:"interval_milliseconds_min_rx"`
-	IntervalMillisecondsBoth             types.Int64  `tfsdk:"interval_milliseconds_both"`
-	IntervalMillisecondsMultiplier       types.Int64  `tfsdk:"interval_milliseconds_multiplier"`
-	IntervalMicrosecondsMinRx            types.Int64  `tfsdk:"interval_microseconds_min_rx"`
-	IntervalMicrosecondsMinTx            types.Int64  `tfsdk:"interval_microseconds_min_tx"`
-	Echo                                 types.Bool   `tfsdk:"echo"`
-	DampeningHalfTime                    types.Int64  `tfsdk:"dampening_half_time"`
-	DampeningUnsuppressTime              types.Int64  `tfsdk:"dampening_unsuppress_time"`
-	DampeningSuppressTime                types.Int64  `tfsdk:"dampening_suppress_time"`
-	DampeningMaxSuppressingTime          types.Int64  `tfsdk:"dampening_max_suppressing_time"`
+	AuthenticationSha1Keychain types.String `tfsdk:"authentication_sha_1_keychain"`
+	IntervalMillisecondsMinTx types.Int64 `tfsdk:"interval_milliseconds_min_tx"`
+	IntervalMillisecondsMinRx types.Int64 `tfsdk:"interval_milliseconds_min_rx"`
+	IntervalMillisecondsBoth types.Int64 `tfsdk:"interval_milliseconds_both"`
+	IntervalMillisecondsMultiplier types.Int64 `tfsdk:"interval_milliseconds_multiplier"`
+	IntervalMicrosecondsMinRx types.Int64 `tfsdk:"interval_microseconds_min_rx"`
+	IntervalMicrosecondsMinTx types.Int64 `tfsdk:"interval_microseconds_min_tx"`
+	Echo types.Bool `tfsdk:"echo"`
+	DampeningHalfTime types.Int64 `tfsdk:"dampening_half_time"`
+	DampeningUnsuppressTime types.Int64 `tfsdk:"dampening_unsuppress_time"`
+	DampeningSuppressTime types.Int64 `tfsdk:"dampening_suppress_time"`
+	DampeningMaxSuppressingTime types.Int64 `tfsdk:"dampening_max_suppressing_time"`
 }
 
 type BFDTemplateSingleHopData struct {
-	Device                               types.String `tfsdk:"device"`
-	Id                                   types.String `tfsdk:"id"`
-	Name                                 types.String `tfsdk:"name"`
-	AuthenticationMd5Keychain            types.String `tfsdk:"authentication_md5_keychain"`
-	AuthenticationMeticulousMd5Keychain  types.String `tfsdk:"authentication_meticulous_md5_keychain"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	AuthenticationMd5Keychain types.String `tfsdk:"authentication_md5_keychain"`
+	AuthenticationMeticulousMd5Keychain types.String `tfsdk:"authentication_meticulous_md5_keychain"`
 	AuthenticationMeticulousSha1Keychain types.String `tfsdk:"authentication_meticulous_sha_1_keychain"`
-	AuthenticationSha1Keychain           types.String `tfsdk:"authentication_sha_1_keychain"`
-	IntervalMillisecondsMinTx            types.Int64  `tfsdk:"interval_milliseconds_min_tx"`
-	IntervalMillisecondsMinRx            types.Int64  `tfsdk:"interval_milliseconds_min_rx"`
-	IntervalMillisecondsBoth             types.Int64  `tfsdk:"interval_milliseconds_both"`
-	IntervalMillisecondsMultiplier       types.Int64  `tfsdk:"interval_milliseconds_multiplier"`
-	IntervalMicrosecondsMinRx            types.Int64  `tfsdk:"interval_microseconds_min_rx"`
-	IntervalMicrosecondsMinTx            types.Int64  `tfsdk:"interval_microseconds_min_tx"`
-	Echo                                 types.Bool   `tfsdk:"echo"`
-	DampeningHalfTime                    types.Int64  `tfsdk:"dampening_half_time"`
-	DampeningUnsuppressTime              types.Int64  `tfsdk:"dampening_unsuppress_time"`
-	DampeningSuppressTime                types.Int64  `tfsdk:"dampening_suppress_time"`
-	DampeningMaxSuppressingTime          types.Int64  `tfsdk:"dampening_max_suppressing_time"`
+	AuthenticationSha1Keychain types.String `tfsdk:"authentication_sha_1_keychain"`
+	IntervalMillisecondsMinTx types.Int64 `tfsdk:"interval_milliseconds_min_tx"`
+	IntervalMillisecondsMinRx types.Int64 `tfsdk:"interval_milliseconds_min_rx"`
+	IntervalMillisecondsBoth types.Int64 `tfsdk:"interval_milliseconds_both"`
+	IntervalMillisecondsMultiplier types.Int64 `tfsdk:"interval_milliseconds_multiplier"`
+	IntervalMicrosecondsMinRx types.Int64 `tfsdk:"interval_microseconds_min_rx"`
+	IntervalMicrosecondsMinTx types.Int64 `tfsdk:"interval_microseconds_min_tx"`
+	Echo types.Bool `tfsdk:"echo"`
+	DampeningHalfTime types.Int64 `tfsdk:"dampening_half_time"`
+	DampeningUnsuppressTime types.Int64 `tfsdk:"dampening_unsuppress_time"`
+	DampeningSuppressTime types.Int64 `tfsdk:"dampening_suppress_time"`
+	DampeningMaxSuppressingTime types.Int64 `tfsdk:"dampening_max_suppressing_time"`
 }
 
 // End of section. //template:end types
@@ -183,56 +183,56 @@ func (data BFDTemplateSingleHop) toBody(ctx context.Context, config BFDTemplateS
 func (data BFDTemplateSingleHop) toBodyXML(ctx context.Context, config BFDTemplateSingleHop) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.AuthenticationMd5Keychain.IsNull() && !data.AuthenticationMd5Keychain.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/authentication/md5/keychain", data.AuthenticationMd5Keychain.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/authentication/md5/keychain", data.AuthenticationMd5Keychain.ValueString())
 	}
 	if !data.AuthenticationMeticulousMd5Keychain.IsNull() && !data.AuthenticationMeticulousMd5Keychain.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/authentication/meticulous-md5/keychain", data.AuthenticationMeticulousMd5Keychain.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/authentication/meticulous-md5/keychain", data.AuthenticationMeticulousMd5Keychain.ValueString())
 	}
 	if !data.AuthenticationMeticulousSha1Keychain.IsNull() && !data.AuthenticationMeticulousSha1Keychain.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/authentication/meticulous-sha-1/keychain", data.AuthenticationMeticulousSha1Keychain.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/authentication/meticulous-sha-1/keychain", data.AuthenticationMeticulousSha1Keychain.ValueString())
 	}
 	if !data.AuthenticationSha1Keychain.IsNull() && !data.AuthenticationSha1Keychain.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/authentication/sha-1/keychain", data.AuthenticationSha1Keychain.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/authentication/sha-1/keychain", data.AuthenticationSha1Keychain.ValueString())
 	}
 	if !data.IntervalMillisecondsMinTx.IsNull() && !data.IntervalMillisecondsMinTx.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/interval-singlehop-v2/mill-unit/min-tx", strconv.FormatInt(data.IntervalMillisecondsMinTx.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/interval-singlehop-v2/mill-unit/min-tx", strconv.FormatInt(data.IntervalMillisecondsMinTx.ValueInt64(), 10))
 	}
 	if !data.IntervalMillisecondsMinRx.IsNull() && !data.IntervalMillisecondsMinRx.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/interval-singlehop-v2/mill-unit/min-rx", strconv.FormatInt(data.IntervalMillisecondsMinRx.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/interval-singlehop-v2/mill-unit/min-rx", strconv.FormatInt(data.IntervalMillisecondsMinRx.ValueInt64(), 10))
 	}
 	if !data.IntervalMillisecondsBoth.IsNull() && !data.IntervalMillisecondsBoth.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/interval-singlehop-v2/mill-unit/both", strconv.FormatInt(data.IntervalMillisecondsBoth.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/interval-singlehop-v2/mill-unit/both", strconv.FormatInt(data.IntervalMillisecondsBoth.ValueInt64(), 10))
 	}
 	if !data.IntervalMillisecondsMultiplier.IsNull() && !data.IntervalMillisecondsMultiplier.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/interval-singlehop-v2/mill-unit/multiplier", strconv.FormatInt(data.IntervalMillisecondsMultiplier.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/interval-singlehop-v2/mill-unit/multiplier", strconv.FormatInt(data.IntervalMillisecondsMultiplier.ValueInt64(), 10))
 	}
 	if !data.IntervalMicrosecondsMinRx.IsNull() && !data.IntervalMicrosecondsMinRx.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/interval-singlehop-v2/ms-unit/min-rx", strconv.FormatInt(data.IntervalMicrosecondsMinRx.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/interval-singlehop-v2/ms-unit/min-rx", strconv.FormatInt(data.IntervalMicrosecondsMinRx.ValueInt64(), 10))
 	}
 	if !data.IntervalMicrosecondsMinTx.IsNull() && !data.IntervalMicrosecondsMinTx.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/interval-singlehop-v2/ms-unit/min-tx", strconv.FormatInt(data.IntervalMicrosecondsMinTx.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/interval-singlehop-v2/ms-unit/min-tx", strconv.FormatInt(data.IntervalMicrosecondsMinTx.ValueInt64(), 10))
 	}
 	if !data.Echo.IsNull() && !data.Echo.IsUnknown() {
 		if data.Echo.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/echo", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/echo", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/echo")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/echo")
 		}
 	}
 	if !data.DampeningHalfTime.IsNull() && !data.DampeningHalfTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dampening/half-time", strconv.FormatInt(data.DampeningHalfTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dampening/half-time", strconv.FormatInt(data.DampeningHalfTime.ValueInt64(), 10))
 	}
 	if !data.DampeningUnsuppressTime.IsNull() && !data.DampeningUnsuppressTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dampening/unsuppress-time", strconv.FormatInt(data.DampeningUnsuppressTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dampening/unsuppress-time", strconv.FormatInt(data.DampeningUnsuppressTime.ValueInt64(), 10))
 	}
 	if !data.DampeningSuppressTime.IsNull() && !data.DampeningSuppressTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dampening/suppress-time", strconv.FormatInt(data.DampeningSuppressTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dampening/suppress-time", strconv.FormatInt(data.DampeningSuppressTime.ValueInt64(), 10))
 	}
 	if !data.DampeningMaxSuppressingTime.IsNull() && !data.DampeningMaxSuppressingTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dampening/max-suppressing-time", strconv.FormatInt(data.DampeningMaxSuppressingTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dampening/max-suppressing-time", strconv.FormatInt(data.DampeningMaxSuppressingTime.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -250,62 +250,62 @@ func (data *BFDTemplateSingleHop) updateFromBody(ctx context.Context, res gjson.
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "authentication.md5.keychain"); value.Exists() && !data.AuthenticationMd5Keychain.IsNull() {
+	if value := res.Get(prefix+"authentication.md5.keychain"); value.Exists() && !data.AuthenticationMd5Keychain.IsNull() {
 		data.AuthenticationMd5Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMd5Keychain = types.StringNull()
 	}
-	if value := res.Get(prefix + "authentication.meticulous-md5.keychain"); value.Exists() && !data.AuthenticationMeticulousMd5Keychain.IsNull() {
+	if value := res.Get(prefix+"authentication.meticulous-md5.keychain"); value.Exists() && !data.AuthenticationMeticulousMd5Keychain.IsNull() {
 		data.AuthenticationMeticulousMd5Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMeticulousMd5Keychain = types.StringNull()
 	}
-	if value := res.Get(prefix + "authentication.meticulous-sha-1.keychain"); value.Exists() && !data.AuthenticationMeticulousSha1Keychain.IsNull() {
+	if value := res.Get(prefix+"authentication.meticulous-sha-1.keychain"); value.Exists() && !data.AuthenticationMeticulousSha1Keychain.IsNull() {
 		data.AuthenticationMeticulousSha1Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMeticulousSha1Keychain = types.StringNull()
 	}
-	if value := res.Get(prefix + "authentication.sha-1.keychain"); value.Exists() && !data.AuthenticationSha1Keychain.IsNull() {
+	if value := res.Get(prefix+"authentication.sha-1.keychain"); value.Exists() && !data.AuthenticationSha1Keychain.IsNull() {
 		data.AuthenticationSha1Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationSha1Keychain = types.StringNull()
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.min-tx"); value.Exists() && !data.IntervalMillisecondsMinTx.IsNull() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.min-tx"); value.Exists() && !data.IntervalMillisecondsMinTx.IsNull() {
 		data.IntervalMillisecondsMinTx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsMinTx = types.Int64Null()
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.min-rx"); value.Exists() && !data.IntervalMillisecondsMinRx.IsNull() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.min-rx"); value.Exists() && !data.IntervalMillisecondsMinRx.IsNull() {
 		data.IntervalMillisecondsMinRx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsMinRx = types.Int64Null()
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.both"); value.Exists() && !data.IntervalMillisecondsBoth.IsNull() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.both"); value.Exists() && !data.IntervalMillisecondsBoth.IsNull() {
 		data.IntervalMillisecondsBoth = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsBoth = types.Int64Null()
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.multiplier"); value.Exists() && !data.IntervalMillisecondsMultiplier.IsNull() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.multiplier"); value.Exists() && !data.IntervalMillisecondsMultiplier.IsNull() {
 		data.IntervalMillisecondsMultiplier = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsMultiplier = types.Int64Null()
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.ms-unit.min-rx"); value.Exists() && !data.IntervalMicrosecondsMinRx.IsNull() {
+	if value := res.Get(prefix+"interval-singlehop-v2.ms-unit.min-rx"); value.Exists() && !data.IntervalMicrosecondsMinRx.IsNull() {
 		data.IntervalMicrosecondsMinRx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMicrosecondsMinRx = types.Int64Null()
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.ms-unit.min-tx"); value.Exists() && !data.IntervalMicrosecondsMinTx.IsNull() {
+	if value := res.Get(prefix+"interval-singlehop-v2.ms-unit.min-tx"); value.Exists() && !data.IntervalMicrosecondsMinTx.IsNull() {
 		data.IntervalMicrosecondsMinTx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMicrosecondsMinTx = types.Int64Null()
 	}
-	if value := res.Get(prefix + "echo"); !data.Echo.IsNull() {
+	if value := res.Get(prefix+"echo"); !data.Echo.IsNull() {
 		if value.Exists() {
 			data.Echo = types.BoolValue(true)
 		} else {
@@ -314,22 +314,22 @@ func (data *BFDTemplateSingleHop) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.Echo = types.BoolNull()
 	}
-	if value := res.Get(prefix + "dampening.half-time"); value.Exists() && !data.DampeningHalfTime.IsNull() {
+	if value := res.Get(prefix+"dampening.half-time"); value.Exists() && !data.DampeningHalfTime.IsNull() {
 		data.DampeningHalfTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningHalfTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "dampening.unsuppress-time"); value.Exists() && !data.DampeningUnsuppressTime.IsNull() {
+	if value := res.Get(prefix+"dampening.unsuppress-time"); value.Exists() && !data.DampeningUnsuppressTime.IsNull() {
 		data.DampeningUnsuppressTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningUnsuppressTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "dampening.suppress-time"); value.Exists() && !data.DampeningSuppressTime.IsNull() {
+	if value := res.Get(prefix+"dampening.suppress-time"); value.Exists() && !data.DampeningSuppressTime.IsNull() {
 		data.DampeningSuppressTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningSuppressTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "dampening.max-suppressing-time"); value.Exists() && !data.DampeningMaxSuppressingTime.IsNull() {
+	if value := res.Get(prefix+"dampening.max-suppressing-time"); value.Exists() && !data.DampeningMaxSuppressingTime.IsNull() {
 		data.DampeningMaxSuppressingTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningMaxSuppressingTime = types.Int64Null()
@@ -341,62 +341,62 @@ func (data *BFDTemplateSingleHop) updateFromBody(ctx context.Context, res gjson.
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BFDTemplateSingleHop) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/md5/keychain"); value.Exists() && !data.AuthenticationMd5Keychain.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/md5/keychain"); value.Exists() && !data.AuthenticationMd5Keychain.IsNull() {
 		data.AuthenticationMd5Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMd5Keychain = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/meticulous-md5/keychain"); value.Exists() && !data.AuthenticationMeticulousMd5Keychain.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/meticulous-md5/keychain"); value.Exists() && !data.AuthenticationMeticulousMd5Keychain.IsNull() {
 		data.AuthenticationMeticulousMd5Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMeticulousMd5Keychain = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/meticulous-sha-1/keychain"); value.Exists() && !data.AuthenticationMeticulousSha1Keychain.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/meticulous-sha-1/keychain"); value.Exists() && !data.AuthenticationMeticulousSha1Keychain.IsNull() {
 		data.AuthenticationMeticulousSha1Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMeticulousSha1Keychain = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/sha-1/keychain"); value.Exists() && !data.AuthenticationSha1Keychain.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/sha-1/keychain"); value.Exists() && !data.AuthenticationSha1Keychain.IsNull() {
 		data.AuthenticationSha1Keychain = types.StringValue(value.String())
 	} else {
 		data.AuthenticationSha1Keychain = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/min-tx"); value.Exists() && !data.IntervalMillisecondsMinTx.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/min-tx"); value.Exists() && !data.IntervalMillisecondsMinTx.IsNull() {
 		data.IntervalMillisecondsMinTx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsMinTx = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/min-rx"); value.Exists() && !data.IntervalMillisecondsMinRx.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/min-rx"); value.Exists() && !data.IntervalMillisecondsMinRx.IsNull() {
 		data.IntervalMillisecondsMinRx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsMinRx = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/both"); value.Exists() && !data.IntervalMillisecondsBoth.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/both"); value.Exists() && !data.IntervalMillisecondsBoth.IsNull() {
 		data.IntervalMillisecondsBoth = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsBoth = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/multiplier"); value.Exists() && !data.IntervalMillisecondsMultiplier.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/multiplier"); value.Exists() && !data.IntervalMillisecondsMultiplier.IsNull() {
 		data.IntervalMillisecondsMultiplier = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMillisecondsMultiplier = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/ms-unit/min-rx"); value.Exists() && !data.IntervalMicrosecondsMinRx.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/ms-unit/min-rx"); value.Exists() && !data.IntervalMicrosecondsMinRx.IsNull() {
 		data.IntervalMicrosecondsMinRx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMicrosecondsMinRx = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/ms-unit/min-tx"); value.Exists() && !data.IntervalMicrosecondsMinTx.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/ms-unit/min-tx"); value.Exists() && !data.IntervalMicrosecondsMinTx.IsNull() {
 		data.IntervalMicrosecondsMinTx = types.Int64Value(value.Int())
 	} else {
 		data.IntervalMicrosecondsMinTx = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/echo"); !data.Echo.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/echo"); !data.Echo.IsNull() {
 		if value.Exists() {
 			data.Echo = types.BoolValue(true)
 		} else {
@@ -405,22 +405,22 @@ func (data *BFDTemplateSingleHop) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.Echo = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/half-time"); value.Exists() && !data.DampeningHalfTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/half-time"); value.Exists() && !data.DampeningHalfTime.IsNull() {
 		data.DampeningHalfTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningHalfTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/unsuppress-time"); value.Exists() && !data.DampeningUnsuppressTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/unsuppress-time"); value.Exists() && !data.DampeningUnsuppressTime.IsNull() {
 		data.DampeningUnsuppressTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningUnsuppressTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/suppress-time"); value.Exists() && !data.DampeningSuppressTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/suppress-time"); value.Exists() && !data.DampeningSuppressTime.IsNull() {
 		data.DampeningSuppressTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningSuppressTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/max-suppressing-time"); value.Exists() && !data.DampeningMaxSuppressingTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/max-suppressing-time"); value.Exists() && !data.DampeningMaxSuppressingTime.IsNull() {
 		data.DampeningMaxSuppressingTime = types.Int64Value(value.Int())
 	} else {
 		data.DampeningMaxSuppressingTime = types.Int64Null()
@@ -436,51 +436,51 @@ func (data *BFDTemplateSingleHop) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "authentication.md5.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.md5.keychain"); value.Exists() {
 		data.AuthenticationMd5Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.meticulous-md5.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.meticulous-md5.keychain"); value.Exists() {
 		data.AuthenticationMeticulousMd5Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.meticulous-sha-1.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.meticulous-sha-1.keychain"); value.Exists() {
 		data.AuthenticationMeticulousSha1Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.sha-1.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.sha-1.keychain"); value.Exists() {
 		data.AuthenticationSha1Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.min-tx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.min-tx"); value.Exists() {
 		data.IntervalMillisecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.min-rx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.min-rx"); value.Exists() {
 		data.IntervalMillisecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.both"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.both"); value.Exists() {
 		data.IntervalMillisecondsBoth = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.multiplier"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.multiplier"); value.Exists() {
 		data.IntervalMillisecondsMultiplier = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.ms-unit.min-rx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.ms-unit.min-rx"); value.Exists() {
 		data.IntervalMicrosecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.ms-unit.min-tx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.ms-unit.min-tx"); value.Exists() {
 		data.IntervalMicrosecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "echo"); value.Exists() {
+	if value := res.Get(prefix+"echo"); value.Exists() {
 		data.Echo = types.BoolValue(true)
 	} else {
 		data.Echo = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "dampening.half-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.half-time"); value.Exists() {
 		data.DampeningHalfTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dampening.unsuppress-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.unsuppress-time"); value.Exists() {
 		data.DampeningUnsuppressTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dampening.suppress-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.suppress-time"); value.Exists() {
 		data.DampeningSuppressTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dampening.max-suppressing-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.max-suppressing-time"); value.Exists() {
 		data.DampeningMaxSuppressingTime = types.Int64Value(value.Int())
 	}
 }
@@ -494,51 +494,51 @@ func (data *BFDTemplateSingleHopData) fromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "authentication.md5.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.md5.keychain"); value.Exists() {
 		data.AuthenticationMd5Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.meticulous-md5.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.meticulous-md5.keychain"); value.Exists() {
 		data.AuthenticationMeticulousMd5Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.meticulous-sha-1.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.meticulous-sha-1.keychain"); value.Exists() {
 		data.AuthenticationMeticulousSha1Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.sha-1.keychain"); value.Exists() {
+	if value := res.Get(prefix+"authentication.sha-1.keychain"); value.Exists() {
 		data.AuthenticationSha1Keychain = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.min-tx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.min-tx"); value.Exists() {
 		data.IntervalMillisecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.min-rx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.min-rx"); value.Exists() {
 		data.IntervalMillisecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.both"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.both"); value.Exists() {
 		data.IntervalMillisecondsBoth = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.mill-unit.multiplier"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.mill-unit.multiplier"); value.Exists() {
 		data.IntervalMillisecondsMultiplier = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.ms-unit.min-rx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.ms-unit.min-rx"); value.Exists() {
 		data.IntervalMicrosecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "interval-singlehop-v2.ms-unit.min-tx"); value.Exists() {
+	if value := res.Get(prefix+"interval-singlehop-v2.ms-unit.min-tx"); value.Exists() {
 		data.IntervalMicrosecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "echo"); value.Exists() {
+	if value := res.Get(prefix+"echo"); value.Exists() {
 		data.Echo = types.BoolValue(true)
 	} else {
 		data.Echo = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "dampening.half-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.half-time"); value.Exists() {
 		data.DampeningHalfTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dampening.unsuppress-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.unsuppress-time"); value.Exists() {
 		data.DampeningUnsuppressTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dampening.suppress-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.suppress-time"); value.Exists() {
 		data.DampeningSuppressTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dampening.max-suppressing-time"); value.Exists() {
+	if value := res.Get(prefix+"dampening.max-suppressing-time"); value.Exists() {
 		data.DampeningMaxSuppressingTime = types.Int64Value(value.Int())
 	}
 }
@@ -548,51 +548,51 @@ func (data *BFDTemplateSingleHopData) fromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BFDTemplateSingleHop) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/md5/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/md5/keychain"); value.Exists() {
 		data.AuthenticationMd5Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/meticulous-md5/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/meticulous-md5/keychain"); value.Exists() {
 		data.AuthenticationMeticulousMd5Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/meticulous-sha-1/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/meticulous-sha-1/keychain"); value.Exists() {
 		data.AuthenticationMeticulousSha1Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/sha-1/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/sha-1/keychain"); value.Exists() {
 		data.AuthenticationSha1Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/min-tx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/min-tx"); value.Exists() {
 		data.IntervalMillisecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/min-rx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/min-rx"); value.Exists() {
 		data.IntervalMillisecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/both"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/both"); value.Exists() {
 		data.IntervalMillisecondsBoth = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/multiplier"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/multiplier"); value.Exists() {
 		data.IntervalMillisecondsMultiplier = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/ms-unit/min-rx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/ms-unit/min-rx"); value.Exists() {
 		data.IntervalMicrosecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/ms-unit/min-tx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/ms-unit/min-tx"); value.Exists() {
 		data.IntervalMicrosecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/echo"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/echo"); value.Exists() {
 		data.Echo = types.BoolValue(true)
 	} else {
 		data.Echo = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/half-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/half-time"); value.Exists() {
 		data.DampeningHalfTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/unsuppress-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/unsuppress-time"); value.Exists() {
 		data.DampeningUnsuppressTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/suppress-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/suppress-time"); value.Exists() {
 		data.DampeningSuppressTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/max-suppressing-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/max-suppressing-time"); value.Exists() {
 		data.DampeningMaxSuppressingTime = types.Int64Value(value.Int())
 	}
 }
@@ -602,51 +602,51 @@ func (data *BFDTemplateSingleHop) fromBodyXML(ctx context.Context, res xmldot.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BFDTemplateSingleHopData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/md5/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/md5/keychain"); value.Exists() {
 		data.AuthenticationMd5Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/meticulous-md5/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/meticulous-md5/keychain"); value.Exists() {
 		data.AuthenticationMeticulousMd5Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/meticulous-sha-1/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/meticulous-sha-1/keychain"); value.Exists() {
 		data.AuthenticationMeticulousSha1Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/sha-1/keychain"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/sha-1/keychain"); value.Exists() {
 		data.AuthenticationSha1Keychain = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/min-tx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/min-tx"); value.Exists() {
 		data.IntervalMillisecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/min-rx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/min-rx"); value.Exists() {
 		data.IntervalMillisecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/both"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/both"); value.Exists() {
 		data.IntervalMillisecondsBoth = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/mill-unit/multiplier"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/mill-unit/multiplier"); value.Exists() {
 		data.IntervalMillisecondsMultiplier = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/ms-unit/min-rx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/ms-unit/min-rx"); value.Exists() {
 		data.IntervalMicrosecondsMinRx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interval-singlehop-v2/ms-unit/min-tx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interval-singlehop-v2/ms-unit/min-tx"); value.Exists() {
 		data.IntervalMicrosecondsMinTx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/echo"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/echo"); value.Exists() {
 		data.Echo = types.BoolValue(true)
 	} else {
 		data.Echo = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/half-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/half-time"); value.Exists() {
 		data.DampeningHalfTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/unsuppress-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/unsuppress-time"); value.Exists() {
 		data.DampeningUnsuppressTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/suppress-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/suppress-time"); value.Exists() {
 		data.DampeningSuppressTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dampening/max-suppressing-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dampening/max-suppressing-time"); value.Exists() {
 		data.DampeningMaxSuppressingTime = types.Int64Value(value.Int())
 	}
 }

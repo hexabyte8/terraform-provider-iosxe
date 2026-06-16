@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -86,10 +86,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"first": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Console line number").AddStringEnumDescription("0").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Console line number").AddStringEnumDescription("0", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0"),
+								stringvalidator.OneOf("0", ),
 							},
 						},
 						"exec_timeout_minutes": schema.Int64Attribute{
@@ -122,10 +122,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							},
 						},
 						"stopbits": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Set async line stop bits").AddStringEnumDescription("1", "1.5", "2").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Set async line stop bits").AddStringEnumDescription("1", "1.5", "2", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("1", "1.5", "2"),
+								stringvalidator.OneOf("1", "1.5", "2", ),
 							},
 						},
 						"password_level": schema.Int64Attribute{
@@ -136,10 +136,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							},
 						},
 						"password_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "6", "7").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "6", "7", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0", "6", "7"),
+								stringvalidator.OneOf("0", "6", "7", ),
 							},
 						},
 						"password": schema.StringAttribute{
@@ -208,10 +208,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"direction": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Filter connections based on the incoming/outgoing direction").AddStringEnumDescription("in", "out").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Filter connections based on the incoming/outgoing direction").AddStringEnumDescription("in", "out", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("in", "out"),
+											stringvalidator.OneOf("in", "out", ),
 										},
 									},
 									"access_list": schema.StringAttribute{
@@ -247,10 +247,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							},
 						},
 						"password_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "6", "7").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "6", "7", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0", "6", "7"),
+								stringvalidator.OneOf("0", "6", "7", ),
 							},
 						},
 						"password": schema.StringAttribute{
@@ -275,10 +275,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							Optional:            true,
 						},
 						"transport_preferred_protocol": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("acercon", "lat", "mop", "nasi", "none", "pad", "rlogin", "ssh", "telnet", "udptn").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("acercon", "lat", "mop", "nasi", "none", "pad", "rlogin", "ssh", "telnet", "udptn", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("acercon", "lat", "mop", "nasi", "none", "pad", "rlogin", "ssh", "telnet", "udptn"),
+								stringvalidator.OneOf("acercon", "lat", "mop", "nasi", "none", "pad", "rlogin", "ssh", "telnet", "udptn", ),
 							},
 						},
 						"escape_character": schema.StringAttribute{
@@ -318,10 +318,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							},
 						},
 						"stopbits": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Set async line stop bits").AddStringEnumDescription("1", "1.5", "2").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Set async line stop bits").AddStringEnumDescription("1", "1.5", "2", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("1", "1.5", "2"),
+								stringvalidator.OneOf("1", "1.5", "2", ),
 							},
 						},
 						"logging_synchronous": schema.BoolAttribute{
@@ -350,10 +350,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"first": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Auxiliary line number").AddStringEnumDescription("0").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Auxiliary line number").AddStringEnumDescription("0", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0"),
+								stringvalidator.OneOf("0", ),
 							},
 						},
 						"escape_character": schema.StringAttribute{
@@ -383,10 +383,10 @@ func (r *LineResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 							Optional:            true,
 						},
 						"stopbits": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Set async line stop bits").AddStringEnumDescription("1", "1.5", "2").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Set async line stop bits").AddStringEnumDescription("1", "1.5", "2", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("1", "1.5", "2"),
+								stringvalidator.OneOf("1", "1.5", "2", ),
 							},
 						},
 						"transport_output_none": schema.BoolAttribute{
@@ -488,7 +488,7 @@ func (r *LineResource) Create(ctx context.Context, req resource.CreateRequest, r
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -536,7 +536,7 @@ func (r *LineResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

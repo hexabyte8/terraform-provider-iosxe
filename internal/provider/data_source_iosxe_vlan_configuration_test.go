@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeVLANConfiguration(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_vlan_configuration.test", "evpn_instance_legacy", "123"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_vlan_configuration.test", "evpn_instance_vni_legacy", "10123"))
@@ -53,7 +52,7 @@ func TestAccDataSourceIosxeVLANConfiguration(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeVLANConfigurationConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +80,7 @@ func testAccDataSourceIosxeVLANConfigurationConfig() string {
 		config += `	evpn_instance_protected = true` + "\n"
 	}
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_vlan_configuration" "test" {
 			vlan_id = "123"

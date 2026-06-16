@@ -23,50 +23,50 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type VLANConfiguration struct {
-	Device                       types.String `tfsdk:"device"`
-	Id                           types.String `tfsdk:"id"`
-	VlanId                       types.String `tfsdk:"vlan_id"`
-	Vni                          types.Int64  `tfsdk:"vni"`
-	AccessVfi                    types.String `tfsdk:"access_vfi"`
-	EvpnInstanceLegacy           types.Int64  `tfsdk:"evpn_instance_legacy"`
-	EvpnInstanceVniLegacy        types.Int64  `tfsdk:"evpn_instance_vni_legacy"`
-	EvpnInstance                 types.Int64  `tfsdk:"evpn_instance"`
-	EvpnInstanceVni              types.Int64  `tfsdk:"evpn_instance_vni"`
-	EvpnInstanceProtected        types.Bool   `tfsdk:"evpn_instance_protected"`
-	EvpnInstanceProfile          types.String `tfsdk:"evpn_instance_profile"`
-	EvpnInstanceProfileProtected types.Bool   `tfsdk:"evpn_instance_profile_protected"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	VlanId types.String `tfsdk:"vlan_id"`
+	Vni types.Int64 `tfsdk:"vni"`
+	AccessVfi types.String `tfsdk:"access_vfi"`
+	EvpnInstanceLegacy types.Int64 `tfsdk:"evpn_instance_legacy"`
+	EvpnInstanceVniLegacy types.Int64 `tfsdk:"evpn_instance_vni_legacy"`
+	EvpnInstance types.Int64 `tfsdk:"evpn_instance"`
+	EvpnInstanceVni types.Int64 `tfsdk:"evpn_instance_vni"`
+	EvpnInstanceProtected types.Bool `tfsdk:"evpn_instance_protected"`
+	EvpnInstanceProfile types.String `tfsdk:"evpn_instance_profile"`
+	EvpnInstanceProfileProtected types.Bool `tfsdk:"evpn_instance_profile_protected"`
 }
 
 type VLANConfigurationData struct {
-	Device                       types.String `tfsdk:"device"`
-	Id                           types.String `tfsdk:"id"`
-	VlanId                       types.String `tfsdk:"vlan_id"`
-	Vni                          types.Int64  `tfsdk:"vni"`
-	AccessVfi                    types.String `tfsdk:"access_vfi"`
-	EvpnInstanceLegacy           types.Int64  `tfsdk:"evpn_instance_legacy"`
-	EvpnInstanceVniLegacy        types.Int64  `tfsdk:"evpn_instance_vni_legacy"`
-	EvpnInstance                 types.Int64  `tfsdk:"evpn_instance"`
-	EvpnInstanceVni              types.Int64  `tfsdk:"evpn_instance_vni"`
-	EvpnInstanceProtected        types.Bool   `tfsdk:"evpn_instance_protected"`
-	EvpnInstanceProfile          types.String `tfsdk:"evpn_instance_profile"`
-	EvpnInstanceProfileProtected types.Bool   `tfsdk:"evpn_instance_profile_protected"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	VlanId types.String `tfsdk:"vlan_id"`
+	Vni types.Int64 `tfsdk:"vni"`
+	AccessVfi types.String `tfsdk:"access_vfi"`
+	EvpnInstanceLegacy types.Int64 `tfsdk:"evpn_instance_legacy"`
+	EvpnInstanceVniLegacy types.Int64 `tfsdk:"evpn_instance_vni_legacy"`
+	EvpnInstance types.Int64 `tfsdk:"evpn_instance"`
+	EvpnInstanceVni types.Int64 `tfsdk:"evpn_instance_vni"`
+	EvpnInstanceProtected types.Bool `tfsdk:"evpn_instance_protected"`
+	EvpnInstanceProfile types.String `tfsdk:"evpn_instance_profile"`
+	EvpnInstanceProfileProtected types.Bool `tfsdk:"evpn_instance_profile_protected"`
 }
 
 // End of section. //template:end types
@@ -155,41 +155,41 @@ func (data VLANConfiguration) toBody(ctx context.Context, config VLANConfigurati
 func (data VLANConfiguration) toBodyXML(ctx context.Context, config VLANConfiguration) string {
 	body := netconf.Body{}
 	if !data.VlanId.IsNull() && !data.VlanId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/vlan-id", data.VlanId.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/vlan-id", data.VlanId.ValueString())
 	}
 	if !data.Vni.IsNull() && !data.Vni.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/vni", strconv.FormatInt(data.Vni.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/vni", strconv.FormatInt(data.Vni.ValueInt64(), 10))
 	}
 	if !data.AccessVfi.IsNull() && !data.AccessVfi.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/access-vfi", data.AccessVfi.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/access-vfi", data.AccessVfi.ValueString())
 	}
 	if !data.EvpnInstanceLegacy.IsNull() && !data.EvpnInstanceLegacy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/evpn-instance/evpn-instance", strconv.FormatInt(data.EvpnInstanceLegacy.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/evpn-instance/evpn-instance", strconv.FormatInt(data.EvpnInstanceLegacy.ValueInt64(), 10))
 	}
 	if !data.EvpnInstanceVniLegacy.IsNull() && !data.EvpnInstanceVniLegacy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/evpn-instance/vni", strconv.FormatInt(data.EvpnInstanceVniLegacy.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/evpn-instance/vni", strconv.FormatInt(data.EvpnInstanceVniLegacy.ValueInt64(), 10))
 	}
 	if !data.EvpnInstance.IsNull() && !data.EvpnInstance.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/evi", strconv.FormatInt(data.EvpnInstance.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/evi", strconv.FormatInt(data.EvpnInstance.ValueInt64(), 10))
 	}
 	if !data.EvpnInstanceVni.IsNull() && !data.EvpnInstanceVni.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/vni", strconv.FormatInt(data.EvpnInstanceVni.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/vni", strconv.FormatInt(data.EvpnInstanceVni.ValueInt64(), 10))
 	}
 	if !data.EvpnInstanceProtected.IsNull() && !data.EvpnInstanceProtected.IsUnknown() {
 		if data.EvpnInstanceProtected.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/protected", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/protected", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/protected")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/protected")
 		}
 	}
 	if !data.EvpnInstanceProfile.IsNull() && !data.EvpnInstanceProfile.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/profile", data.EvpnInstanceProfile.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/profile", data.EvpnInstanceProfile.ValueString())
 	}
 	if !data.EvpnInstanceProfileProtected.IsNull() && !data.EvpnInstanceProfileProtected.IsUnknown() {
 		if data.EvpnInstanceProfileProtected.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/protected", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/protected", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/protected")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/protected")
 		}
 	}
 	bodyString, err := body.String()
@@ -208,42 +208,42 @@ func (data *VLANConfiguration) updateFromBody(ctx context.Context, res gjson.Res
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vlan-id"); value.Exists() && !data.VlanId.IsNull() {
+	if value := res.Get(prefix+"vlan-id"); value.Exists() && !data.VlanId.IsNull() {
 		data.VlanId = types.StringValue(value.String())
 	} else {
 		data.VlanId = types.StringNull()
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() && !data.Vni.IsNull() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() && !data.Vni.IsNull() {
 		data.Vni = types.Int64Value(value.Int())
 	} else {
 		data.Vni = types.Int64Null()
 	}
-	if value := res.Get(prefix + "member.access-vfi"); value.Exists() && !data.AccessVfi.IsNull() {
+	if value := res.Get(prefix+"member.access-vfi"); value.Exists() && !data.AccessVfi.IsNull() {
 		data.AccessVfi = types.StringValue(value.String())
 	} else {
 		data.AccessVfi = types.StringNull()
 	}
-	if value := res.Get(prefix + "member.evpn-instance.evpn-instance"); value.Exists() && !data.EvpnInstanceLegacy.IsNull() {
+	if value := res.Get(prefix+"member.evpn-instance.evpn-instance"); value.Exists() && !data.EvpnInstanceLegacy.IsNull() {
 		data.EvpnInstanceLegacy = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstanceLegacy = types.Int64Null()
 	}
-	if value := res.Get(prefix + "member.evpn-instance.vni"); value.Exists() && !data.EvpnInstanceVniLegacy.IsNull() {
+	if value := res.Get(prefix+"member.evpn-instance.vni"); value.Exists() && !data.EvpnInstanceVniLegacy.IsNull() {
 		data.EvpnInstanceVniLegacy = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstanceVniLegacy = types.Int64Null()
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.evi"); value.Exists() && !data.EvpnInstance.IsNull() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.evi"); value.Exists() && !data.EvpnInstance.IsNull() {
 		data.EvpnInstance = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstance = types.Int64Null()
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.vni"); value.Exists() && !data.EvpnInstanceVni.IsNull() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.vni"); value.Exists() && !data.EvpnInstanceVni.IsNull() {
 		data.EvpnInstanceVni = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstanceVni = types.Int64Null()
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.protected"); !data.EvpnInstanceProtected.IsNull() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.protected"); !data.EvpnInstanceProtected.IsNull() {
 		if value.Exists() {
 			data.EvpnInstanceProtected = types.BoolValue(true)
 		} else {
@@ -252,12 +252,12 @@ func (data *VLANConfiguration) updateFromBody(ctx context.Context, res gjson.Res
 	} else {
 		data.EvpnInstanceProtected = types.BoolNull()
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.auto-evi-config.profile"); value.Exists() && !data.EvpnInstanceProfile.IsNull() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.auto-evi-config.profile"); value.Exists() && !data.EvpnInstanceProfile.IsNull() {
 		data.EvpnInstanceProfile = types.StringValue(value.String())
 	} else {
 		data.EvpnInstanceProfile = types.StringNull()
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.auto-evi-config.protected"); !data.EvpnInstanceProfileProtected.IsNull() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.auto-evi-config.protected"); !data.EvpnInstanceProfileProtected.IsNull() {
 		if value.Exists() {
 			data.EvpnInstanceProfileProtected = types.BoolValue(true)
 		} else {
@@ -273,42 +273,42 @@ func (data *VLANConfiguration) updateFromBody(ctx context.Context, res gjson.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *VLANConfiguration) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan-id"); value.Exists() && !data.VlanId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan-id"); value.Exists() && !data.VlanId.IsNull() {
 		data.VlanId = types.StringValue(value.String())
 	} else {
 		data.VlanId = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() && !data.Vni.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() && !data.Vni.IsNull() {
 		data.Vni = types.Int64Value(value.Int())
 	} else {
 		data.Vni = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/access-vfi"); value.Exists() && !data.AccessVfi.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/access-vfi"); value.Exists() && !data.AccessVfi.IsNull() {
 		data.AccessVfi = types.StringValue(value.String())
 	} else {
 		data.AccessVfi = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evpn-instance/evpn-instance"); value.Exists() && !data.EvpnInstanceLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evpn-instance/evpn-instance"); value.Exists() && !data.EvpnInstanceLegacy.IsNull() {
 		data.EvpnInstanceLegacy = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstanceLegacy = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evpn-instance/vni"); value.Exists() && !data.EvpnInstanceVniLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evpn-instance/vni"); value.Exists() && !data.EvpnInstanceVniLegacy.IsNull() {
 		data.EvpnInstanceVniLegacy = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstanceVniLegacy = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/evi"); value.Exists() && !data.EvpnInstance.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/evi"); value.Exists() && !data.EvpnInstance.IsNull() {
 		data.EvpnInstance = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstance = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/vni"); value.Exists() && !data.EvpnInstanceVni.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/vni"); value.Exists() && !data.EvpnInstanceVni.IsNull() {
 		data.EvpnInstanceVni = types.Int64Value(value.Int())
 	} else {
 		data.EvpnInstanceVni = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/protected"); !data.EvpnInstanceProtected.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/protected"); !data.EvpnInstanceProtected.IsNull() {
 		if value.Exists() {
 			data.EvpnInstanceProtected = types.BoolValue(true)
 		} else {
@@ -317,12 +317,12 @@ func (data *VLANConfiguration) updateFromBodyXML(ctx context.Context, res xmldot
 	} else {
 		data.EvpnInstanceProtected = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/profile"); value.Exists() && !data.EvpnInstanceProfile.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/profile"); value.Exists() && !data.EvpnInstanceProfile.IsNull() {
 		data.EvpnInstanceProfile = types.StringValue(value.String())
 	} else {
 		data.EvpnInstanceProfile = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/protected"); !data.EvpnInstanceProfileProtected.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/protected"); !data.EvpnInstanceProfileProtected.IsNull() {
 		if value.Exists() {
 			data.EvpnInstanceProfileProtected = types.BoolValue(true)
 		} else {
@@ -342,33 +342,33 @@ func (data *VLANConfiguration) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() {
 		data.Vni = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.access-vfi"); value.Exists() {
+	if value := res.Get(prefix+"member.access-vfi"); value.Exists() {
 		data.AccessVfi = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "member.evpn-instance.evpn-instance"); value.Exists() {
+	if value := res.Get(prefix+"member.evpn-instance.evpn-instance"); value.Exists() {
 		data.EvpnInstanceLegacy = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evpn-instance.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.evpn-instance.vni"); value.Exists() {
 		data.EvpnInstanceVniLegacy = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.evi"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.evi"); value.Exists() {
 		data.EvpnInstance = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.vni"); value.Exists() {
 		data.EvpnInstanceVni = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.protected"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.protected"); value.Exists() {
 		data.EvpnInstanceProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProtected = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.auto-evi-config.profile"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.auto-evi-config.profile"); value.Exists() {
 		data.EvpnInstanceProfile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.auto-evi-config.protected"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.auto-evi-config.protected"); value.Exists() {
 		data.EvpnInstanceProfileProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProfileProtected = types.BoolValue(false)
@@ -384,33 +384,33 @@ func (data *VLANConfigurationData) fromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() {
 		data.Vni = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.access-vfi"); value.Exists() {
+	if value := res.Get(prefix+"member.access-vfi"); value.Exists() {
 		data.AccessVfi = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "member.evpn-instance.evpn-instance"); value.Exists() {
+	if value := res.Get(prefix+"member.evpn-instance.evpn-instance"); value.Exists() {
 		data.EvpnInstanceLegacy = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evpn-instance.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.evpn-instance.vni"); value.Exists() {
 		data.EvpnInstanceVniLegacy = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.evi"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.evi"); value.Exists() {
 		data.EvpnInstance = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.vni"); value.Exists() {
 		data.EvpnInstanceVni = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.manual-evi-config.protected"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.manual-evi-config.protected"); value.Exists() {
 		data.EvpnInstanceProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProtected = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.auto-evi-config.profile"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.auto-evi-config.profile"); value.Exists() {
 		data.EvpnInstanceProfile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "member.evi-member.evpn-instance.auto-evi-config.protected"); value.Exists() {
+	if value := res.Get(prefix+"member.evi-member.evpn-instance.auto-evi-config.protected"); value.Exists() {
 		data.EvpnInstanceProfileProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProfileProtected = types.BoolValue(false)
@@ -422,33 +422,33 @@ func (data *VLANConfigurationData) fromBody(ctx context.Context, res gjson.Resul
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *VLANConfiguration) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() {
 		data.Vni = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/access-vfi"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/access-vfi"); value.Exists() {
 		data.AccessVfi = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evpn-instance/evpn-instance"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evpn-instance/evpn-instance"); value.Exists() {
 		data.EvpnInstanceLegacy = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evpn-instance/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evpn-instance/vni"); value.Exists() {
 		data.EvpnInstanceVniLegacy = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/evi"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/evi"); value.Exists() {
 		data.EvpnInstance = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/vni"); value.Exists() {
 		data.EvpnInstanceVni = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/protected"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/protected"); value.Exists() {
 		data.EvpnInstanceProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProtected = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/profile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/profile"); value.Exists() {
 		data.EvpnInstanceProfile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/protected"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/protected"); value.Exists() {
 		data.EvpnInstanceProfileProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProfileProtected = types.BoolValue(false)
@@ -460,33 +460,33 @@ func (data *VLANConfiguration) fromBodyXML(ctx context.Context, res xmldot.Resul
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *VLANConfigurationData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() {
 		data.Vni = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/access-vfi"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/access-vfi"); value.Exists() {
 		data.AccessVfi = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evpn-instance/evpn-instance"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evpn-instance/evpn-instance"); value.Exists() {
 		data.EvpnInstanceLegacy = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evpn-instance/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evpn-instance/vni"); value.Exists() {
 		data.EvpnInstanceVniLegacy = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/evi"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/evi"); value.Exists() {
 		data.EvpnInstance = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/vni"); value.Exists() {
 		data.EvpnInstanceVni = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/manual-evi-config/protected"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/manual-evi-config/protected"); value.Exists() {
 		data.EvpnInstanceProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProtected = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/profile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/profile"); value.Exists() {
 		data.EvpnInstanceProfile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/evi-member/evpn-instance/auto-evi-config/protected"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/evi-member/evpn-instance/auto-evi-config/protected"); value.Exists() {
 		data.EvpnInstanceProfileProtected = types.BoolValue(true)
 	} else {
 		data.EvpnInstanceProfileProtected = types.BoolValue(false)

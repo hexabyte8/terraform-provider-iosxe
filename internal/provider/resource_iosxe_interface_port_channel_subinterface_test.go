@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfacePortChannelSubinterface(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel_subinterface.test", "name", "20.666"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel_subinterface.test", "encapsulation_dot1q_vlan_id", "666"))
@@ -75,19 +73,19 @@ func TestAccIosxeInterfacePortChannelSubinterface(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfacePortChannelSubinterfacePrerequisitesConfig + testAccIosxeInterfacePortChannelSubinterfaceConfig_minimum(),
+				Config: testAccIosxeInterfacePortChannelSubinterfacePrerequisitesConfig+testAccIosxeInterfacePortChannelSubinterfaceConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfacePortChannelSubinterfacePrerequisitesConfig + testAccIosxeInterfacePortChannelSubinterfaceConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfacePortChannelSubinterfacePrerequisitesConfig+testAccIosxeInterfacePortChannelSubinterfaceConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_port_channel_subinterface.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfacePortChannelSubinterfaceImportStateIdFunc("iosxe_interface_port_channel_subinterface.test"),
-				ImportStateVerifyIgnore: []string{"ipv4_address_dhcp", "auto_qos_classify", "auto_qos_classify_police", "auto_qos_trust", "auto_qos_trust_cos", "auto_qos_trust_dscp", "auto_qos_video_cts", "auto_qos_video_ip_camera", "auto_qos_video_media_player", "auto_qos_voip_cisco_phone", "auto_qos_voip_cisco_softphone", "auto_qos_voip_trust", "ipv6_address_autoconfig_default", "ip_arp_inspection_trust", "ip_nat_inside", "ip_nat_outside"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_port_channel_subinterface.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfacePortChannelSubinterfaceImportStateIdFunc("iosxe_interface_port_channel_subinterface.test"),
+				ImportStateVerifyIgnore: []string{ "ipv4_address_dhcp","auto_qos_classify","auto_qos_classify_police","auto_qos_trust","auto_qos_trust_cos","auto_qos_trust_dscp","auto_qos_video_cts","auto_qos_video_ip_camera","auto_qos_video_media_player","auto_qos_voip_cisco_phone","auto_qos_voip_cisco_softphone","auto_qos_voip_trust","ipv6_address_autoconfig_default","ip_arp_inspection_trust","ip_nat_inside","ip_nat_outside", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -174,7 +172,6 @@ resource "iosxe_yang" "PreReq6" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

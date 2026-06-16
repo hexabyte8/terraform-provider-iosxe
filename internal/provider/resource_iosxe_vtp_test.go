@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeVTP(t *testing.T) {
 	if os.Getenv("VTP") == "" {
-		t.Skip("skipping test, set environment variable VTP")
-	}
+        t.Skip("skipping test, set environment variable VTP")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vtp.test", "file", "TEST"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vtp.test", "version", "3"))
@@ -53,15 +51,15 @@ func TestAccIosxeVTP(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeVTPConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_vtp.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeVTPImportStateIdFunc("iosxe_vtp.test"),
-				ImportStateVerifyIgnore: []string{"interface_only", "password_secret", "pruning", "mode_client", "mode_client_mst", "mode_client_unknown", "mode_client_vlan", "mode_off", "mode_off_mst", "mode_off_unknown", "mode_off_vlan", "mode_server", "mode_server_mst", "mode_server_unknown", "mode_server_vlan", "mode_transparent_mst", "mode_transparent_unknown", "mode_transparent_vlan"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_vtp.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeVTPImportStateIdFunc("iosxe_vtp.test"),
+				ImportStateVerifyIgnore: []string{ "interface_only","password_secret","pruning","mode_client","mode_client_mst","mode_client_unknown","mode_client_vlan","mode_off","mode_off_mst","mode_off_unknown","mode_off_vlan","mode_server","mode_server_mst","mode_server_unknown","mode_server_vlan","mode_transparent_mst","mode_transparent_unknown","mode_transparent_vlan", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -74,7 +72,7 @@ func TestAccIosxeVTP(t *testing.T) {
 func iosxeVTPImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

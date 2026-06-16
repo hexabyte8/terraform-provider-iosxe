@@ -23,123 +23,123 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type IPv6DHCPPool struct {
-	Device                                types.String                           `tfsdk:"device"`
-	Id                                    types.String                           `tfsdk:"id"`
-	DeleteMode                            types.String                           `tfsdk:"delete_mode"`
-	Name                                  types.String                           `tfsdk:"name"`
-	Vrf                                   types.String                           `tfsdk:"vrf"`
-	AddressPrefixes                       []IPv6DHCPPoolAddressPrefixes          `tfsdk:"address_prefixes"`
-	PrefixDelegationPoolName              types.String                           `tfsdk:"prefix_delegation_pool_name"`
-	PrefixDelegationPoolValidLifetime     types.String                           `tfsdk:"prefix_delegation_pool_valid_lifetime"`
-	PrefixDelegationPoolPreferredLifetime types.String                           `tfsdk:"prefix_delegation_pool_preferred_lifetime"`
-	PrefixDelegationPrefixes              []IPv6DHCPPoolPrefixDelegationPrefixes `tfsdk:"prefix_delegation_prefixes"`
-	DnsServers                            types.List                             `tfsdk:"dns_servers"`
-	DomainNames                           types.List                             `tfsdk:"domain_names"`
-	LinkAddresses                         []IPv6DHCPPoolLinkAddresses            `tfsdk:"link_addresses"`
-	BootfileUrl                           types.String                           `tfsdk:"bootfile_url"`
-	OptionIncludeAll                      types.Bool                             `tfsdk:"option_include_all"`
-	VendorSpecifics                       []IPv6DHCPPoolVendorSpecifics          `tfsdk:"vendor_specifics"`
-	ImportDnsServer                       types.Bool                             `tfsdk:"import_dns_server"`
-	ImportDomainName                      types.Bool                             `tfsdk:"import_domain_name"`
-	SntpAddresses                         types.List                             `tfsdk:"sntp_addresses"`
-	InformationRefreshDays                types.Int64                            `tfsdk:"information_refresh_days"`
-	InformationRefreshHours               types.Int64                            `tfsdk:"information_refresh_hours"`
-	InformationRefreshMinutes             types.Int64                            `tfsdk:"information_refresh_minutes"`
-	InformationRefreshInfinite            types.Bool                             `tfsdk:"information_refresh_infinite"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	Vrf types.String `tfsdk:"vrf"`
+	AddressPrefixes []IPv6DHCPPoolAddressPrefixes `tfsdk:"address_prefixes"`
+	PrefixDelegationPoolName types.String `tfsdk:"prefix_delegation_pool_name"`
+	PrefixDelegationPoolValidLifetime types.String `tfsdk:"prefix_delegation_pool_valid_lifetime"`
+	PrefixDelegationPoolPreferredLifetime types.String `tfsdk:"prefix_delegation_pool_preferred_lifetime"`
+	PrefixDelegationPrefixes []IPv6DHCPPoolPrefixDelegationPrefixes `tfsdk:"prefix_delegation_prefixes"`
+	DnsServers types.List `tfsdk:"dns_servers"`
+	DomainNames types.List `tfsdk:"domain_names"`
+	LinkAddresses []IPv6DHCPPoolLinkAddresses `tfsdk:"link_addresses"`
+	BootfileUrl types.String `tfsdk:"bootfile_url"`
+	OptionIncludeAll types.Bool `tfsdk:"option_include_all"`
+	VendorSpecifics []IPv6DHCPPoolVendorSpecifics `tfsdk:"vendor_specifics"`
+	ImportDnsServer types.Bool `tfsdk:"import_dns_server"`
+	ImportDomainName types.Bool `tfsdk:"import_domain_name"`
+	SntpAddresses types.List `tfsdk:"sntp_addresses"`
+	InformationRefreshDays types.Int64 `tfsdk:"information_refresh_days"`
+	InformationRefreshHours types.Int64 `tfsdk:"information_refresh_hours"`
+	InformationRefreshMinutes types.Int64 `tfsdk:"information_refresh_minutes"`
+	InformationRefreshInfinite types.Bool `tfsdk:"information_refresh_infinite"`
 }
 type IPv6DHCPPoolAddressPrefixes struct {
-	Address           types.String `tfsdk:"address"`
-	ValidLifetime     types.String `tfsdk:"valid_lifetime"`
+	Address types.String `tfsdk:"address"`
+	ValidLifetime types.String `tfsdk:"valid_lifetime"`
 	PreferredLifetime types.String `tfsdk:"preferred_lifetime"`
 }
 type IPv6DHCPPoolPrefixDelegationPrefixes struct {
-	Prefix            types.String `tfsdk:"prefix"`
-	HexString         types.String `tfsdk:"hex_string"`
-	Iaid              types.String `tfsdk:"iaid"`
-	ValidLifetime     types.String `tfsdk:"valid_lifetime"`
+	Prefix types.String `tfsdk:"prefix"`
+	HexString types.String `tfsdk:"hex_string"`
+	Iaid types.String `tfsdk:"iaid"`
+	ValidLifetime types.String `tfsdk:"valid_lifetime"`
 	PreferredLifetime types.String `tfsdk:"preferred_lifetime"`
 }
 type IPv6DHCPPoolLinkAddresses struct {
 	Address types.String `tfsdk:"address"`
 }
 type IPv6DHCPPoolVendorSpecifics struct {
-	EnterpriseId types.Int64                             `tfsdk:"enterprise_id"`
-	Suboptions   []IPv6DHCPPoolVendorSpecificsSuboptions `tfsdk:"suboptions"`
+	EnterpriseId types.Int64 `tfsdk:"enterprise_id"`
+	Suboptions []IPv6DHCPPoolVendorSpecificsSuboptions `tfsdk:"suboptions"`
 }
 type IPv6DHCPPoolVendorSpecificsSuboptions struct {
-	Number  types.Int64  `tfsdk:"number"`
+	Number types.Int64 `tfsdk:"number"`
 	Address types.String `tfsdk:"address"`
-	Ascii   types.String `tfsdk:"ascii"`
-	Hex     types.String `tfsdk:"hex"`
+	Ascii types.String `tfsdk:"ascii"`
+	Hex types.String `tfsdk:"hex"`
 }
 
 type IPv6DHCPPoolData struct {
-	Device                                types.String                               `tfsdk:"device"`
-	Id                                    types.String                               `tfsdk:"id"`
-	Name                                  types.String                               `tfsdk:"name"`
-	Vrf                                   types.String                               `tfsdk:"vrf"`
-	AddressPrefixes                       []IPv6DHCPPoolAddressPrefixesData          `tfsdk:"address_prefixes"`
-	PrefixDelegationPoolName              types.String                               `tfsdk:"prefix_delegation_pool_name"`
-	PrefixDelegationPoolValidLifetime     types.String                               `tfsdk:"prefix_delegation_pool_valid_lifetime"`
-	PrefixDelegationPoolPreferredLifetime types.String                               `tfsdk:"prefix_delegation_pool_preferred_lifetime"`
-	PrefixDelegationPrefixes              []IPv6DHCPPoolPrefixDelegationPrefixesData `tfsdk:"prefix_delegation_prefixes"`
-	DnsServers                            types.List                                 `tfsdk:"dns_servers"`
-	DomainNames                           types.List                                 `tfsdk:"domain_names"`
-	LinkAddresses                         []IPv6DHCPPoolLinkAddressesData            `tfsdk:"link_addresses"`
-	BootfileUrl                           types.String                               `tfsdk:"bootfile_url"`
-	OptionIncludeAll                      types.Bool                                 `tfsdk:"option_include_all"`
-	VendorSpecifics                       []IPv6DHCPPoolVendorSpecificsData          `tfsdk:"vendor_specifics"`
-	ImportDnsServer                       types.Bool                                 `tfsdk:"import_dns_server"`
-	ImportDomainName                      types.Bool                                 `tfsdk:"import_domain_name"`
-	SntpAddresses                         types.List                                 `tfsdk:"sntp_addresses"`
-	InformationRefreshDays                types.Int64                                `tfsdk:"information_refresh_days"`
-	InformationRefreshHours               types.Int64                                `tfsdk:"information_refresh_hours"`
-	InformationRefreshMinutes             types.Int64                                `tfsdk:"information_refresh_minutes"`
-	InformationRefreshInfinite            types.Bool                                 `tfsdk:"information_refresh_infinite"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Vrf types.String `tfsdk:"vrf"`
+	AddressPrefixes []IPv6DHCPPoolAddressPrefixesData `tfsdk:"address_prefixes"`
+	PrefixDelegationPoolName types.String `tfsdk:"prefix_delegation_pool_name"`
+	PrefixDelegationPoolValidLifetime types.String `tfsdk:"prefix_delegation_pool_valid_lifetime"`
+	PrefixDelegationPoolPreferredLifetime types.String `tfsdk:"prefix_delegation_pool_preferred_lifetime"`
+	PrefixDelegationPrefixes []IPv6DHCPPoolPrefixDelegationPrefixesData `tfsdk:"prefix_delegation_prefixes"`
+	DnsServers types.List `tfsdk:"dns_servers"`
+	DomainNames types.List `tfsdk:"domain_names"`
+	LinkAddresses []IPv6DHCPPoolLinkAddressesData `tfsdk:"link_addresses"`
+	BootfileUrl types.String `tfsdk:"bootfile_url"`
+	OptionIncludeAll types.Bool `tfsdk:"option_include_all"`
+	VendorSpecifics []IPv6DHCPPoolVendorSpecificsData `tfsdk:"vendor_specifics"`
+	ImportDnsServer types.Bool `tfsdk:"import_dns_server"`
+	ImportDomainName types.Bool `tfsdk:"import_domain_name"`
+	SntpAddresses types.List `tfsdk:"sntp_addresses"`
+	InformationRefreshDays types.Int64 `tfsdk:"information_refresh_days"`
+	InformationRefreshHours types.Int64 `tfsdk:"information_refresh_hours"`
+	InformationRefreshMinutes types.Int64 `tfsdk:"information_refresh_minutes"`
+	InformationRefreshInfinite types.Bool `tfsdk:"information_refresh_infinite"`
 }
 type IPv6DHCPPoolAddressPrefixesData struct {
-	Address           types.String `tfsdk:"address"`
-	ValidLifetime     types.String `tfsdk:"valid_lifetime"`
+	Address types.String `tfsdk:"address"`
+	ValidLifetime types.String `tfsdk:"valid_lifetime"`
 	PreferredLifetime types.String `tfsdk:"preferred_lifetime"`
 }
 type IPv6DHCPPoolPrefixDelegationPrefixesData struct {
-	Prefix            types.String `tfsdk:"prefix"`
-	HexString         types.String `tfsdk:"hex_string"`
-	Iaid              types.String `tfsdk:"iaid"`
-	ValidLifetime     types.String `tfsdk:"valid_lifetime"`
+	Prefix types.String `tfsdk:"prefix"`
+	HexString types.String `tfsdk:"hex_string"`
+	Iaid types.String `tfsdk:"iaid"`
+	ValidLifetime types.String `tfsdk:"valid_lifetime"`
 	PreferredLifetime types.String `tfsdk:"preferred_lifetime"`
 }
 type IPv6DHCPPoolLinkAddressesData struct {
 	Address types.String `tfsdk:"address"`
 }
 type IPv6DHCPPoolVendorSpecificsData struct {
-	EnterpriseId types.Int64                                 `tfsdk:"enterprise_id"`
-	Suboptions   []IPv6DHCPPoolVendorSpecificsSuboptionsData `tfsdk:"suboptions"`
+	EnterpriseId types.Int64 `tfsdk:"enterprise_id"`
+	Suboptions []IPv6DHCPPoolVendorSpecificsSuboptionsData `tfsdk:"suboptions"`
 }
 type IPv6DHCPPoolVendorSpecificsSuboptionsData struct {
-	Number  types.Int64  `tfsdk:"number"`
+	Number types.Int64 `tfsdk:"number"`
 	Address types.String `tfsdk:"address"`
-	Ascii   types.String `tfsdk:"ascii"`
-	Hex     types.String `tfsdk:"hex"`
+	Ascii types.String `tfsdk:"ascii"`
+	Hex types.String `tfsdk:"hex"`
 }
 
 // End of section. //template:end types
@@ -323,10 +323,10 @@ func (data IPv6DHCPPool) toBody(ctx context.Context, config IPv6DHCPPool) string
 func (data IPv6DHCPPool) toBodyXML(ctx context.Context, config IPv6DHCPPool) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Vrf.IsNull() && !data.Vrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/vrf", data.Vrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/vrf", data.Vrf.ValueString())
 	}
 	if len(data.AddressPrefixes) > 0 {
 		for _, item := range data.AddressPrefixes {
@@ -344,13 +344,13 @@ func (data IPv6DHCPPool) toBodyXML(ctx context.Context, config IPv6DHCPPool) str
 		}
 	}
 	if !data.PrefixDelegationPoolName.IsNull() && !data.PrefixDelegationPoolName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prefix-delegation/pool/pool-name", data.PrefixDelegationPoolName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prefix-delegation/pool/pool-name", data.PrefixDelegationPoolName.ValueString())
 	}
 	if !data.PrefixDelegationPoolValidLifetime.IsNull() && !data.PrefixDelegationPoolValidLifetime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prefix-delegation/pool/lifetime/valid-lifetime", data.PrefixDelegationPoolValidLifetime.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prefix-delegation/pool/lifetime/valid-lifetime", data.PrefixDelegationPoolValidLifetime.ValueString())
 	}
 	if !data.PrefixDelegationPoolPreferredLifetime.IsNull() && !data.PrefixDelegationPoolPreferredLifetime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prefix-delegation/pool/lifetime/preferred-lifetime", data.PrefixDelegationPoolPreferredLifetime.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prefix-delegation/pool/lifetime/preferred-lifetime", data.PrefixDelegationPoolPreferredLifetime.ValueString())
 	}
 	if len(data.PrefixDelegationPrefixes) > 0 {
 		for _, item := range data.PrefixDelegationPrefixes {
@@ -377,14 +377,14 @@ func (data IPv6DHCPPool) toBodyXML(ctx context.Context, config IPv6DHCPPool) str
 		var values []string
 		data.DnsServers.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/dns-server", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/dns-server", v)
 		}
 	}
 	if !data.DomainNames.IsNull() && !data.DomainNames.IsUnknown() {
 		var values []string
 		data.DomainNames.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/domain-names", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/domain-names", v)
 		}
 	}
 	if len(data.LinkAddresses) > 0 {
@@ -397,13 +397,13 @@ func (data IPv6DHCPPool) toBodyXML(ctx context.Context, config IPv6DHCPPool) str
 		}
 	}
 	if !data.BootfileUrl.IsNull() && !data.BootfileUrl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bootfile-url", data.BootfileUrl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bootfile-url", data.BootfileUrl.ValueString())
 	}
 	if !data.OptionIncludeAll.IsNull() && !data.OptionIncludeAll.IsUnknown() {
 		if data.OptionIncludeAll.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/option/include-all", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/option/include-all", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/option/include-all")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/option/include-all")
 		}
 	}
 	if len(data.VendorSpecifics) > 0 {
@@ -435,39 +435,39 @@ func (data IPv6DHCPPool) toBodyXML(ctx context.Context, config IPv6DHCPPool) str
 	}
 	if !data.ImportDnsServer.IsNull() && !data.ImportDnsServer.IsUnknown() {
 		if data.ImportDnsServer.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/import/dns-server", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/import/dns-server", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/import/dns-server")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/import/dns-server")
 		}
 	}
 	if !data.ImportDomainName.IsNull() && !data.ImportDomainName.IsUnknown() {
 		if data.ImportDomainName.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/import/domain-name", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/import/domain-name", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/import/domain-name")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/import/domain-name")
 		}
 	}
 	if !data.SntpAddresses.IsNull() && !data.SntpAddresses.IsUnknown() {
 		var values []string
 		data.SntpAddresses.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/sntp/address", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/sntp/address", v)
 		}
 	}
 	if !data.InformationRefreshDays.IsNull() && !data.InformationRefreshDays.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/information/refresh/refresh-value/days", strconv.FormatInt(data.InformationRefreshDays.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/information/refresh/refresh-value/days", strconv.FormatInt(data.InformationRefreshDays.ValueInt64(), 10))
 	}
 	if !data.InformationRefreshHours.IsNull() && !data.InformationRefreshHours.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/information/refresh/refresh-value/hours", strconv.FormatInt(data.InformationRefreshHours.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/information/refresh/refresh-value/hours", strconv.FormatInt(data.InformationRefreshHours.ValueInt64(), 10))
 	}
 	if !data.InformationRefreshMinutes.IsNull() && !data.InformationRefreshMinutes.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/information/refresh/refresh-value/minutes", strconv.FormatInt(data.InformationRefreshMinutes.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/information/refresh/refresh-value/minutes", strconv.FormatInt(data.InformationRefreshMinutes.ValueInt64(), 10))
 	}
 	if !data.InformationRefreshInfinite.IsNull() && !data.InformationRefreshInfinite.IsUnknown() {
 		if data.InformationRefreshInfinite.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/information/refresh/infinite", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/information/refresh/infinite", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/information/refresh/infinite")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/information/refresh/infinite")
 		}
 	}
 	bodyString, err := body.String()
@@ -486,22 +486,22 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() && !data.Vrf.IsNull() {
+	if value := res.Get(prefix+"vrf"); value.Exists() && !data.Vrf.IsNull() {
 		data.Vrf = types.StringValue(value.String())
 	} else {
 		data.Vrf = types.StringNull()
 	}
 	for i := range data.AddressPrefixes {
-		keys := [...]string{"ipv6-address"}
-		keyValues := [...]string{data.AddressPrefixes[i].Address.ValueString()}
+		keys := [...]string{ "ipv6-address",  }
+		keyValues := [...]string{ data.AddressPrefixes[i].Address.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "address.prefix").ForEach(
+		res.Get(prefix+"address.prefix").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -535,27 +535,27 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 			data.AddressPrefixes[i].PreferredLifetime = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.pool-name"); value.Exists() && !data.PrefixDelegationPoolName.IsNull() {
+	if value := res.Get(prefix+"prefix-delegation.pool.pool-name"); value.Exists() && !data.PrefixDelegationPoolName.IsNull() {
 		data.PrefixDelegationPoolName = types.StringValue(value.String())
 	} else {
 		data.PrefixDelegationPoolName = types.StringNull()
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.lifetime.valid-lifetime"); value.Exists() && !data.PrefixDelegationPoolValidLifetime.IsNull() {
+	if value := res.Get(prefix+"prefix-delegation.pool.lifetime.valid-lifetime"); value.Exists() && !data.PrefixDelegationPoolValidLifetime.IsNull() {
 		data.PrefixDelegationPoolValidLifetime = types.StringValue(value.String())
 	} else {
 		data.PrefixDelegationPoolValidLifetime = types.StringNull()
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.lifetime.preferred-lifetime"); value.Exists() && !data.PrefixDelegationPoolPreferredLifetime.IsNull() {
+	if value := res.Get(prefix+"prefix-delegation.pool.lifetime.preferred-lifetime"); value.Exists() && !data.PrefixDelegationPoolPreferredLifetime.IsNull() {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringValue(value.String())
 	} else {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringNull()
 	}
 	for i := range data.PrefixDelegationPrefixes {
-		keys := [...]string{"ipv6-prefix"}
-		keyValues := [...]string{data.PrefixDelegationPrefixes[i].Prefix.ValueString()}
+		keys := [...]string{ "ipv6-prefix",  }
+		keyValues := [...]string{ data.PrefixDelegationPrefixes[i].Prefix.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "prefix-delegation.pd-prefix").ForEach(
+		res.Get(prefix+"prefix-delegation.pd-prefix").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -599,22 +599,22 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 			data.PrefixDelegationPrefixes[i].PreferredLifetime = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "dns-server"); value.Exists() && !data.DnsServers.IsNull() {
+	if value := res.Get(prefix+"dns-server"); value.Exists() && !data.DnsServers.IsNull() {
 		data.DnsServers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "domain-names"); value.Exists() && !data.DomainNames.IsNull() {
+	if value := res.Get(prefix+"domain-names"); value.Exists() && !data.DomainNames.IsNull() {
 		data.DomainNames = helpers.GetStringList(value.Array())
 	} else {
 		data.DomainNames = types.ListNull(types.StringType)
 	}
 	for i := range data.LinkAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.LinkAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.LinkAddresses[i].Address.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "link-address").ForEach(
+		res.Get(prefix+"link-address").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -638,12 +638,12 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 			data.LinkAddresses[i].Address = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "bootfile-url"); value.Exists() && !data.BootfileUrl.IsNull() {
+	if value := res.Get(prefix+"bootfile-url"); value.Exists() && !data.BootfileUrl.IsNull() {
 		data.BootfileUrl = types.StringValue(value.String())
 	} else {
 		data.BootfileUrl = types.StringNull()
 	}
-	if value := res.Get(prefix + "option.include-all"); !data.OptionIncludeAll.IsNull() {
+	if value := res.Get(prefix+"option.include-all"); !data.OptionIncludeAll.IsNull() {
 		if value.Exists() {
 			data.OptionIncludeAll = types.BoolValue(true)
 		} else {
@@ -653,11 +653,11 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 		data.OptionIncludeAll = types.BoolNull()
 	}
 	for i := range data.VendorSpecifics {
-		keys := [...]string{"value"}
-		keyValues := [...]string{strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10)}
+		keys := [...]string{ "value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "vendor-specific").ForEach(
+		res.Get(prefix+"vendor-specific").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -681,8 +681,8 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 			data.VendorSpecifics[i].EnterpriseId = types.Int64Null()
 		}
 		for ci := range data.VendorSpecifics[i].Suboptions {
-			keys := [...]string{"number"}
-			keyValues := [...]string{strconv.FormatInt(data.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10)}
+			keys := [...]string{ "number",  }
+			keyValues := [...]string{ strconv.FormatInt(data.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10),  }
 
 			var cr gjson.Result
 			r.Get("suboption").ForEach(
@@ -725,7 +725,7 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 			}
 		}
 	}
-	if value := res.Get(prefix + "import.dns-server"); !data.ImportDnsServer.IsNull() {
+	if value := res.Get(prefix+"import.dns-server"); !data.ImportDnsServer.IsNull() {
 		if value.Exists() {
 			data.ImportDnsServer = types.BoolValue(true)
 		} else {
@@ -734,7 +734,7 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.ImportDnsServer = types.BoolNull()
 	}
-	if value := res.Get(prefix + "import.domain-name"); !data.ImportDomainName.IsNull() {
+	if value := res.Get(prefix+"import.domain-name"); !data.ImportDomainName.IsNull() {
 		if value.Exists() {
 			data.ImportDomainName = types.BoolValue(true)
 		} else {
@@ -743,27 +743,27 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.ImportDomainName = types.BoolNull()
 	}
-	if value := res.Get(prefix + "sntp.address"); value.Exists() && !data.SntpAddresses.IsNull() {
+	if value := res.Get(prefix+"sntp.address"); value.Exists() && !data.SntpAddresses.IsNull() {
 		data.SntpAddresses = helpers.GetStringList(value.Array())
 	} else {
 		data.SntpAddresses = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.days"); value.Exists() && !data.InformationRefreshDays.IsNull() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.days"); value.Exists() && !data.InformationRefreshDays.IsNull() {
 		data.InformationRefreshDays = types.Int64Value(value.Int())
 	} else {
 		data.InformationRefreshDays = types.Int64Null()
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.hours"); value.Exists() && !data.InformationRefreshHours.IsNull() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.hours"); value.Exists() && !data.InformationRefreshHours.IsNull() {
 		data.InformationRefreshHours = types.Int64Value(value.Int())
 	} else {
 		data.InformationRefreshHours = types.Int64Null()
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.minutes"); value.Exists() && !data.InformationRefreshMinutes.IsNull() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.minutes"); value.Exists() && !data.InformationRefreshMinutes.IsNull() {
 		data.InformationRefreshMinutes = types.Int64Value(value.Int())
 	} else {
 		data.InformationRefreshMinutes = types.Int64Null()
 	}
-	if value := res.Get(prefix + "information.refresh.infinite"); !data.InformationRefreshInfinite.IsNull() {
+	if value := res.Get(prefix+"information.refresh.infinite"); !data.InformationRefreshInfinite.IsNull() {
 		if value.Exists() {
 			data.InformationRefreshInfinite = types.BoolValue(true)
 		} else {
@@ -779,22 +779,22 @@ func (data *IPv6DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() && !data.Vrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() && !data.Vrf.IsNull() {
 		data.Vrf = types.StringValue(value.String())
 	} else {
 		data.Vrf = types.StringNull()
 	}
 	for i := range data.AddressPrefixes {
-		keys := [...]string{"ipv6-address"}
-		keyValues := [...]string{data.AddressPrefixes[i].Address.ValueString()}
+		keys := [...]string{ "ipv6-address",  }
+		keyValues := [...]string{ data.AddressPrefixes[i].Address.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/prefix").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/prefix").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -828,27 +828,27 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 			data.AddressPrefixes[i].PreferredLifetime = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/pool-name"); value.Exists() && !data.PrefixDelegationPoolName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/pool-name"); value.Exists() && !data.PrefixDelegationPoolName.IsNull() {
 		data.PrefixDelegationPoolName = types.StringValue(value.String())
 	} else {
 		data.PrefixDelegationPoolName = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/lifetime/valid-lifetime"); value.Exists() && !data.PrefixDelegationPoolValidLifetime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/lifetime/valid-lifetime"); value.Exists() && !data.PrefixDelegationPoolValidLifetime.IsNull() {
 		data.PrefixDelegationPoolValidLifetime = types.StringValue(value.String())
 	} else {
 		data.PrefixDelegationPoolValidLifetime = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/lifetime/preferred-lifetime"); value.Exists() && !data.PrefixDelegationPoolPreferredLifetime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/lifetime/preferred-lifetime"); value.Exists() && !data.PrefixDelegationPoolPreferredLifetime.IsNull() {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringValue(value.String())
 	} else {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringNull()
 	}
 	for i := range data.PrefixDelegationPrefixes {
-		keys := [...]string{"ipv6-prefix"}
-		keyValues := [...]string{data.PrefixDelegationPrefixes[i].Prefix.ValueString()}
+		keys := [...]string{ "ipv6-prefix",  }
+		keyValues := [...]string{ data.PrefixDelegationPrefixes[i].Prefix.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pd-prefix").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pd-prefix").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -892,22 +892,22 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 			data.PrefixDelegationPrefixes[i].PreferredLifetime = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-server"); value.Exists() && !data.DnsServers.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-server"); value.Exists() && !data.DnsServers.IsNull() {
 		data.DnsServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-names"); value.Exists() && !data.DomainNames.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-names"); value.Exists() && !data.DomainNames.IsNull() {
 		data.DomainNames = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DomainNames = types.ListNull(types.StringType)
 	}
 	for i := range data.LinkAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.LinkAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.LinkAddresses[i].Address.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/link-address").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/link-address").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -931,12 +931,12 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 			data.LinkAddresses[i].Address = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bootfile-url"); value.Exists() && !data.BootfileUrl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bootfile-url"); value.Exists() && !data.BootfileUrl.IsNull() {
 		data.BootfileUrl = types.StringValue(value.String())
 	} else {
 		data.BootfileUrl = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/include-all"); !data.OptionIncludeAll.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/include-all"); !data.OptionIncludeAll.IsNull() {
 		if value.Exists() {
 			data.OptionIncludeAll = types.BoolValue(true)
 		} else {
@@ -946,11 +946,11 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 		data.OptionIncludeAll = types.BoolNull()
 	}
 	for i := range data.VendorSpecifics {
-		keys := [...]string{"value"}
-		keyValues := [...]string{strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10)}
+		keys := [...]string{ "value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/vendor-specific").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/vendor-specific").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -974,8 +974,8 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 			data.VendorSpecifics[i].EnterpriseId = types.Int64Null()
 		}
 		for ci := range data.VendorSpecifics[i].Suboptions {
-			keys := [...]string{"number"}
-			keyValues := [...]string{strconv.FormatInt(data.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10)}
+			keys := [...]string{ "number",  }
+			keyValues := [...]string{ strconv.FormatInt(data.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "suboption").ForEach(
@@ -1018,7 +1018,7 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 			}
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/import/dns-server"); !data.ImportDnsServer.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/import/dns-server"); !data.ImportDnsServer.IsNull() {
 		if value.Exists() {
 			data.ImportDnsServer = types.BoolValue(true)
 		} else {
@@ -1027,7 +1027,7 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.ImportDnsServer = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/import/domain-name"); !data.ImportDomainName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/import/domain-name"); !data.ImportDomainName.IsNull() {
 		if value.Exists() {
 			data.ImportDomainName = types.BoolValue(true)
 		} else {
@@ -1036,27 +1036,27 @@ func (data *IPv6DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.ImportDomainName = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/sntp/address"); value.Exists() && !data.SntpAddresses.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/sntp/address"); value.Exists() && !data.SntpAddresses.IsNull() {
 		data.SntpAddresses = helpers.GetStringListXML(value.Array())
 	} else {
 		data.SntpAddresses = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/days"); value.Exists() && !data.InformationRefreshDays.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/days"); value.Exists() && !data.InformationRefreshDays.IsNull() {
 		data.InformationRefreshDays = types.Int64Value(value.Int())
 	} else {
 		data.InformationRefreshDays = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/hours"); value.Exists() && !data.InformationRefreshHours.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/hours"); value.Exists() && !data.InformationRefreshHours.IsNull() {
 		data.InformationRefreshHours = types.Int64Value(value.Int())
 	} else {
 		data.InformationRefreshHours = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/minutes"); value.Exists() && !data.InformationRefreshMinutes.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/minutes"); value.Exists() && !data.InformationRefreshMinutes.IsNull() {
 		data.InformationRefreshMinutes = types.Int64Value(value.Int())
 	} else {
 		data.InformationRefreshMinutes = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/infinite"); !data.InformationRefreshInfinite.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/infinite"); !data.InformationRefreshInfinite.IsNull() {
 		if value.Exists() {
 			data.InformationRefreshInfinite = types.BoolValue(true)
 		} else {
@@ -1076,10 +1076,10 @@ func (data *IPv6DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "address.prefix"); value.Exists() {
+	if value := res.Get(prefix+"address.prefix"); value.Exists() {
 		data.AddressPrefixes = make([]IPv6DHCPPoolAddressPrefixes, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolAddressPrefixes{}
@@ -1096,16 +1096,16 @@ func (data *IPv6DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.pool-name"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pool.pool-name"); value.Exists() {
 		data.PrefixDelegationPoolName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.lifetime.valid-lifetime"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pool.lifetime.valid-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolValidLifetime = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.lifetime.preferred-lifetime"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pool.lifetime.preferred-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-delegation.pd-prefix"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pd-prefix"); value.Exists() {
 		data.PrefixDelegationPrefixes = make([]IPv6DHCPPoolPrefixDelegationPrefixes, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolPrefixDelegationPrefixes{}
@@ -1128,17 +1128,17 @@ func (data *IPv6DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "dns-server"); value.Exists() {
+	if value := res.Get(prefix+"dns-server"); value.Exists() {
 		data.DnsServers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "domain-names"); value.Exists() {
+	if value := res.Get(prefix+"domain-names"); value.Exists() {
 		data.DomainNames = helpers.GetStringList(value.Array())
 	} else {
 		data.DomainNames = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "link-address"); value.Exists() {
+	if value := res.Get(prefix+"link-address"); value.Exists() {
 		data.LinkAddresses = make([]IPv6DHCPPoolLinkAddresses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolLinkAddresses{}
@@ -1149,15 +1149,15 @@ func (data *IPv6DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "bootfile-url"); value.Exists() {
+	if value := res.Get(prefix+"bootfile-url"); value.Exists() {
 		data.BootfileUrl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "option.include-all"); value.Exists() {
+	if value := res.Get(prefix+"option.include-all"); value.Exists() {
 		data.OptionIncludeAll = types.BoolValue(true)
 	} else {
 		data.OptionIncludeAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "vendor-specific"); value.Exists() {
+	if value := res.Get(prefix+"vendor-specific"); value.Exists() {
 		data.VendorSpecifics = make([]IPv6DHCPPoolVendorSpecifics, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolVendorSpecifics{}
@@ -1188,31 +1188,31 @@ func (data *IPv6DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "import.dns-server"); value.Exists() {
+	if value := res.Get(prefix+"import.dns-server"); value.Exists() {
 		data.ImportDnsServer = types.BoolValue(true)
 	} else {
 		data.ImportDnsServer = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "import.domain-name"); value.Exists() {
+	if value := res.Get(prefix+"import.domain-name"); value.Exists() {
 		data.ImportDomainName = types.BoolValue(true)
 	} else {
 		data.ImportDomainName = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "sntp.address"); value.Exists() {
+	if value := res.Get(prefix+"sntp.address"); value.Exists() {
 		data.SntpAddresses = helpers.GetStringList(value.Array())
 	} else {
 		data.SntpAddresses = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.days"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.days"); value.Exists() {
 		data.InformationRefreshDays = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.hours"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.hours"); value.Exists() {
 		data.InformationRefreshHours = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.minutes"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.minutes"); value.Exists() {
 		data.InformationRefreshMinutes = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "information.refresh.infinite"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.infinite"); value.Exists() {
 		data.InformationRefreshInfinite = types.BoolValue(true)
 	} else {
 		data.InformationRefreshInfinite = types.BoolValue(false)
@@ -1228,10 +1228,10 @@ func (data *IPv6DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "address.prefix"); value.Exists() {
+	if value := res.Get(prefix+"address.prefix"); value.Exists() {
 		data.AddressPrefixes = make([]IPv6DHCPPoolAddressPrefixesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolAddressPrefixesData{}
@@ -1248,16 +1248,16 @@ func (data *IPv6DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.pool-name"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pool.pool-name"); value.Exists() {
 		data.PrefixDelegationPoolName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.lifetime.valid-lifetime"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pool.lifetime.valid-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolValidLifetime = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-delegation.pool.lifetime.preferred-lifetime"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pool.lifetime.preferred-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-delegation.pd-prefix"); value.Exists() {
+	if value := res.Get(prefix+"prefix-delegation.pd-prefix"); value.Exists() {
 		data.PrefixDelegationPrefixes = make([]IPv6DHCPPoolPrefixDelegationPrefixesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolPrefixDelegationPrefixesData{}
@@ -1280,17 +1280,17 @@ func (data *IPv6DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "dns-server"); value.Exists() {
+	if value := res.Get(prefix+"dns-server"); value.Exists() {
 		data.DnsServers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "domain-names"); value.Exists() {
+	if value := res.Get(prefix+"domain-names"); value.Exists() {
 		data.DomainNames = helpers.GetStringList(value.Array())
 	} else {
 		data.DomainNames = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "link-address"); value.Exists() {
+	if value := res.Get(prefix+"link-address"); value.Exists() {
 		data.LinkAddresses = make([]IPv6DHCPPoolLinkAddressesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolLinkAddressesData{}
@@ -1301,15 +1301,15 @@ func (data *IPv6DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "bootfile-url"); value.Exists() {
+	if value := res.Get(prefix+"bootfile-url"); value.Exists() {
 		data.BootfileUrl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "option.include-all"); value.Exists() {
+	if value := res.Get(prefix+"option.include-all"); value.Exists() {
 		data.OptionIncludeAll = types.BoolValue(true)
 	} else {
 		data.OptionIncludeAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "vendor-specific"); value.Exists() {
+	if value := res.Get(prefix+"vendor-specific"); value.Exists() {
 		data.VendorSpecifics = make([]IPv6DHCPPoolVendorSpecificsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := IPv6DHCPPoolVendorSpecificsData{}
@@ -1340,31 +1340,31 @@ func (data *IPv6DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "import.dns-server"); value.Exists() {
+	if value := res.Get(prefix+"import.dns-server"); value.Exists() {
 		data.ImportDnsServer = types.BoolValue(true)
 	} else {
 		data.ImportDnsServer = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "import.domain-name"); value.Exists() {
+	if value := res.Get(prefix+"import.domain-name"); value.Exists() {
 		data.ImportDomainName = types.BoolValue(true)
 	} else {
 		data.ImportDomainName = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "sntp.address"); value.Exists() {
+	if value := res.Get(prefix+"sntp.address"); value.Exists() {
 		data.SntpAddresses = helpers.GetStringList(value.Array())
 	} else {
 		data.SntpAddresses = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.days"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.days"); value.Exists() {
 		data.InformationRefreshDays = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.hours"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.hours"); value.Exists() {
 		data.InformationRefreshHours = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "information.refresh.refresh-value.minutes"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.refresh-value.minutes"); value.Exists() {
 		data.InformationRefreshMinutes = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "information.refresh.infinite"); value.Exists() {
+	if value := res.Get(prefix+"information.refresh.infinite"); value.Exists() {
 		data.InformationRefreshInfinite = types.BoolValue(true)
 	} else {
 		data.InformationRefreshInfinite = types.BoolValue(false)
@@ -1376,10 +1376,10 @@ func (data *IPv6DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *IPv6DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/prefix"); value.Exists() {
 		data.AddressPrefixes = make([]IPv6DHCPPoolAddressPrefixes, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolAddressPrefixes{}
@@ -1396,16 +1396,16 @@ func (data *IPv6DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/pool-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/pool-name"); value.Exists() {
 		data.PrefixDelegationPoolName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/lifetime/valid-lifetime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/lifetime/valid-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolValidLifetime = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/lifetime/preferred-lifetime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/lifetime/preferred-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pd-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pd-prefix"); value.Exists() {
 		data.PrefixDelegationPrefixes = make([]IPv6DHCPPoolPrefixDelegationPrefixes, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolPrefixDelegationPrefixes{}
@@ -1428,17 +1428,17 @@ func (data *IPv6DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-server"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-server"); value.Exists() {
 		data.DnsServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-names"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-names"); value.Exists() {
 		data.DomainNames = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DomainNames = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/link-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/link-address"); value.Exists() {
 		data.LinkAddresses = make([]IPv6DHCPPoolLinkAddresses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolLinkAddresses{}
@@ -1449,15 +1449,15 @@ func (data *IPv6DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bootfile-url"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bootfile-url"); value.Exists() {
 		data.BootfileUrl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/include-all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/include-all"); value.Exists() {
 		data.OptionIncludeAll = types.BoolValue(true)
 	} else {
 		data.OptionIncludeAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vendor-specific"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vendor-specific"); value.Exists() {
 		data.VendorSpecifics = make([]IPv6DHCPPoolVendorSpecifics, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolVendorSpecifics{}
@@ -1488,31 +1488,31 @@ func (data *IPv6DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/import/dns-server"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/import/dns-server"); value.Exists() {
 		data.ImportDnsServer = types.BoolValue(true)
 	} else {
 		data.ImportDnsServer = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/import/domain-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/import/domain-name"); value.Exists() {
 		data.ImportDomainName = types.BoolValue(true)
 	} else {
 		data.ImportDomainName = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/sntp/address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/sntp/address"); value.Exists() {
 		data.SntpAddresses = helpers.GetStringListXML(value.Array())
 	} else {
 		data.SntpAddresses = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/days"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/days"); value.Exists() {
 		data.InformationRefreshDays = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/hours"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/hours"); value.Exists() {
 		data.InformationRefreshHours = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/minutes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/minutes"); value.Exists() {
 		data.InformationRefreshMinutes = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/infinite"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/infinite"); value.Exists() {
 		data.InformationRefreshInfinite = types.BoolValue(true)
 	} else {
 		data.InformationRefreshInfinite = types.BoolValue(false)
@@ -1524,10 +1524,10 @@ func (data *IPv6DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *IPv6DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/prefix"); value.Exists() {
 		data.AddressPrefixes = make([]IPv6DHCPPoolAddressPrefixesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolAddressPrefixesData{}
@@ -1544,16 +1544,16 @@ func (data *IPv6DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/pool-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/pool-name"); value.Exists() {
 		data.PrefixDelegationPoolName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/lifetime/valid-lifetime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/lifetime/valid-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolValidLifetime = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pool/lifetime/preferred-lifetime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pool/lifetime/preferred-lifetime"); value.Exists() {
 		data.PrefixDelegationPoolPreferredLifetime = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-delegation/pd-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-delegation/pd-prefix"); value.Exists() {
 		data.PrefixDelegationPrefixes = make([]IPv6DHCPPoolPrefixDelegationPrefixesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolPrefixDelegationPrefixesData{}
@@ -1576,17 +1576,17 @@ func (data *IPv6DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-server"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-server"); value.Exists() {
 		data.DnsServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-names"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-names"); value.Exists() {
 		data.DomainNames = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DomainNames = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/link-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/link-address"); value.Exists() {
 		data.LinkAddresses = make([]IPv6DHCPPoolLinkAddressesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolLinkAddressesData{}
@@ -1597,15 +1597,15 @@ func (data *IPv6DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bootfile-url"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bootfile-url"); value.Exists() {
 		data.BootfileUrl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/include-all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/include-all"); value.Exists() {
 		data.OptionIncludeAll = types.BoolValue(true)
 	} else {
 		data.OptionIncludeAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vendor-specific"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vendor-specific"); value.Exists() {
 		data.VendorSpecifics = make([]IPv6DHCPPoolVendorSpecificsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := IPv6DHCPPoolVendorSpecificsData{}
@@ -1636,31 +1636,31 @@ func (data *IPv6DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/import/dns-server"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/import/dns-server"); value.Exists() {
 		data.ImportDnsServer = types.BoolValue(true)
 	} else {
 		data.ImportDnsServer = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/import/domain-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/import/domain-name"); value.Exists() {
 		data.ImportDomainName = types.BoolValue(true)
 	} else {
 		data.ImportDomainName = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/sntp/address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/sntp/address"); value.Exists() {
 		data.SntpAddresses = helpers.GetStringListXML(value.Array())
 	} else {
 		data.SntpAddresses = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/days"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/days"); value.Exists() {
 		data.InformationRefreshDays = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/hours"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/hours"); value.Exists() {
 		data.InformationRefreshHours = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/refresh-value/minutes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/refresh-value/minutes"); value.Exists() {
 		data.InformationRefreshMinutes = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/information/refresh/infinite"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/information/refresh/infinite"); value.Exists() {
 		data.InformationRefreshInfinite = types.BoolValue(true)
 	} else {
 		data.InformationRefreshInfinite = types.BoolValue(false)
@@ -1713,8 +1713,8 @@ func (data *IPv6DHCPPool) getDeletedItems(ctx context.Context, state IPv6DHCPPoo
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/import/dns-server", state.getPath()))
 	}
 	for i := range state.VendorSpecifics {
-		stateKeyValues := [...]string{strconv.FormatInt(state.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.VendorSpecifics[i].EnterpriseId.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -1731,8 +1731,8 @@ func (data *IPv6DHCPPool) getDeletedItems(ctx context.Context, state IPv6DHCPPoo
 			}
 			if found {
 				for ci := range state.VendorSpecifics[i].Suboptions {
-					cstateKeyValues := [...]string{strconv.FormatInt(state.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10)}
-
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64()).IsZero() {
 						cemptyKeys = false
@@ -1778,8 +1778,8 @@ func (data *IPv6DHCPPool) getDeletedItems(ctx context.Context, state IPv6DHCPPoo
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/bootfile-url", state.getPath()))
 	}
 	for i := range state.LinkAddresses {
-		stateKeyValues := [...]string{state.LinkAddresses[i].Address.ValueString()}
-
+		stateKeyValues := [...]string{ state.LinkAddresses[i].Address.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.LinkAddresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1845,8 +1845,8 @@ func (data *IPv6DHCPPool) getDeletedItems(ctx context.Context, state IPv6DHCPPoo
 		}
 	}
 	for i := range state.PrefixDelegationPrefixes {
-		stateKeyValues := [...]string{state.PrefixDelegationPrefixes[i].Prefix.ValueString()}
-
+		stateKeyValues := [...]string{ state.PrefixDelegationPrefixes[i].Prefix.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PrefixDelegationPrefixes[i].Prefix.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1891,8 +1891,8 @@ func (data *IPv6DHCPPool) getDeletedItems(ctx context.Context, state IPv6DHCPPoo
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/prefix-delegation/pool/pool-name", state.getPath()))
 	}
 	for i := range state.AddressPrefixes {
-		stateKeyValues := [...]string{state.AddressPrefixes[i].Address.ValueString()}
-
+		stateKeyValues := [...]string{ state.AddressPrefixes[i].Address.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.AddressPrefixes[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1978,13 +1978,13 @@ func (data *IPv6DHCPPool) addDeletedItemsXML(ctx context.Context, state IPv6DHCP
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/import/dns-server")
 	}
 	for i := range state.VendorSpecifics {
-		stateKeys := [...]string{"value"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10)}
+		stateKeys := [...]string{ "value",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.VendorSpecifics[i].EnterpriseId.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2001,8 +2001,8 @@ func (data *IPv6DHCPPool) addDeletedItemsXML(ctx context.Context, state IPv6DHCP
 			}
 			if found {
 				for ci := range state.VendorSpecifics[i].Suboptions {
-					cstateKeys := [...]string{"number"}
-					cstateKeyValues := [...]string{strconv.FormatInt(state.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10)}
+					cstateKeys := [...]string{ "number",  }
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.VendorSpecifics[i].Suboptions[ci].Number.ValueInt64(), 10),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2053,13 +2053,13 @@ func (data *IPv6DHCPPool) addDeletedItemsXML(ctx context.Context, state IPv6DHCP
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/bootfile-url")
 	}
 	for i := range state.LinkAddresses {
-		stateKeys := [...]string{"address"}
-		stateKeyValues := [...]string{state.LinkAddresses[i].Address.ValueString()}
+		stateKeys := [...]string{ "address",  }
+		stateKeyValues := [...]string{ state.LinkAddresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.LinkAddresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2133,13 +2133,13 @@ func (data *IPv6DHCPPool) addDeletedItemsXML(ctx context.Context, state IPv6DHCP
 		}
 	}
 	for i := range state.PrefixDelegationPrefixes {
-		stateKeys := [...]string{"ipv6-prefix"}
-		stateKeyValues := [...]string{state.PrefixDelegationPrefixes[i].Prefix.ValueString()}
+		stateKeys := [...]string{ "ipv6-prefix",  }
+		stateKeyValues := [...]string{ state.PrefixDelegationPrefixes[i].Prefix.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PrefixDelegationPrefixes[i].Prefix.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2184,13 +2184,13 @@ func (data *IPv6DHCPPool) addDeletedItemsXML(ctx context.Context, state IPv6DHCP
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/prefix-delegation/pool/pool-name")
 	}
 	for i := range state.AddressPrefixes {
-		stateKeys := [...]string{"ipv6-address"}
-		stateKeyValues := [...]string{state.AddressPrefixes[i].Address.ValueString()}
+		stateKeys := [...]string{ "ipv6-address",  }
+		stateKeyValues := [...]string{ state.AddressPrefixes[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.AddressPrefixes[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2242,10 +2242,17 @@ func (data *IPv6DHCPPool) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.ImportDnsServer.IsNull() && !data.ImportDnsServer.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/import/dns-server", data.getPath()))
 	}
-
+	
+	
 	if !data.OptionIncludeAll.IsNull() && !data.OptionIncludeAll.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/option/include-all", data.getPath()))
 	}
+	
+	
+	
+	
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -2278,7 +2285,7 @@ func (data *IPv6DHCPPool) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/import/dns-server", data.getPath()))
 	}
 	for i := range data.VendorSpecifics {
-		keyValues := [...]string{strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/vendor-specific=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2289,7 +2296,7 @@ func (data *IPv6DHCPPool) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/bootfile-url", data.getPath()))
 	}
 	for i := range data.LinkAddresses {
-		keyValues := [...]string{data.LinkAddresses[i].Address.ValueString()}
+		keyValues := [...]string{ data.LinkAddresses[i].Address.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/link-address=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2300,7 +2307,7 @@ func (data *IPv6DHCPPool) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/dns-server", data.getPath()))
 	}
 	for i := range data.PrefixDelegationPrefixes {
-		keyValues := [...]string{data.PrefixDelegationPrefixes[i].Prefix.ValueString()}
+		keyValues := [...]string{ data.PrefixDelegationPrefixes[i].Prefix.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/prefix-delegation/pd-prefix=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2314,7 +2321,7 @@ func (data *IPv6DHCPPool) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/prefix-delegation/pool/pool-name", data.getPath()))
 	}
 	for i := range data.AddressPrefixes {
-		keyValues := [...]string{data.AddressPrefixes[i].Address.ValueString()}
+		keyValues := [...]string{ data.AddressPrefixes[i].Address.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/address/prefix=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2357,8 +2364,8 @@ func (data *IPv6DHCPPool) addDeletePathsXML(ctx context.Context, body string) st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/import/dns-server")
 	}
 	for i := range data.VendorSpecifics {
-		keys := [...]string{"value"}
-		keyValues := [...]string{strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10)}
+		keys := [...]string{ "value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.VendorSpecifics[i].EnterpriseId.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2373,8 +2380,8 @@ func (data *IPv6DHCPPool) addDeletePathsXML(ctx context.Context, body string) st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/bootfile-url")
 	}
 	for i := range data.LinkAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.LinkAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.LinkAddresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2397,8 +2404,8 @@ func (data *IPv6DHCPPool) addDeletePathsXML(ctx context.Context, body string) st
 		}
 	}
 	for i := range data.PrefixDelegationPrefixes {
-		keys := [...]string{"ipv6-prefix"}
-		keyValues := [...]string{data.PrefixDelegationPrefixes[i].Prefix.ValueString()}
+		keys := [...]string{ "ipv6-prefix",  }
+		keyValues := [...]string{ data.PrefixDelegationPrefixes[i].Prefix.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2416,8 +2423,8 @@ func (data *IPv6DHCPPool) addDeletePathsXML(ctx context.Context, body string) st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/prefix-delegation/pool/pool-name")
 	}
 	for i := range data.AddressPrefixes {
-		keys := [...]string{"ipv6-address"}
-		keyValues := [...]string{data.AddressPrefixes[i].Address.ValueString()}
+		keys := [...]string{ "ipv6-address",  }
+		keyValues := [...]string{ data.AddressPrefixes[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

@@ -24,23 +24,23 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
+	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -177,10 +177,10 @@ func (r *InterfacePortChannelResource) Schema(ctx context.Context, req resource.
 				Optional:            true,
 			},
 			"spanning_tree_guard": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Change an interface's spanning tree guard mode").AddStringEnumDescription("loop", "none", "root").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Change an interface's spanning tree guard mode").AddStringEnumDescription("loop", "none", "root", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("loop", "none", "root"),
+					stringvalidator.OneOf("loop", "none", "root", ),
 				},
 			},
 			"auto_qos_classify": schema.BoolAttribute{
@@ -228,10 +228,10 @@ func (r *InterfacePortChannelResource) Schema(ctx context.Context, req resource.
 				Optional:            true,
 			},
 			"trust_device": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("trusted device class").AddStringEnumDescription("cisco-phone", "cts", "ip-camera", "media-player").String,
+				MarkdownDescription: helpers.NewAttributeDescription("trusted device class").AddStringEnumDescription("cisco-phone", "cts", "ip-camera", "media-player", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("cisco-phone", "cts", "ip-camera", "media-player"),
+					stringvalidator.OneOf("cisco-phone", "cts", "ip-camera", "media-player", ),
 				},
 			},
 			"helper_addresses": schema.ListNestedAttribute{
@@ -367,10 +367,10 @@ func (r *InterfacePortChannelResource) Schema(ctx context.Context, req resource.
 							Required:            true,
 						},
 						"direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("input", "output"),
+								stringvalidator.OneOf("input", "output", ),
 							},
 						},
 					},
@@ -395,10 +395,10 @@ func (r *InterfacePortChannelResource) Schema(ctx context.Context, req resource.
 				},
 			},
 			"spanning_tree_link_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Specify a link type for spanning tree tree protocol use").AddStringEnumDescription("point-to-point", "shared").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Specify a link type for spanning tree tree protocol use").AddStringEnumDescription("point-to-point", "shared", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("point-to-point", "shared"),
+					stringvalidator.OneOf("point-to-point", "shared", ),
 				},
 			},
 			"bpduguard_enable": schema.BoolAttribute{
@@ -523,10 +523,10 @@ func (r *InterfacePortChannelResource) Schema(ctx context.Context, req resource.
 							Required:            true,
 						},
 						"direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("input", "output"),
+								stringvalidator.OneOf("input", "output", ),
 							},
 						},
 					},
@@ -628,7 +628,7 @@ func (r *InterfacePortChannelResource) Create(ctx context.Context, req resource.
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -676,7 +676,7 @@ func (r *InterfacePortChannelResource) Read(ctx context.Context, req resource.Re
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

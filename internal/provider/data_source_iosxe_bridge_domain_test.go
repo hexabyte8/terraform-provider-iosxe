@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeBridgeDomain(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bridge_domain.test", "member_vni", "10800"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bridge_domain.test", "member_interfaces.0.interface", "GigabitEthernet2"))
@@ -45,7 +44,7 @@ func TestAccDataSourceIosxeBridgeDomain(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeBridgeDomainConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,9 +67,9 @@ func testAccDataSourceIosxeBridgeDomainConfig() string {
 	config += `		service_instances = [{` + "\n"
 	config += `			instance_id = 836` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bridge_domain" "test" {
 			bridge_domain_id = 836

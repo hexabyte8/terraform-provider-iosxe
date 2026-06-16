@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -105,31 +105,31 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							Required:            true,
 						},
 						"cryptographic_algorithm": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("hmac-sha-1", "hmac-sha-256", "hmac-sha-384", "hmac-sha-512", "md5").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("hmac-sha-1", "hmac-sha-256", "hmac-sha-384", "hmac-sha-512", "md5", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("hmac-sha-1", "hmac-sha-256", "hmac-sha-384", "hmac-sha-512", "md5"),
+								stringvalidator.OneOf("hmac-sha-1", "hmac-sha-256", "hmac-sha-384", "hmac-sha-512", "md5", ),
 							},
 						},
 						"cryptographic_algorithm_tcp": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("aes-128-cmac", "hmac-sha-1", "hmac-sha-256").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("aes-128-cmac", "hmac-sha-1", "hmac-sha-256", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("aes-128-cmac", "hmac-sha-1", "hmac-sha-256"),
+								stringvalidator.OneOf("aes-128-cmac", "hmac-sha-1", "hmac-sha-256", ),
 							},
 						},
 						"cryptographic_algorithm_macsec": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("aes-128-cmac", "aes-256-cmac").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("aes-128-cmac", "aes-256-cmac", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("aes-128-cmac", "aes-256-cmac"),
+								stringvalidator.OneOf("aes-128-cmac", "aes-256-cmac", ),
 							},
 						},
 						"key_string_encryption": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key encryption method").AddStringEnumDescription("0", "6", "7").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key encryption method").AddStringEnumDescription("0", "6", "7", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0", "6", "7"),
+								stringvalidator.OneOf("0", "6", "7", ),
 							},
 						},
 						"key_string_key": schema.StringAttribute{
@@ -158,10 +158,10 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"accept_lifetime_start_month": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime start month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime start month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ),
 							},
 						},
 						"accept_lifetime_start_day": schema.Int64Attribute{
@@ -197,10 +197,10 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"accept_lifetime_end_month": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime end month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime end month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ),
 							},
 						},
 						"accept_lifetime_end_day": schema.Int64Attribute{
@@ -229,10 +229,10 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"send_lifetime_start_month": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime start month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime start month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ),
 							},
 						},
 						"send_lifetime_start_day": schema.Int64Attribute{
@@ -268,10 +268,10 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"send_lifetime_end_month": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime end month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime end month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ),
 							},
 						},
 						"send_lifetime_end_day": schema.Int64Attribute{
@@ -300,10 +300,10 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"macsec_lifetime_start_month": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime start month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime start month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ),
 							},
 						},
 						"macsec_lifetime_start_day": schema.Int64Attribute{
@@ -339,10 +339,10 @@ func (r *KeyChainResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"macsec_lifetime_end_month": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime end month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Key lifetime end month").AddStringEnumDescription("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+								stringvalidator.OneOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ),
 							},
 						},
 						"macsec_lifetime_end_day": schema.Int64Attribute{
@@ -476,7 +476,7 @@ func (r *KeyChainResource) Create(ctx context.Context, req resource.CreateReques
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -524,7 +524,7 @@ func (r *KeyChainResource) Read(ctx context.Context, req resource.ReadRequest, r
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

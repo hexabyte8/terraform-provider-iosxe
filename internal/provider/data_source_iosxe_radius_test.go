@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -48,7 +47,7 @@ func TestAccDataSourceIosxeRadius(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeRadiusConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -82,7 +81,7 @@ func testAccDataSourceIosxeRadiusConfig() string {
 		config += `	pac_key_encryption = "0"` + "\n"
 	}
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_radius" "test" {
 			name = "radius_10.10.15.12"

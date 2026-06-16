@@ -25,9 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,8 +33,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -106,10 +106,10 @@ func (r *TACACSServerResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 			},
 			"encryption": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("0 - Specifies an UNENCRYPTED key will follow 6 - Specifies an ENCRYPTED key will follow 7 - Specifies HIDDEN key will follow").AddStringEnumDescription("0", "6", "7").String,
+				MarkdownDescription: helpers.NewAttributeDescription("0 - Specifies an UNENCRYPTED key will follow 6 - Specifies an ENCRYPTED key will follow 7 - Specifies HIDDEN key will follow").AddStringEnumDescription("0", "6", "7", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("0", "6", "7"),
+					stringvalidator.OneOf("0", "6", "7", ),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -225,7 +225,7 @@ func (r *TACACSServerResource) Create(ctx context.Context, req resource.CreateRe
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -273,7 +273,7 @@ func (r *TACACSServerResource) Read(ctx context.Context, req resource.ReadReques
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeL2VFI(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_l2_vfi.test", "mode", "manual"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_l2_vfi.test", "vpn_id", "20001"))
@@ -46,7 +45,7 @@ func TestAccDataSourceIosxeL2VFI(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeL2VFIConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -67,9 +66,9 @@ func testAccDataSourceIosxeL2VFIConfig() string {
 	config += `	neighbors = [{` + "\n"
 	config += `		ip_address = "172.16.255.2"` + "\n"
 	config += `		encapsulation = "mpls"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_l2_vfi" "test" {
 			name = "TENANT-A"

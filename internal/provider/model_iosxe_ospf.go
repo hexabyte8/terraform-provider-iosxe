@@ -23,100 +23,100 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type OSPF struct {
-	Device                                             types.String                                             `tfsdk:"device"`
-	Id                                                 types.String                                             `tfsdk:"id"`
-	DeleteMode                                         types.String                                             `tfsdk:"delete_mode"`
-	ProcessId                                          types.Int64                                              `tfsdk:"process_id"`
-	BfdAllInterfaces                                   types.Bool                                               `tfsdk:"bfd_all_interfaces"`
-	DefaultInformationOriginate                        types.Bool                                               `tfsdk:"default_information_originate"`
-	DefaultInformationOriginateAlways                  types.Bool                                               `tfsdk:"default_information_originate_always"`
-	DefaultMetric                                      types.Int64                                              `tfsdk:"default_metric"`
-	Distance                                           types.Int64                                              `tfsdk:"distance"`
-	DomainTag                                          types.Int64                                              `tfsdk:"domain_tag"`
-	MplsLdpAutoconfig                                  types.Bool                                               `tfsdk:"mpls_ldp_autoconfig"`
-	MplsLdpSync                                        types.Bool                                               `tfsdk:"mpls_ldp_sync"`
-	Neighbors                                          []OSPFNeighbors                                          `tfsdk:"neighbors"`
-	Networks                                           []OSPFNetworks                                           `tfsdk:"networks"`
-	Priority                                           types.Int64                                              `tfsdk:"priority"`
-	RouterId                                           types.String                                             `tfsdk:"router_id"`
-	Shutdown                                           types.Bool                                               `tfsdk:"shutdown"`
-	SummaryAddresses                                   []OSPFSummaryAddresses                                   `tfsdk:"summary_addresses"`
-	Areas                                              []OSPFAreas                                              `tfsdk:"areas"`
-	AutoCostReferenceBandwidth                         types.Int64                                              `tfsdk:"auto_cost_reference_bandwidth"`
-	PassiveInterfaceDefault                            types.Bool                                               `tfsdk:"passive_interface_default"`
-	PassiveInterface                                   types.List                                               `tfsdk:"passive_interface"`
-	LogAdjacencyChanges                                types.Bool                                               `tfsdk:"log_adjacency_changes"`
-	LogAdjacencyChangesDetail                          types.Bool                                               `tfsdk:"log_adjacency_changes_detail"`
-	NsfCisco                                           types.Bool                                               `tfsdk:"nsf_cisco"`
-	NsfCiscoEnforceGlobal                              types.Bool                                               `tfsdk:"nsf_cisco_enforce_global"`
-	NsfIetf                                            types.Bool                                               `tfsdk:"nsf_ietf"`
-	NsfIetfRestartInterval                             types.Int64                                              `tfsdk:"nsf_ietf_restart_interval"`
-	MaxMetricRouterLsa                                 types.Bool                                               `tfsdk:"max_metric_router_lsa"`
-	MaxMetricRouterLsaSummaryLsaMetric                 types.Int64                                              `tfsdk:"max_metric_router_lsa_summary_lsa_metric"`
-	MaxMetricRouterLsaExternalLsaMetric                types.Int64                                              `tfsdk:"max_metric_router_lsa_external_lsa_metric"`
-	MaxMetricRouterLsaIncludeStub                      types.Bool                                               `tfsdk:"max_metric_router_lsa_include_stub"`
-	MaxMetricRouterLsaOnStartupTime                    types.Int64                                              `tfsdk:"max_metric_router_lsa_on_startup_time"`
-	MaxMetricRouterLsaOnStartupWaitForBgp              types.Bool                                               `tfsdk:"max_metric_router_lsa_on_startup_wait_for_bgp"`
-	FastReroutePerPrefixEnablePrefixPriority           types.String                                             `tfsdk:"fast_reroute_per_prefix_enable_prefix_priority"`
-	RedistributeStaticSubnets                          types.Bool                                               `tfsdk:"redistribute_static_subnets"`
-	RedistributeConnectedSubnets                       types.Bool                                               `tfsdk:"redistribute_connected_subnets"`
-	PassiveInterfaceDisableGigabitEthernets            []OSPFPassiveInterfaceDisableGigabitEthernets            `tfsdk:"passive_interface_disable_gigabit_ethernets"`
-	PassiveInterfaceDisableTwoGigabitEthernets         []OSPFPassiveInterfaceDisableTwoGigabitEthernets         `tfsdk:"passive_interface_disable_two_gigabit_ethernets"`
-	PassiveInterfaceDisableFiveGigabitEthernets        []OSPFPassiveInterfaceDisableFiveGigabitEthernets        `tfsdk:"passive_interface_disable_five_gigabit_ethernets"`
-	PassiveInterfaceDisableTenGigabitEthernets         []OSPFPassiveInterfaceDisableTenGigabitEthernets         `tfsdk:"passive_interface_disable_ten_gigabit_ethernets"`
-	PassiveInterfaceDisableTwentyFiveGigabitEthernets  []OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernets  `tfsdk:"passive_interface_disable_twenty_five_gigabit_ethernets"`
-	PassiveInterfaceDisableFortyGigabitEthernets       []OSPFPassiveInterfaceDisableFortyGigabitEthernets       `tfsdk:"passive_interface_disable_forty_gigabit_ethernets"`
-	PassiveInterfaceDisableHundredGigabitEthernets     []OSPFPassiveInterfaceDisableHundredGigabitEthernets     `tfsdk:"passive_interface_disable_hundred_gigabit_ethernets"`
-	PassiveInterfaceDisableTwoHundredGigabitEthernets  []OSPFPassiveInterfaceDisableTwoHundredGigabitEthernets  `tfsdk:"passive_interface_disable_two_hundred_gigabit_ethernets"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	ProcessId types.Int64 `tfsdk:"process_id"`
+	BfdAllInterfaces types.Bool `tfsdk:"bfd_all_interfaces"`
+	DefaultInformationOriginate types.Bool `tfsdk:"default_information_originate"`
+	DefaultInformationOriginateAlways types.Bool `tfsdk:"default_information_originate_always"`
+	DefaultMetric types.Int64 `tfsdk:"default_metric"`
+	Distance types.Int64 `tfsdk:"distance"`
+	DomainTag types.Int64 `tfsdk:"domain_tag"`
+	MplsLdpAutoconfig types.Bool `tfsdk:"mpls_ldp_autoconfig"`
+	MplsLdpSync types.Bool `tfsdk:"mpls_ldp_sync"`
+	Neighbors []OSPFNeighbors `tfsdk:"neighbors"`
+	Networks []OSPFNetworks `tfsdk:"networks"`
+	Priority types.Int64 `tfsdk:"priority"`
+	RouterId types.String `tfsdk:"router_id"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	SummaryAddresses []OSPFSummaryAddresses `tfsdk:"summary_addresses"`
+	Areas []OSPFAreas `tfsdk:"areas"`
+	AutoCostReferenceBandwidth types.Int64 `tfsdk:"auto_cost_reference_bandwidth"`
+	PassiveInterfaceDefault types.Bool `tfsdk:"passive_interface_default"`
+	PassiveInterface types.List `tfsdk:"passive_interface"`
+	LogAdjacencyChanges types.Bool `tfsdk:"log_adjacency_changes"`
+	LogAdjacencyChangesDetail types.Bool `tfsdk:"log_adjacency_changes_detail"`
+	NsfCisco types.Bool `tfsdk:"nsf_cisco"`
+	NsfCiscoEnforceGlobal types.Bool `tfsdk:"nsf_cisco_enforce_global"`
+	NsfIetf types.Bool `tfsdk:"nsf_ietf"`
+	NsfIetfRestartInterval types.Int64 `tfsdk:"nsf_ietf_restart_interval"`
+	MaxMetricRouterLsa types.Bool `tfsdk:"max_metric_router_lsa"`
+	MaxMetricRouterLsaSummaryLsaMetric types.Int64 `tfsdk:"max_metric_router_lsa_summary_lsa_metric"`
+	MaxMetricRouterLsaExternalLsaMetric types.Int64 `tfsdk:"max_metric_router_lsa_external_lsa_metric"`
+	MaxMetricRouterLsaIncludeStub types.Bool `tfsdk:"max_metric_router_lsa_include_stub"`
+	MaxMetricRouterLsaOnStartupTime types.Int64 `tfsdk:"max_metric_router_lsa_on_startup_time"`
+	MaxMetricRouterLsaOnStartupWaitForBgp types.Bool `tfsdk:"max_metric_router_lsa_on_startup_wait_for_bgp"`
+	FastReroutePerPrefixEnablePrefixPriority types.String `tfsdk:"fast_reroute_per_prefix_enable_prefix_priority"`
+	RedistributeStaticSubnets types.Bool `tfsdk:"redistribute_static_subnets"`
+	RedistributeConnectedSubnets types.Bool `tfsdk:"redistribute_connected_subnets"`
+	PassiveInterfaceDisableGigabitEthernets []OSPFPassiveInterfaceDisableGigabitEthernets `tfsdk:"passive_interface_disable_gigabit_ethernets"`
+	PassiveInterfaceDisableTwoGigabitEthernets []OSPFPassiveInterfaceDisableTwoGigabitEthernets `tfsdk:"passive_interface_disable_two_gigabit_ethernets"`
+	PassiveInterfaceDisableFiveGigabitEthernets []OSPFPassiveInterfaceDisableFiveGigabitEthernets `tfsdk:"passive_interface_disable_five_gigabit_ethernets"`
+	PassiveInterfaceDisableTenGigabitEthernets []OSPFPassiveInterfaceDisableTenGigabitEthernets `tfsdk:"passive_interface_disable_ten_gigabit_ethernets"`
+	PassiveInterfaceDisableTwentyFiveGigabitEthernets []OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernets `tfsdk:"passive_interface_disable_twenty_five_gigabit_ethernets"`
+	PassiveInterfaceDisableFortyGigabitEthernets []OSPFPassiveInterfaceDisableFortyGigabitEthernets `tfsdk:"passive_interface_disable_forty_gigabit_ethernets"`
+	PassiveInterfaceDisableHundredGigabitEthernets []OSPFPassiveInterfaceDisableHundredGigabitEthernets `tfsdk:"passive_interface_disable_hundred_gigabit_ethernets"`
+	PassiveInterfaceDisableTwoHundredGigabitEthernets []OSPFPassiveInterfaceDisableTwoHundredGigabitEthernets `tfsdk:"passive_interface_disable_two_hundred_gigabit_ethernets"`
 	PassiveInterfaceDisableFourHundredGigabitEthernets []OSPFPassiveInterfaceDisableFourHundredGigabitEthernets `tfsdk:"passive_interface_disable_four_hundred_gigabit_ethernets"`
-	PassiveInterfaceDisableLoopbacks                   []OSPFPassiveInterfaceDisableLoopbacks                   `tfsdk:"passive_interface_disable_loopbacks"`
-	PassiveInterfaceDisableVlans                       []OSPFPassiveInterfaceDisableVlans                       `tfsdk:"passive_interface_disable_vlans"`
-	PassiveInterfaceDisableTunnels                     []OSPFPassiveInterfaceDisableTunnels                     `tfsdk:"passive_interface_disable_tunnels"`
-	PassiveInterfaceDisablePortChannels                []OSPFPassiveInterfaceDisablePortChannels                `tfsdk:"passive_interface_disable_port_channels"`
-	PassiveInterfaceDisablePortChannelSubinterfaces    []OSPFPassiveInterfaceDisablePortChannelSubinterfaces    `tfsdk:"passive_interface_disable_port_channel_subinterfaces"`
+	PassiveInterfaceDisableLoopbacks []OSPFPassiveInterfaceDisableLoopbacks `tfsdk:"passive_interface_disable_loopbacks"`
+	PassiveInterfaceDisableVlans []OSPFPassiveInterfaceDisableVlans `tfsdk:"passive_interface_disable_vlans"`
+	PassiveInterfaceDisableTunnels []OSPFPassiveInterfaceDisableTunnels `tfsdk:"passive_interface_disable_tunnels"`
+	PassiveInterfaceDisablePortChannels []OSPFPassiveInterfaceDisablePortChannels `tfsdk:"passive_interface_disable_port_channels"`
+	PassiveInterfaceDisablePortChannelSubinterfaces []OSPFPassiveInterfaceDisablePortChannelSubinterfaces `tfsdk:"passive_interface_disable_port_channel_subinterfaces"`
 }
 type OSPFNeighbors struct {
-	Ip       types.String `tfsdk:"ip"`
-	Priority types.Int64  `tfsdk:"priority"`
-	Cost     types.Int64  `tfsdk:"cost"`
+	Ip types.String `tfsdk:"ip"`
+	Priority types.Int64 `tfsdk:"priority"`
+	Cost types.Int64 `tfsdk:"cost"`
 }
 type OSPFNetworks struct {
-	Ip       types.String `tfsdk:"ip"`
+	Ip types.String `tfsdk:"ip"`
 	Wildcard types.String `tfsdk:"wildcard"`
-	Area     types.String `tfsdk:"area"`
+	Area types.String `tfsdk:"area"`
 }
 type OSPFSummaryAddresses struct {
-	Ip   types.String `tfsdk:"ip"`
+	Ip types.String `tfsdk:"ip"`
 	Mask types.String `tfsdk:"mask"`
 }
 type OSPFAreas struct {
-	AreaId                                    types.String `tfsdk:"area_id"`
-	AuthenticationMessageDigest               types.Bool   `tfsdk:"authentication_message_digest"`
-	Nssa                                      types.Bool   `tfsdk:"nssa"`
-	NssaDefaultInformationOriginate           types.Bool   `tfsdk:"nssa_default_information_originate"`
-	NssaDefaultInformationOriginateMetric     types.Int64  `tfsdk:"nssa_default_information_originate_metric"`
-	NssaDefaultInformationOriginateMetricType types.Int64  `tfsdk:"nssa_default_information_originate_metric_type"`
-	NssaNoSummary                             types.Bool   `tfsdk:"nssa_no_summary"`
-	NssaNoRedistribution                      types.Bool   `tfsdk:"nssa_no_redistribution"`
+	AreaId types.String `tfsdk:"area_id"`
+	AuthenticationMessageDigest types.Bool `tfsdk:"authentication_message_digest"`
+	Nssa types.Bool `tfsdk:"nssa"`
+	NssaDefaultInformationOriginate types.Bool `tfsdk:"nssa_default_information_originate"`
+	NssaDefaultInformationOriginateMetric types.Int64 `tfsdk:"nssa_default_information_originate_metric"`
+	NssaDefaultInformationOriginateMetricType types.Int64 `tfsdk:"nssa_default_information_originate_metric_type"`
+	NssaNoSummary types.Bool `tfsdk:"nssa_no_summary"`
+	NssaNoRedistribution types.Bool `tfsdk:"nssa_no_redistribution"`
 }
 type OSPFPassiveInterfaceDisableGigabitEthernets struct {
 	Name types.String `tfsdk:"name"`
@@ -162,80 +162,80 @@ type OSPFPassiveInterfaceDisablePortChannelSubinterfaces struct {
 }
 
 type OSPFData struct {
-	Device                                             types.String                                                 `tfsdk:"device"`
-	Id                                                 types.String                                                 `tfsdk:"id"`
-	ProcessId                                          types.Int64                                                  `tfsdk:"process_id"`
-	BfdAllInterfaces                                   types.Bool                                                   `tfsdk:"bfd_all_interfaces"`
-	DefaultInformationOriginate                        types.Bool                                                   `tfsdk:"default_information_originate"`
-	DefaultInformationOriginateAlways                  types.Bool                                                   `tfsdk:"default_information_originate_always"`
-	DefaultMetric                                      types.Int64                                                  `tfsdk:"default_metric"`
-	Distance                                           types.Int64                                                  `tfsdk:"distance"`
-	DomainTag                                          types.Int64                                                  `tfsdk:"domain_tag"`
-	MplsLdpAutoconfig                                  types.Bool                                                   `tfsdk:"mpls_ldp_autoconfig"`
-	MplsLdpSync                                        types.Bool                                                   `tfsdk:"mpls_ldp_sync"`
-	Neighbors                                          []OSPFNeighborsData                                          `tfsdk:"neighbors"`
-	Networks                                           []OSPFNetworksData                                           `tfsdk:"networks"`
-	Priority                                           types.Int64                                                  `tfsdk:"priority"`
-	RouterId                                           types.String                                                 `tfsdk:"router_id"`
-	Shutdown                                           types.Bool                                                   `tfsdk:"shutdown"`
-	SummaryAddresses                                   []OSPFSummaryAddressesData                                   `tfsdk:"summary_addresses"`
-	Areas                                              []OSPFAreasData                                              `tfsdk:"areas"`
-	AutoCostReferenceBandwidth                         types.Int64                                                  `tfsdk:"auto_cost_reference_bandwidth"`
-	PassiveInterfaceDefault                            types.Bool                                                   `tfsdk:"passive_interface_default"`
-	PassiveInterface                                   types.List                                                   `tfsdk:"passive_interface"`
-	LogAdjacencyChanges                                types.Bool                                                   `tfsdk:"log_adjacency_changes"`
-	LogAdjacencyChangesDetail                          types.Bool                                                   `tfsdk:"log_adjacency_changes_detail"`
-	NsfCisco                                           types.Bool                                                   `tfsdk:"nsf_cisco"`
-	NsfCiscoEnforceGlobal                              types.Bool                                                   `tfsdk:"nsf_cisco_enforce_global"`
-	NsfIetf                                            types.Bool                                                   `tfsdk:"nsf_ietf"`
-	NsfIetfRestartInterval                             types.Int64                                                  `tfsdk:"nsf_ietf_restart_interval"`
-	MaxMetricRouterLsa                                 types.Bool                                                   `tfsdk:"max_metric_router_lsa"`
-	MaxMetricRouterLsaSummaryLsaMetric                 types.Int64                                                  `tfsdk:"max_metric_router_lsa_summary_lsa_metric"`
-	MaxMetricRouterLsaExternalLsaMetric                types.Int64                                                  `tfsdk:"max_metric_router_lsa_external_lsa_metric"`
-	MaxMetricRouterLsaIncludeStub                      types.Bool                                                   `tfsdk:"max_metric_router_lsa_include_stub"`
-	MaxMetricRouterLsaOnStartupTime                    types.Int64                                                  `tfsdk:"max_metric_router_lsa_on_startup_time"`
-	MaxMetricRouterLsaOnStartupWaitForBgp              types.Bool                                                   `tfsdk:"max_metric_router_lsa_on_startup_wait_for_bgp"`
-	FastReroutePerPrefixEnablePrefixPriority           types.String                                                 `tfsdk:"fast_reroute_per_prefix_enable_prefix_priority"`
-	RedistributeStaticSubnets                          types.Bool                                                   `tfsdk:"redistribute_static_subnets"`
-	RedistributeConnectedSubnets                       types.Bool                                                   `tfsdk:"redistribute_connected_subnets"`
-	PassiveInterfaceDisableGigabitEthernets            []OSPFPassiveInterfaceDisableGigabitEthernetsData            `tfsdk:"passive_interface_disable_gigabit_ethernets"`
-	PassiveInterfaceDisableTwoGigabitEthernets         []OSPFPassiveInterfaceDisableTwoGigabitEthernetsData         `tfsdk:"passive_interface_disable_two_gigabit_ethernets"`
-	PassiveInterfaceDisableFiveGigabitEthernets        []OSPFPassiveInterfaceDisableFiveGigabitEthernetsData        `tfsdk:"passive_interface_disable_five_gigabit_ethernets"`
-	PassiveInterfaceDisableTenGigabitEthernets         []OSPFPassiveInterfaceDisableTenGigabitEthernetsData         `tfsdk:"passive_interface_disable_ten_gigabit_ethernets"`
-	PassiveInterfaceDisableTwentyFiveGigabitEthernets  []OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernetsData  `tfsdk:"passive_interface_disable_twenty_five_gigabit_ethernets"`
-	PassiveInterfaceDisableFortyGigabitEthernets       []OSPFPassiveInterfaceDisableFortyGigabitEthernetsData       `tfsdk:"passive_interface_disable_forty_gigabit_ethernets"`
-	PassiveInterfaceDisableHundredGigabitEthernets     []OSPFPassiveInterfaceDisableHundredGigabitEthernetsData     `tfsdk:"passive_interface_disable_hundred_gigabit_ethernets"`
-	PassiveInterfaceDisableTwoHundredGigabitEthernets  []OSPFPassiveInterfaceDisableTwoHundredGigabitEthernetsData  `tfsdk:"passive_interface_disable_two_hundred_gigabit_ethernets"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	ProcessId types.Int64 `tfsdk:"process_id"`
+	BfdAllInterfaces types.Bool `tfsdk:"bfd_all_interfaces"`
+	DefaultInformationOriginate types.Bool `tfsdk:"default_information_originate"`
+	DefaultInformationOriginateAlways types.Bool `tfsdk:"default_information_originate_always"`
+	DefaultMetric types.Int64 `tfsdk:"default_metric"`
+	Distance types.Int64 `tfsdk:"distance"`
+	DomainTag types.Int64 `tfsdk:"domain_tag"`
+	MplsLdpAutoconfig types.Bool `tfsdk:"mpls_ldp_autoconfig"`
+	MplsLdpSync types.Bool `tfsdk:"mpls_ldp_sync"`
+	Neighbors []OSPFNeighborsData `tfsdk:"neighbors"`
+	Networks []OSPFNetworksData `tfsdk:"networks"`
+	Priority types.Int64 `tfsdk:"priority"`
+	RouterId types.String `tfsdk:"router_id"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	SummaryAddresses []OSPFSummaryAddressesData `tfsdk:"summary_addresses"`
+	Areas []OSPFAreasData `tfsdk:"areas"`
+	AutoCostReferenceBandwidth types.Int64 `tfsdk:"auto_cost_reference_bandwidth"`
+	PassiveInterfaceDefault types.Bool `tfsdk:"passive_interface_default"`
+	PassiveInterface types.List `tfsdk:"passive_interface"`
+	LogAdjacencyChanges types.Bool `tfsdk:"log_adjacency_changes"`
+	LogAdjacencyChangesDetail types.Bool `tfsdk:"log_adjacency_changes_detail"`
+	NsfCisco types.Bool `tfsdk:"nsf_cisco"`
+	NsfCiscoEnforceGlobal types.Bool `tfsdk:"nsf_cisco_enforce_global"`
+	NsfIetf types.Bool `tfsdk:"nsf_ietf"`
+	NsfIetfRestartInterval types.Int64 `tfsdk:"nsf_ietf_restart_interval"`
+	MaxMetricRouterLsa types.Bool `tfsdk:"max_metric_router_lsa"`
+	MaxMetricRouterLsaSummaryLsaMetric types.Int64 `tfsdk:"max_metric_router_lsa_summary_lsa_metric"`
+	MaxMetricRouterLsaExternalLsaMetric types.Int64 `tfsdk:"max_metric_router_lsa_external_lsa_metric"`
+	MaxMetricRouterLsaIncludeStub types.Bool `tfsdk:"max_metric_router_lsa_include_stub"`
+	MaxMetricRouterLsaOnStartupTime types.Int64 `tfsdk:"max_metric_router_lsa_on_startup_time"`
+	MaxMetricRouterLsaOnStartupWaitForBgp types.Bool `tfsdk:"max_metric_router_lsa_on_startup_wait_for_bgp"`
+	FastReroutePerPrefixEnablePrefixPriority types.String `tfsdk:"fast_reroute_per_prefix_enable_prefix_priority"`
+	RedistributeStaticSubnets types.Bool `tfsdk:"redistribute_static_subnets"`
+	RedistributeConnectedSubnets types.Bool `tfsdk:"redistribute_connected_subnets"`
+	PassiveInterfaceDisableGigabitEthernets []OSPFPassiveInterfaceDisableGigabitEthernetsData `tfsdk:"passive_interface_disable_gigabit_ethernets"`
+	PassiveInterfaceDisableTwoGigabitEthernets []OSPFPassiveInterfaceDisableTwoGigabitEthernetsData `tfsdk:"passive_interface_disable_two_gigabit_ethernets"`
+	PassiveInterfaceDisableFiveGigabitEthernets []OSPFPassiveInterfaceDisableFiveGigabitEthernetsData `tfsdk:"passive_interface_disable_five_gigabit_ethernets"`
+	PassiveInterfaceDisableTenGigabitEthernets []OSPFPassiveInterfaceDisableTenGigabitEthernetsData `tfsdk:"passive_interface_disable_ten_gigabit_ethernets"`
+	PassiveInterfaceDisableTwentyFiveGigabitEthernets []OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernetsData `tfsdk:"passive_interface_disable_twenty_five_gigabit_ethernets"`
+	PassiveInterfaceDisableFortyGigabitEthernets []OSPFPassiveInterfaceDisableFortyGigabitEthernetsData `tfsdk:"passive_interface_disable_forty_gigabit_ethernets"`
+	PassiveInterfaceDisableHundredGigabitEthernets []OSPFPassiveInterfaceDisableHundredGigabitEthernetsData `tfsdk:"passive_interface_disable_hundred_gigabit_ethernets"`
+	PassiveInterfaceDisableTwoHundredGigabitEthernets []OSPFPassiveInterfaceDisableTwoHundredGigabitEthernetsData `tfsdk:"passive_interface_disable_two_hundred_gigabit_ethernets"`
 	PassiveInterfaceDisableFourHundredGigabitEthernets []OSPFPassiveInterfaceDisableFourHundredGigabitEthernetsData `tfsdk:"passive_interface_disable_four_hundred_gigabit_ethernets"`
-	PassiveInterfaceDisableLoopbacks                   []OSPFPassiveInterfaceDisableLoopbacksData                   `tfsdk:"passive_interface_disable_loopbacks"`
-	PassiveInterfaceDisableVlans                       []OSPFPassiveInterfaceDisableVlansData                       `tfsdk:"passive_interface_disable_vlans"`
-	PassiveInterfaceDisableTunnels                     []OSPFPassiveInterfaceDisableTunnelsData                     `tfsdk:"passive_interface_disable_tunnels"`
-	PassiveInterfaceDisablePortChannels                []OSPFPassiveInterfaceDisablePortChannelsData                `tfsdk:"passive_interface_disable_port_channels"`
-	PassiveInterfaceDisablePortChannelSubinterfaces    []OSPFPassiveInterfaceDisablePortChannelSubinterfacesData    `tfsdk:"passive_interface_disable_port_channel_subinterfaces"`
+	PassiveInterfaceDisableLoopbacks []OSPFPassiveInterfaceDisableLoopbacksData `tfsdk:"passive_interface_disable_loopbacks"`
+	PassiveInterfaceDisableVlans []OSPFPassiveInterfaceDisableVlansData `tfsdk:"passive_interface_disable_vlans"`
+	PassiveInterfaceDisableTunnels []OSPFPassiveInterfaceDisableTunnelsData `tfsdk:"passive_interface_disable_tunnels"`
+	PassiveInterfaceDisablePortChannels []OSPFPassiveInterfaceDisablePortChannelsData `tfsdk:"passive_interface_disable_port_channels"`
+	PassiveInterfaceDisablePortChannelSubinterfaces []OSPFPassiveInterfaceDisablePortChannelSubinterfacesData `tfsdk:"passive_interface_disable_port_channel_subinterfaces"`
 }
 type OSPFNeighborsData struct {
-	Ip       types.String `tfsdk:"ip"`
-	Priority types.Int64  `tfsdk:"priority"`
-	Cost     types.Int64  `tfsdk:"cost"`
+	Ip types.String `tfsdk:"ip"`
+	Priority types.Int64 `tfsdk:"priority"`
+	Cost types.Int64 `tfsdk:"cost"`
 }
 type OSPFNetworksData struct {
-	Ip       types.String `tfsdk:"ip"`
+	Ip types.String `tfsdk:"ip"`
 	Wildcard types.String `tfsdk:"wildcard"`
-	Area     types.String `tfsdk:"area"`
+	Area types.String `tfsdk:"area"`
 }
 type OSPFSummaryAddressesData struct {
-	Ip   types.String `tfsdk:"ip"`
+	Ip types.String `tfsdk:"ip"`
 	Mask types.String `tfsdk:"mask"`
 }
 type OSPFAreasData struct {
-	AreaId                                    types.String `tfsdk:"area_id"`
-	AuthenticationMessageDigest               types.Bool   `tfsdk:"authentication_message_digest"`
-	Nssa                                      types.Bool   `tfsdk:"nssa"`
-	NssaDefaultInformationOriginate           types.Bool   `tfsdk:"nssa_default_information_originate"`
-	NssaDefaultInformationOriginateMetric     types.Int64  `tfsdk:"nssa_default_information_originate_metric"`
-	NssaDefaultInformationOriginateMetricType types.Int64  `tfsdk:"nssa_default_information_originate_metric_type"`
-	NssaNoSummary                             types.Bool   `tfsdk:"nssa_no_summary"`
-	NssaNoRedistribution                      types.Bool   `tfsdk:"nssa_no_redistribution"`
+	AreaId types.String `tfsdk:"area_id"`
+	AuthenticationMessageDigest types.Bool `tfsdk:"authentication_message_digest"`
+	Nssa types.Bool `tfsdk:"nssa"`
+	NssaDefaultInformationOriginate types.Bool `tfsdk:"nssa_default_information_originate"`
+	NssaDefaultInformationOriginateMetric types.Int64 `tfsdk:"nssa_default_information_originate_metric"`
+	NssaDefaultInformationOriginateMetricType types.Int64 `tfsdk:"nssa_default_information_originate_metric_type"`
+	NssaNoSummary types.Bool `tfsdk:"nssa_no_summary"`
+	NssaNoRedistribution types.Bool `tfsdk:"nssa_no_redistribution"`
 }
 type OSPFPassiveInterfaceDisableGigabitEthernetsData struct {
 	Name types.String `tfsdk:"name"`
@@ -642,50 +642,50 @@ func (data OSPF) toBody(ctx context.Context, config OSPF) string {
 func (data OSPF) toBodyXML(ctx context.Context, config OSPF) string {
 	body := netconf.Body{}
 	if !data.ProcessId.IsNull() && !data.ProcessId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", strconv.FormatInt(data.ProcessId.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", strconv.FormatInt(data.ProcessId.ValueInt64(), 10))
 	}
 	if !data.BfdAllInterfaces.IsNull() && !data.BfdAllInterfaces.IsUnknown() {
 		if data.BfdAllInterfaces.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/all-interfaces", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/all-interfaces", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/bfd/all-interfaces")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/bfd/all-interfaces")
 		}
 	}
 	if !data.DefaultInformationOriginate.IsNull() && !data.DefaultInformationOriginate.IsUnknown() {
 		if data.DefaultInformationOriginate.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/default-information/originate", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/default-information/originate", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/default-information/originate")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/default-information/originate")
 		}
 	}
 	if !data.DefaultInformationOriginateAlways.IsNull() && !data.DefaultInformationOriginateAlways.IsUnknown() {
 		if data.DefaultInformationOriginateAlways.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/default-information/originate/always", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/default-information/originate/always", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/default-information/originate/always")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/default-information/originate/always")
 		}
 	}
 	if !data.DefaultMetric.IsNull() && !data.DefaultMetric.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/default-metric", strconv.FormatInt(data.DefaultMetric.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/default-metric", strconv.FormatInt(data.DefaultMetric.ValueInt64(), 10))
 	}
 	if !data.Distance.IsNull() && !data.Distance.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/distance/distance", strconv.FormatInt(data.Distance.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/distance/distance", strconv.FormatInt(data.Distance.ValueInt64(), 10))
 	}
 	if !data.DomainTag.IsNull() && !data.DomainTag.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/domain-tag", strconv.FormatInt(data.DomainTag.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/domain-tag", strconv.FormatInt(data.DomainTag.ValueInt64(), 10))
 	}
 	if !data.MplsLdpAutoconfig.IsNull() && !data.MplsLdpAutoconfig.IsUnknown() {
 		if data.MplsLdpAutoconfig.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/mpls/ldp/autoconfig", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/mpls/ldp/autoconfig", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/mpls/ldp/autoconfig")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/mpls/ldp/autoconfig")
 		}
 	}
 	if !data.MplsLdpSync.IsNull() && !data.MplsLdpSync.IsUnknown() {
 		if data.MplsLdpSync.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/mpls/ldp/sync", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/mpls/ldp/sync", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/mpls/ldp/sync")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/mpls/ldp/sync")
 		}
 	}
 	if len(data.Neighbors) > 0 {
@@ -719,13 +719,13 @@ func (data OSPF) toBodyXML(ctx context.Context, config OSPF) string {
 		}
 	}
 	if !data.Priority.IsNull() && !data.Priority.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/priority", strconv.FormatInt(data.Priority.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/priority", strconv.FormatInt(data.Priority.ValueInt64(), 10))
 	}
 	if !data.RouterId.IsNull() && !data.RouterId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/router-id", data.RouterId.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/router-id", data.RouterId.ValueString())
 	}
 	if !data.Shutdown.IsNull() && !data.Shutdown.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/shutdown", data.Shutdown.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/shutdown", data.Shutdown.ValueBool())
 	}
 	if len(data.SummaryAddresses) > 0 {
 		for _, item := range data.SummaryAddresses {
@@ -790,97 +790,97 @@ func (data OSPF) toBodyXML(ctx context.Context, config OSPF) string {
 		}
 	}
 	if !data.AutoCostReferenceBandwidth.IsNull() && !data.AutoCostReferenceBandwidth.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/auto-cost/reference-bandwidth", strconv.FormatInt(data.AutoCostReferenceBandwidth.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/auto-cost/reference-bandwidth", strconv.FormatInt(data.AutoCostReferenceBandwidth.ValueInt64(), 10))
 	}
 	if !data.PassiveInterfaceDefault.IsNull() && !data.PassiveInterfaceDefault.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/passive-interface/default", data.PassiveInterfaceDefault.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/passive-interface/default", data.PassiveInterfaceDefault.ValueBool())
 	}
 	if !data.PassiveInterface.IsNull() && !data.PassiveInterface.IsUnknown() {
 		var values []string
 		data.PassiveInterface.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/passive-interface/interface", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/passive-interface/interface", v)
 		}
 	}
 	if !data.LogAdjacencyChanges.IsNull() && !data.LogAdjacencyChanges.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/log-adjacency-changes", data.LogAdjacencyChanges.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/log-adjacency-changes", data.LogAdjacencyChanges.ValueBool())
 	}
 	if !data.LogAdjacencyChangesDetail.IsNull() && !data.LogAdjacencyChangesDetail.IsUnknown() {
 		if data.LogAdjacencyChangesDetail.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/log-adjacency-changes-detail/log-adjacency-changes/detail", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/log-adjacency-changes-detail/log-adjacency-changes/detail", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/log-adjacency-changes-detail/log-adjacency-changes/detail")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/log-adjacency-changes-detail/log-adjacency-changes/detail")
 		}
 	}
 	if !data.NsfCisco.IsNull() && !data.NsfCisco.IsUnknown() {
 		if data.NsfCisco.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/nsf/nsf-cisco", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/nsf/nsf-cisco", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/nsf/nsf-cisco")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/nsf/nsf-cisco")
 		}
 	}
 	if !data.NsfCiscoEnforceGlobal.IsNull() && !data.NsfCiscoEnforceGlobal.IsUnknown() {
 		if data.NsfCiscoEnforceGlobal.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/nsf/nsf-cisco/enforce/global", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/nsf/nsf-cisco/enforce/global", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/nsf/nsf-cisco/enforce/global")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/nsf/nsf-cisco/enforce/global")
 		}
 	}
 	if !data.NsfIetf.IsNull() && !data.NsfIetf.IsUnknown() {
 		if data.NsfIetf.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/nsf/nsf-ietf", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/nsf/nsf-ietf", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/nsf/nsf-ietf")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/nsf/nsf-ietf")
 		}
 	}
 	if !data.NsfIetfRestartInterval.IsNull() && !data.NsfIetfRestartInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/nsf/nsf-ietf/restart-interval", strconv.FormatInt(data.NsfIetfRestartInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/nsf/nsf-ietf/restart-interval", strconv.FormatInt(data.NsfIetfRestartInterval.ValueInt64(), 10))
 	}
 	if !data.MaxMetricRouterLsa.IsNull() && !data.MaxMetricRouterLsa.IsUnknown() {
 		if data.MaxMetricRouterLsa.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/max-metric/router-lsa", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/max-metric/router-lsa", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/max-metric/router-lsa")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/max-metric/router-lsa")
 		}
 	}
 	if !data.MaxMetricRouterLsaSummaryLsaMetric.IsNull() && !data.MaxMetricRouterLsaSummaryLsaMetric.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/max-metric/router-lsa/summary-lsa/metric", strconv.FormatInt(data.MaxMetricRouterLsaSummaryLsaMetric.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/max-metric/router-lsa/summary-lsa/metric", strconv.FormatInt(data.MaxMetricRouterLsaSummaryLsaMetric.ValueInt64(), 10))
 	}
 	if !data.MaxMetricRouterLsaExternalLsaMetric.IsNull() && !data.MaxMetricRouterLsaExternalLsaMetric.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/max-metric/router-lsa/external-lsa/metric", strconv.FormatInt(data.MaxMetricRouterLsaExternalLsaMetric.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/max-metric/router-lsa/external-lsa/metric", strconv.FormatInt(data.MaxMetricRouterLsaExternalLsaMetric.ValueInt64(), 10))
 	}
 	if !data.MaxMetricRouterLsaIncludeStub.IsNull() && !data.MaxMetricRouterLsaIncludeStub.IsUnknown() {
 		if data.MaxMetricRouterLsaIncludeStub.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/max-metric/router-lsa/include-stub", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/max-metric/router-lsa/include-stub", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/max-metric/router-lsa/include-stub")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/max-metric/router-lsa/include-stub")
 		}
 	}
 	if !data.MaxMetricRouterLsaOnStartupTime.IsNull() && !data.MaxMetricRouterLsaOnStartupTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/max-metric/router-lsa/on-startup/time", strconv.FormatInt(data.MaxMetricRouterLsaOnStartupTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/max-metric/router-lsa/on-startup/time", strconv.FormatInt(data.MaxMetricRouterLsaOnStartupTime.ValueInt64(), 10))
 	}
 	if !data.MaxMetricRouterLsaOnStartupWaitForBgp.IsNull() && !data.MaxMetricRouterLsaOnStartupWaitForBgp.IsUnknown() {
 		if data.MaxMetricRouterLsaOnStartupWaitForBgp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/max-metric/router-lsa/on-startup/wait-for-bgp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/max-metric/router-lsa/on-startup/wait-for-bgp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/max-metric/router-lsa/on-startup/wait-for-bgp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/max-metric/router-lsa/on-startup/wait-for-bgp")
 		}
 	}
 	if !data.FastReroutePerPrefixEnablePrefixPriority.IsNull() && !data.FastReroutePerPrefixEnablePrefixPriority.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/fast-reroute/per-prefix/enable/prefix-priority", data.FastReroutePerPrefixEnablePrefixPriority.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/fast-reroute/per-prefix/enable/prefix-priority", data.FastReroutePerPrefixEnablePrefixPriority.ValueString())
 	}
 	if !data.RedistributeStaticSubnets.IsNull() && !data.RedistributeStaticSubnets.IsUnknown() {
 		if data.RedistributeStaticSubnets.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/redistribute/static/subnets", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/redistribute/static/subnets", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/redistribute/static/subnets")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/redistribute/static/subnets")
 		}
 	}
 	if !data.RedistributeConnectedSubnets.IsNull() && !data.RedistributeConnectedSubnets.IsUnknown() {
 		if data.RedistributeConnectedSubnets.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/redistribute/connected/subnets", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/redistribute/connected/subnets", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/redistribute/connected/subnets")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/redistribute/connected/subnets")
 		}
 	}
 	if len(data.PassiveInterfaceDisableGigabitEthernets) > 0 {
@@ -1025,12 +1025,12 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.ProcessId.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.ProcessId.IsNull() {
 		data.ProcessId = types.Int64Value(value.Int())
 	} else {
 		data.ProcessId = types.Int64Null()
 	}
-	if value := res.Get(prefix + "bfd.all-interfaces"); !data.BfdAllInterfaces.IsNull() {
+	if value := res.Get(prefix+"bfd.all-interfaces"); !data.BfdAllInterfaces.IsNull() {
 		if value.Exists() {
 			data.BfdAllInterfaces = types.BoolValue(true)
 		} else {
@@ -1039,7 +1039,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.BfdAllInterfaces = types.BoolNull()
 	}
-	if value := res.Get(prefix + "default-information.originate"); !data.DefaultInformationOriginate.IsNull() {
+	if value := res.Get(prefix+"default-information.originate"); !data.DefaultInformationOriginate.IsNull() {
 		if value.Exists() {
 			data.DefaultInformationOriginate = types.BoolValue(true)
 		} else {
@@ -1048,7 +1048,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DefaultInformationOriginate = types.BoolNull()
 	}
-	if value := res.Get(prefix + "default-information.originate.always"); !data.DefaultInformationOriginateAlways.IsNull() {
+	if value := res.Get(prefix+"default-information.originate.always"); !data.DefaultInformationOriginateAlways.IsNull() {
 		if value.Exists() {
 			data.DefaultInformationOriginateAlways = types.BoolValue(true)
 		} else {
@@ -1057,22 +1057,22 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DefaultInformationOriginateAlways = types.BoolNull()
 	}
-	if value := res.Get(prefix + "default-metric"); value.Exists() && !data.DefaultMetric.IsNull() {
+	if value := res.Get(prefix+"default-metric"); value.Exists() && !data.DefaultMetric.IsNull() {
 		data.DefaultMetric = types.Int64Value(value.Int())
 	} else {
 		data.DefaultMetric = types.Int64Null()
 	}
-	if value := res.Get(prefix + "distance.distance"); value.Exists() && !data.Distance.IsNull() {
+	if value := res.Get(prefix+"distance.distance"); value.Exists() && !data.Distance.IsNull() {
 		data.Distance = types.Int64Value(value.Int())
 	} else {
 		data.Distance = types.Int64Null()
 	}
-	if value := res.Get(prefix + "domain-tag"); value.Exists() && !data.DomainTag.IsNull() {
+	if value := res.Get(prefix+"domain-tag"); value.Exists() && !data.DomainTag.IsNull() {
 		data.DomainTag = types.Int64Value(value.Int())
 	} else {
 		data.DomainTag = types.Int64Null()
 	}
-	if value := res.Get(prefix + "mpls.ldp.autoconfig"); !data.MplsLdpAutoconfig.IsNull() {
+	if value := res.Get(prefix+"mpls.ldp.autoconfig"); !data.MplsLdpAutoconfig.IsNull() {
 		if value.Exists() {
 			data.MplsLdpAutoconfig = types.BoolValue(true)
 		} else {
@@ -1081,7 +1081,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MplsLdpAutoconfig = types.BoolNull()
 	}
-	if value := res.Get(prefix + "mpls.ldp.sync"); !data.MplsLdpSync.IsNull() {
+	if value := res.Get(prefix+"mpls.ldp.sync"); !data.MplsLdpSync.IsNull() {
 		if value.Exists() {
 			data.MplsLdpSync = types.BoolValue(true)
 		} else {
@@ -1091,11 +1091,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		data.MplsLdpSync = types.BoolNull()
 	}
 	for i := range data.Neighbors {
-		keys := [...]string{"ip"}
-		keyValues := [...]string{data.Neighbors[i].Ip.ValueString()}
+		keys := [...]string{ "ip",  }
+		keyValues := [...]string{ data.Neighbors[i].Ip.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "neighbor").ForEach(
+		res.Get(prefix+"neighbor").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1130,11 +1130,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Networks {
-		keys := [...]string{"ip", "wildcard"}
-		keyValues := [...]string{data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString()}
+		keys := [...]string{ "ip", "wildcard",  }
+		keyValues := [...]string{ data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "network").ForEach(
+		res.Get(prefix+"network").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1168,17 +1168,17 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Networks[i].Area = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "priority"); value.Exists() && !data.Priority.IsNull() {
+	if value := res.Get(prefix+"priority"); value.Exists() && !data.Priority.IsNull() {
 		data.Priority = types.Int64Value(value.Int())
 	} else {
 		data.Priority = types.Int64Null()
 	}
-	if value := res.Get(prefix + "router-id"); value.Exists() && !data.RouterId.IsNull() {
+	if value := res.Get(prefix+"router-id"); value.Exists() && !data.RouterId.IsNull() {
 		data.RouterId = types.StringValue(value.String())
 	} else {
 		data.RouterId = types.StringNull()
 	}
-	if value := res.Get(prefix + "shutdown"); !data.Shutdown.IsNull() {
+	if value := res.Get(prefix+"shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(value.Bool())
 		}
@@ -1186,11 +1186,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		data.Shutdown = types.BoolNull()
 	}
 	for i := range data.SummaryAddresses {
-		keys := [...]string{"ip", "mask"}
-		keyValues := [...]string{data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString()}
+		keys := [...]string{ "ip", "mask",  }
+		keyValues := [...]string{ data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "summary-address").ForEach(
+		res.Get(prefix+"summary-address").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1220,11 +1220,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Areas {
-		keys := [...]string{"area-id"}
-		keyValues := [...]string{data.Areas[i].AreaId.ValueString()}
+		keys := [...]string{ "area-id",  }
+		keyValues := [...]string{ data.Areas[i].AreaId.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "area").ForEach(
+		res.Get(prefix+"area").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1303,31 +1303,31 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Areas[i].NssaNoRedistribution = types.BoolNull()
 		}
 	}
-	if value := res.Get(prefix + "auto-cost.reference-bandwidth"); value.Exists() && !data.AutoCostReferenceBandwidth.IsNull() {
+	if value := res.Get(prefix+"auto-cost.reference-bandwidth"); value.Exists() && !data.AutoCostReferenceBandwidth.IsNull() {
 		data.AutoCostReferenceBandwidth = types.Int64Value(value.Int())
 	} else {
 		data.AutoCostReferenceBandwidth = types.Int64Null()
 	}
-	if value := res.Get(prefix + "passive-interface.default"); !data.PassiveInterfaceDefault.IsNull() {
+	if value := res.Get(prefix+"passive-interface.default"); !data.PassiveInterfaceDefault.IsNull() {
 		if value.Exists() {
 			data.PassiveInterfaceDefault = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.PassiveInterfaceDefault = types.BoolNull()
 	}
-	if value := res.Get(prefix + "passive-interface.interface"); value.Exists() && !data.PassiveInterface.IsNull() {
+	if value := res.Get(prefix+"passive-interface.interface"); value.Exists() && !data.PassiveInterface.IsNull() {
 		data.PassiveInterface = helpers.GetStringList(value.Array())
 	} else {
 		data.PassiveInterface = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
+	if value := res.Get(prefix+"log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adjacency-changes-detail.log-adjacency-changes.detail"); !data.LogAdjacencyChangesDetail.IsNull() {
+	if value := res.Get(prefix+"log-adjacency-changes-detail.log-adjacency-changes.detail"); !data.LogAdjacencyChangesDetail.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChangesDetail = types.BoolValue(true)
 		} else {
@@ -1336,7 +1336,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LogAdjacencyChangesDetail = types.BoolNull()
 	}
-	if value := res.Get(prefix + "nsf.nsf-cisco"); !data.NsfCisco.IsNull() {
+	if value := res.Get(prefix+"nsf.nsf-cisco"); !data.NsfCisco.IsNull() {
 		if value.Exists() {
 			data.NsfCisco = types.BoolValue(true)
 		} else {
@@ -1345,7 +1345,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.NsfCisco = types.BoolNull()
 	}
-	if value := res.Get(prefix + "nsf.nsf-cisco.enforce.global"); !data.NsfCiscoEnforceGlobal.IsNull() {
+	if value := res.Get(prefix+"nsf.nsf-cisco.enforce.global"); !data.NsfCiscoEnforceGlobal.IsNull() {
 		if value.Exists() {
 			data.NsfCiscoEnforceGlobal = types.BoolValue(true)
 		} else {
@@ -1354,7 +1354,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.NsfCiscoEnforceGlobal = types.BoolNull()
 	}
-	if value := res.Get(prefix + "nsf.nsf-ietf"); !data.NsfIetf.IsNull() {
+	if value := res.Get(prefix+"nsf.nsf-ietf"); !data.NsfIetf.IsNull() {
 		if value.Exists() {
 			data.NsfIetf = types.BoolValue(true)
 		} else {
@@ -1363,12 +1363,12 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.NsfIetf = types.BoolNull()
 	}
-	if value := res.Get(prefix + "nsf.nsf-ietf.restart-interval"); value.Exists() && !data.NsfIetfRestartInterval.IsNull() {
+	if value := res.Get(prefix+"nsf.nsf-ietf.restart-interval"); value.Exists() && !data.NsfIetfRestartInterval.IsNull() {
 		data.NsfIetfRestartInterval = types.Int64Value(value.Int())
 	} else {
 		data.NsfIetfRestartInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa"); !data.MaxMetricRouterLsa.IsNull() {
+	if value := res.Get(prefix+"max-metric.router-lsa"); !data.MaxMetricRouterLsa.IsNull() {
 		if value.Exists() {
 			data.MaxMetricRouterLsa = types.BoolValue(true)
 		} else {
@@ -1377,17 +1377,17 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MaxMetricRouterLsa = types.BoolNull()
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.summary-lsa.metric"); value.Exists() && !data.MaxMetricRouterLsaSummaryLsaMetric.IsNull() {
+	if value := res.Get(prefix+"max-metric.router-lsa.summary-lsa.metric"); value.Exists() && !data.MaxMetricRouterLsaSummaryLsaMetric.IsNull() {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Value(value.Int())
 	} else {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Null()
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.external-lsa.metric"); value.Exists() && !data.MaxMetricRouterLsaExternalLsaMetric.IsNull() {
+	if value := res.Get(prefix+"max-metric.router-lsa.external-lsa.metric"); value.Exists() && !data.MaxMetricRouterLsaExternalLsaMetric.IsNull() {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Value(value.Int())
 	} else {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Null()
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.include-stub"); !data.MaxMetricRouterLsaIncludeStub.IsNull() {
+	if value := res.Get(prefix+"max-metric.router-lsa.include-stub"); !data.MaxMetricRouterLsaIncludeStub.IsNull() {
 		if value.Exists() {
 			data.MaxMetricRouterLsaIncludeStub = types.BoolValue(true)
 		} else {
@@ -1396,12 +1396,12 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolNull()
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.on-startup.time"); value.Exists() && !data.MaxMetricRouterLsaOnStartupTime.IsNull() {
+	if value := res.Get(prefix+"max-metric.router-lsa.on-startup.time"); value.Exists() && !data.MaxMetricRouterLsaOnStartupTime.IsNull() {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Value(value.Int())
 	} else {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.on-startup.wait-for-bgp"); !data.MaxMetricRouterLsaOnStartupWaitForBgp.IsNull() {
+	if value := res.Get(prefix+"max-metric.router-lsa.on-startup.wait-for-bgp"); !data.MaxMetricRouterLsaOnStartupWaitForBgp.IsNull() {
 		if value.Exists() {
 			data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(true)
 		} else {
@@ -1410,12 +1410,12 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fast-reroute.per-prefix.enable.prefix-priority"); value.Exists() && !data.FastReroutePerPrefixEnablePrefixPriority.IsNull() {
+	if value := res.Get(prefix+"fast-reroute.per-prefix.enable.prefix-priority"); value.Exists() && !data.FastReroutePerPrefixEnablePrefixPriority.IsNull() {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringValue(value.String())
 	} else {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringNull()
 	}
-	if value := res.Get(prefix + "redistribute.static.subnets"); !data.RedistributeStaticSubnets.IsNull() {
+	if value := res.Get(prefix+"redistribute.static.subnets"); !data.RedistributeStaticSubnets.IsNull() {
 		if value.Exists() {
 			data.RedistributeStaticSubnets = types.BoolValue(true)
 		} else {
@@ -1424,7 +1424,7 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RedistributeStaticSubnets = types.BoolNull()
 	}
-	if value := res.Get(prefix + "redistribute.connected.subnets"); !data.RedistributeConnectedSubnets.IsNull() {
+	if value := res.Get(prefix+"redistribute.connected.subnets"); !data.RedistributeConnectedSubnets.IsNull() {
 		if value.Exists() {
 			data.RedistributeConnectedSubnets = types.BoolValue(true)
 		} else {
@@ -1434,11 +1434,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		data.RedistributeConnectedSubnets = types.BoolNull()
 	}
 	for i := range data.PassiveInterfaceDisableGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.GigabitEthernet").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.GigabitEthernet").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1463,11 +1463,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTwoGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.TwoGigabitEthernet").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.TwoGigabitEthernet").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1492,11 +1492,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableFiveGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.FiveGigabitEthernet").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.FiveGigabitEthernet").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1521,11 +1521,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTenGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.TenGigabitEthernet").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.TenGigabitEthernet").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1550,11 +1550,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTwentyFiveGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.TwentyFiveGigabitE").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.TwentyFiveGigabitE").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1579,11 +1579,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableFortyGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.FortyGigabitEthernet").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.FortyGigabitEthernet").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1608,11 +1608,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.HundredGigabitE").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.HundredGigabitE").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1637,11 +1637,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTwoHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.TwoHundredGigabitE").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.TwoHundredGigabitE").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1666,11 +1666,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableFourHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.FourHundredGigabitE").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.FourHundredGigabitE").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1695,11 +1695,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableLoopbacks {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.Loopback").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.Loopback").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1724,11 +1724,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableVlans {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableVlans[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableVlans[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.Vlan").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.Vlan").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1753,11 +1753,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTunnels {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTunnels[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTunnels[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.Tunnel").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.Tunnel").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1782,11 +1782,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisablePortChannels {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannels[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannels[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.Port-channel").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.Port-channel").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1811,11 +1811,11 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisablePortChannelSubinterfaces {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "passive-interface-config.disable-interface.Port-channel-subinterface.Port-channel").ForEach(
+		res.Get(prefix+"passive-interface-config.disable-interface.Port-channel-subinterface.Port-channel").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1846,12 +1846,12 @@ func (data *OSPF) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.ProcessId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.ProcessId.IsNull() {
 		data.ProcessId = types.Int64Value(value.Int())
 	} else {
 		data.ProcessId = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/all-interfaces"); !data.BfdAllInterfaces.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/all-interfaces"); !data.BfdAllInterfaces.IsNull() {
 		if value.Exists() {
 			data.BfdAllInterfaces = types.BoolValue(true)
 		} else {
@@ -1860,7 +1860,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.BfdAllInterfaces = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-information/originate"); !data.DefaultInformationOriginate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-information/originate"); !data.DefaultInformationOriginate.IsNull() {
 		if value.Exists() {
 			data.DefaultInformationOriginate = types.BoolValue(true)
 		} else {
@@ -1869,7 +1869,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.DefaultInformationOriginate = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-information/originate/always"); !data.DefaultInformationOriginateAlways.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-information/originate/always"); !data.DefaultInformationOriginateAlways.IsNull() {
 		if value.Exists() {
 			data.DefaultInformationOriginateAlways = types.BoolValue(true)
 		} else {
@@ -1878,22 +1878,22 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.DefaultInformationOriginateAlways = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-metric"); value.Exists() && !data.DefaultMetric.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-metric"); value.Exists() && !data.DefaultMetric.IsNull() {
 		data.DefaultMetric = types.Int64Value(value.Int())
 	} else {
 		data.DefaultMetric = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/distance/distance"); value.Exists() && !data.Distance.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/distance/distance"); value.Exists() && !data.Distance.IsNull() {
 		data.Distance = types.Int64Value(value.Int())
 	} else {
 		data.Distance = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-tag"); value.Exists() && !data.DomainTag.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-tag"); value.Exists() && !data.DomainTag.IsNull() {
 		data.DomainTag = types.Int64Value(value.Int())
 	} else {
 		data.DomainTag = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mpls/ldp/autoconfig"); !data.MplsLdpAutoconfig.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mpls/ldp/autoconfig"); !data.MplsLdpAutoconfig.IsNull() {
 		if value.Exists() {
 			data.MplsLdpAutoconfig = types.BoolValue(true)
 		} else {
@@ -1902,7 +1902,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MplsLdpAutoconfig = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mpls/ldp/sync"); !data.MplsLdpSync.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mpls/ldp/sync"); !data.MplsLdpSync.IsNull() {
 		if value.Exists() {
 			data.MplsLdpSync = types.BoolValue(true)
 		} else {
@@ -1912,11 +1912,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		data.MplsLdpSync = types.BoolNull()
 	}
 	for i := range data.Neighbors {
-		keys := [...]string{"ip"}
-		keyValues := [...]string{data.Neighbors[i].Ip.ValueString()}
+		keys := [...]string{ "ip",  }
+		keyValues := [...]string{ data.Neighbors[i].Ip.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/neighbor").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/neighbor").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1951,11 +1951,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Networks {
-		keys := [...]string{"ip", "wildcard"}
-		keyValues := [...]string{data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString()}
+		keys := [...]string{ "ip", "wildcard",  }
+		keyValues := [...]string{ data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/network").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/network").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1989,17 +1989,17 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.Networks[i].Area = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/priority"); value.Exists() && !data.Priority.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/priority"); value.Exists() && !data.Priority.IsNull() {
 		data.Priority = types.Int64Value(value.Int())
 	} else {
 		data.Priority = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/router-id"); value.Exists() && !data.RouterId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/router-id"); value.Exists() && !data.RouterId.IsNull() {
 		data.RouterId = types.StringValue(value.String())
 	} else {
 		data.RouterId = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); !data.Shutdown.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(value.Bool())
 		}
@@ -2007,11 +2007,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		data.Shutdown = types.BoolNull()
 	}
 	for i := range data.SummaryAddresses {
-		keys := [...]string{"ip", "mask"}
-		keyValues := [...]string{data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString()}
+		keys := [...]string{ "ip", "mask",  }
+		keyValues := [...]string{ data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/summary-address").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/summary-address").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2041,11 +2041,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Areas {
-		keys := [...]string{"area-id"}
-		keyValues := [...]string{data.Areas[i].AreaId.ValueString()}
+		keys := [...]string{ "area-id",  }
+		keyValues := [...]string{ data.Areas[i].AreaId.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/area").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/area").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2124,31 +2124,31 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.Areas[i].NssaNoRedistribution = types.BoolNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/auto-cost/reference-bandwidth"); value.Exists() && !data.AutoCostReferenceBandwidth.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/auto-cost/reference-bandwidth"); value.Exists() && !data.AutoCostReferenceBandwidth.IsNull() {
 		data.AutoCostReferenceBandwidth = types.Int64Value(value.Int())
 	} else {
 		data.AutoCostReferenceBandwidth = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface/default"); !data.PassiveInterfaceDefault.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface/default"); !data.PassiveInterfaceDefault.IsNull() {
 		if value.Exists() {
 			data.PassiveInterfaceDefault = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.PassiveInterfaceDefault = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface/interface"); value.Exists() && !data.PassiveInterface.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface/interface"); value.Exists() && !data.PassiveInterface.IsNull() {
 		data.PassiveInterface = helpers.GetStringListXML(value.Array())
 	} else {
 		data.PassiveInterface = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adjacency-changes-detail/log-adjacency-changes/detail"); !data.LogAdjacencyChangesDetail.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adjacency-changes-detail/log-adjacency-changes/detail"); !data.LogAdjacencyChangesDetail.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChangesDetail = types.BoolValue(true)
 		} else {
@@ -2157,7 +2157,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LogAdjacencyChangesDetail = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-cisco"); !data.NsfCisco.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-cisco"); !data.NsfCisco.IsNull() {
 		if value.Exists() {
 			data.NsfCisco = types.BoolValue(true)
 		} else {
@@ -2166,7 +2166,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.NsfCisco = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-cisco/enforce/global"); !data.NsfCiscoEnforceGlobal.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-cisco/enforce/global"); !data.NsfCiscoEnforceGlobal.IsNull() {
 		if value.Exists() {
 			data.NsfCiscoEnforceGlobal = types.BoolValue(true)
 		} else {
@@ -2175,7 +2175,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.NsfCiscoEnforceGlobal = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-ietf"); !data.NsfIetf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-ietf"); !data.NsfIetf.IsNull() {
 		if value.Exists() {
 			data.NsfIetf = types.BoolValue(true)
 		} else {
@@ -2184,12 +2184,12 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.NsfIetf = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-ietf/restart-interval"); value.Exists() && !data.NsfIetfRestartInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-ietf/restart-interval"); value.Exists() && !data.NsfIetfRestartInterval.IsNull() {
 		data.NsfIetfRestartInterval = types.Int64Value(value.Int())
 	} else {
 		data.NsfIetfRestartInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa"); !data.MaxMetricRouterLsa.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa"); !data.MaxMetricRouterLsa.IsNull() {
 		if value.Exists() {
 			data.MaxMetricRouterLsa = types.BoolValue(true)
 		} else {
@@ -2198,17 +2198,17 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MaxMetricRouterLsa = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/summary-lsa/metric"); value.Exists() && !data.MaxMetricRouterLsaSummaryLsaMetric.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/summary-lsa/metric"); value.Exists() && !data.MaxMetricRouterLsaSummaryLsaMetric.IsNull() {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Value(value.Int())
 	} else {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/external-lsa/metric"); value.Exists() && !data.MaxMetricRouterLsaExternalLsaMetric.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/external-lsa/metric"); value.Exists() && !data.MaxMetricRouterLsaExternalLsaMetric.IsNull() {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Value(value.Int())
 	} else {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/include-stub"); !data.MaxMetricRouterLsaIncludeStub.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/include-stub"); !data.MaxMetricRouterLsaIncludeStub.IsNull() {
 		if value.Exists() {
 			data.MaxMetricRouterLsaIncludeStub = types.BoolValue(true)
 		} else {
@@ -2217,12 +2217,12 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/on-startup/time"); value.Exists() && !data.MaxMetricRouterLsaOnStartupTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/on-startup/time"); value.Exists() && !data.MaxMetricRouterLsaOnStartupTime.IsNull() {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Value(value.Int())
 	} else {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/on-startup/wait-for-bgp"); !data.MaxMetricRouterLsaOnStartupWaitForBgp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/on-startup/wait-for-bgp"); !data.MaxMetricRouterLsaOnStartupWaitForBgp.IsNull() {
 		if value.Exists() {
 			data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(true)
 		} else {
@@ -2231,12 +2231,12 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fast-reroute/per-prefix/enable/prefix-priority"); value.Exists() && !data.FastReroutePerPrefixEnablePrefixPriority.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fast-reroute/per-prefix/enable/prefix-priority"); value.Exists() && !data.FastReroutePerPrefixEnablePrefixPriority.IsNull() {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringValue(value.String())
 	} else {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redistribute/static/subnets"); !data.RedistributeStaticSubnets.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redistribute/static/subnets"); !data.RedistributeStaticSubnets.IsNull() {
 		if value.Exists() {
 			data.RedistributeStaticSubnets = types.BoolValue(true)
 		} else {
@@ -2245,7 +2245,7 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.RedistributeStaticSubnets = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redistribute/connected/subnets"); !data.RedistributeConnectedSubnets.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redistribute/connected/subnets"); !data.RedistributeConnectedSubnets.IsNull() {
 		if value.Exists() {
 			data.RedistributeConnectedSubnets = types.BoolValue(true)
 		} else {
@@ -2255,11 +2255,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		data.RedistributeConnectedSubnets = types.BoolNull()
 	}
 	for i := range data.PassiveInterfaceDisableGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/GigabitEthernet").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/GigabitEthernet").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2284,11 +2284,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTwoGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwoGigabitEthernet").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwoGigabitEthernet").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2313,11 +2313,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableFiveGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FiveGigabitEthernet").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FiveGigabitEthernet").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2342,11 +2342,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTenGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TenGigabitEthernet").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TenGigabitEthernet").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2371,11 +2371,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTwentyFiveGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwentyFiveGigabitE").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwentyFiveGigabitE").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2400,11 +2400,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableFortyGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FortyGigabitEthernet").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FortyGigabitEthernet").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2429,11 +2429,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/HundredGigabitE").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/HundredGigabitE").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2458,11 +2458,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTwoHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwoHundredGigabitE").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwoHundredGigabitE").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2487,11 +2487,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableFourHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FourHundredGigabitE").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FourHundredGigabitE").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2516,11 +2516,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableLoopbacks {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Loopback").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Loopback").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2545,11 +2545,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableVlans {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableVlans[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableVlans[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Vlan").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Vlan").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2574,11 +2574,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisableTunnels {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTunnels[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTunnels[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Tunnel").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Tunnel").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2603,11 +2603,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisablePortChannels {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannels[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannels[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Port-channel").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Port-channel").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2632,11 +2632,11 @@ func (data *OSPF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PassiveInterfaceDisablePortChannelSubinterfaces {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2671,41 +2671,41 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "bfd.all-interfaces"); value.Exists() {
+	if value := res.Get(prefix+"bfd.all-interfaces"); value.Exists() {
 		data.BfdAllInterfaces = types.BoolValue(true)
 	} else {
 		data.BfdAllInterfaces = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-information.originate"); value.Exists() {
+	if value := res.Get(prefix+"default-information.originate"); value.Exists() {
 		data.DefaultInformationOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-information.originate.always"); value.Exists() {
+	if value := res.Get(prefix+"default-information.originate.always"); value.Exists() {
 		data.DefaultInformationOriginateAlways = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginateAlways = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-metric"); value.Exists() {
+	if value := res.Get(prefix+"default-metric"); value.Exists() {
 		data.DefaultMetric = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "distance.distance"); value.Exists() {
+	if value := res.Get(prefix+"distance.distance"); value.Exists() {
 		data.Distance = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "domain-tag"); value.Exists() {
+	if value := res.Get(prefix+"domain-tag"); value.Exists() {
 		data.DomainTag = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "mpls.ldp.autoconfig"); value.Exists() {
+	if value := res.Get(prefix+"mpls.ldp.autoconfig"); value.Exists() {
 		data.MplsLdpAutoconfig = types.BoolValue(true)
 	} else {
 		data.MplsLdpAutoconfig = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "mpls.ldp.sync"); value.Exists() {
+	if value := res.Get(prefix+"mpls.ldp.sync"); value.Exists() {
 		data.MplsLdpSync = types.BoolValue(true)
 	} else {
 		data.MplsLdpSync = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "neighbor"); value.Exists() {
+	if value := res.Get(prefix+"neighbor"); value.Exists() {
 		data.Neighbors = make([]OSPFNeighbors, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFNeighbors{}
@@ -2722,7 +2722,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "network"); value.Exists() {
+	if value := res.Get(prefix+"network"); value.Exists() {
 		data.Networks = make([]OSPFNetworks, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFNetworks{}
@@ -2739,18 +2739,18 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "priority"); value.Exists() {
+	if value := res.Get(prefix+"priority"); value.Exists() {
 		data.Priority = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "router-id"); value.Exists() {
+	if value := res.Get(prefix+"router-id"); value.Exists() {
 		data.RouterId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(value.Bool())
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := res.Get(prefix + "summary-address"); value.Exists() {
+	if value := res.Get(prefix+"summary-address"); value.Exists() {
 		data.SummaryAddresses = make([]OSPFSummaryAddresses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFSummaryAddresses{}
@@ -2764,7 +2764,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "area"); value.Exists() {
+	if value := res.Get(prefix+"area"); value.Exists() {
 		data.Areas = make([]OSPFAreas, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFAreas{}
@@ -2806,85 +2806,85 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "auto-cost.reference-bandwidth"); value.Exists() {
+	if value := res.Get(prefix+"auto-cost.reference-bandwidth"); value.Exists() {
 		data.AutoCostReferenceBandwidth = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "passive-interface.default"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface.default"); value.Exists() {
 		data.PassiveInterfaceDefault = types.BoolValue(value.Bool())
 	} else {
 		data.PassiveInterfaceDefault = types.BoolNull()
 	}
-	if value := res.Get(prefix + "passive-interface.interface"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface.interface"); value.Exists() {
 		data.PassiveInterface = helpers.GetStringList(value.Array())
 	} else {
 		data.PassiveInterface = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "log-adjacency-changes"); value.Exists() {
+	if value := res.Get(prefix+"log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adjacency-changes-detail.log-adjacency-changes.detail"); value.Exists() {
+	if value := res.Get(prefix+"log-adjacency-changes-detail.log-adjacency-changes.detail"); value.Exists() {
 		data.LogAdjacencyChangesDetail = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesDetail = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-cisco"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-cisco"); value.Exists() {
 		data.NsfCisco = types.BoolValue(true)
 	} else {
 		data.NsfCisco = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-cisco.enforce.global"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-cisco.enforce.global"); value.Exists() {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(true)
 	} else {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-ietf"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-ietf"); value.Exists() {
 		data.NsfIetf = types.BoolValue(true)
 	} else {
 		data.NsfIetf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-ietf.restart-interval"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-ietf.restart-interval"); value.Exists() {
 		data.NsfIetfRestartInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa"); value.Exists() {
 		data.MaxMetricRouterLsa = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsa = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.summary-lsa.metric"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.summary-lsa.metric"); value.Exists() {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.external-lsa.metric"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.external-lsa.metric"); value.Exists() {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.include-stub"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.include-stub"); value.Exists() {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.on-startup.time"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.on-startup.time"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.on-startup.wait-for-bgp"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.on-startup.wait-for-bgp"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fast-reroute.per-prefix.enable.prefix-priority"); value.Exists() {
+	if value := res.Get(prefix+"fast-reroute.per-prefix.enable.prefix-priority"); value.Exists() {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redistribute.static.subnets"); value.Exists() {
+	if value := res.Get(prefix+"redistribute.static.subnets"); value.Exists() {
 		data.RedistributeStaticSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeStaticSubnets = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "redistribute.connected.subnets"); value.Exists() {
+	if value := res.Get(prefix+"redistribute.connected.subnets"); value.Exists() {
 		data.RedistributeConnectedSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeConnectedSubnets = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.GigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.GigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableGigabitEthernets = make([]OSPFPassiveInterfaceDisableGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableGigabitEthernets{}
@@ -2895,7 +2895,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TwoGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TwoGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTwoGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoGigabitEthernets{}
@@ -2906,7 +2906,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.FiveGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.FiveGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableFiveGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableFiveGigabitEthernets{}
@@ -2917,7 +2917,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TenGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TenGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTenGigabitEthernets = make([]OSPFPassiveInterfaceDisableTenGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTenGigabitEthernets{}
@@ -2928,7 +2928,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TwentyFiveGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TwentyFiveGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwentyFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernets{}
@@ -2939,7 +2939,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.FortyGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.FortyGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFortyGigabitEthernets = make([]OSPFPassiveInterfaceDisableFortyGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableFortyGigabitEthernets{}
@@ -2950,7 +2950,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.HundredGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.HundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableHundredGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableHundredGigabitEthernets{}
@@ -2961,7 +2961,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TwoHundredGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TwoHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwoHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoHundredGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoHundredGigabitEthernets{}
@@ -2972,7 +2972,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.FourHundredGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.FourHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableFourHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableFourHundredGigabitEthernets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableFourHundredGigabitEthernets{}
@@ -2983,7 +2983,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Loopback"); value.Exists() {
 		data.PassiveInterfaceDisableLoopbacks = make([]OSPFPassiveInterfaceDisableLoopbacks, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableLoopbacks{}
@@ -2994,7 +2994,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Vlan"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Vlan"); value.Exists() {
 		data.PassiveInterfaceDisableVlans = make([]OSPFPassiveInterfaceDisableVlans, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableVlans{}
@@ -3005,7 +3005,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Tunnel"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Tunnel"); value.Exists() {
 		data.PassiveInterfaceDisableTunnels = make([]OSPFPassiveInterfaceDisableTunnels, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTunnels{}
@@ -3016,7 +3016,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannels = make([]OSPFPassiveInterfaceDisablePortChannels, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannels{}
@@ -3027,7 +3027,7 @@ func (data *OSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Port-channel-subinterface.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Port-channel-subinterface.Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannelSubinterfaces = make([]OSPFPassiveInterfaceDisablePortChannelSubinterfaces, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannelSubinterfaces{}
@@ -3049,41 +3049,41 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "bfd.all-interfaces"); value.Exists() {
+	if value := res.Get(prefix+"bfd.all-interfaces"); value.Exists() {
 		data.BfdAllInterfaces = types.BoolValue(true)
 	} else {
 		data.BfdAllInterfaces = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-information.originate"); value.Exists() {
+	if value := res.Get(prefix+"default-information.originate"); value.Exists() {
 		data.DefaultInformationOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-information.originate.always"); value.Exists() {
+	if value := res.Get(prefix+"default-information.originate.always"); value.Exists() {
 		data.DefaultInformationOriginateAlways = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginateAlways = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-metric"); value.Exists() {
+	if value := res.Get(prefix+"default-metric"); value.Exists() {
 		data.DefaultMetric = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "distance.distance"); value.Exists() {
+	if value := res.Get(prefix+"distance.distance"); value.Exists() {
 		data.Distance = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "domain-tag"); value.Exists() {
+	if value := res.Get(prefix+"domain-tag"); value.Exists() {
 		data.DomainTag = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "mpls.ldp.autoconfig"); value.Exists() {
+	if value := res.Get(prefix+"mpls.ldp.autoconfig"); value.Exists() {
 		data.MplsLdpAutoconfig = types.BoolValue(true)
 	} else {
 		data.MplsLdpAutoconfig = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "mpls.ldp.sync"); value.Exists() {
+	if value := res.Get(prefix+"mpls.ldp.sync"); value.Exists() {
 		data.MplsLdpSync = types.BoolValue(true)
 	} else {
 		data.MplsLdpSync = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "neighbor"); value.Exists() {
+	if value := res.Get(prefix+"neighbor"); value.Exists() {
 		data.Neighbors = make([]OSPFNeighborsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFNeighborsData{}
@@ -3100,7 +3100,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "network"); value.Exists() {
+	if value := res.Get(prefix+"network"); value.Exists() {
 		data.Networks = make([]OSPFNetworksData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFNetworksData{}
@@ -3117,18 +3117,18 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "priority"); value.Exists() {
+	if value := res.Get(prefix+"priority"); value.Exists() {
 		data.Priority = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "router-id"); value.Exists() {
+	if value := res.Get(prefix+"router-id"); value.Exists() {
 		data.RouterId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(value.Bool())
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := res.Get(prefix + "summary-address"); value.Exists() {
+	if value := res.Get(prefix+"summary-address"); value.Exists() {
 		data.SummaryAddresses = make([]OSPFSummaryAddressesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFSummaryAddressesData{}
@@ -3142,7 +3142,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "area"); value.Exists() {
+	if value := res.Get(prefix+"area"); value.Exists() {
 		data.Areas = make([]OSPFAreasData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFAreasData{}
@@ -3184,85 +3184,85 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "auto-cost.reference-bandwidth"); value.Exists() {
+	if value := res.Get(prefix+"auto-cost.reference-bandwidth"); value.Exists() {
 		data.AutoCostReferenceBandwidth = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "passive-interface.default"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface.default"); value.Exists() {
 		data.PassiveInterfaceDefault = types.BoolValue(value.Bool())
 	} else {
 		data.PassiveInterfaceDefault = types.BoolNull()
 	}
-	if value := res.Get(prefix + "passive-interface.interface"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface.interface"); value.Exists() {
 		data.PassiveInterface = helpers.GetStringList(value.Array())
 	} else {
 		data.PassiveInterface = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "log-adjacency-changes"); value.Exists() {
+	if value := res.Get(prefix+"log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adjacency-changes-detail.log-adjacency-changes.detail"); value.Exists() {
+	if value := res.Get(prefix+"log-adjacency-changes-detail.log-adjacency-changes.detail"); value.Exists() {
 		data.LogAdjacencyChangesDetail = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesDetail = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-cisco"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-cisco"); value.Exists() {
 		data.NsfCisco = types.BoolValue(true)
 	} else {
 		data.NsfCisco = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-cisco.enforce.global"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-cisco.enforce.global"); value.Exists() {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(true)
 	} else {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-ietf"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-ietf"); value.Exists() {
 		data.NsfIetf = types.BoolValue(true)
 	} else {
 		data.NsfIetf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "nsf.nsf-ietf.restart-interval"); value.Exists() {
+	if value := res.Get(prefix+"nsf.nsf-ietf.restart-interval"); value.Exists() {
 		data.NsfIetfRestartInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa"); value.Exists() {
 		data.MaxMetricRouterLsa = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsa = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.summary-lsa.metric"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.summary-lsa.metric"); value.Exists() {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.external-lsa.metric"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.external-lsa.metric"); value.Exists() {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.include-stub"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.include-stub"); value.Exists() {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.on-startup.time"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.on-startup.time"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "max-metric.router-lsa.on-startup.wait-for-bgp"); value.Exists() {
+	if value := res.Get(prefix+"max-metric.router-lsa.on-startup.wait-for-bgp"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fast-reroute.per-prefix.enable.prefix-priority"); value.Exists() {
+	if value := res.Get(prefix+"fast-reroute.per-prefix.enable.prefix-priority"); value.Exists() {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redistribute.static.subnets"); value.Exists() {
+	if value := res.Get(prefix+"redistribute.static.subnets"); value.Exists() {
 		data.RedistributeStaticSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeStaticSubnets = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "redistribute.connected.subnets"); value.Exists() {
+	if value := res.Get(prefix+"redistribute.connected.subnets"); value.Exists() {
 		data.RedistributeConnectedSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeConnectedSubnets = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.GigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.GigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableGigabitEthernets = make([]OSPFPassiveInterfaceDisableGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableGigabitEthernetsData{}
@@ -3273,7 +3273,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TwoGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TwoGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTwoGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoGigabitEthernetsData{}
@@ -3284,7 +3284,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.FiveGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.FiveGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableFiveGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableFiveGigabitEthernetsData{}
@@ -3295,7 +3295,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TenGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TenGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTenGigabitEthernets = make([]OSPFPassiveInterfaceDisableTenGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTenGigabitEthernetsData{}
@@ -3306,7 +3306,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TwentyFiveGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TwentyFiveGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwentyFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernetsData{}
@@ -3317,7 +3317,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.FortyGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.FortyGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFortyGigabitEthernets = make([]OSPFPassiveInterfaceDisableFortyGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableFortyGigabitEthernetsData{}
@@ -3328,7 +3328,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.HundredGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.HundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableHundredGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableHundredGigabitEthernetsData{}
@@ -3339,7 +3339,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.TwoHundredGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.TwoHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwoHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoHundredGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoHundredGigabitEthernetsData{}
@@ -3350,7 +3350,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.FourHundredGigabitE"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.FourHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableFourHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableFourHundredGigabitEthernetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableFourHundredGigabitEthernetsData{}
@@ -3361,7 +3361,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Loopback"); value.Exists() {
 		data.PassiveInterfaceDisableLoopbacks = make([]OSPFPassiveInterfaceDisableLoopbacksData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableLoopbacksData{}
@@ -3372,7 +3372,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Vlan"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Vlan"); value.Exists() {
 		data.PassiveInterfaceDisableVlans = make([]OSPFPassiveInterfaceDisableVlansData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableVlansData{}
@@ -3383,7 +3383,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Tunnel"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Tunnel"); value.Exists() {
 		data.PassiveInterfaceDisableTunnels = make([]OSPFPassiveInterfaceDisableTunnelsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisableTunnelsData{}
@@ -3394,7 +3394,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannels = make([]OSPFPassiveInterfaceDisablePortChannelsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannelsData{}
@@ -3405,7 +3405,7 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "passive-interface-config.disable-interface.Port-channel-subinterface.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"passive-interface-config.disable-interface.Port-channel-subinterface.Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannelSubinterfaces = make([]OSPFPassiveInterfaceDisablePortChannelSubinterfacesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannelSubinterfacesData{}
@@ -3423,41 +3423,41 @@ func (data *OSPFData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/all-interfaces"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/all-interfaces"); value.Exists() {
 		data.BfdAllInterfaces = types.BoolValue(true)
 	} else {
 		data.BfdAllInterfaces = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-information/originate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-information/originate"); value.Exists() {
 		data.DefaultInformationOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-information/originate/always"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-information/originate/always"); value.Exists() {
 		data.DefaultInformationOriginateAlways = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginateAlways = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-metric"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-metric"); value.Exists() {
 		data.DefaultMetric = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/distance/distance"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/distance/distance"); value.Exists() {
 		data.Distance = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-tag"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-tag"); value.Exists() {
 		data.DomainTag = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mpls/ldp/autoconfig"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mpls/ldp/autoconfig"); value.Exists() {
 		data.MplsLdpAutoconfig = types.BoolValue(true)
 	} else {
 		data.MplsLdpAutoconfig = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mpls/ldp/sync"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mpls/ldp/sync"); value.Exists() {
 		data.MplsLdpSync = types.BoolValue(true)
 	} else {
 		data.MplsLdpSync = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/neighbor"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/neighbor"); value.Exists() {
 		data.Neighbors = make([]OSPFNeighbors, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFNeighbors{}
@@ -3474,7 +3474,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network"); value.Exists() {
 		data.Networks = make([]OSPFNetworks, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFNetworks{}
@@ -3491,18 +3491,18 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/priority"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/priority"); value.Exists() {
 		data.Priority = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/router-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/router-id"); value.Exists() {
 		data.RouterId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(value.Bool())
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/summary-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/summary-address"); value.Exists() {
 		data.SummaryAddresses = make([]OSPFSummaryAddresses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFSummaryAddresses{}
@@ -3516,7 +3516,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/area"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/area"); value.Exists() {
 		data.Areas = make([]OSPFAreas, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFAreas{}
@@ -3558,85 +3558,85 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/auto-cost/reference-bandwidth"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/auto-cost/reference-bandwidth"); value.Exists() {
 		data.AutoCostReferenceBandwidth = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface/default"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface/default"); value.Exists() {
 		data.PassiveInterfaceDefault = types.BoolValue(value.Bool())
 	} else {
 		data.PassiveInterfaceDefault = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface/interface"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface/interface"); value.Exists() {
 		data.PassiveInterface = helpers.GetStringListXML(value.Array())
 	} else {
 		data.PassiveInterface = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adjacency-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adjacency-changes-detail/log-adjacency-changes/detail"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adjacency-changes-detail/log-adjacency-changes/detail"); value.Exists() {
 		data.LogAdjacencyChangesDetail = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesDetail = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-cisco"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-cisco"); value.Exists() {
 		data.NsfCisco = types.BoolValue(true)
 	} else {
 		data.NsfCisco = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-cisco/enforce/global"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-cisco/enforce/global"); value.Exists() {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(true)
 	} else {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-ietf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-ietf"); value.Exists() {
 		data.NsfIetf = types.BoolValue(true)
 	} else {
 		data.NsfIetf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-ietf/restart-interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-ietf/restart-interval"); value.Exists() {
 		data.NsfIetfRestartInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa"); value.Exists() {
 		data.MaxMetricRouterLsa = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsa = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/summary-lsa/metric"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/summary-lsa/metric"); value.Exists() {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/external-lsa/metric"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/external-lsa/metric"); value.Exists() {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/include-stub"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/include-stub"); value.Exists() {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/on-startup/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/on-startup/time"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/on-startup/wait-for-bgp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/on-startup/wait-for-bgp"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fast-reroute/per-prefix/enable/prefix-priority"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fast-reroute/per-prefix/enable/prefix-priority"); value.Exists() {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redistribute/static/subnets"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redistribute/static/subnets"); value.Exists() {
 		data.RedistributeStaticSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeStaticSubnets = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redistribute/connected/subnets"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redistribute/connected/subnets"); value.Exists() {
 		data.RedistributeConnectedSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeConnectedSubnets = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/GigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/GigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableGigabitEthernets = make([]OSPFPassiveInterfaceDisableGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableGigabitEthernets{}
@@ -3647,7 +3647,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwoGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwoGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTwoGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoGigabitEthernets{}
@@ -3658,7 +3658,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FiveGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FiveGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableFiveGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableFiveGigabitEthernets{}
@@ -3669,7 +3669,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TenGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TenGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTenGigabitEthernets = make([]OSPFPassiveInterfaceDisableTenGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTenGigabitEthernets{}
@@ -3680,7 +3680,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwentyFiveGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwentyFiveGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwentyFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernets{}
@@ -3691,7 +3691,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FortyGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FortyGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFortyGigabitEthernets = make([]OSPFPassiveInterfaceDisableFortyGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableFortyGigabitEthernets{}
@@ -3702,7 +3702,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/HundredGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/HundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableHundredGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableHundredGigabitEthernets{}
@@ -3713,7 +3713,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwoHundredGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwoHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwoHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoHundredGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoHundredGigabitEthernets{}
@@ -3724,7 +3724,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FourHundredGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FourHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableFourHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableFourHundredGigabitEthernets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableFourHundredGigabitEthernets{}
@@ -3735,7 +3735,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Loopback"); value.Exists() {
 		data.PassiveInterfaceDisableLoopbacks = make([]OSPFPassiveInterfaceDisableLoopbacks, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableLoopbacks{}
@@ -3746,7 +3746,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Vlan"); value.Exists() {
 		data.PassiveInterfaceDisableVlans = make([]OSPFPassiveInterfaceDisableVlans, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableVlans{}
@@ -3757,7 +3757,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Tunnel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Tunnel"); value.Exists() {
 		data.PassiveInterfaceDisableTunnels = make([]OSPFPassiveInterfaceDisableTunnels, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTunnels{}
@@ -3768,7 +3768,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannels = make([]OSPFPassiveInterfaceDisablePortChannels, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannels{}
@@ -3779,7 +3779,7 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannelSubinterfaces = make([]OSPFPassiveInterfaceDisablePortChannelSubinterfaces, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannelSubinterfaces{}
@@ -3797,41 +3797,41 @@ func (data *OSPF) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/all-interfaces"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/all-interfaces"); value.Exists() {
 		data.BfdAllInterfaces = types.BoolValue(true)
 	} else {
 		data.BfdAllInterfaces = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-information/originate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-information/originate"); value.Exists() {
 		data.DefaultInformationOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-information/originate/always"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-information/originate/always"); value.Exists() {
 		data.DefaultInformationOriginateAlways = types.BoolValue(true)
 	} else {
 		data.DefaultInformationOriginateAlways = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-metric"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-metric"); value.Exists() {
 		data.DefaultMetric = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/distance/distance"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/distance/distance"); value.Exists() {
 		data.Distance = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-tag"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-tag"); value.Exists() {
 		data.DomainTag = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mpls/ldp/autoconfig"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mpls/ldp/autoconfig"); value.Exists() {
 		data.MplsLdpAutoconfig = types.BoolValue(true)
 	} else {
 		data.MplsLdpAutoconfig = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mpls/ldp/sync"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mpls/ldp/sync"); value.Exists() {
 		data.MplsLdpSync = types.BoolValue(true)
 	} else {
 		data.MplsLdpSync = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/neighbor"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/neighbor"); value.Exists() {
 		data.Neighbors = make([]OSPFNeighborsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFNeighborsData{}
@@ -3848,7 +3848,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network"); value.Exists() {
 		data.Networks = make([]OSPFNetworksData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFNetworksData{}
@@ -3865,18 +3865,18 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/priority"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/priority"); value.Exists() {
 		data.Priority = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/router-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/router-id"); value.Exists() {
 		data.RouterId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(value.Bool())
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/summary-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/summary-address"); value.Exists() {
 		data.SummaryAddresses = make([]OSPFSummaryAddressesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFSummaryAddressesData{}
@@ -3890,7 +3890,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/area"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/area"); value.Exists() {
 		data.Areas = make([]OSPFAreasData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFAreasData{}
@@ -3932,85 +3932,85 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/auto-cost/reference-bandwidth"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/auto-cost/reference-bandwidth"); value.Exists() {
 		data.AutoCostReferenceBandwidth = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface/default"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface/default"); value.Exists() {
 		data.PassiveInterfaceDefault = types.BoolValue(value.Bool())
 	} else {
 		data.PassiveInterfaceDefault = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface/interface"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface/interface"); value.Exists() {
 		data.PassiveInterface = helpers.GetStringListXML(value.Array())
 	} else {
 		data.PassiveInterface = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adjacency-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adjacency-changes-detail/log-adjacency-changes/detail"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adjacency-changes-detail/log-adjacency-changes/detail"); value.Exists() {
 		data.LogAdjacencyChangesDetail = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesDetail = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-cisco"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-cisco"); value.Exists() {
 		data.NsfCisco = types.BoolValue(true)
 	} else {
 		data.NsfCisco = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-cisco/enforce/global"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-cisco/enforce/global"); value.Exists() {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(true)
 	} else {
 		data.NsfCiscoEnforceGlobal = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-ietf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-ietf"); value.Exists() {
 		data.NsfIetf = types.BoolValue(true)
 	} else {
 		data.NsfIetf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/nsf/nsf-ietf/restart-interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/nsf/nsf-ietf/restart-interval"); value.Exists() {
 		data.NsfIetfRestartInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa"); value.Exists() {
 		data.MaxMetricRouterLsa = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsa = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/summary-lsa/metric"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/summary-lsa/metric"); value.Exists() {
 		data.MaxMetricRouterLsaSummaryLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/external-lsa/metric"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/external-lsa/metric"); value.Exists() {
 		data.MaxMetricRouterLsaExternalLsaMetric = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/include-stub"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/include-stub"); value.Exists() {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaIncludeStub = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/on-startup/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/on-startup/time"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/max-metric/router-lsa/on-startup/wait-for-bgp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/max-metric/router-lsa/on-startup/wait-for-bgp"); value.Exists() {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(true)
 	} else {
 		data.MaxMetricRouterLsaOnStartupWaitForBgp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fast-reroute/per-prefix/enable/prefix-priority"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fast-reroute/per-prefix/enable/prefix-priority"); value.Exists() {
 		data.FastReroutePerPrefixEnablePrefixPriority = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redistribute/static/subnets"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redistribute/static/subnets"); value.Exists() {
 		data.RedistributeStaticSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeStaticSubnets = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redistribute/connected/subnets"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redistribute/connected/subnets"); value.Exists() {
 		data.RedistributeConnectedSubnets = types.BoolValue(true)
 	} else {
 		data.RedistributeConnectedSubnets = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/GigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/GigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableGigabitEthernets = make([]OSPFPassiveInterfaceDisableGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableGigabitEthernetsData{}
@@ -4021,7 +4021,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwoGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwoGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTwoGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoGigabitEthernetsData{}
@@ -4032,7 +4032,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FiveGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FiveGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableFiveGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableFiveGigabitEthernetsData{}
@@ -4043,7 +4043,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TenGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TenGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableTenGigabitEthernets = make([]OSPFPassiveInterfaceDisableTenGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTenGigabitEthernetsData{}
@@ -4054,7 +4054,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwentyFiveGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwentyFiveGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwentyFiveGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwentyFiveGigabitEthernetsData{}
@@ -4065,7 +4065,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FortyGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FortyGigabitEthernet"); value.Exists() {
 		data.PassiveInterfaceDisableFortyGigabitEthernets = make([]OSPFPassiveInterfaceDisableFortyGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableFortyGigabitEthernetsData{}
@@ -4076,7 +4076,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/HundredGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/HundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableHundredGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableHundredGigabitEthernetsData{}
@@ -4087,7 +4087,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/TwoHundredGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/TwoHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableTwoHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableTwoHundredGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTwoHundredGigabitEthernetsData{}
@@ -4098,7 +4098,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/FourHundredGigabitE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/FourHundredGigabitE"); value.Exists() {
 		data.PassiveInterfaceDisableFourHundredGigabitEthernets = make([]OSPFPassiveInterfaceDisableFourHundredGigabitEthernetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableFourHundredGigabitEthernetsData{}
@@ -4109,7 +4109,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Loopback"); value.Exists() {
 		data.PassiveInterfaceDisableLoopbacks = make([]OSPFPassiveInterfaceDisableLoopbacksData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableLoopbacksData{}
@@ -4120,7 +4120,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Vlan"); value.Exists() {
 		data.PassiveInterfaceDisableVlans = make([]OSPFPassiveInterfaceDisableVlansData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableVlansData{}
@@ -4131,7 +4131,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Tunnel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Tunnel"); value.Exists() {
 		data.PassiveInterfaceDisableTunnels = make([]OSPFPassiveInterfaceDisableTunnelsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisableTunnelsData{}
@@ -4142,7 +4142,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannels = make([]OSPFPassiveInterfaceDisablePortChannelsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannelsData{}
@@ -4153,7 +4153,7 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel"); value.Exists() {
 		data.PassiveInterfaceDisablePortChannelSubinterfaces = make([]OSPFPassiveInterfaceDisablePortChannelSubinterfacesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := OSPFPassiveInterfaceDisablePortChannelSubinterfacesData{}
@@ -4173,8 +4173,8 @@ func (data *OSPFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.PassiveInterfaceDisablePortChannelSubinterfaces {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4198,8 +4198,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisablePortChannels {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisablePortChannels[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisablePortChannels[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisablePortChannels[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4223,8 +4223,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTunnels {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTunnels[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTunnels[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTunnels[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4248,8 +4248,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableVlans {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableVlans[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableVlans[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableVlans[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4273,8 +4273,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableLoopbacks {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableLoopbacks[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4298,8 +4298,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableFourHundredGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4323,8 +4323,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTwoHundredGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4348,8 +4348,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableHundredGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4373,8 +4373,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableFortyGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4398,8 +4398,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTwentyFiveGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4423,8 +4423,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTenGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4448,8 +4448,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableFiveGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4473,8 +4473,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTwoGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4498,8 +4498,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.PassiveInterfaceDisableGigabitEthernets {
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4595,8 +4595,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/auto-cost/reference-bandwidth", state.getPath()))
 	}
 	for i := range state.Areas {
-		stateKeyValues := [...]string{state.Areas[i].AreaId.ValueString()}
-
+		stateKeyValues := [...]string{ state.Areas[i].AreaId.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Areas[i].AreaId.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4641,8 +4641,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.SummaryAddresses {
-		stateKeyValues := [...]string{state.SummaryAddresses[i].Ip.ValueString(), state.SummaryAddresses[i].Mask.ValueString()}
-
+		stateKeyValues := [...]string{ state.SummaryAddresses[i].Ip.ValueString(), state.SummaryAddresses[i].Mask.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.SummaryAddresses[i].Ip.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4681,8 +4681,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/priority", state.getPath()))
 	}
 	for i := range state.Networks {
-		stateKeyValues := [...]string{state.Networks[i].Ip.ValueString(), state.Networks[i].Wildcard.ValueString()}
-
+		stateKeyValues := [...]string{ state.Networks[i].Ip.ValueString(), state.Networks[i].Wildcard.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Networks[i].Ip.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4715,8 +4715,8 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 		}
 	}
 	for i := range state.Neighbors {
-		stateKeyValues := [...]string{state.Neighbors[i].Ip.ValueString()}
-
+		stateKeyValues := [...]string{ state.Neighbors[i].Ip.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Neighbors[i].Ip.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4780,13 +4780,13 @@ func (data *OSPF) getDeletedItems(ctx context.Context, state OSPF) []string {
 func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.PassiveInterfaceDisablePortChannelSubinterfaces {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4810,13 +4810,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisablePortChannels {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisablePortChannels[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisablePortChannels[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisablePortChannels[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4840,13 +4840,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTunnels {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTunnels[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTunnels[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTunnels[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4870,13 +4870,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableVlans {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableVlans[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableVlans[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableVlans[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4900,13 +4900,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableLoopbacks {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableLoopbacks[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4930,13 +4930,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableFourHundredGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4960,13 +4960,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTwoHundredGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4990,13 +4990,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableHundredGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5020,13 +5020,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableFortyGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5050,13 +5050,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTwentyFiveGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5080,13 +5080,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTenGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5110,13 +5110,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableFiveGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5140,13 +5140,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableTwoGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5170,13 +5170,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.PassiveInterfaceDisableGigabitEthernets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5276,13 +5276,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/auto-cost/reference-bandwidth")
 	}
 	for i := range state.Areas {
-		stateKeys := [...]string{"area-id"}
-		stateKeyValues := [...]string{state.Areas[i].AreaId.ValueString()}
+		stateKeys := [...]string{ "area-id",  }
+		stateKeyValues := [...]string{ state.Areas[i].AreaId.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Areas[i].AreaId.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5327,13 +5327,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.SummaryAddresses {
-		stateKeys := [...]string{"ip", "mask"}
-		stateKeyValues := [...]string{state.SummaryAddresses[i].Ip.ValueString(), state.SummaryAddresses[i].Mask.ValueString()}
+		stateKeys := [...]string{ "ip", "mask",  }
+		stateKeyValues := [...]string{ state.SummaryAddresses[i].Ip.ValueString(), state.SummaryAddresses[i].Mask.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.SummaryAddresses[i].Ip.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5372,13 +5372,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/priority")
 	}
 	for i := range state.Networks {
-		stateKeys := [...]string{"ip", "wildcard"}
-		stateKeyValues := [...]string{state.Networks[i].Ip.ValueString(), state.Networks[i].Wildcard.ValueString()}
+		stateKeys := [...]string{ "ip", "wildcard",  }
+		stateKeyValues := [...]string{ state.Networks[i].Ip.ValueString(), state.Networks[i].Wildcard.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Networks[i].Ip.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5411,13 +5411,13 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 		}
 	}
 	for i := range state.Neighbors {
-		stateKeys := [...]string{"ip"}
-		stateKeyValues := [...]string{state.Neighbors[i].Ip.ValueString()}
+		stateKeys := [...]string{ "ip",  }
+		stateKeyValues := [...]string{ state.Neighbors[i].Ip.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Neighbors[i].Ip.ValueString()).IsZero() {
 			emptyKeys = false
@@ -5481,7 +5481,34 @@ func (data *OSPF) addDeletedItemsXML(ctx context.Context, state OSPF, body strin
 
 func (data *OSPF) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	if !data.RedistributeConnectedSubnets.IsNull() && !data.RedistributeConnectedSubnets.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/redistribute/connected/subnets", data.getPath()))
 	}
@@ -5509,9 +5536,10 @@ func (data *OSPF) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.LogAdjacencyChangesDetail.IsNull() && !data.LogAdjacencyChangesDetail.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/log-adjacency-changes-detail/log-adjacency-changes/detail", data.getPath()))
 	}
-
+	
+	
 	for i := range data.Areas {
-		keyValues := [...]string{data.Areas[i].AreaId.ValueString()}
+		keyValues := [...]string{ data.Areas[i].AreaId.ValueString(),  }
 		if !data.Areas[i].NssaNoRedistribution.IsNull() && !data.Areas[i].NssaNoRedistribution.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/area=%v/nssa/nssa-options/no-redistribution", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -5528,7 +5556,12 @@ func (data *OSPF) getEmptyLeafsDelete(ctx context.Context) []string {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/area=%v/authentication/message-digest", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
+	
+	
+	
+	
 	if !data.MplsLdpSync.IsNull() && !data.MplsLdpSync.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/mpls/ldp/sync", data.getPath()))
 	}
@@ -5555,72 +5588,72 @@ func (data *OSPF) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *OSPF) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.PassiveInterfaceDisablePortChannelSubinterfaces {
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisablePortChannels {
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannels[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannels[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/Port-channel=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableTunnels {
-		keyValues := [...]string{data.PassiveInterfaceDisableTunnels[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableTunnels[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/Tunnel=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableVlans {
-		keyValues := [...]string{data.PassiveInterfaceDisableVlans[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableVlans[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/Vlan=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableLoopbacks {
-		keyValues := [...]string{data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/Loopback=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableFourHundredGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/FourHundredGigabitE=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableTwoHundredGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/TwoHundredGigabitE=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableHundredGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/HundredGigabitE=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableFortyGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/FortyGigabitEthernet=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableTwentyFiveGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/TwentyFiveGigabitE=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableTenGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/TenGigabitEthernet=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableFiveGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/FiveGigabitEthernet=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableTwoGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/TwoGigabitEthernet=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PassiveInterfaceDisableGigabitEthernets {
-		keyValues := [...]string{data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()}
+		keyValues := [...]string{ data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/passive-interface-config/disable-interface/GigabitEthernet=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5679,12 +5712,12 @@ func (data *OSPF) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/auto-cost/reference-bandwidth", data.getPath()))
 	}
 	for i := range data.Areas {
-		keyValues := [...]string{data.Areas[i].AreaId.ValueString()}
+		keyValues := [...]string{ data.Areas[i].AreaId.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/area=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.SummaryAddresses {
-		keyValues := [...]string{data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString()}
+		keyValues := [...]string{ data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/summary-address=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5698,12 +5731,12 @@ func (data *OSPF) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/priority", data.getPath()))
 	}
 	for i := range data.Networks {
-		keyValues := [...]string{data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString()}
+		keyValues := [...]string{ data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/network=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Neighbors {
-		keyValues := [...]string{data.Neighbors[i].Ip.ValueString()}
+		keyValues := [...]string{ data.Neighbors[i].Ip.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/neighbor=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5742,8 +5775,8 @@ func (data *OSPF) getDeletePaths(ctx context.Context) []string {
 func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.PassiveInterfaceDisablePortChannelSubinterfaces {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannelSubinterfaces[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5752,8 +5785,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/Port-channel-subinterface/Port-channel%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisablePortChannels {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisablePortChannels[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisablePortChannels[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5762,8 +5795,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/Port-channel%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableTunnels {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTunnels[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTunnels[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5772,8 +5805,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/Tunnel%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableVlans {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableVlans[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableVlans[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5782,8 +5815,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/Vlan%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableLoopbacks {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableLoopbacks[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5792,8 +5825,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/Loopback%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableFourHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFourHundredGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5802,8 +5835,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/FourHundredGigabitE%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableTwoHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoHundredGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5812,8 +5845,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/TwoHundredGigabitE%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableHundredGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableHundredGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5822,8 +5855,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/HundredGigabitE%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableFortyGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFortyGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5832,8 +5865,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/FortyGigabitEthernet%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableTwentyFiveGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwentyFiveGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5842,8 +5875,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/TwentyFiveGigabitE%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableTenGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTenGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5852,8 +5885,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/TenGigabitEthernet%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableFiveGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableFiveGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5862,8 +5895,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/FiveGigabitEthernet%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableTwoGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableTwoGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5872,8 +5905,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/passive-interface-config/disable-interface/TwoGigabitEthernet%v", predicates))
 	}
 	for i := range data.PassiveInterfaceDisableGigabitEthernets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PassiveInterfaceDisableGigabitEthernets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5940,8 +5973,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/auto-cost/reference-bandwidth")
 	}
 	for i := range data.Areas {
-		keys := [...]string{"area-id"}
-		keyValues := [...]string{data.Areas[i].AreaId.ValueString()}
+		keys := [...]string{ "area-id",  }
+		keyValues := [...]string{ data.Areas[i].AreaId.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5950,8 +5983,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/area%v", predicates))
 	}
 	for i := range data.SummaryAddresses {
-		keys := [...]string{"ip", "mask"}
-		keyValues := [...]string{data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString()}
+		keys := [...]string{ "ip", "mask",  }
+		keyValues := [...]string{ data.SummaryAddresses[i].Ip.ValueString(), data.SummaryAddresses[i].Mask.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5969,8 +6002,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/priority")
 	}
 	for i := range data.Networks {
-		keys := [...]string{"ip", "wildcard"}
-		keyValues := [...]string{data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString()}
+		keys := [...]string{ "ip", "wildcard",  }
+		keyValues := [...]string{ data.Networks[i].Ip.ValueString(), data.Networks[i].Wildcard.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5979,8 +6012,8 @@ func (data *OSPF) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/network%v", predicates))
 	}
 	for i := range data.Neighbors {
-		keys := [...]string{"ip"}
-		keyValues := [...]string{data.Neighbors[i].Ip.ValueString()}
+		keys := [...]string{ "ip",  }
+		keyValues := [...]string{ data.Neighbors[i].Ip.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

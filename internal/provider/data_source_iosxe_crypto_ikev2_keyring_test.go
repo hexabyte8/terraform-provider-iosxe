@@ -43,7 +43,7 @@ func TestAccDataSourceIosxeCryptoIKEv2Keyring(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCryptoIKEv2KeyringConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,9 +69,9 @@ func testAccDataSourceIosxeCryptoIKEv2KeyringConfig() string {
 	config += `		pre_shared_key_local = "cisco123"` + "\n"
 	config += `		pre_shared_key_remote_encryption = "6"` + "\n"
 	config += `		pre_shared_key_remote = "cisco123"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_ikev2_keyring" "test" {
 			name = "keyring1"

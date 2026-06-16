@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeVLANFilter(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vlan_filter.test", "word", "VAM1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vlan_filter.test", "vlan_lists.0", "1"))
@@ -45,19 +43,19 @@ func TestAccIosxeVLANFilter(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeVLANFilterPrerequisitesConfig + testAccIosxeVLANFilterConfig_minimum(),
+				Config: testAccIosxeVLANFilterPrerequisitesConfig+testAccIosxeVLANFilterConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeVLANFilterPrerequisitesConfig + testAccIosxeVLANFilterConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeVLANFilterPrerequisitesConfig+testAccIosxeVLANFilterConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_vlan_filter.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeVLANFilterImportStateIdFunc("iosxe_vlan_filter.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_vlan_filter.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeVLANFilterImportStateIdFunc("iosxe_vlan_filter.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -89,7 +87,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

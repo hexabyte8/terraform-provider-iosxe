@@ -23,33 +23,33 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type VLANGroup struct {
-	Device    types.String `tfsdk:"device"`
-	Id        types.String `tfsdk:"id"`
-	Name      types.String `tfsdk:"name"`
-	VlanLists types.List   `tfsdk:"vlan_lists"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	VlanLists types.List `tfsdk:"vlan_lists"`
 }
 
 type VLANGroupData struct {
-	Device    types.String `tfsdk:"device"`
-	Id        types.String `tfsdk:"id"`
-	Name      types.String `tfsdk:"name"`
-	VlanLists types.List   `tfsdk:"vlan_lists"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	VlanLists types.List `tfsdk:"vlan_lists"`
 }
 
 // End of section. //template:end types
@@ -112,13 +112,13 @@ func (data VLANGroup) toBody(ctx context.Context, config VLANGroup) string {
 func (data VLANGroup) toBodyXML(ctx context.Context, config VLANGroup) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.VlanLists.IsNull() && !data.VlanLists.IsUnknown() {
 		var values []int
 		data.VlanLists.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/vlan-lists", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/vlan-lists", v)
 		}
 	}
 	bodyString, err := body.String()
@@ -137,12 +137,12 @@ func (data *VLANGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "vlan-lists"); value.Exists() && !data.VlanLists.IsNull() {
+	if value := res.Get(prefix+"vlan-lists"); value.Exists() && !data.VlanLists.IsNull() {
 		data.VlanLists = helpers.GetInt64List(value.Array())
 	} else {
 		data.VlanLists = types.ListNull(types.Int64Type)
@@ -154,12 +154,12 @@ func (data *VLANGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *VLANGroup) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan-lists"); value.Exists() && !data.VlanLists.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan-lists"); value.Exists() && !data.VlanLists.IsNull() {
 		data.VlanLists = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.VlanLists = types.ListNull(types.Int64Type)
@@ -175,7 +175,7 @@ func (data *VLANGroup) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vlan-lists"); value.Exists() {
+	if value := res.Get(prefix+"vlan-lists"); value.Exists() {
 		data.VlanLists = helpers.GetInt64List(value.Array())
 	} else {
 		data.VlanLists = types.ListNull(types.Int64Type)
@@ -191,7 +191,7 @@ func (data *VLANGroupData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vlan-lists"); value.Exists() {
+	if value := res.Get(prefix+"vlan-lists"); value.Exists() {
 		data.VlanLists = helpers.GetInt64List(value.Array())
 	} else {
 		data.VlanLists = types.ListNull(types.Int64Type)
@@ -203,7 +203,7 @@ func (data *VLANGroupData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *VLANGroup) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan-lists"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan-lists"); value.Exists() {
 		data.VlanLists = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.VlanLists = types.ListNull(types.Int64Type)
@@ -215,7 +215,7 @@ func (data *VLANGroup) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *VLANGroupData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan-lists"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan-lists"); value.Exists() {
 		data.VlanLists = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.VlanLists = types.ListNull(types.Int64Type)

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -60,15 +59,15 @@ func TestAccIosxeAAAAccounting(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeAAAAccountingConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_aaa_accounting.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeAAAAccountingImportStateIdFunc("iosxe_aaa_accounting.test"),
-				ImportStateVerifyIgnore: []string{"commands.0.broadcast", "commands.0.group_broadcast", "commands.0.group_logger", "dot1x_default_start_stop_broadcast", "dot1x_default_start_stop_group_broadcast", "dot1x_default_start_stop_group_logger", "dot1x.0.start_stop_broadcast", "dot1x.0.start_stop_group_broadcast", "dot1x.0.start_stop_group_logger"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_aaa_accounting.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeAAAAccountingImportStateIdFunc("iosxe_aaa_accounting.test"),
+				ImportStateVerifyIgnore: []string{ "commands.0.broadcast","commands.0.group_broadcast","commands.0.group_logger","dot1x_default_start_stop_broadcast","dot1x_default_start_stop_group_broadcast","dot1x_default_start_stop_group_logger","dot1x.0.start_stop_broadcast","dot1x.0.start_stop_group_broadcast","dot1x.0.start_stop_group_logger", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +80,7 @@ func TestAccIosxeAAAAccounting(t *testing.T) {
 func iosxeAAAAccountingImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

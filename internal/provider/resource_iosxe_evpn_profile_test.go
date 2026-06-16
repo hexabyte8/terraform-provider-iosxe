@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeEVPNProfile(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_evpn_profile.test", "name", "MY_EVPN_PROFILE"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_evpn_profile.test", "evi_base", "1000"))
@@ -50,15 +48,15 @@ func TestAccIosxeEVPNProfile(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeEVPNProfileConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_evpn_profile.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeEVPNProfileImportStateIdFunc("iosxe_evpn_profile.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_evpn_profile.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeEVPNProfileImportStateIdFunc("iosxe_evpn_profile.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

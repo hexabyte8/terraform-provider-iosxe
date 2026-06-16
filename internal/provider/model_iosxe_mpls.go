@@ -25,53 +25,53 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type MPLS struct {
-	Device                              types.String `tfsdk:"device"`
-	Id                                  types.String `tfsdk:"id"`
-	DeleteMode                          types.String `tfsdk:"delete_mode"`
-	LabelProtocol                       types.String `tfsdk:"label_protocol"`
-	LabelModeAllVrfsAllAfsPerVrf        types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_per_vrf"`
-	LabelModeAllVrfsAllAfsPerPrefix     types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_per_prefix"`
-	LabelModeAllVrfsAllAfsPerCe         types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_per_ce"`
-	LabelModeAllVrfsAllAfsVrfConnAggr   types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_vrf_conn_aggr"`
-	LabelModeAllVrfsBgpVpnv4PerVrf      types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_vrf"`
-	LabelModeAllVrfsBgpVpnv4PerPrefix   types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_prefix"`
-	LabelModeAllVrfsBgpVpnv4PerCe       types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_ce"`
-	LabelModeAllVrfsBgpVpnv4VrfConnAggr types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_vrf_conn_aggr"`
-	LabelModeAllVrfsBgpVpnv6PerVrf      types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_vrf"`
-	LabelModeAllVrfsBgpVpnv6PerPrefix   types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_prefix"`
-	LabelModeAllVrfsBgpVpnv6PerCe       types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_ce"`
-	LabelModeAllVrfsBgpVpnv6VrfConnAggr types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_vrf_conn_aggr"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	LabelProtocol types.String `tfsdk:"label_protocol"`
+	LabelModeAllVrfsAllAfsPerVrf types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_per_vrf"`
+	LabelModeAllVrfsAllAfsPerPrefix types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_per_prefix"`
+	LabelModeAllVrfsAllAfsPerCe types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_per_ce"`
+	LabelModeAllVrfsAllAfsVrfConnAggr types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_vrf_conn_aggr"`
+	LabelModeAllVrfsBgpVpnv4PerVrf types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_vrf"`
+	LabelModeAllVrfsBgpVpnv4PerPrefix types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_prefix"`
+	LabelModeAllVrfsBgpVpnv4PerCe types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_ce"`
+	LabelModeAllVrfsBgpVpnv4VrfConnAggr types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_vrf_conn_aggr"`
+	LabelModeAllVrfsBgpVpnv6PerVrf types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_vrf"`
+	LabelModeAllVrfsBgpVpnv6PerPrefix types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_prefix"`
+	LabelModeAllVrfsBgpVpnv6PerCe types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_ce"`
+	LabelModeAllVrfsBgpVpnv6VrfConnAggr types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_vrf_conn_aggr"`
 }
 
 type MPLSData struct {
-	Device                              types.String `tfsdk:"device"`
-	Id                                  types.String `tfsdk:"id"`
-	LabelProtocol                       types.String `tfsdk:"label_protocol"`
-	LabelModeAllVrfsAllAfsPerVrf        types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_per_vrf"`
-	LabelModeAllVrfsAllAfsPerPrefix     types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_per_prefix"`
-	LabelModeAllVrfsAllAfsPerCe         types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_per_ce"`
-	LabelModeAllVrfsAllAfsVrfConnAggr   types.Bool   `tfsdk:"label_mode_all_vrfs_all_afs_vrf_conn_aggr"`
-	LabelModeAllVrfsBgpVpnv4PerVrf      types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_vrf"`
-	LabelModeAllVrfsBgpVpnv4PerPrefix   types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_prefix"`
-	LabelModeAllVrfsBgpVpnv4PerCe       types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_ce"`
-	LabelModeAllVrfsBgpVpnv4VrfConnAggr types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_vrf_conn_aggr"`
-	LabelModeAllVrfsBgpVpnv6PerVrf      types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_vrf"`
-	LabelModeAllVrfsBgpVpnv6PerPrefix   types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_prefix"`
-	LabelModeAllVrfsBgpVpnv6PerCe       types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_ce"`
-	LabelModeAllVrfsBgpVpnv6VrfConnAggr types.Bool   `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_vrf_conn_aggr"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	LabelProtocol types.String `tfsdk:"label_protocol"`
+	LabelModeAllVrfsAllAfsPerVrf types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_per_vrf"`
+	LabelModeAllVrfsAllAfsPerPrefix types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_per_prefix"`
+	LabelModeAllVrfsAllAfsPerCe types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_per_ce"`
+	LabelModeAllVrfsAllAfsVrfConnAggr types.Bool `tfsdk:"label_mode_all_vrfs_all_afs_vrf_conn_aggr"`
+	LabelModeAllVrfsBgpVpnv4PerVrf types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_vrf"`
+	LabelModeAllVrfsBgpVpnv4PerPrefix types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_prefix"`
+	LabelModeAllVrfsBgpVpnv4PerCe types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_per_ce"`
+	LabelModeAllVrfsBgpVpnv4VrfConnAggr types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv4_vrf_conn_aggr"`
+	LabelModeAllVrfsBgpVpnv6PerVrf types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_vrf"`
+	LabelModeAllVrfsBgpVpnv6PerPrefix types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_prefix"`
+	LabelModeAllVrfsBgpVpnv6PerCe types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_per_ce"`
+	LabelModeAllVrfsBgpVpnv6VrfConnAggr types.Bool `tfsdk:"label_mode_all_vrfs_bgp_vpnv6_vrf_conn_aggr"`
 }
 
 // End of section. //template:end types
@@ -187,90 +187,90 @@ func (data MPLS) toBody(ctx context.Context, config MPLS) string {
 func (data MPLS) toBodyXML(ctx context.Context, config MPLS) string {
 	body := netconf.Body{}
 	if !data.LabelProtocol.IsNull() && !data.LabelProtocol.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/protocol", data.LabelProtocol.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/protocol", data.LabelProtocol.ValueString())
 	}
 	if !data.LabelModeAllVrfsAllAfsPerVrf.IsNull() && !data.LabelModeAllVrfsAllAfsPerVrf.IsUnknown() {
 		if data.LabelModeAllVrfsAllAfsPerVrf.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf")
 		}
 	}
 	if !data.LabelModeAllVrfsAllAfsPerPrefix.IsNull() && !data.LabelModeAllVrfsAllAfsPerPrefix.IsUnknown() {
 		if data.LabelModeAllVrfsAllAfsPerPrefix.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix")
 		}
 	}
 	if !data.LabelModeAllVrfsAllAfsPerCe.IsNull() && !data.LabelModeAllVrfsAllAfsPerCe.IsUnknown() {
 		if data.LabelModeAllVrfsAllAfsPerCe.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce")
 		}
 	}
 	if !data.LabelModeAllVrfsAllAfsVrfConnAggr.IsNull() && !data.LabelModeAllVrfsAllAfsVrfConnAggr.IsUnknown() {
 		if data.LabelModeAllVrfsAllAfsVrfConnAggr.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv4PerVrf.IsNull() && !data.LabelModeAllVrfsBgpVpnv4PerVrf.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv4PerVrf.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv4PerPrefix.IsNull() && !data.LabelModeAllVrfsBgpVpnv4PerPrefix.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv4PerPrefix.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv4PerCe.IsNull() && !data.LabelModeAllVrfsBgpVpnv4PerCe.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv4PerCe.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.IsNull() && !data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv6PerVrf.IsNull() && !data.LabelModeAllVrfsBgpVpnv6PerVrf.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv6PerVrf.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv6PerPrefix.IsNull() && !data.LabelModeAllVrfsBgpVpnv6PerPrefix.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv6PerPrefix.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv6PerCe.IsNull() && !data.LabelModeAllVrfsBgpVpnv6PerCe.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv6PerCe.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce")
 		}
 	}
 	if !data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.IsNull() && !data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.IsUnknown() {
 		if data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr")
 		}
 	}
 	bodyString, err := body.String()
@@ -289,12 +289,12 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.protocol"); value.Exists() && !data.LabelProtocol.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.protocol"); value.Exists() && !data.LabelProtocol.IsNull() {
 		data.LabelProtocol = types.StringValue(value.String())
 	} else {
 		data.LabelProtocol = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-vrf"); !data.LabelModeAllVrfsAllAfsPerVrf.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-vrf"); !data.LabelModeAllVrfsAllAfsPerVrf.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(true)
 		} else {
@@ -303,7 +303,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-prefix"); !data.LabelModeAllVrfsAllAfsPerPrefix.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-prefix"); !data.LabelModeAllVrfsAllAfsPerPrefix.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(true)
 		} else {
@@ -312,7 +312,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-ce"); !data.LabelModeAllVrfsAllAfsPerCe.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-ce"); !data.LabelModeAllVrfsAllAfsPerCe.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(true)
 		} else {
@@ -321,7 +321,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.vrf-conn-aggr"); !data.LabelModeAllVrfsAllAfsVrfConnAggr.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.vrf-conn-aggr"); !data.LabelModeAllVrfsAllAfsVrfConnAggr.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(true)
 		} else {
@@ -330,7 +330,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-vrf"); !data.LabelModeAllVrfsBgpVpnv4PerVrf.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-vrf"); !data.LabelModeAllVrfsBgpVpnv4PerVrf.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(true)
 		} else {
@@ -339,7 +339,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-prefix"); !data.LabelModeAllVrfsBgpVpnv4PerPrefix.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-prefix"); !data.LabelModeAllVrfsBgpVpnv4PerPrefix.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(true)
 		} else {
@@ -348,7 +348,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-ce"); !data.LabelModeAllVrfsBgpVpnv4PerCe.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-ce"); !data.LabelModeAllVrfsBgpVpnv4PerCe.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(true)
 		} else {
@@ -357,7 +357,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(true)
 		} else {
@@ -366,7 +366,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-vrf"); !data.LabelModeAllVrfsBgpVpnv6PerVrf.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-vrf"); !data.LabelModeAllVrfsBgpVpnv6PerVrf.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(true)
 		} else {
@@ -375,7 +375,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-prefix"); !data.LabelModeAllVrfsBgpVpnv6PerPrefix.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-prefix"); !data.LabelModeAllVrfsBgpVpnv6PerPrefix.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(true)
 		} else {
@@ -384,7 +384,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-ce"); !data.LabelModeAllVrfsBgpVpnv6PerCe.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-ce"); !data.LabelModeAllVrfsBgpVpnv6PerCe.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(true)
 		} else {
@@ -393,7 +393,7 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(true)
 		} else {
@@ -409,12 +409,12 @@ func (data *MPLS) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/protocol"); value.Exists() && !data.LabelProtocol.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/protocol"); value.Exists() && !data.LabelProtocol.IsNull() {
 		data.LabelProtocol = types.StringValue(value.String())
 	} else {
 		data.LabelProtocol = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf"); !data.LabelModeAllVrfsAllAfsPerVrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf"); !data.LabelModeAllVrfsAllAfsPerVrf.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(true)
 		} else {
@@ -423,7 +423,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix"); !data.LabelModeAllVrfsAllAfsPerPrefix.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix"); !data.LabelModeAllVrfsAllAfsPerPrefix.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(true)
 		} else {
@@ -432,7 +432,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce"); !data.LabelModeAllVrfsAllAfsPerCe.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce"); !data.LabelModeAllVrfsAllAfsPerCe.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(true)
 		} else {
@@ -441,7 +441,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr"); !data.LabelModeAllVrfsAllAfsVrfConnAggr.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr"); !data.LabelModeAllVrfsAllAfsVrfConnAggr.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(true)
 		} else {
@@ -450,7 +450,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf"); !data.LabelModeAllVrfsBgpVpnv4PerVrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf"); !data.LabelModeAllVrfsBgpVpnv4PerVrf.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(true)
 		} else {
@@ -459,7 +459,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix"); !data.LabelModeAllVrfsBgpVpnv4PerPrefix.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix"); !data.LabelModeAllVrfsBgpVpnv4PerPrefix.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(true)
 		} else {
@@ -468,7 +468,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce"); !data.LabelModeAllVrfsBgpVpnv4PerCe.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce"); !data.LabelModeAllVrfsBgpVpnv4PerCe.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(true)
 		} else {
@@ -477,7 +477,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv4VrfConnAggr.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(true)
 		} else {
@@ -486,7 +486,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf"); !data.LabelModeAllVrfsBgpVpnv6PerVrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf"); !data.LabelModeAllVrfsBgpVpnv6PerVrf.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(true)
 		} else {
@@ -495,7 +495,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix"); !data.LabelModeAllVrfsBgpVpnv6PerPrefix.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix"); !data.LabelModeAllVrfsBgpVpnv6PerPrefix.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(true)
 		} else {
@@ -504,7 +504,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce"); !data.LabelModeAllVrfsBgpVpnv6PerCe.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce"); !data.LabelModeAllVrfsBgpVpnv6PerCe.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(true)
 		} else {
@@ -513,7 +513,7 @@ func (data *MPLS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr"); !data.LabelModeAllVrfsBgpVpnv6VrfConnAggr.IsNull() {
 		if value.Exists() {
 			data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(true)
 		} else {
@@ -533,65 +533,65 @@ func (data *MPLS) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.protocol"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.protocol"); value.Exists() {
 		data.LabelProtocol = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-prefix"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-ce"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-ce"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.vrf-conn-aggr"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-prefix"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-ce"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.vrf-conn-aggr"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-prefix"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-ce"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.vrf-conn-aggr"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(false)
@@ -607,65 +607,65 @@ func (data *MPLSData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.protocol"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.protocol"); value.Exists() {
 		data.LabelProtocol = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-prefix"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-ce"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.per-ce"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.vrf-conn-aggr"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.all-afs.vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-prefix"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-ce"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.vrf-conn-aggr"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv4.vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-prefix"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-ce"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.vrf-conn-aggr"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-mpls:label.mode.all-vrfs.protocol.bgp-vpnv6.vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(false)
@@ -677,65 +677,65 @@ func (data *MPLSData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *MPLS) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/protocol"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/protocol"); value.Exists() {
 		data.LabelProtocol = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(false)
@@ -747,65 +747,65 @@ func (data *MPLS) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *MPLSData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/protocol"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/protocol"); value.Exists() {
 		data.LabelProtocol = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerVrf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerPrefix = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/per-ce"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsPerCe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/all-afs/vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsAllAfsVrfConnAggr = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerVrf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerPrefix = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4PerCe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv4/vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv4VrfConnAggr = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-vrf"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerVrf = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-prefix"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerPrefix = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/per-ce"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6PerCe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-mpls:label/mode/all-vrfs/protocol/bgp-vpnv6/vrf-conn-aggr"); value.Exists() {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(true)
 	} else {
 		data.LabelModeAllVrfsBgpVpnv6VrfConnAggr = types.BoolValue(false)

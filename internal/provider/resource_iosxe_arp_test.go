@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -38,9 +36,9 @@ func TestAccIosxeARP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "incomplete_entries", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "proxy_disable", "true"))
 	if os.Getenv("C9000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_filters.0.name", "FIL1"))
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_filters.0.vlans.0.vlan_range", "3"))
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_filters.0.vlans.0.static", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_filters.0.name", "FIL1"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_filters.0.vlans.0.vlan_range", "3"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_filters.0.vlans.0.static", "true"))
 	}
 	if os.Getenv("C9000V") != "" {
 		checks = append(checks, resource.TestCheckResourceAttr("iosxe_arp.test", "inspection_validate_src_mac", "true"))
@@ -75,15 +73,15 @@ func TestAccIosxeARP(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeARPConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_arp.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeARPImportStateIdFunc("iosxe_arp.test"),
-				ImportStateVerifyIgnore: []string{"inspection_validate_src_mac", "inspection_validate_dst_mac", "inspection_validate_ip", "inspection_validate_allow_zeros"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_arp.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeARPImportStateIdFunc("iosxe_arp.test"),
+				ImportStateVerifyIgnore: []string{ "inspection_validate_src_mac","inspection_validate_dst_mac","inspection_validate_ip","inspection_validate_allow_zeros", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -96,7 +94,7 @@ func TestAccIosxeARP(t *testing.T) {
 func iosxeARPImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 
@@ -122,13 +120,13 @@ func testAccIosxeARPConfig_all() string {
 	config += `	incomplete_entries = 10` + "\n"
 	config += `	proxy_disable = true` + "\n"
 	if os.Getenv("C9000V") != "" {
-		config += `	inspection_filters = [{` + "\n"
-		config += `		name = "FIL1"` + "\n"
-		config += `		vlans = [{` + "\n"
-		config += `			vlan_range = "3"` + "\n"
-		config += `			static = true` + "\n"
-		config += `		}]` + "\n"
-		config += `	}]` + "\n"
+	config += `	inspection_filters = [{` + "\n"
+	config += `		name = "FIL1"` + "\n"
+	config += `		vlans = [{` + "\n"
+	config += `			vlan_range = "3"` + "\n"
+	config += `			static = true` + "\n"
+	config += `		}]` + "\n"
+	config += `	}]` + "\n"
 	}
 	if os.Getenv("C9000V") != "" {
 		config += `	inspection_validate_src_mac = true` + "\n"

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -46,15 +45,15 @@ func TestAccIosxeInterfaceBDI(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeInterfaceBDIConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_bdi.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceBDIImportStateIdFunc("iosxe_interface_bdi.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_bdi.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceBDIImportStateIdFunc("iosxe_interface_bdi.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

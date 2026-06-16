@@ -23,131 +23,131 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPAddressFamilyIPv4VRF struct {
-	Device     types.String                  `tfsdk:"device"`
-	Id         types.String                  `tfsdk:"id"`
-	DeleteMode types.String                  `tfsdk:"delete_mode"`
-	Asn        types.String                  `tfsdk:"asn"`
-	AfName     types.String                  `tfsdk:"af_name"`
-	Vrfs       []BGPAddressFamilyIPv4VRFVrfs `tfsdk:"vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	AfName types.String `tfsdk:"af_name"`
+	Vrfs []BGPAddressFamilyIPv4VRFVrfs `tfsdk:"vrfs"`
 }
 type BGPAddressFamilyIPv4VRFVrfs struct {
-	Name                                     types.String                                               `tfsdk:"name"`
-	Ipv4UnicastAdvertiseL2vpnEvpn            types.Bool                                                 `tfsdk:"ipv4_unicast_advertise_l2vpn_evpn"`
-	Ipv4UnicastRedistributeConnected         types.Bool                                                 `tfsdk:"ipv4_unicast_redistribute_connected"`
-	Ipv4UnicastRedistributeConnectedRouteMap types.String                                               `tfsdk:"ipv4_unicast_redistribute_connected_route_map"`
-	Ipv4UnicastRedistributeConnectedMetric   types.Int64                                                `tfsdk:"ipv4_unicast_redistribute_connected_metric"`
-	Ipv4UnicastRouterIdLoopback              types.Int64                                                `tfsdk:"ipv4_unicast_router_id_loopback"`
-	Ipv4UnicastRouterIdIp                    types.String                                               `tfsdk:"ipv4_unicast_router_id_ip"`
-	Ipv4UnicastAggregateAddresses            []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAggregateAddresses `tfsdk:"ipv4_unicast_aggregate_addresses"`
-	Ipv4UnicastRedistributeStatic            types.Bool                                                 `tfsdk:"ipv4_unicast_redistribute_static"`
-	Ipv4UnicastRedistributeStaticRouteMap    types.String                                               `tfsdk:"ipv4_unicast_redistribute_static_route_map"`
-	Ipv4UnicastRedistributeStaticMetric      types.Int64                                                `tfsdk:"ipv4_unicast_redistribute_static_metric"`
-	Ipv4UnicastNetworksMask                  []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksMask       `tfsdk:"ipv4_unicast_networks_mask"`
-	Ipv4UnicastNetworks                      []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworks           `tfsdk:"ipv4_unicast_networks"`
-	Ipv4UnicastAdminDistances                []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAdminDistances     `tfsdk:"ipv4_unicast_admin_distances"`
-	Ipv4UnicastDistanceBgpExternal           types.Int64                                                `tfsdk:"ipv4_unicast_distance_bgp_external"`
-	Ipv4UnicastDistanceBgpInternal           types.Int64                                                `tfsdk:"ipv4_unicast_distance_bgp_internal"`
-	Ipv4UnicastDistanceBgpLocal              types.Int64                                                `tfsdk:"ipv4_unicast_distance_bgp_local"`
-	Ipv4UnicastMaximumPathsEbgp              types.Int64                                                `tfsdk:"ipv4_unicast_maximum_paths_ebgp"`
-	Ipv4UnicastMaximumPathsIbgp              types.Int64                                                `tfsdk:"ipv4_unicast_maximum_paths_ibgp"`
-	Ipv4UnicastImportPathSelectionAll        types.Bool                                                 `tfsdk:"ipv4_unicast_import_path_selection_all"`
+	Name types.String `tfsdk:"name"`
+	Ipv4UnicastAdvertiseL2vpnEvpn types.Bool `tfsdk:"ipv4_unicast_advertise_l2vpn_evpn"`
+	Ipv4UnicastRedistributeConnected types.Bool `tfsdk:"ipv4_unicast_redistribute_connected"`
+	Ipv4UnicastRedistributeConnectedRouteMap types.String `tfsdk:"ipv4_unicast_redistribute_connected_route_map"`
+	Ipv4UnicastRedistributeConnectedMetric types.Int64 `tfsdk:"ipv4_unicast_redistribute_connected_metric"`
+	Ipv4UnicastRouterIdLoopback types.Int64 `tfsdk:"ipv4_unicast_router_id_loopback"`
+	Ipv4UnicastRouterIdIp types.String `tfsdk:"ipv4_unicast_router_id_ip"`
+	Ipv4UnicastAggregateAddresses []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAggregateAddresses `tfsdk:"ipv4_unicast_aggregate_addresses"`
+	Ipv4UnicastRedistributeStatic types.Bool `tfsdk:"ipv4_unicast_redistribute_static"`
+	Ipv4UnicastRedistributeStaticRouteMap types.String `tfsdk:"ipv4_unicast_redistribute_static_route_map"`
+	Ipv4UnicastRedistributeStaticMetric types.Int64 `tfsdk:"ipv4_unicast_redistribute_static_metric"`
+	Ipv4UnicastNetworksMask []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksMask `tfsdk:"ipv4_unicast_networks_mask"`
+	Ipv4UnicastNetworks []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworks `tfsdk:"ipv4_unicast_networks"`
+	Ipv4UnicastAdminDistances []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAdminDistances `tfsdk:"ipv4_unicast_admin_distances"`
+	Ipv4UnicastDistanceBgpExternal types.Int64 `tfsdk:"ipv4_unicast_distance_bgp_external"`
+	Ipv4UnicastDistanceBgpInternal types.Int64 `tfsdk:"ipv4_unicast_distance_bgp_internal"`
+	Ipv4UnicastDistanceBgpLocal types.Int64 `tfsdk:"ipv4_unicast_distance_bgp_local"`
+	Ipv4UnicastMaximumPathsEbgp types.Int64 `tfsdk:"ipv4_unicast_maximum_paths_ebgp"`
+	Ipv4UnicastMaximumPathsIbgp types.Int64 `tfsdk:"ipv4_unicast_maximum_paths_ibgp"`
+	Ipv4UnicastImportPathSelectionAll types.Bool `tfsdk:"ipv4_unicast_import_path_selection_all"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAggregateAddresses struct {
 	Ipv4Address types.String `tfsdk:"ipv4_address"`
-	Ipv4Mask    types.String `tfsdk:"ipv4_mask"`
-	SummaryOnly types.Bool   `tfsdk:"summary_only"`
+	Ipv4Mask types.String `tfsdk:"ipv4_mask"`
+	SummaryOnly types.Bool `tfsdk:"summary_only"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksMask struct {
-	Network  types.String `tfsdk:"network"`
-	Mask     types.String `tfsdk:"mask"`
+	Network types.String `tfsdk:"network"`
+	Mask types.String `tfsdk:"mask"`
 	RouteMap types.String `tfsdk:"route_map"`
-	Backdoor types.Bool   `tfsdk:"backdoor"`
-	Evpn     types.Bool   `tfsdk:"evpn"`
+	Backdoor types.Bool `tfsdk:"backdoor"`
+	Evpn types.Bool `tfsdk:"evpn"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworks struct {
-	Network  types.String `tfsdk:"network"`
+	Network types.String `tfsdk:"network"`
 	RouteMap types.String `tfsdk:"route_map"`
-	Backdoor types.Bool   `tfsdk:"backdoor"`
-	Evpn     types.Bool   `tfsdk:"evpn"`
+	Backdoor types.Bool `tfsdk:"backdoor"`
+	Evpn types.Bool `tfsdk:"evpn"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAdminDistances struct {
-	Distance types.Int64  `tfsdk:"distance"`
+	Distance types.Int64 `tfsdk:"distance"`
 	SourceIp types.String `tfsdk:"source_ip"`
 	Wildcard types.String `tfsdk:"wildcard"`
-	Acl      types.String `tfsdk:"acl"`
+	Acl types.String `tfsdk:"acl"`
 }
 
 type BGPAddressFamilyIPv4VRFData struct {
-	Device types.String                      `tfsdk:"device"`
-	Id     types.String                      `tfsdk:"id"`
-	Asn    types.String                      `tfsdk:"asn"`
-	AfName types.String                      `tfsdk:"af_name"`
-	Vrfs   []BGPAddressFamilyIPv4VRFVrfsData `tfsdk:"vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	AfName types.String `tfsdk:"af_name"`
+	Vrfs []BGPAddressFamilyIPv4VRFVrfsData `tfsdk:"vrfs"`
 }
 type BGPAddressFamilyIPv4VRFVrfsData struct {
-	Name                                     types.String                                                   `tfsdk:"name"`
-	Ipv4UnicastAdvertiseL2vpnEvpn            types.Bool                                                     `tfsdk:"ipv4_unicast_advertise_l2vpn_evpn"`
-	Ipv4UnicastRedistributeConnected         types.Bool                                                     `tfsdk:"ipv4_unicast_redistribute_connected"`
-	Ipv4UnicastRedistributeConnectedRouteMap types.String                                                   `tfsdk:"ipv4_unicast_redistribute_connected_route_map"`
-	Ipv4UnicastRedistributeConnectedMetric   types.Int64                                                    `tfsdk:"ipv4_unicast_redistribute_connected_metric"`
-	Ipv4UnicastRouterIdLoopback              types.Int64                                                    `tfsdk:"ipv4_unicast_router_id_loopback"`
-	Ipv4UnicastRouterIdIp                    types.String                                                   `tfsdk:"ipv4_unicast_router_id_ip"`
-	Ipv4UnicastAggregateAddresses            []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAggregateAddressesData `tfsdk:"ipv4_unicast_aggregate_addresses"`
-	Ipv4UnicastRedistributeStatic            types.Bool                                                     `tfsdk:"ipv4_unicast_redistribute_static"`
-	Ipv4UnicastRedistributeStaticRouteMap    types.String                                                   `tfsdk:"ipv4_unicast_redistribute_static_route_map"`
-	Ipv4UnicastRedistributeStaticMetric      types.Int64                                                    `tfsdk:"ipv4_unicast_redistribute_static_metric"`
-	Ipv4UnicastNetworksMask                  []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksMaskData       `tfsdk:"ipv4_unicast_networks_mask"`
-	Ipv4UnicastNetworks                      []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksData           `tfsdk:"ipv4_unicast_networks"`
-	Ipv4UnicastAdminDistances                []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAdminDistancesData     `tfsdk:"ipv4_unicast_admin_distances"`
-	Ipv4UnicastDistanceBgpExternal           types.Int64                                                    `tfsdk:"ipv4_unicast_distance_bgp_external"`
-	Ipv4UnicastDistanceBgpInternal           types.Int64                                                    `tfsdk:"ipv4_unicast_distance_bgp_internal"`
-	Ipv4UnicastDistanceBgpLocal              types.Int64                                                    `tfsdk:"ipv4_unicast_distance_bgp_local"`
-	Ipv4UnicastMaximumPathsEbgp              types.Int64                                                    `tfsdk:"ipv4_unicast_maximum_paths_ebgp"`
-	Ipv4UnicastMaximumPathsIbgp              types.Int64                                                    `tfsdk:"ipv4_unicast_maximum_paths_ibgp"`
-	Ipv4UnicastImportPathSelectionAll        types.Bool                                                     `tfsdk:"ipv4_unicast_import_path_selection_all"`
+	Name types.String `tfsdk:"name"`
+	Ipv4UnicastAdvertiseL2vpnEvpn types.Bool `tfsdk:"ipv4_unicast_advertise_l2vpn_evpn"`
+	Ipv4UnicastRedistributeConnected types.Bool `tfsdk:"ipv4_unicast_redistribute_connected"`
+	Ipv4UnicastRedistributeConnectedRouteMap types.String `tfsdk:"ipv4_unicast_redistribute_connected_route_map"`
+	Ipv4UnicastRedistributeConnectedMetric types.Int64 `tfsdk:"ipv4_unicast_redistribute_connected_metric"`
+	Ipv4UnicastRouterIdLoopback types.Int64 `tfsdk:"ipv4_unicast_router_id_loopback"`
+	Ipv4UnicastRouterIdIp types.String `tfsdk:"ipv4_unicast_router_id_ip"`
+	Ipv4UnicastAggregateAddresses []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAggregateAddressesData `tfsdk:"ipv4_unicast_aggregate_addresses"`
+	Ipv4UnicastRedistributeStatic types.Bool `tfsdk:"ipv4_unicast_redistribute_static"`
+	Ipv4UnicastRedistributeStaticRouteMap types.String `tfsdk:"ipv4_unicast_redistribute_static_route_map"`
+	Ipv4UnicastRedistributeStaticMetric types.Int64 `tfsdk:"ipv4_unicast_redistribute_static_metric"`
+	Ipv4UnicastNetworksMask []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksMaskData `tfsdk:"ipv4_unicast_networks_mask"`
+	Ipv4UnicastNetworks []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksData `tfsdk:"ipv4_unicast_networks"`
+	Ipv4UnicastAdminDistances []BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAdminDistancesData `tfsdk:"ipv4_unicast_admin_distances"`
+	Ipv4UnicastDistanceBgpExternal types.Int64 `tfsdk:"ipv4_unicast_distance_bgp_external"`
+	Ipv4UnicastDistanceBgpInternal types.Int64 `tfsdk:"ipv4_unicast_distance_bgp_internal"`
+	Ipv4UnicastDistanceBgpLocal types.Int64 `tfsdk:"ipv4_unicast_distance_bgp_local"`
+	Ipv4UnicastMaximumPathsEbgp types.Int64 `tfsdk:"ipv4_unicast_maximum_paths_ebgp"`
+	Ipv4UnicastMaximumPathsIbgp types.Int64 `tfsdk:"ipv4_unicast_maximum_paths_ibgp"`
+	Ipv4UnicastImportPathSelectionAll types.Bool `tfsdk:"ipv4_unicast_import_path_selection_all"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAggregateAddressesData struct {
 	Ipv4Address types.String `tfsdk:"ipv4_address"`
-	Ipv4Mask    types.String `tfsdk:"ipv4_mask"`
-	SummaryOnly types.Bool   `tfsdk:"summary_only"`
+	Ipv4Mask types.String `tfsdk:"ipv4_mask"`
+	SummaryOnly types.Bool `tfsdk:"summary_only"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksMaskData struct {
-	Network  types.String `tfsdk:"network"`
-	Mask     types.String `tfsdk:"mask"`
+	Network types.String `tfsdk:"network"`
+	Mask types.String `tfsdk:"mask"`
 	RouteMap types.String `tfsdk:"route_map"`
-	Backdoor types.Bool   `tfsdk:"backdoor"`
-	Evpn     types.Bool   `tfsdk:"evpn"`
+	Backdoor types.Bool `tfsdk:"backdoor"`
+	Evpn types.Bool `tfsdk:"evpn"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastNetworksData struct {
-	Network  types.String `tfsdk:"network"`
+	Network types.String `tfsdk:"network"`
 	RouteMap types.String `tfsdk:"route_map"`
-	Backdoor types.Bool   `tfsdk:"backdoor"`
-	Evpn     types.Bool   `tfsdk:"evpn"`
+	Backdoor types.Bool `tfsdk:"backdoor"`
+	Evpn types.Bool `tfsdk:"evpn"`
 }
 type BGPAddressFamilyIPv4VRFVrfsIpv4UnicastAdminDistancesData struct {
-	Distance types.Int64  `tfsdk:"distance"`
+	Distance types.Int64 `tfsdk:"distance"`
 	SourceIp types.String `tfsdk:"source_ip"`
 	Wildcard types.String `tfsdk:"wildcard"`
-	Acl      types.String `tfsdk:"acl"`
+	Acl types.String `tfsdk:"acl"`
 }
 
 // End of section. //template:end types
@@ -344,7 +344,7 @@ func (data BGPAddressFamilyIPv4VRF) toBody(ctx context.Context, config BGPAddres
 func (data BGPAddressFamilyIPv4VRF) toBodyXML(ctx context.Context, config BGPAddressFamilyIPv4VRF) string {
 	body := netconf.Body{}
 	if !data.AfName.IsNull() && !data.AfName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/af-name", data.AfName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/af-name", data.AfName.ValueString())
 	}
 	if len(data.Vrfs) > 0 {
 		for _, item := range data.Vrfs {
@@ -524,17 +524,17 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBody(ctx context.Context, res gjs
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "af-name"); value.Exists() && !data.AfName.IsNull() {
+	if value := res.Get(prefix+"af-name"); value.Exists() && !data.AfName.IsNull() {
 		data.AfName = types.StringValue(value.String())
 	} else {
 		data.AfName = types.StringNull()
 	}
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "vrf").ForEach(
+		res.Get(prefix+"vrf").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -596,8 +596,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBody(ctx context.Context, res gjs
 			data.Vrfs[i].Ipv4UnicastRouterIdIp = types.StringNull()
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastAggregateAddresses {
-			keys := [...]string{"ipv4-address", "ipv4-mask"}
-			keyValues := [...]string{data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString()}
+			keys := [...]string{ "ipv4-address", "ipv4-mask",  }
+			keyValues := [...]string{ data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("ipv4-unicast.aggregate-address").ForEach(
@@ -658,8 +658,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBody(ctx context.Context, res gjs
 			data.Vrfs[i].Ipv4UnicastRedistributeStaticMetric = types.Int64Null()
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastNetworksMask {
-			keys := [...]string{"number", "mask"}
-			keyValues := [...]string{data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString()}
+			keys := [...]string{ "number", "mask",  }
+			keyValues := [...]string{ data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("ipv4-unicast.network.with-mask").ForEach(
@@ -715,8 +715,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBody(ctx context.Context, res gjs
 			}
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastNetworks {
-			keys := [...]string{"number"}
-			keyValues := [...]string{data.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString()}
+			keys := [...]string{ "number",  }
+			keyValues := [...]string{ data.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("ipv4-unicast.network.no-mask").ForEach(
@@ -767,8 +767,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBody(ctx context.Context, res gjs
 			}
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastAdminDistances {
-			keys := [...]string{"distance", "srcip", "wildbits"}
-			keyValues := [...]string{strconv.FormatInt(data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString()}
+			keys := [...]string{ "distance", "srcip", "wildbits",  }
+			keyValues := [...]string{ strconv.FormatInt(data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("ipv4-unicast.distance.adm-distance").ForEach(
@@ -852,17 +852,17 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBody(ctx context.Context, res gjs
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPAddressFamilyIPv4VRF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/af-name"); value.Exists() && !data.AfName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/af-name"); value.Exists() && !data.AfName.IsNull() {
 		data.AfName = types.StringValue(value.String())
 	} else {
 		data.AfName = types.StringNull()
 	}
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -924,8 +924,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBodyXML(ctx context.Context, res 
 			data.Vrfs[i].Ipv4UnicastRouterIdIp = types.StringNull()
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastAggregateAddresses {
-			keys := [...]string{"ipv4-address", "ipv4-mask"}
-			keyValues := [...]string{data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString()}
+			keys := [...]string{ "ipv4-address", "ipv4-mask",  }
+			keyValues := [...]string{ data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "ipv4-unicast/aggregate-address").ForEach(
@@ -986,8 +986,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBodyXML(ctx context.Context, res 
 			data.Vrfs[i].Ipv4UnicastRedistributeStaticMetric = types.Int64Null()
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastNetworksMask {
-			keys := [...]string{"number", "mask"}
-			keyValues := [...]string{data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString()}
+			keys := [...]string{ "number", "mask",  }
+			keyValues := [...]string{ data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "ipv4-unicast/network/with-mask").ForEach(
@@ -1043,8 +1043,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBodyXML(ctx context.Context, res 
 			}
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastNetworks {
-			keys := [...]string{"number"}
-			keyValues := [...]string{data.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString()}
+			keys := [...]string{ "number",  }
+			keyValues := [...]string{ data.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "ipv4-unicast/network/no-mask").ForEach(
@@ -1095,8 +1095,8 @@ func (data *BGPAddressFamilyIPv4VRF) updateFromBodyXML(ctx context.Context, res 
 			}
 		}
 		for ci := range data.Vrfs[i].Ipv4UnicastAdminDistances {
-			keys := [...]string{"distance", "srcip", "wildbits"}
-			keyValues := [...]string{strconv.FormatInt(data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString()}
+			keys := [...]string{ "distance", "srcip", "wildbits",  }
+			keyValues := [...]string{ strconv.FormatInt(data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), data.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "ipv4-unicast/distance/adm-distance").ForEach(
@@ -1184,7 +1184,7 @@ func (data *BGPAddressFamilyIPv4VRF) fromBody(ctx context.Context, res gjson.Res
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrfs = make([]BGPAddressFamilyIPv4VRFVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BGPAddressFamilyIPv4VRFVrfs{}
@@ -1349,7 +1349,7 @@ func (data *BGPAddressFamilyIPv4VRFData) fromBody(ctx context.Context, res gjson
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrfs = make([]BGPAddressFamilyIPv4VRFVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BGPAddressFamilyIPv4VRFVrfsData{}
@@ -1510,7 +1510,7 @@ func (data *BGPAddressFamilyIPv4VRFData) fromBody(ctx context.Context, res gjson
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPAddressFamilyIPv4VRF) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrfs = make([]BGPAddressFamilyIPv4VRFVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BGPAddressFamilyIPv4VRFVrfs{}
@@ -1671,7 +1671,7 @@ func (data *BGPAddressFamilyIPv4VRF) fromBodyXML(ctx context.Context, res xmldot
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPAddressFamilyIPv4VRFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrfs = make([]BGPAddressFamilyIPv4VRFVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BGPAddressFamilyIPv4VRFVrfsData{}
@@ -1834,8 +1834,8 @@ func (data *BGPAddressFamilyIPv4VRFData) fromBodyXML(ctx context.Context, res xm
 func (data *BGPAddressFamilyIPv4VRF) getDeletedItems(ctx context.Context, state BGPAddressFamilyIPv4VRF) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Vrfs {
-		stateKeyValues := [...]string{state.Vrfs[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Vrfs[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vrfs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1870,8 +1870,8 @@ func (data *BGPAddressFamilyIPv4VRF) getDeletedItems(ctx context.Context, state 
 					deletedItems = append(deletedItems, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/distance/bgp/extern-as", state.getPath(), strings.Join(stateKeyValues[:], ",")))
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastAdminDistances {
-					cstateKeyValues := [...]string{strconv.FormatInt(state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString()}
-
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64()).IsZero() {
 						cemptyKeys = false
@@ -1910,8 +1910,8 @@ func (data *BGPAddressFamilyIPv4VRF) getDeletedItems(ctx context.Context, state 
 					}
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastNetworks {
-					cstateKeyValues := [...]string{state.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1944,8 +1944,8 @@ func (data *BGPAddressFamilyIPv4VRF) getDeletedItems(ctx context.Context, state 
 					}
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastNetworksMask {
-					cstateKeyValues := [...]string{state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1993,8 +1993,8 @@ func (data *BGPAddressFamilyIPv4VRF) getDeletedItems(ctx context.Context, state 
 					deletedItems = append(deletedItems, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/redistribute-vrf/static", state.getPath(), strings.Join(stateKeyValues[:], ",")))
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastAggregateAddresses {
-					cstateKeyValues := [...]string{state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -2062,13 +2062,13 @@ func (data *BGPAddressFamilyIPv4VRF) getDeletedItems(ctx context.Context, state 
 func (data *BGPAddressFamilyIPv4VRF) addDeletedItemsXML(ctx context.Context, state BGPAddressFamilyIPv4VRF, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Vrfs {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Vrfs[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Vrfs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vrfs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2103,8 +2103,8 @@ func (data *BGPAddressFamilyIPv4VRF) addDeletedItemsXML(ctx context.Context, sta
 					b = helpers.RemoveFromXPath(b, fmt.Sprintf(state.getXPath()+"/vrf%v/ipv4-unicast/distance/bgp/extern-as", predicates))
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastAdminDistances {
-					cstateKeys := [...]string{"distance", "srcip", "wildbits"}
-					cstateKeyValues := [...]string{strconv.FormatInt(state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString()}
+					cstateKeys := [...]string{ "distance", "srcip", "wildbits",  }
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Distance.ValueInt64(), 10), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].SourceIp.ValueString(), state.Vrfs[i].Ipv4UnicastAdminDistances[ci].Wildcard.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2148,8 +2148,8 @@ func (data *BGPAddressFamilyIPv4VRF) addDeletedItemsXML(ctx context.Context, sta
 					}
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastNetworks {
-					cstateKeys := [...]string{"number"}
-					cstateKeyValues := [...]string{state.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString()}
+					cstateKeys := [...]string{ "number",  }
+					cstateKeyValues := [...]string{ state.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2187,8 +2187,8 @@ func (data *BGPAddressFamilyIPv4VRF) addDeletedItemsXML(ctx context.Context, sta
 					}
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastNetworksMask {
-					cstateKeys := [...]string{"number", "mask"}
-					cstateKeyValues := [...]string{state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString()}
+					cstateKeys := [...]string{ "number", "mask",  }
+					cstateKeyValues := [...]string{ state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), state.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2241,8 +2241,8 @@ func (data *BGPAddressFamilyIPv4VRF) addDeletedItemsXML(ctx context.Context, sta
 					b = helpers.RemoveFromXPath(b, fmt.Sprintf(state.getXPath()+"/vrf%v/ipv4-unicast/redistribute-vrf/static", predicates))
 				}
 				for ci := range state.Vrfs[i].Ipv4UnicastAggregateAddresses {
-					cstateKeys := [...]string{"ipv4-address", "ipv4-mask"}
-					cstateKeyValues := [...]string{state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString()}
+					cstateKeys := [...]string{ "ipv4-address", "ipv4-mask",  }
+					cstateKeyValues := [...]string{ state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), state.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2315,15 +2315,17 @@ func (data *BGPAddressFamilyIPv4VRF) addDeletedItemsXML(ctx context.Context, sta
 
 func (data *BGPAddressFamilyIPv4VRF) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Vrfs {
-		keyValues := [...]string{data.Vrfs[i].Name.ValueString()}
+		keyValues := [...]string{ data.Vrfs[i].Name.ValueString(),  }
 		if !data.Vrfs[i].Ipv4UnicastImportPathSelectionAll.IsNull() && !data.Vrfs[i].Ipv4UnicastImportPathSelectionAll.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/import/path/selection/all", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
-
+		
+		
 		for ci := range data.Vrfs[i].Ipv4UnicastNetworks {
-			ckeyValues := [...]string{data.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString()}
+			ckeyValues := [...]string{ data.Vrfs[i].Ipv4UnicastNetworks[ci].Network.ValueString(),  }
 			if !data.Vrfs[i].Ipv4UnicastNetworks[ci].Evpn.IsNull() && !data.Vrfs[i].Ipv4UnicastNetworks[ci].Evpn.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/network/no-mask=%v/evpn", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -2331,9 +2333,9 @@ func (data *BGPAddressFamilyIPv4VRF) getEmptyLeafsDelete(ctx context.Context) []
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/network/no-mask=%v/backdoor", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
 		}
-
+		
 		for ci := range data.Vrfs[i].Ipv4UnicastNetworksMask {
-			ckeyValues := [...]string{data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString()}
+			ckeyValues := [...]string{ data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Network.ValueString(), data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Mask.ValueString(),  }
 			if !data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Evpn.IsNull() && !data.Vrfs[i].Ipv4UnicastNetworksMask[ci].Evpn.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/network/with-mask=%v/evpn", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -2344,9 +2346,9 @@ func (data *BGPAddressFamilyIPv4VRF) getEmptyLeafsDelete(ctx context.Context) []
 		if !data.Vrfs[i].Ipv4UnicastRedistributeStatic.IsNull() && !data.Vrfs[i].Ipv4UnicastRedistributeStatic.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/redistribute-vrf/static", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
-
+		
 		for ci := range data.Vrfs[i].Ipv4UnicastAggregateAddresses {
-			ckeyValues := [...]string{data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString()}
+			ckeyValues := [...]string{ data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Address.ValueString(), data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].Ipv4Mask.ValueString(),  }
 			if !data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].SummaryOnly.IsNull() && !data.Vrfs[i].Ipv4UnicastAggregateAddresses[ci].SummaryOnly.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/vrf=%v/ipv4-unicast/aggregate-address=%v/summary-only", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -2369,7 +2371,7 @@ func (data *BGPAddressFamilyIPv4VRF) getEmptyLeafsDelete(ctx context.Context) []
 func (data *BGPAddressFamilyIPv4VRF) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Vrfs {
-		keyValues := [...]string{data.Vrfs[i].Name.ValueString()}
+		keyValues := [...]string{ data.Vrfs[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/vrf=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2384,8 +2386,8 @@ func (data *BGPAddressFamilyIPv4VRF) getDeletePaths(ctx context.Context) []strin
 func (data *BGPAddressFamilyIPv4VRF) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

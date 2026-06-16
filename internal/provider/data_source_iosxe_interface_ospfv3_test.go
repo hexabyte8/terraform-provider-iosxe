@@ -52,8 +52,8 @@ func TestAccDataSourceIosxeInterfaceOSPFv3(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfaceOSPFv3PrerequisitesConfig + testAccDataSourceIosxeInterfaceOSPFv3Config(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfaceOSPFv3PrerequisitesConfig+testAccDataSourceIosxeInterfaceOSPFv3Config(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -91,7 +91,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -121,10 +120,10 @@ func testAccDataSourceIosxeInterfaceOSPFv3Config() string {
 	config += `			id = "0"` + "\n"
 	config += `			instance = 0` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_ospfv3" "test" {
 			type = "Loopback"

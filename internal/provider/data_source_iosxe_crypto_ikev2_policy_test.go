@@ -40,8 +40,8 @@ func TestAccDataSourceIosxeCryptoIKEv2Policy(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeCryptoIKEv2PolicyPrerequisitesConfig + testAccDataSourceIosxeCryptoIKEv2PolicyConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeCryptoIKEv2PolicyPrerequisitesConfig+testAccDataSourceIosxeCryptoIKEv2PolicyConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -62,7 +62,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -74,10 +73,10 @@ func testAccDataSourceIosxeCryptoIKEv2PolicyConfig() string {
 	config += `	match_fvrf_any = true` + "\n"
 	config += `	proposals = [{` + "\n"
 	config += `		proposals = "proposal123"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_ikev2_policy" "test" {
 			name = "policy1"

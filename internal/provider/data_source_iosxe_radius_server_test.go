@@ -45,7 +45,7 @@ func TestAccDataSourceIosxeRadiusServer(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeRadiusServerConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -67,12 +67,12 @@ func testAccDataSourceIosxeRadiusServerConfig() string {
 	config += `			id_mac_format = "ietf"` + "\n"
 	config += `			id_mac_lu_case = "lower-case"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	dead_criteria_time = 5` + "\n"
 	config += `	dead_criteria_tries = 3` + "\n"
 	config += `	deadtime = 3` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_radius_server" "test" {
 			depends_on = [iosxe_radius_server.test]

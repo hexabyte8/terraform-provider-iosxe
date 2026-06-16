@@ -26,133 +26,133 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type Errdisable struct {
-	Device                                   types.String `tfsdk:"device"`
-	Id                                       types.String `tfsdk:"id"`
-	DeleteMode                               types.String `tfsdk:"delete_mode"`
-	DetectCauseAll                           types.Bool   `tfsdk:"detect_cause_all"`
-	DetectCauseArpInspection                 types.Bool   `tfsdk:"detect_cause_arp_inspection"`
-	DetectCauseBpduguard                     types.Bool   `tfsdk:"detect_cause_bpduguard"`
-	DetectCauseDhcpRateLimit                 types.Bool   `tfsdk:"detect_cause_dhcp_rate_limit"`
-	DetectCauseDtpFlap                       types.Bool   `tfsdk:"detect_cause_dtp_flap"`
-	DetectCauseGbicInvalid                   types.Bool   `tfsdk:"detect_cause_gbic_invalid"`
-	DetectCauseInlinePower                   types.Bool   `tfsdk:"detect_cause_inline_power"`
-	DetectCauseL2ptguard                     types.Bool   `tfsdk:"detect_cause_l2ptguard"`
-	DetectCauseLinkFlap                      types.Bool   `tfsdk:"detect_cause_link_flap"`
-	DetectCauseLoopback                      types.Bool   `tfsdk:"detect_cause_loopback"`
-	DetectCauseMlacpMinlink                  types.Bool   `tfsdk:"detect_cause_mlacp_minlink"`
-	DetectCausePagpFlap                      types.Bool   `tfsdk:"detect_cause_pagp_flap"`
-	DetectCausePppoeIaRateLimit              types.Bool   `tfsdk:"detect_cause_pppoe_ia_rate_limit"`
-	DetectCauseSecurityViolationShutdownVlan types.Bool   `tfsdk:"detect_cause_security_violation_shutdown_vlan"`
-	DetectCauseSfpConfigMismatch             types.Bool   `tfsdk:"detect_cause_sfp_config_mismatch"`
-	DetectCauseSmallFrame                    types.Bool   `tfsdk:"detect_cause_small_frame"`
-	DetectCauseLoopdetect                    types.Bool   `tfsdk:"detect_cause_loopdetect"`
-	FlapSettingCauseDtpFlapMaxFlaps          types.Int64  `tfsdk:"flap_setting_cause_dtp_flap_max_flaps"`
-	FlapSettingCauseDtpFlapTime              types.Int64  `tfsdk:"flap_setting_cause_dtp_flap_time"`
-	FlapSettingCauseLinkFlapMaxFlaps         types.Int64  `tfsdk:"flap_setting_cause_link_flap_max_flaps"`
-	FlapSettingCauseLinkFlapTime             types.Int64  `tfsdk:"flap_setting_cause_link_flap_time"`
-	FlapSettingCausePagpFlapMaxFlaps         types.Int64  `tfsdk:"flap_setting_cause_pagp_flap_max_flaps"`
-	FlapSettingCausePagpFlapTime             types.Int64  `tfsdk:"flap_setting_cause_pagp_flap_time"`
-	RecoveryInterval                         types.Int64  `tfsdk:"recovery_interval"`
-	RecoveryCauseAll                         types.Bool   `tfsdk:"recovery_cause_all"`
-	RecoveryCauseArpInspection               types.Bool   `tfsdk:"recovery_cause_arp_inspection"`
-	RecoveryCauseBpduguard                   types.Bool   `tfsdk:"recovery_cause_bpduguard"`
-	RecoveryCauseChannelMisconfig            types.Bool   `tfsdk:"recovery_cause_channel_misconfig"`
-	RecoveryCauseDhcpRateLimit               types.Bool   `tfsdk:"recovery_cause_dhcp_rate_limit"`
-	RecoveryCauseDtpFlap                     types.Bool   `tfsdk:"recovery_cause_dtp_flap"`
-	RecoveryCauseGbicInvalid                 types.Bool   `tfsdk:"recovery_cause_gbic_invalid"`
-	RecoveryCauseInlinePower                 types.Bool   `tfsdk:"recovery_cause_inline_power"`
-	RecoveryCauseL2ptguard                   types.Bool   `tfsdk:"recovery_cause_l2ptguard"`
-	RecoveryCauseLinkFlap                    types.Bool   `tfsdk:"recovery_cause_link_flap"`
-	RecoveryCauseLinkMonitorFailure          types.Bool   `tfsdk:"recovery_cause_link_monitor_failure"`
-	RecoveryCauseLoopback                    types.Bool   `tfsdk:"recovery_cause_loopback"`
-	RecoveryCauseMacLimit                    types.Bool   `tfsdk:"recovery_cause_mac_limit"`
-	RecoveryCauseMlacpMinlink                types.Bool   `tfsdk:"recovery_cause_mlacp_minlink"`
-	RecoveryCausePagpFlap                    types.Bool   `tfsdk:"recovery_cause_pagp_flap"`
-	RecoveryCausePortModeFailure             types.Bool   `tfsdk:"recovery_cause_port_mode_failure"`
-	RecoveryCausePppoeIaRateLimit            types.Bool   `tfsdk:"recovery_cause_pppoe_ia_rate_limit"`
-	RecoveryCausePsp                         types.Bool   `tfsdk:"recovery_cause_psp"`
-	RecoveryCausePsecureViolation            types.Bool   `tfsdk:"recovery_cause_psecure_violation"`
-	RecoveryCauseSecurityViolation           types.Bool   `tfsdk:"recovery_cause_security_violation"`
-	RecoveryCauseSfpConfigMismatch           types.Bool   `tfsdk:"recovery_cause_sfp_config_mismatch"`
-	RecoveryCauseSmallFrame                  types.Bool   `tfsdk:"recovery_cause_small_frame"`
-	RecoveryCauseStormControl                types.Bool   `tfsdk:"recovery_cause_storm_control"`
-	RecoveryCauseUdld                        types.Bool   `tfsdk:"recovery_cause_udld"`
-	RecoveryCauseUnicastFlood                types.Bool   `tfsdk:"recovery_cause_unicast_flood"`
-	RecoveryCauseVmps                        types.Bool   `tfsdk:"recovery_cause_vmps"`
-	RecoveryCauseLoopdetect                  types.Bool   `tfsdk:"recovery_cause_loopdetect"`
-	RecoveryCauseOamRemoteFailure            types.Bool   `tfsdk:"recovery_cause_oam_remote_failure"`
-	RecoveryCauseMrpMiscabling               types.Bool   `tfsdk:"recovery_cause_mrp_miscabling"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	DetectCauseAll types.Bool `tfsdk:"detect_cause_all"`
+	DetectCauseArpInspection types.Bool `tfsdk:"detect_cause_arp_inspection"`
+	DetectCauseBpduguard types.Bool `tfsdk:"detect_cause_bpduguard"`
+	DetectCauseDhcpRateLimit types.Bool `tfsdk:"detect_cause_dhcp_rate_limit"`
+	DetectCauseDtpFlap types.Bool `tfsdk:"detect_cause_dtp_flap"`
+	DetectCauseGbicInvalid types.Bool `tfsdk:"detect_cause_gbic_invalid"`
+	DetectCauseInlinePower types.Bool `tfsdk:"detect_cause_inline_power"`
+	DetectCauseL2ptguard types.Bool `tfsdk:"detect_cause_l2ptguard"`
+	DetectCauseLinkFlap types.Bool `tfsdk:"detect_cause_link_flap"`
+	DetectCauseLoopback types.Bool `tfsdk:"detect_cause_loopback"`
+	DetectCauseMlacpMinlink types.Bool `tfsdk:"detect_cause_mlacp_minlink"`
+	DetectCausePagpFlap types.Bool `tfsdk:"detect_cause_pagp_flap"`
+	DetectCausePppoeIaRateLimit types.Bool `tfsdk:"detect_cause_pppoe_ia_rate_limit"`
+	DetectCauseSecurityViolationShutdownVlan types.Bool `tfsdk:"detect_cause_security_violation_shutdown_vlan"`
+	DetectCauseSfpConfigMismatch types.Bool `tfsdk:"detect_cause_sfp_config_mismatch"`
+	DetectCauseSmallFrame types.Bool `tfsdk:"detect_cause_small_frame"`
+	DetectCauseLoopdetect types.Bool `tfsdk:"detect_cause_loopdetect"`
+	FlapSettingCauseDtpFlapMaxFlaps types.Int64 `tfsdk:"flap_setting_cause_dtp_flap_max_flaps"`
+	FlapSettingCauseDtpFlapTime types.Int64 `tfsdk:"flap_setting_cause_dtp_flap_time"`
+	FlapSettingCauseLinkFlapMaxFlaps types.Int64 `tfsdk:"flap_setting_cause_link_flap_max_flaps"`
+	FlapSettingCauseLinkFlapTime types.Int64 `tfsdk:"flap_setting_cause_link_flap_time"`
+	FlapSettingCausePagpFlapMaxFlaps types.Int64 `tfsdk:"flap_setting_cause_pagp_flap_max_flaps"`
+	FlapSettingCausePagpFlapTime types.Int64 `tfsdk:"flap_setting_cause_pagp_flap_time"`
+	RecoveryInterval types.Int64 `tfsdk:"recovery_interval"`
+	RecoveryCauseAll types.Bool `tfsdk:"recovery_cause_all"`
+	RecoveryCauseArpInspection types.Bool `tfsdk:"recovery_cause_arp_inspection"`
+	RecoveryCauseBpduguard types.Bool `tfsdk:"recovery_cause_bpduguard"`
+	RecoveryCauseChannelMisconfig types.Bool `tfsdk:"recovery_cause_channel_misconfig"`
+	RecoveryCauseDhcpRateLimit types.Bool `tfsdk:"recovery_cause_dhcp_rate_limit"`
+	RecoveryCauseDtpFlap types.Bool `tfsdk:"recovery_cause_dtp_flap"`
+	RecoveryCauseGbicInvalid types.Bool `tfsdk:"recovery_cause_gbic_invalid"`
+	RecoveryCauseInlinePower types.Bool `tfsdk:"recovery_cause_inline_power"`
+	RecoveryCauseL2ptguard types.Bool `tfsdk:"recovery_cause_l2ptguard"`
+	RecoveryCauseLinkFlap types.Bool `tfsdk:"recovery_cause_link_flap"`
+	RecoveryCauseLinkMonitorFailure types.Bool `tfsdk:"recovery_cause_link_monitor_failure"`
+	RecoveryCauseLoopback types.Bool `tfsdk:"recovery_cause_loopback"`
+	RecoveryCauseMacLimit types.Bool `tfsdk:"recovery_cause_mac_limit"`
+	RecoveryCauseMlacpMinlink types.Bool `tfsdk:"recovery_cause_mlacp_minlink"`
+	RecoveryCausePagpFlap types.Bool `tfsdk:"recovery_cause_pagp_flap"`
+	RecoveryCausePortModeFailure types.Bool `tfsdk:"recovery_cause_port_mode_failure"`
+	RecoveryCausePppoeIaRateLimit types.Bool `tfsdk:"recovery_cause_pppoe_ia_rate_limit"`
+	RecoveryCausePsp types.Bool `tfsdk:"recovery_cause_psp"`
+	RecoveryCausePsecureViolation types.Bool `tfsdk:"recovery_cause_psecure_violation"`
+	RecoveryCauseSecurityViolation types.Bool `tfsdk:"recovery_cause_security_violation"`
+	RecoveryCauseSfpConfigMismatch types.Bool `tfsdk:"recovery_cause_sfp_config_mismatch"`
+	RecoveryCauseSmallFrame types.Bool `tfsdk:"recovery_cause_small_frame"`
+	RecoveryCauseStormControl types.Bool `tfsdk:"recovery_cause_storm_control"`
+	RecoveryCauseUdld types.Bool `tfsdk:"recovery_cause_udld"`
+	RecoveryCauseUnicastFlood types.Bool `tfsdk:"recovery_cause_unicast_flood"`
+	RecoveryCauseVmps types.Bool `tfsdk:"recovery_cause_vmps"`
+	RecoveryCauseLoopdetect types.Bool `tfsdk:"recovery_cause_loopdetect"`
+	RecoveryCauseOamRemoteFailure types.Bool `tfsdk:"recovery_cause_oam_remote_failure"`
+	RecoveryCauseMrpMiscabling types.Bool `tfsdk:"recovery_cause_mrp_miscabling"`
 }
 
 type ErrdisableData struct {
-	Device                                   types.String `tfsdk:"device"`
-	Id                                       types.String `tfsdk:"id"`
-	DetectCauseAll                           types.Bool   `tfsdk:"detect_cause_all"`
-	DetectCauseArpInspection                 types.Bool   `tfsdk:"detect_cause_arp_inspection"`
-	DetectCauseBpduguard                     types.Bool   `tfsdk:"detect_cause_bpduguard"`
-	DetectCauseDhcpRateLimit                 types.Bool   `tfsdk:"detect_cause_dhcp_rate_limit"`
-	DetectCauseDtpFlap                       types.Bool   `tfsdk:"detect_cause_dtp_flap"`
-	DetectCauseGbicInvalid                   types.Bool   `tfsdk:"detect_cause_gbic_invalid"`
-	DetectCauseInlinePower                   types.Bool   `tfsdk:"detect_cause_inline_power"`
-	DetectCauseL2ptguard                     types.Bool   `tfsdk:"detect_cause_l2ptguard"`
-	DetectCauseLinkFlap                      types.Bool   `tfsdk:"detect_cause_link_flap"`
-	DetectCauseLoopback                      types.Bool   `tfsdk:"detect_cause_loopback"`
-	DetectCauseMlacpMinlink                  types.Bool   `tfsdk:"detect_cause_mlacp_minlink"`
-	DetectCausePagpFlap                      types.Bool   `tfsdk:"detect_cause_pagp_flap"`
-	DetectCausePppoeIaRateLimit              types.Bool   `tfsdk:"detect_cause_pppoe_ia_rate_limit"`
-	DetectCauseSecurityViolationShutdownVlan types.Bool   `tfsdk:"detect_cause_security_violation_shutdown_vlan"`
-	DetectCauseSfpConfigMismatch             types.Bool   `tfsdk:"detect_cause_sfp_config_mismatch"`
-	DetectCauseSmallFrame                    types.Bool   `tfsdk:"detect_cause_small_frame"`
-	DetectCauseLoopdetect                    types.Bool   `tfsdk:"detect_cause_loopdetect"`
-	FlapSettingCauseDtpFlapMaxFlaps          types.Int64  `tfsdk:"flap_setting_cause_dtp_flap_max_flaps"`
-	FlapSettingCauseDtpFlapTime              types.Int64  `tfsdk:"flap_setting_cause_dtp_flap_time"`
-	FlapSettingCauseLinkFlapMaxFlaps         types.Int64  `tfsdk:"flap_setting_cause_link_flap_max_flaps"`
-	FlapSettingCauseLinkFlapTime             types.Int64  `tfsdk:"flap_setting_cause_link_flap_time"`
-	FlapSettingCausePagpFlapMaxFlaps         types.Int64  `tfsdk:"flap_setting_cause_pagp_flap_max_flaps"`
-	FlapSettingCausePagpFlapTime             types.Int64  `tfsdk:"flap_setting_cause_pagp_flap_time"`
-	RecoveryInterval                         types.Int64  `tfsdk:"recovery_interval"`
-	RecoveryCauseAll                         types.Bool   `tfsdk:"recovery_cause_all"`
-	RecoveryCauseArpInspection               types.Bool   `tfsdk:"recovery_cause_arp_inspection"`
-	RecoveryCauseBpduguard                   types.Bool   `tfsdk:"recovery_cause_bpduguard"`
-	RecoveryCauseChannelMisconfig            types.Bool   `tfsdk:"recovery_cause_channel_misconfig"`
-	RecoveryCauseDhcpRateLimit               types.Bool   `tfsdk:"recovery_cause_dhcp_rate_limit"`
-	RecoveryCauseDtpFlap                     types.Bool   `tfsdk:"recovery_cause_dtp_flap"`
-	RecoveryCauseGbicInvalid                 types.Bool   `tfsdk:"recovery_cause_gbic_invalid"`
-	RecoveryCauseInlinePower                 types.Bool   `tfsdk:"recovery_cause_inline_power"`
-	RecoveryCauseL2ptguard                   types.Bool   `tfsdk:"recovery_cause_l2ptguard"`
-	RecoveryCauseLinkFlap                    types.Bool   `tfsdk:"recovery_cause_link_flap"`
-	RecoveryCauseLinkMonitorFailure          types.Bool   `tfsdk:"recovery_cause_link_monitor_failure"`
-	RecoveryCauseLoopback                    types.Bool   `tfsdk:"recovery_cause_loopback"`
-	RecoveryCauseMacLimit                    types.Bool   `tfsdk:"recovery_cause_mac_limit"`
-	RecoveryCauseMlacpMinlink                types.Bool   `tfsdk:"recovery_cause_mlacp_minlink"`
-	RecoveryCausePagpFlap                    types.Bool   `tfsdk:"recovery_cause_pagp_flap"`
-	RecoveryCausePortModeFailure             types.Bool   `tfsdk:"recovery_cause_port_mode_failure"`
-	RecoveryCausePppoeIaRateLimit            types.Bool   `tfsdk:"recovery_cause_pppoe_ia_rate_limit"`
-	RecoveryCausePsp                         types.Bool   `tfsdk:"recovery_cause_psp"`
-	RecoveryCausePsecureViolation            types.Bool   `tfsdk:"recovery_cause_psecure_violation"`
-	RecoveryCauseSecurityViolation           types.Bool   `tfsdk:"recovery_cause_security_violation"`
-	RecoveryCauseSfpConfigMismatch           types.Bool   `tfsdk:"recovery_cause_sfp_config_mismatch"`
-	RecoveryCauseSmallFrame                  types.Bool   `tfsdk:"recovery_cause_small_frame"`
-	RecoveryCauseStormControl                types.Bool   `tfsdk:"recovery_cause_storm_control"`
-	RecoveryCauseUdld                        types.Bool   `tfsdk:"recovery_cause_udld"`
-	RecoveryCauseUnicastFlood                types.Bool   `tfsdk:"recovery_cause_unicast_flood"`
-	RecoveryCauseVmps                        types.Bool   `tfsdk:"recovery_cause_vmps"`
-	RecoveryCauseLoopdetect                  types.Bool   `tfsdk:"recovery_cause_loopdetect"`
-	RecoveryCauseOamRemoteFailure            types.Bool   `tfsdk:"recovery_cause_oam_remote_failure"`
-	RecoveryCauseMrpMiscabling               types.Bool   `tfsdk:"recovery_cause_mrp_miscabling"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DetectCauseAll types.Bool `tfsdk:"detect_cause_all"`
+	DetectCauseArpInspection types.Bool `tfsdk:"detect_cause_arp_inspection"`
+	DetectCauseBpduguard types.Bool `tfsdk:"detect_cause_bpduguard"`
+	DetectCauseDhcpRateLimit types.Bool `tfsdk:"detect_cause_dhcp_rate_limit"`
+	DetectCauseDtpFlap types.Bool `tfsdk:"detect_cause_dtp_flap"`
+	DetectCauseGbicInvalid types.Bool `tfsdk:"detect_cause_gbic_invalid"`
+	DetectCauseInlinePower types.Bool `tfsdk:"detect_cause_inline_power"`
+	DetectCauseL2ptguard types.Bool `tfsdk:"detect_cause_l2ptguard"`
+	DetectCauseLinkFlap types.Bool `tfsdk:"detect_cause_link_flap"`
+	DetectCauseLoopback types.Bool `tfsdk:"detect_cause_loopback"`
+	DetectCauseMlacpMinlink types.Bool `tfsdk:"detect_cause_mlacp_minlink"`
+	DetectCausePagpFlap types.Bool `tfsdk:"detect_cause_pagp_flap"`
+	DetectCausePppoeIaRateLimit types.Bool `tfsdk:"detect_cause_pppoe_ia_rate_limit"`
+	DetectCauseSecurityViolationShutdownVlan types.Bool `tfsdk:"detect_cause_security_violation_shutdown_vlan"`
+	DetectCauseSfpConfigMismatch types.Bool `tfsdk:"detect_cause_sfp_config_mismatch"`
+	DetectCauseSmallFrame types.Bool `tfsdk:"detect_cause_small_frame"`
+	DetectCauseLoopdetect types.Bool `tfsdk:"detect_cause_loopdetect"`
+	FlapSettingCauseDtpFlapMaxFlaps types.Int64 `tfsdk:"flap_setting_cause_dtp_flap_max_flaps"`
+	FlapSettingCauseDtpFlapTime types.Int64 `tfsdk:"flap_setting_cause_dtp_flap_time"`
+	FlapSettingCauseLinkFlapMaxFlaps types.Int64 `tfsdk:"flap_setting_cause_link_flap_max_flaps"`
+	FlapSettingCauseLinkFlapTime types.Int64 `tfsdk:"flap_setting_cause_link_flap_time"`
+	FlapSettingCausePagpFlapMaxFlaps types.Int64 `tfsdk:"flap_setting_cause_pagp_flap_max_flaps"`
+	FlapSettingCausePagpFlapTime types.Int64 `tfsdk:"flap_setting_cause_pagp_flap_time"`
+	RecoveryInterval types.Int64 `tfsdk:"recovery_interval"`
+	RecoveryCauseAll types.Bool `tfsdk:"recovery_cause_all"`
+	RecoveryCauseArpInspection types.Bool `tfsdk:"recovery_cause_arp_inspection"`
+	RecoveryCauseBpduguard types.Bool `tfsdk:"recovery_cause_bpduguard"`
+	RecoveryCauseChannelMisconfig types.Bool `tfsdk:"recovery_cause_channel_misconfig"`
+	RecoveryCauseDhcpRateLimit types.Bool `tfsdk:"recovery_cause_dhcp_rate_limit"`
+	RecoveryCauseDtpFlap types.Bool `tfsdk:"recovery_cause_dtp_flap"`
+	RecoveryCauseGbicInvalid types.Bool `tfsdk:"recovery_cause_gbic_invalid"`
+	RecoveryCauseInlinePower types.Bool `tfsdk:"recovery_cause_inline_power"`
+	RecoveryCauseL2ptguard types.Bool `tfsdk:"recovery_cause_l2ptguard"`
+	RecoveryCauseLinkFlap types.Bool `tfsdk:"recovery_cause_link_flap"`
+	RecoveryCauseLinkMonitorFailure types.Bool `tfsdk:"recovery_cause_link_monitor_failure"`
+	RecoveryCauseLoopback types.Bool `tfsdk:"recovery_cause_loopback"`
+	RecoveryCauseMacLimit types.Bool `tfsdk:"recovery_cause_mac_limit"`
+	RecoveryCauseMlacpMinlink types.Bool `tfsdk:"recovery_cause_mlacp_minlink"`
+	RecoveryCausePagpFlap types.Bool `tfsdk:"recovery_cause_pagp_flap"`
+	RecoveryCausePortModeFailure types.Bool `tfsdk:"recovery_cause_port_mode_failure"`
+	RecoveryCausePppoeIaRateLimit types.Bool `tfsdk:"recovery_cause_pppoe_ia_rate_limit"`
+	RecoveryCausePsp types.Bool `tfsdk:"recovery_cause_psp"`
+	RecoveryCausePsecureViolation types.Bool `tfsdk:"recovery_cause_psecure_violation"`
+	RecoveryCauseSecurityViolation types.Bool `tfsdk:"recovery_cause_security_violation"`
+	RecoveryCauseSfpConfigMismatch types.Bool `tfsdk:"recovery_cause_sfp_config_mismatch"`
+	RecoveryCauseSmallFrame types.Bool `tfsdk:"recovery_cause_small_frame"`
+	RecoveryCauseStormControl types.Bool `tfsdk:"recovery_cause_storm_control"`
+	RecoveryCauseUdld types.Bool `tfsdk:"recovery_cause_udld"`
+	RecoveryCauseUnicastFlood types.Bool `tfsdk:"recovery_cause_unicast_flood"`
+	RecoveryCauseVmps types.Bool `tfsdk:"recovery_cause_vmps"`
+	RecoveryCauseLoopdetect types.Bool `tfsdk:"recovery_cause_loopdetect"`
+	RecoveryCauseOamRemoteFailure types.Bool `tfsdk:"recovery_cause_oam_remote_failure"`
+	RecoveryCauseMrpMiscabling types.Bool `tfsdk:"recovery_cause_mrp_miscabling"`
 }
 
 // End of section. //template:end types
@@ -455,341 +455,341 @@ func (data Errdisable) toBodyXML(ctx context.Context, config Errdisable) string 
 	body := netconf.Body{}
 	if !data.DetectCauseAll.IsNull() && !data.DetectCauseAll.IsUnknown() {
 		if data.DetectCauseAll.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/all", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/all", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/all")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/all")
 		}
 	}
 	if !data.DetectCauseArpInspection.IsNull() && !data.DetectCauseArpInspection.IsUnknown() {
 		if data.DetectCauseArpInspection.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/arp-inspection", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/arp-inspection", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/arp-inspection")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/arp-inspection")
 		}
 	}
 	if !data.DetectCauseBpduguard.IsNull() && !data.DetectCauseBpduguard.IsUnknown() {
 		if data.DetectCauseBpduguard.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/bpduguard", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/bpduguard", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/bpduguard")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/bpduguard")
 		}
 	}
 	if !data.DetectCauseDhcpRateLimit.IsNull() && !data.DetectCauseDhcpRateLimit.IsUnknown() {
 		if data.DetectCauseDhcpRateLimit.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/dhcp-rate-limit", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/dhcp-rate-limit", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/dhcp-rate-limit")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/dhcp-rate-limit")
 		}
 	}
 	if !data.DetectCauseDtpFlap.IsNull() && !data.DetectCauseDtpFlap.IsUnknown() {
 		if data.DetectCauseDtpFlap.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/dtp-flap", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/dtp-flap", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/dtp-flap")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/dtp-flap")
 		}
 	}
 	if !data.DetectCauseGbicInvalid.IsNull() && !data.DetectCauseGbicInvalid.IsUnknown() {
 		if data.DetectCauseGbicInvalid.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/gbic-invalid", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/gbic-invalid", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/gbic-invalid")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/gbic-invalid")
 		}
 	}
 	if !data.DetectCauseInlinePower.IsNull() && !data.DetectCauseInlinePower.IsUnknown() {
 		if data.DetectCauseInlinePower.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/inline-power", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/inline-power", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/inline-power")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/inline-power")
 		}
 	}
 	if !data.DetectCauseL2ptguard.IsNull() && !data.DetectCauseL2ptguard.IsUnknown() {
 		if data.DetectCauseL2ptguard.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/l2ptguard", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/l2ptguard", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/l2ptguard")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/l2ptguard")
 		}
 	}
 	if !data.DetectCauseLinkFlap.IsNull() && !data.DetectCauseLinkFlap.IsUnknown() {
 		if data.DetectCauseLinkFlap.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/link-flap", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/link-flap", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/link-flap")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/link-flap")
 		}
 	}
 	if !data.DetectCauseLoopback.IsNull() && !data.DetectCauseLoopback.IsUnknown() {
 		if data.DetectCauseLoopback.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/loopback", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/loopback", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/loopback")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/loopback")
 		}
 	}
 	if !data.DetectCauseMlacpMinlink.IsNull() && !data.DetectCauseMlacpMinlink.IsUnknown() {
 		if data.DetectCauseMlacpMinlink.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/mlacp-minlink", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/mlacp-minlink", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/mlacp-minlink")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/mlacp-minlink")
 		}
 	}
 	if !data.DetectCausePagpFlap.IsNull() && !data.DetectCausePagpFlap.IsUnknown() {
 		if data.DetectCausePagpFlap.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/pagp-flap", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/pagp-flap", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/pagp-flap")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/pagp-flap")
 		}
 	}
 	if !data.DetectCausePppoeIaRateLimit.IsNull() && !data.DetectCausePppoeIaRateLimit.IsUnknown() {
 		if data.DetectCausePppoeIaRateLimit.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/pppoe-ia-rate-limit", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/pppoe-ia-rate-limit", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/pppoe-ia-rate-limit")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/pppoe-ia-rate-limit")
 		}
 	}
 	if !data.DetectCauseSecurityViolationShutdownVlan.IsNull() && !data.DetectCauseSecurityViolationShutdownVlan.IsUnknown() {
 		if data.DetectCauseSecurityViolationShutdownVlan.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/security-violation/shutdown/vlan", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/security-violation/shutdown/vlan", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/security-violation/shutdown/vlan")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/security-violation/shutdown/vlan")
 		}
 	}
 	if !data.DetectCauseSfpConfigMismatch.IsNull() && !data.DetectCauseSfpConfigMismatch.IsUnknown() {
 		if data.DetectCauseSfpConfigMismatch.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/sfp-config-mismatch", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/sfp-config-mismatch", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/sfp-config-mismatch")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/sfp-config-mismatch")
 		}
 	}
 	if !data.DetectCauseSmallFrame.IsNull() && !data.DetectCauseSmallFrame.IsUnknown() {
 		if data.DetectCauseSmallFrame.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/small-frame", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/small-frame", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/detect/cause/small-frame")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/detect/cause/small-frame")
 		}
 	}
 	if !data.DetectCauseLoopdetect.IsNull() && !data.DetectCauseLoopdetect.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/detect/cause/loopdetect", data.DetectCauseLoopdetect.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/detect/cause/loopdetect", data.DetectCauseLoopdetect.ValueBool())
 	}
 	if !data.FlapSettingCauseDtpFlapMaxFlaps.IsNull() && !data.FlapSettingCauseDtpFlapMaxFlaps.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/flap-setting/cause/dtp-flap/max-flaps", strconv.FormatInt(data.FlapSettingCauseDtpFlapMaxFlaps.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/flap-setting/cause/dtp-flap/max-flaps", strconv.FormatInt(data.FlapSettingCauseDtpFlapMaxFlaps.ValueInt64(), 10))
 	}
 	if !data.FlapSettingCauseDtpFlapTime.IsNull() && !data.FlapSettingCauseDtpFlapTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/flap-setting/cause/dtp-flap/time", strconv.FormatInt(data.FlapSettingCauseDtpFlapTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/flap-setting/cause/dtp-flap/time", strconv.FormatInt(data.FlapSettingCauseDtpFlapTime.ValueInt64(), 10))
 	}
 	if !data.FlapSettingCauseLinkFlapMaxFlaps.IsNull() && !data.FlapSettingCauseLinkFlapMaxFlaps.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/flap-setting/cause/link-flap/max-flaps", strconv.FormatInt(data.FlapSettingCauseLinkFlapMaxFlaps.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/flap-setting/cause/link-flap/max-flaps", strconv.FormatInt(data.FlapSettingCauseLinkFlapMaxFlaps.ValueInt64(), 10))
 	}
 	if !data.FlapSettingCauseLinkFlapTime.IsNull() && !data.FlapSettingCauseLinkFlapTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/flap-setting/cause/link-flap/time", strconv.FormatInt(data.FlapSettingCauseLinkFlapTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/flap-setting/cause/link-flap/time", strconv.FormatInt(data.FlapSettingCauseLinkFlapTime.ValueInt64(), 10))
 	}
 	if !data.FlapSettingCausePagpFlapMaxFlaps.IsNull() && !data.FlapSettingCausePagpFlapMaxFlaps.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/flap-setting/cause/pagp-flap/max-flaps", strconv.FormatInt(data.FlapSettingCausePagpFlapMaxFlaps.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/flap-setting/cause/pagp-flap/max-flaps", strconv.FormatInt(data.FlapSettingCausePagpFlapMaxFlaps.ValueInt64(), 10))
 	}
 	if !data.FlapSettingCausePagpFlapTime.IsNull() && !data.FlapSettingCausePagpFlapTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/flap-setting/cause/pagp-flap/time", strconv.FormatInt(data.FlapSettingCausePagpFlapTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/flap-setting/cause/pagp-flap/time", strconv.FormatInt(data.FlapSettingCausePagpFlapTime.ValueInt64(), 10))
 	}
 	if !data.RecoveryInterval.IsNull() && !data.RecoveryInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/interval", strconv.FormatInt(data.RecoveryInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/interval", strconv.FormatInt(data.RecoveryInterval.ValueInt64(), 10))
 	}
 	if !data.RecoveryCauseAll.IsNull() && !data.RecoveryCauseAll.IsUnknown() {
 		if data.RecoveryCauseAll.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/all", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/all", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/all")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/all")
 		}
 	}
 	if !data.RecoveryCauseArpInspection.IsNull() && !data.RecoveryCauseArpInspection.IsUnknown() {
 		if data.RecoveryCauseArpInspection.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/arp-inspection", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/arp-inspection", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/arp-inspection")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/arp-inspection")
 		}
 	}
 	if !data.RecoveryCauseBpduguard.IsNull() && !data.RecoveryCauseBpduguard.IsUnknown() {
 		if data.RecoveryCauseBpduguard.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/bpduguard", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/bpduguard", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/bpduguard")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/bpduguard")
 		}
 	}
 	if !data.RecoveryCauseChannelMisconfig.IsNull() && !data.RecoveryCauseChannelMisconfig.IsUnknown() {
 		if data.RecoveryCauseChannelMisconfig.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/channel-misconfig", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/channel-misconfig", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/channel-misconfig")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/channel-misconfig")
 		}
 	}
 	if !data.RecoveryCauseDhcpRateLimit.IsNull() && !data.RecoveryCauseDhcpRateLimit.IsUnknown() {
 		if data.RecoveryCauseDhcpRateLimit.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/dhcp-rate-limit", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/dhcp-rate-limit", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/dhcp-rate-limit")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/dhcp-rate-limit")
 		}
 	}
 	if !data.RecoveryCauseDtpFlap.IsNull() && !data.RecoveryCauseDtpFlap.IsUnknown() {
 		if data.RecoveryCauseDtpFlap.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/dtp-flap", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/dtp-flap", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/dtp-flap")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/dtp-flap")
 		}
 	}
 	if !data.RecoveryCauseGbicInvalid.IsNull() && !data.RecoveryCauseGbicInvalid.IsUnknown() {
 		if data.RecoveryCauseGbicInvalid.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/gbic-invalid", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/gbic-invalid", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/gbic-invalid")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/gbic-invalid")
 		}
 	}
 	if !data.RecoveryCauseInlinePower.IsNull() && !data.RecoveryCauseInlinePower.IsUnknown() {
 		if data.RecoveryCauseInlinePower.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/inline-power", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/inline-power", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/inline-power")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/inline-power")
 		}
 	}
 	if !data.RecoveryCauseL2ptguard.IsNull() && !data.RecoveryCauseL2ptguard.IsUnknown() {
 		if data.RecoveryCauseL2ptguard.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/l2ptguard", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/l2ptguard", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/l2ptguard")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/l2ptguard")
 		}
 	}
 	if !data.RecoveryCauseLinkFlap.IsNull() && !data.RecoveryCauseLinkFlap.IsUnknown() {
 		if data.RecoveryCauseLinkFlap.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/link-flap", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/link-flap", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/link-flap")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/link-flap")
 		}
 	}
 	if !data.RecoveryCauseLinkMonitorFailure.IsNull() && !data.RecoveryCauseLinkMonitorFailure.IsUnknown() {
 		if data.RecoveryCauseLinkMonitorFailure.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/link-monitor-failure", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/link-monitor-failure", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/link-monitor-failure")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/link-monitor-failure")
 		}
 	}
 	if !data.RecoveryCauseLoopback.IsNull() && !data.RecoveryCauseLoopback.IsUnknown() {
 		if data.RecoveryCauseLoopback.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/loopback", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/loopback", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/loopback")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/loopback")
 		}
 	}
 	if !data.RecoveryCauseMacLimit.IsNull() && !data.RecoveryCauseMacLimit.IsUnknown() {
 		if data.RecoveryCauseMacLimit.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/mac-limit", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/mac-limit", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/mac-limit")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/mac-limit")
 		}
 	}
 	if !data.RecoveryCauseMlacpMinlink.IsNull() && !data.RecoveryCauseMlacpMinlink.IsUnknown() {
 		if data.RecoveryCauseMlacpMinlink.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/mlacp-minlink", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/mlacp-minlink", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/mlacp-minlink")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/mlacp-minlink")
 		}
 	}
 	if !data.RecoveryCausePagpFlap.IsNull() && !data.RecoveryCausePagpFlap.IsUnknown() {
 		if data.RecoveryCausePagpFlap.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/pagp-flap", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/pagp-flap", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/pagp-flap")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/pagp-flap")
 		}
 	}
 	if !data.RecoveryCausePortModeFailure.IsNull() && !data.RecoveryCausePortModeFailure.IsUnknown() {
 		if data.RecoveryCausePortModeFailure.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/port-mode-failure", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/port-mode-failure", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/port-mode-failure")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/port-mode-failure")
 		}
 	}
 	if !data.RecoveryCausePppoeIaRateLimit.IsNull() && !data.RecoveryCausePppoeIaRateLimit.IsUnknown() {
 		if data.RecoveryCausePppoeIaRateLimit.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/pppoe-ia-rate-limit", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/pppoe-ia-rate-limit", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/pppoe-ia-rate-limit")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/pppoe-ia-rate-limit")
 		}
 	}
 	if !data.RecoveryCausePsp.IsNull() && !data.RecoveryCausePsp.IsUnknown() {
 		if data.RecoveryCausePsp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/psp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/psp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/psp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/psp")
 		}
 	}
 	if !data.RecoveryCausePsecureViolation.IsNull() && !data.RecoveryCausePsecureViolation.IsUnknown() {
 		if data.RecoveryCausePsecureViolation.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/psecure-violation", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/psecure-violation", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/psecure-violation")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/psecure-violation")
 		}
 	}
 	if !data.RecoveryCauseSecurityViolation.IsNull() && !data.RecoveryCauseSecurityViolation.IsUnknown() {
 		if data.RecoveryCauseSecurityViolation.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/security-violation", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/security-violation", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/security-violation")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/security-violation")
 		}
 	}
 	if !data.RecoveryCauseSfpConfigMismatch.IsNull() && !data.RecoveryCauseSfpConfigMismatch.IsUnknown() {
 		if data.RecoveryCauseSfpConfigMismatch.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/sfp-config-mismatch", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/sfp-config-mismatch", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/sfp-config-mismatch")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/sfp-config-mismatch")
 		}
 	}
 	if !data.RecoveryCauseSmallFrame.IsNull() && !data.RecoveryCauseSmallFrame.IsUnknown() {
 		if data.RecoveryCauseSmallFrame.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/small-frame", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/small-frame", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/small-frame")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/small-frame")
 		}
 	}
 	if !data.RecoveryCauseStormControl.IsNull() && !data.RecoveryCauseStormControl.IsUnknown() {
 		if data.RecoveryCauseStormControl.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/storm-control", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/storm-control", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/storm-control")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/storm-control")
 		}
 	}
 	if !data.RecoveryCauseUdld.IsNull() && !data.RecoveryCauseUdld.IsUnknown() {
 		if data.RecoveryCauseUdld.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/udld", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/udld", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/udld")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/udld")
 		}
 	}
 	if !data.RecoveryCauseUnicastFlood.IsNull() && !data.RecoveryCauseUnicastFlood.IsUnknown() {
 		if data.RecoveryCauseUnicastFlood.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/unicast-flood", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/unicast-flood", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/unicast-flood")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/unicast-flood")
 		}
 	}
 	if !data.RecoveryCauseVmps.IsNull() && !data.RecoveryCauseVmps.IsUnknown() {
 		if data.RecoveryCauseVmps.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/vmps", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/vmps", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/vmps")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/vmps")
 		}
 	}
 	if !data.RecoveryCauseLoopdetect.IsNull() && !data.RecoveryCauseLoopdetect.IsUnknown() {
 		if data.RecoveryCauseLoopdetect.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/loopdetect", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/loopdetect", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/loopdetect")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/loopdetect")
 		}
 	}
 	if !data.RecoveryCauseOamRemoteFailure.IsNull() && !data.RecoveryCauseOamRemoteFailure.IsUnknown() {
 		if data.RecoveryCauseOamRemoteFailure.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/oam-remote-failure", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/oam-remote-failure", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/oam-remote-failure")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/oam-remote-failure")
 		}
 	}
 	if !data.RecoveryCauseMrpMiscabling.IsNull() && !data.RecoveryCauseMrpMiscabling.IsUnknown() {
 		if data.RecoveryCauseMrpMiscabling.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/recovery/cause/mrp-miscabling", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/recovery/cause/mrp-miscabling", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/recovery/cause/mrp-miscabling")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/recovery/cause/mrp-miscabling")
 		}
 	}
 	bodyString, err := body.String()
@@ -808,7 +808,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "detect.cause.all"); !data.DetectCauseAll.IsNull() {
+	if value := res.Get(prefix+"detect.cause.all"); !data.DetectCauseAll.IsNull() {
 		if value.Exists() {
 			data.DetectCauseAll = types.BoolValue(true)
 		} else {
@@ -817,7 +817,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseAll = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.arp-inspection"); !data.DetectCauseArpInspection.IsNull() {
+	if value := res.Get(prefix+"detect.cause.arp-inspection"); !data.DetectCauseArpInspection.IsNull() {
 		if value.Exists() {
 			data.DetectCauseArpInspection = types.BoolValue(true)
 		} else {
@@ -826,7 +826,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseArpInspection = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.bpduguard"); !data.DetectCauseBpduguard.IsNull() {
+	if value := res.Get(prefix+"detect.cause.bpduguard"); !data.DetectCauseBpduguard.IsNull() {
 		if value.Exists() {
 			data.DetectCauseBpduguard = types.BoolValue(true)
 		} else {
@@ -835,7 +835,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseBpduguard = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.dhcp-rate-limit"); !data.DetectCauseDhcpRateLimit.IsNull() {
+	if value := res.Get(prefix+"detect.cause.dhcp-rate-limit"); !data.DetectCauseDhcpRateLimit.IsNull() {
 		if value.Exists() {
 			data.DetectCauseDhcpRateLimit = types.BoolValue(true)
 		} else {
@@ -844,7 +844,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseDhcpRateLimit = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.dtp-flap"); !data.DetectCauseDtpFlap.IsNull() {
+	if value := res.Get(prefix+"detect.cause.dtp-flap"); !data.DetectCauseDtpFlap.IsNull() {
 		if value.Exists() {
 			data.DetectCauseDtpFlap = types.BoolValue(true)
 		} else {
@@ -853,7 +853,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseDtpFlap = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.gbic-invalid"); !data.DetectCauseGbicInvalid.IsNull() {
+	if value := res.Get(prefix+"detect.cause.gbic-invalid"); !data.DetectCauseGbicInvalid.IsNull() {
 		if value.Exists() {
 			data.DetectCauseGbicInvalid = types.BoolValue(true)
 		} else {
@@ -862,7 +862,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseGbicInvalid = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.inline-power"); !data.DetectCauseInlinePower.IsNull() {
+	if value := res.Get(prefix+"detect.cause.inline-power"); !data.DetectCauseInlinePower.IsNull() {
 		if value.Exists() {
 			data.DetectCauseInlinePower = types.BoolValue(true)
 		} else {
@@ -871,7 +871,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseInlinePower = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.l2ptguard"); !data.DetectCauseL2ptguard.IsNull() {
+	if value := res.Get(prefix+"detect.cause.l2ptguard"); !data.DetectCauseL2ptguard.IsNull() {
 		if value.Exists() {
 			data.DetectCauseL2ptguard = types.BoolValue(true)
 		} else {
@@ -880,7 +880,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseL2ptguard = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.link-flap"); !data.DetectCauseLinkFlap.IsNull() {
+	if value := res.Get(prefix+"detect.cause.link-flap"); !data.DetectCauseLinkFlap.IsNull() {
 		if value.Exists() {
 			data.DetectCauseLinkFlap = types.BoolValue(true)
 		} else {
@@ -889,7 +889,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseLinkFlap = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.loopback"); !data.DetectCauseLoopback.IsNull() {
+	if value := res.Get(prefix+"detect.cause.loopback"); !data.DetectCauseLoopback.IsNull() {
 		if value.Exists() {
 			data.DetectCauseLoopback = types.BoolValue(true)
 		} else {
@@ -898,7 +898,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseLoopback = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.mlacp-minlink"); !data.DetectCauseMlacpMinlink.IsNull() {
+	if value := res.Get(prefix+"detect.cause.mlacp-minlink"); !data.DetectCauseMlacpMinlink.IsNull() {
 		if value.Exists() {
 			data.DetectCauseMlacpMinlink = types.BoolValue(true)
 		} else {
@@ -907,7 +907,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseMlacpMinlink = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.pagp-flap"); !data.DetectCausePagpFlap.IsNull() {
+	if value := res.Get(prefix+"detect.cause.pagp-flap"); !data.DetectCausePagpFlap.IsNull() {
 		if value.Exists() {
 			data.DetectCausePagpFlap = types.BoolValue(true)
 		} else {
@@ -916,7 +916,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCausePagpFlap = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.pppoe-ia-rate-limit"); !data.DetectCausePppoeIaRateLimit.IsNull() {
+	if value := res.Get(prefix+"detect.cause.pppoe-ia-rate-limit"); !data.DetectCausePppoeIaRateLimit.IsNull() {
 		if value.Exists() {
 			data.DetectCausePppoeIaRateLimit = types.BoolValue(true)
 		} else {
@@ -925,7 +925,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCausePppoeIaRateLimit = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.security-violation.shutdown.vlan"); !data.DetectCauseSecurityViolationShutdownVlan.IsNull() {
+	if value := res.Get(prefix+"detect.cause.security-violation.shutdown.vlan"); !data.DetectCauseSecurityViolationShutdownVlan.IsNull() {
 		if value.Exists() {
 			data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(true)
 		} else {
@@ -934,7 +934,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.sfp-config-mismatch"); !data.DetectCauseSfpConfigMismatch.IsNull() {
+	if value := res.Get(prefix+"detect.cause.sfp-config-mismatch"); !data.DetectCauseSfpConfigMismatch.IsNull() {
 		if value.Exists() {
 			data.DetectCauseSfpConfigMismatch = types.BoolValue(true)
 		} else {
@@ -943,7 +943,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseSfpConfigMismatch = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.small-frame"); !data.DetectCauseSmallFrame.IsNull() {
+	if value := res.Get(prefix+"detect.cause.small-frame"); !data.DetectCauseSmallFrame.IsNull() {
 		if value.Exists() {
 			data.DetectCauseSmallFrame = types.BoolValue(true)
 		} else {
@@ -952,49 +952,49 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DetectCauseSmallFrame = types.BoolNull()
 	}
-	if value := res.Get(prefix + "detect.cause.loopdetect"); !data.DetectCauseLoopdetect.IsNull() {
+	if value := res.Get(prefix+"detect.cause.loopdetect"); !data.DetectCauseLoopdetect.IsNull() {
 		if value.Exists() {
 			data.DetectCauseLoopdetect = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.DetectCauseLoopdetect = types.BoolNull()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.dtp-flap.max-flaps"); value.Exists() && !data.FlapSettingCauseDtpFlapMaxFlaps.IsNull() {
+	if value := res.Get(prefix+"flap-setting.cause.dtp-flap.max-flaps"); value.Exists() && !data.FlapSettingCauseDtpFlapMaxFlaps.IsNull() {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Null()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.dtp-flap.time"); value.Exists() && !data.FlapSettingCauseDtpFlapTime.IsNull() {
+	if value := res.Get(prefix+"flap-setting.cause.dtp-flap.time"); value.Exists() && !data.FlapSettingCauseDtpFlapTime.IsNull() {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.link-flap.max-flaps"); value.Exists() && !data.FlapSettingCauseLinkFlapMaxFlaps.IsNull() {
+	if value := res.Get(prefix+"flap-setting.cause.link-flap.max-flaps"); value.Exists() && !data.FlapSettingCauseLinkFlapMaxFlaps.IsNull() {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Null()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.link-flap.time"); value.Exists() && !data.FlapSettingCauseLinkFlapTime.IsNull() {
+	if value := res.Get(prefix+"flap-setting.cause.link-flap.time"); value.Exists() && !data.FlapSettingCauseLinkFlapTime.IsNull() {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.pagp-flap.max-flaps"); value.Exists() && !data.FlapSettingCausePagpFlapMaxFlaps.IsNull() {
+	if value := res.Get(prefix+"flap-setting.cause.pagp-flap.max-flaps"); value.Exists() && !data.FlapSettingCausePagpFlapMaxFlaps.IsNull() {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Null()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.pagp-flap.time"); value.Exists() && !data.FlapSettingCausePagpFlapTime.IsNull() {
+	if value := res.Get(prefix+"flap-setting.cause.pagp-flap.time"); value.Exists() && !data.FlapSettingCausePagpFlapTime.IsNull() {
 		data.FlapSettingCausePagpFlapTime = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCausePagpFlapTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "recovery.interval"); value.Exists() && !data.RecoveryInterval.IsNull() {
+	if value := res.Get(prefix+"recovery.interval"); value.Exists() && !data.RecoveryInterval.IsNull() {
 		data.RecoveryInterval = types.Int64Value(value.Int())
 	} else {
 		data.RecoveryInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "recovery.cause.all"); !data.RecoveryCauseAll.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.all"); !data.RecoveryCauseAll.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseAll = types.BoolValue(true)
 		} else {
@@ -1003,7 +1003,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseAll = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.arp-inspection"); !data.RecoveryCauseArpInspection.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.arp-inspection"); !data.RecoveryCauseArpInspection.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseArpInspection = types.BoolValue(true)
 		} else {
@@ -1012,7 +1012,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseArpInspection = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.bpduguard"); !data.RecoveryCauseBpduguard.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.bpduguard"); !data.RecoveryCauseBpduguard.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseBpduguard = types.BoolValue(true)
 		} else {
@@ -1021,7 +1021,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseBpduguard = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.channel-misconfig"); !data.RecoveryCauseChannelMisconfig.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.channel-misconfig"); !data.RecoveryCauseChannelMisconfig.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseChannelMisconfig = types.BoolValue(true)
 		} else {
@@ -1030,7 +1030,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseChannelMisconfig = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.dhcp-rate-limit"); !data.RecoveryCauseDhcpRateLimit.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.dhcp-rate-limit"); !data.RecoveryCauseDhcpRateLimit.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseDhcpRateLimit = types.BoolValue(true)
 		} else {
@@ -1039,7 +1039,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseDhcpRateLimit = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.dtp-flap"); !data.RecoveryCauseDtpFlap.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.dtp-flap"); !data.RecoveryCauseDtpFlap.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseDtpFlap = types.BoolValue(true)
 		} else {
@@ -1048,7 +1048,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseDtpFlap = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.gbic-invalid"); !data.RecoveryCauseGbicInvalid.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.gbic-invalid"); !data.RecoveryCauseGbicInvalid.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseGbicInvalid = types.BoolValue(true)
 		} else {
@@ -1057,7 +1057,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseGbicInvalid = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.inline-power"); !data.RecoveryCauseInlinePower.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.inline-power"); !data.RecoveryCauseInlinePower.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseInlinePower = types.BoolValue(true)
 		} else {
@@ -1066,7 +1066,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseInlinePower = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.l2ptguard"); !data.RecoveryCauseL2ptguard.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.l2ptguard"); !data.RecoveryCauseL2ptguard.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseL2ptguard = types.BoolValue(true)
 		} else {
@@ -1075,7 +1075,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseL2ptguard = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.link-flap"); !data.RecoveryCauseLinkFlap.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.link-flap"); !data.RecoveryCauseLinkFlap.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLinkFlap = types.BoolValue(true)
 		} else {
@@ -1084,7 +1084,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseLinkFlap = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.link-monitor-failure"); !data.RecoveryCauseLinkMonitorFailure.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.link-monitor-failure"); !data.RecoveryCauseLinkMonitorFailure.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLinkMonitorFailure = types.BoolValue(true)
 		} else {
@@ -1093,7 +1093,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.loopback"); !data.RecoveryCauseLoopback.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.loopback"); !data.RecoveryCauseLoopback.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLoopback = types.BoolValue(true)
 		} else {
@@ -1102,7 +1102,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseLoopback = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.mac-limit"); !data.RecoveryCauseMacLimit.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.mac-limit"); !data.RecoveryCauseMacLimit.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseMacLimit = types.BoolValue(true)
 		} else {
@@ -1111,7 +1111,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseMacLimit = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.mlacp-minlink"); !data.RecoveryCauseMlacpMinlink.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.mlacp-minlink"); !data.RecoveryCauseMlacpMinlink.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseMlacpMinlink = types.BoolValue(true)
 		} else {
@@ -1120,7 +1120,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseMlacpMinlink = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.pagp-flap"); !data.RecoveryCausePagpFlap.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.pagp-flap"); !data.RecoveryCausePagpFlap.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePagpFlap = types.BoolValue(true)
 		} else {
@@ -1129,7 +1129,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCausePagpFlap = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.port-mode-failure"); !data.RecoveryCausePortModeFailure.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.port-mode-failure"); !data.RecoveryCausePortModeFailure.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePortModeFailure = types.BoolValue(true)
 		} else {
@@ -1138,7 +1138,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCausePortModeFailure = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.pppoe-ia-rate-limit"); !data.RecoveryCausePppoeIaRateLimit.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.pppoe-ia-rate-limit"); !data.RecoveryCausePppoeIaRateLimit.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePppoeIaRateLimit = types.BoolValue(true)
 		} else {
@@ -1147,7 +1147,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.psp"); !data.RecoveryCausePsp.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.psp"); !data.RecoveryCausePsp.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePsp = types.BoolValue(true)
 		} else {
@@ -1156,7 +1156,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCausePsp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.psecure-violation"); !data.RecoveryCausePsecureViolation.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.psecure-violation"); !data.RecoveryCausePsecureViolation.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePsecureViolation = types.BoolValue(true)
 		} else {
@@ -1165,7 +1165,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCausePsecureViolation = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.security-violation"); !data.RecoveryCauseSecurityViolation.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.security-violation"); !data.RecoveryCauseSecurityViolation.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseSecurityViolation = types.BoolValue(true)
 		} else {
@@ -1174,7 +1174,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseSecurityViolation = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.sfp-config-mismatch"); !data.RecoveryCauseSfpConfigMismatch.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.sfp-config-mismatch"); !data.RecoveryCauseSfpConfigMismatch.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseSfpConfigMismatch = types.BoolValue(true)
 		} else {
@@ -1183,7 +1183,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.small-frame"); !data.RecoveryCauseSmallFrame.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.small-frame"); !data.RecoveryCauseSmallFrame.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseSmallFrame = types.BoolValue(true)
 		} else {
@@ -1192,7 +1192,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseSmallFrame = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.storm-control"); !data.RecoveryCauseStormControl.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.storm-control"); !data.RecoveryCauseStormControl.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseStormControl = types.BoolValue(true)
 		} else {
@@ -1201,7 +1201,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseStormControl = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.udld"); !data.RecoveryCauseUdld.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.udld"); !data.RecoveryCauseUdld.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseUdld = types.BoolValue(true)
 		} else {
@@ -1210,7 +1210,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseUdld = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.unicast-flood"); !data.RecoveryCauseUnicastFlood.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.unicast-flood"); !data.RecoveryCauseUnicastFlood.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseUnicastFlood = types.BoolValue(true)
 		} else {
@@ -1219,7 +1219,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseUnicastFlood = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.vmps"); !data.RecoveryCauseVmps.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.vmps"); !data.RecoveryCauseVmps.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseVmps = types.BoolValue(true)
 		} else {
@@ -1228,7 +1228,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseVmps = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.loopdetect"); !data.RecoveryCauseLoopdetect.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.loopdetect"); !data.RecoveryCauseLoopdetect.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLoopdetect = types.BoolValue(true)
 		} else {
@@ -1237,7 +1237,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseLoopdetect = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.oam-remote-failure"); !data.RecoveryCauseOamRemoteFailure.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.oam-remote-failure"); !data.RecoveryCauseOamRemoteFailure.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseOamRemoteFailure = types.BoolValue(true)
 		} else {
@@ -1246,7 +1246,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RecoveryCauseOamRemoteFailure = types.BoolNull()
 	}
-	if value := res.Get(prefix + "recovery.cause.mrp-miscabling"); !data.RecoveryCauseMrpMiscabling.IsNull() {
+	if value := res.Get(prefix+"recovery.cause.mrp-miscabling"); !data.RecoveryCauseMrpMiscabling.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseMrpMiscabling = types.BoolValue(true)
 		} else {
@@ -1262,7 +1262,7 @@ func (data *Errdisable) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/all"); !data.DetectCauseAll.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/all"); !data.DetectCauseAll.IsNull() {
 		if value.Exists() {
 			data.DetectCauseAll = types.BoolValue(true)
 		} else {
@@ -1271,7 +1271,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseAll = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/arp-inspection"); !data.DetectCauseArpInspection.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/arp-inspection"); !data.DetectCauseArpInspection.IsNull() {
 		if value.Exists() {
 			data.DetectCauseArpInspection = types.BoolValue(true)
 		} else {
@@ -1280,7 +1280,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseArpInspection = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/bpduguard"); !data.DetectCauseBpduguard.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/bpduguard"); !data.DetectCauseBpduguard.IsNull() {
 		if value.Exists() {
 			data.DetectCauseBpduguard = types.BoolValue(true)
 		} else {
@@ -1289,7 +1289,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseBpduguard = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/dhcp-rate-limit"); !data.DetectCauseDhcpRateLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/dhcp-rate-limit"); !data.DetectCauseDhcpRateLimit.IsNull() {
 		if value.Exists() {
 			data.DetectCauseDhcpRateLimit = types.BoolValue(true)
 		} else {
@@ -1298,7 +1298,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseDhcpRateLimit = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/dtp-flap"); !data.DetectCauseDtpFlap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/dtp-flap"); !data.DetectCauseDtpFlap.IsNull() {
 		if value.Exists() {
 			data.DetectCauseDtpFlap = types.BoolValue(true)
 		} else {
@@ -1307,7 +1307,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseDtpFlap = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/gbic-invalid"); !data.DetectCauseGbicInvalid.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/gbic-invalid"); !data.DetectCauseGbicInvalid.IsNull() {
 		if value.Exists() {
 			data.DetectCauseGbicInvalid = types.BoolValue(true)
 		} else {
@@ -1316,7 +1316,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseGbicInvalid = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/inline-power"); !data.DetectCauseInlinePower.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/inline-power"); !data.DetectCauseInlinePower.IsNull() {
 		if value.Exists() {
 			data.DetectCauseInlinePower = types.BoolValue(true)
 		} else {
@@ -1325,7 +1325,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseInlinePower = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/l2ptguard"); !data.DetectCauseL2ptguard.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/l2ptguard"); !data.DetectCauseL2ptguard.IsNull() {
 		if value.Exists() {
 			data.DetectCauseL2ptguard = types.BoolValue(true)
 		} else {
@@ -1334,7 +1334,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseL2ptguard = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/link-flap"); !data.DetectCauseLinkFlap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/link-flap"); !data.DetectCauseLinkFlap.IsNull() {
 		if value.Exists() {
 			data.DetectCauseLinkFlap = types.BoolValue(true)
 		} else {
@@ -1343,7 +1343,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseLinkFlap = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/loopback"); !data.DetectCauseLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/loopback"); !data.DetectCauseLoopback.IsNull() {
 		if value.Exists() {
 			data.DetectCauseLoopback = types.BoolValue(true)
 		} else {
@@ -1352,7 +1352,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseLoopback = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/mlacp-minlink"); !data.DetectCauseMlacpMinlink.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/mlacp-minlink"); !data.DetectCauseMlacpMinlink.IsNull() {
 		if value.Exists() {
 			data.DetectCauseMlacpMinlink = types.BoolValue(true)
 		} else {
@@ -1361,7 +1361,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseMlacpMinlink = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/pagp-flap"); !data.DetectCausePagpFlap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/pagp-flap"); !data.DetectCausePagpFlap.IsNull() {
 		if value.Exists() {
 			data.DetectCausePagpFlap = types.BoolValue(true)
 		} else {
@@ -1370,7 +1370,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCausePagpFlap = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/pppoe-ia-rate-limit"); !data.DetectCausePppoeIaRateLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/pppoe-ia-rate-limit"); !data.DetectCausePppoeIaRateLimit.IsNull() {
 		if value.Exists() {
 			data.DetectCausePppoeIaRateLimit = types.BoolValue(true)
 		} else {
@@ -1379,7 +1379,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCausePppoeIaRateLimit = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/security-violation/shutdown/vlan"); !data.DetectCauseSecurityViolationShutdownVlan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/security-violation/shutdown/vlan"); !data.DetectCauseSecurityViolationShutdownVlan.IsNull() {
 		if value.Exists() {
 			data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(true)
 		} else {
@@ -1388,7 +1388,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/sfp-config-mismatch"); !data.DetectCauseSfpConfigMismatch.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/sfp-config-mismatch"); !data.DetectCauseSfpConfigMismatch.IsNull() {
 		if value.Exists() {
 			data.DetectCauseSfpConfigMismatch = types.BoolValue(true)
 		} else {
@@ -1397,7 +1397,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseSfpConfigMismatch = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/small-frame"); !data.DetectCauseSmallFrame.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/small-frame"); !data.DetectCauseSmallFrame.IsNull() {
 		if value.Exists() {
 			data.DetectCauseSmallFrame = types.BoolValue(true)
 		} else {
@@ -1406,49 +1406,49 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.DetectCauseSmallFrame = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/loopdetect"); !data.DetectCauseLoopdetect.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/loopdetect"); !data.DetectCauseLoopdetect.IsNull() {
 		if value.Exists() {
 			data.DetectCauseLoopdetect = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.DetectCauseLoopdetect = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/dtp-flap/max-flaps"); value.Exists() && !data.FlapSettingCauseDtpFlapMaxFlaps.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/dtp-flap/max-flaps"); value.Exists() && !data.FlapSettingCauseDtpFlapMaxFlaps.IsNull() {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/dtp-flap/time"); value.Exists() && !data.FlapSettingCauseDtpFlapTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/dtp-flap/time"); value.Exists() && !data.FlapSettingCauseDtpFlapTime.IsNull() {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/link-flap/max-flaps"); value.Exists() && !data.FlapSettingCauseLinkFlapMaxFlaps.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/link-flap/max-flaps"); value.Exists() && !data.FlapSettingCauseLinkFlapMaxFlaps.IsNull() {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/link-flap/time"); value.Exists() && !data.FlapSettingCauseLinkFlapTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/link-flap/time"); value.Exists() && !data.FlapSettingCauseLinkFlapTime.IsNull() {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/pagp-flap/max-flaps"); value.Exists() && !data.FlapSettingCausePagpFlapMaxFlaps.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/pagp-flap/max-flaps"); value.Exists() && !data.FlapSettingCausePagpFlapMaxFlaps.IsNull() {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/pagp-flap/time"); value.Exists() && !data.FlapSettingCausePagpFlapTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/pagp-flap/time"); value.Exists() && !data.FlapSettingCausePagpFlapTime.IsNull() {
 		data.FlapSettingCausePagpFlapTime = types.Int64Value(value.Int())
 	} else {
 		data.FlapSettingCausePagpFlapTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/interval"); value.Exists() && !data.RecoveryInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/interval"); value.Exists() && !data.RecoveryInterval.IsNull() {
 		data.RecoveryInterval = types.Int64Value(value.Int())
 	} else {
 		data.RecoveryInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/all"); !data.RecoveryCauseAll.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/all"); !data.RecoveryCauseAll.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseAll = types.BoolValue(true)
 		} else {
@@ -1457,7 +1457,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseAll = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/arp-inspection"); !data.RecoveryCauseArpInspection.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/arp-inspection"); !data.RecoveryCauseArpInspection.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseArpInspection = types.BoolValue(true)
 		} else {
@@ -1466,7 +1466,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseArpInspection = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/bpduguard"); !data.RecoveryCauseBpduguard.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/bpduguard"); !data.RecoveryCauseBpduguard.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseBpduguard = types.BoolValue(true)
 		} else {
@@ -1475,7 +1475,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseBpduguard = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/channel-misconfig"); !data.RecoveryCauseChannelMisconfig.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/channel-misconfig"); !data.RecoveryCauseChannelMisconfig.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseChannelMisconfig = types.BoolValue(true)
 		} else {
@@ -1484,7 +1484,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseChannelMisconfig = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/dhcp-rate-limit"); !data.RecoveryCauseDhcpRateLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/dhcp-rate-limit"); !data.RecoveryCauseDhcpRateLimit.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseDhcpRateLimit = types.BoolValue(true)
 		} else {
@@ -1493,7 +1493,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseDhcpRateLimit = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/dtp-flap"); !data.RecoveryCauseDtpFlap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/dtp-flap"); !data.RecoveryCauseDtpFlap.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseDtpFlap = types.BoolValue(true)
 		} else {
@@ -1502,7 +1502,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseDtpFlap = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/gbic-invalid"); !data.RecoveryCauseGbicInvalid.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/gbic-invalid"); !data.RecoveryCauseGbicInvalid.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseGbicInvalid = types.BoolValue(true)
 		} else {
@@ -1511,7 +1511,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseGbicInvalid = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/inline-power"); !data.RecoveryCauseInlinePower.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/inline-power"); !data.RecoveryCauseInlinePower.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseInlinePower = types.BoolValue(true)
 		} else {
@@ -1520,7 +1520,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseInlinePower = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/l2ptguard"); !data.RecoveryCauseL2ptguard.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/l2ptguard"); !data.RecoveryCauseL2ptguard.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseL2ptguard = types.BoolValue(true)
 		} else {
@@ -1529,7 +1529,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseL2ptguard = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/link-flap"); !data.RecoveryCauseLinkFlap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/link-flap"); !data.RecoveryCauseLinkFlap.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLinkFlap = types.BoolValue(true)
 		} else {
@@ -1538,7 +1538,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseLinkFlap = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/link-monitor-failure"); !data.RecoveryCauseLinkMonitorFailure.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/link-monitor-failure"); !data.RecoveryCauseLinkMonitorFailure.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLinkMonitorFailure = types.BoolValue(true)
 		} else {
@@ -1547,7 +1547,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/loopback"); !data.RecoveryCauseLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/loopback"); !data.RecoveryCauseLoopback.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLoopback = types.BoolValue(true)
 		} else {
@@ -1556,7 +1556,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseLoopback = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mac-limit"); !data.RecoveryCauseMacLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mac-limit"); !data.RecoveryCauseMacLimit.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseMacLimit = types.BoolValue(true)
 		} else {
@@ -1565,7 +1565,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseMacLimit = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mlacp-minlink"); !data.RecoveryCauseMlacpMinlink.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mlacp-minlink"); !data.RecoveryCauseMlacpMinlink.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseMlacpMinlink = types.BoolValue(true)
 		} else {
@@ -1574,7 +1574,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseMlacpMinlink = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/pagp-flap"); !data.RecoveryCausePagpFlap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/pagp-flap"); !data.RecoveryCausePagpFlap.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePagpFlap = types.BoolValue(true)
 		} else {
@@ -1583,7 +1583,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCausePagpFlap = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/port-mode-failure"); !data.RecoveryCausePortModeFailure.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/port-mode-failure"); !data.RecoveryCausePortModeFailure.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePortModeFailure = types.BoolValue(true)
 		} else {
@@ -1592,7 +1592,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCausePortModeFailure = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/pppoe-ia-rate-limit"); !data.RecoveryCausePppoeIaRateLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/pppoe-ia-rate-limit"); !data.RecoveryCausePppoeIaRateLimit.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePppoeIaRateLimit = types.BoolValue(true)
 		} else {
@@ -1601,7 +1601,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/psp"); !data.RecoveryCausePsp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/psp"); !data.RecoveryCausePsp.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePsp = types.BoolValue(true)
 		} else {
@@ -1610,7 +1610,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCausePsp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/psecure-violation"); !data.RecoveryCausePsecureViolation.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/psecure-violation"); !data.RecoveryCausePsecureViolation.IsNull() {
 		if value.Exists() {
 			data.RecoveryCausePsecureViolation = types.BoolValue(true)
 		} else {
@@ -1619,7 +1619,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCausePsecureViolation = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/security-violation"); !data.RecoveryCauseSecurityViolation.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/security-violation"); !data.RecoveryCauseSecurityViolation.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseSecurityViolation = types.BoolValue(true)
 		} else {
@@ -1628,7 +1628,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseSecurityViolation = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/sfp-config-mismatch"); !data.RecoveryCauseSfpConfigMismatch.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/sfp-config-mismatch"); !data.RecoveryCauseSfpConfigMismatch.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseSfpConfigMismatch = types.BoolValue(true)
 		} else {
@@ -1637,7 +1637,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/small-frame"); !data.RecoveryCauseSmallFrame.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/small-frame"); !data.RecoveryCauseSmallFrame.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseSmallFrame = types.BoolValue(true)
 		} else {
@@ -1646,7 +1646,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseSmallFrame = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/storm-control"); !data.RecoveryCauseStormControl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/storm-control"); !data.RecoveryCauseStormControl.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseStormControl = types.BoolValue(true)
 		} else {
@@ -1655,7 +1655,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseStormControl = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/udld"); !data.RecoveryCauseUdld.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/udld"); !data.RecoveryCauseUdld.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseUdld = types.BoolValue(true)
 		} else {
@@ -1664,7 +1664,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseUdld = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/unicast-flood"); !data.RecoveryCauseUnicastFlood.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/unicast-flood"); !data.RecoveryCauseUnicastFlood.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseUnicastFlood = types.BoolValue(true)
 		} else {
@@ -1673,7 +1673,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseUnicastFlood = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/vmps"); !data.RecoveryCauseVmps.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/vmps"); !data.RecoveryCauseVmps.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseVmps = types.BoolValue(true)
 		} else {
@@ -1682,7 +1682,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseVmps = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/loopdetect"); !data.RecoveryCauseLoopdetect.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/loopdetect"); !data.RecoveryCauseLoopdetect.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseLoopdetect = types.BoolValue(true)
 		} else {
@@ -1691,7 +1691,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseLoopdetect = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/oam-remote-failure"); !data.RecoveryCauseOamRemoteFailure.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/oam-remote-failure"); !data.RecoveryCauseOamRemoteFailure.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseOamRemoteFailure = types.BoolValue(true)
 		} else {
@@ -1700,7 +1700,7 @@ func (data *Errdisable) updateFromBodyXML(ctx context.Context, res xmldot.Result
 	} else {
 		data.RecoveryCauseOamRemoteFailure = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mrp-miscabling"); !data.RecoveryCauseMrpMiscabling.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mrp-miscabling"); !data.RecoveryCauseMrpMiscabling.IsNull() {
 		if value.Exists() {
 			data.RecoveryCauseMrpMiscabling = types.BoolValue(true)
 		} else {
@@ -1720,253 +1720,253 @@ func (data *Errdisable) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "detect.cause.all"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.all"); value.Exists() {
 		data.DetectCauseAll = types.BoolValue(true)
 	} else {
 		data.DetectCauseAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.arp-inspection"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.arp-inspection"); value.Exists() {
 		data.DetectCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.DetectCauseArpInspection = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.bpduguard"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.bpduguard"); value.Exists() {
 		data.DetectCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseBpduguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.dhcp-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.dhcp-rate-limit"); value.Exists() {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.dtp-flap"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.dtp-flap"); value.Exists() {
 		data.DetectCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.gbic-invalid"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.gbic-invalid"); value.Exists() {
 		data.DetectCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.DetectCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.inline-power"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.inline-power"); value.Exists() {
 		data.DetectCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.DetectCauseInlinePower = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.l2ptguard"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.l2ptguard"); value.Exists() {
 		data.DetectCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.link-flap"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.link-flap"); value.Exists() {
 		data.DetectCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.loopback"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.loopback"); value.Exists() {
 		data.DetectCauseLoopback = types.BoolValue(true)
 	} else {
 		data.DetectCauseLoopback = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.mlacp-minlink"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.mlacp-minlink"); value.Exists() {
 		data.DetectCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.DetectCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.pagp-flap"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.pagp-flap"); value.Exists() {
 		data.DetectCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCausePagpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.pppoe-ia-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.pppoe-ia-rate-limit"); value.Exists() {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.security-violation.shutdown.vlan"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.security-violation.shutdown.vlan"); value.Exists() {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(true)
 	} else {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.sfp-config-mismatch"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.sfp-config-mismatch"); value.Exists() {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.small-frame"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.small-frame"); value.Exists() {
 		data.DetectCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.DetectCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.loopdetect"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.loopdetect"); value.Exists() {
 		data.DetectCauseLoopdetect = types.BoolValue(value.Bool())
 	} else {
 		data.DetectCauseLoopdetect = types.BoolNull()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.dtp-flap.max-flaps"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.dtp-flap.max-flaps"); value.Exists() {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.dtp-flap.time"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.dtp-flap.time"); value.Exists() {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.link-flap.max-flaps"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.link-flap.max-flaps"); value.Exists() {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.link-flap.time"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.link-flap.time"); value.Exists() {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.pagp-flap.max-flaps"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.pagp-flap.max-flaps"); value.Exists() {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.pagp-flap.time"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.pagp-flap.time"); value.Exists() {
 		data.FlapSettingCausePagpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "recovery.interval"); value.Exists() {
+	if value := res.Get(prefix+"recovery.interval"); value.Exists() {
 		data.RecoveryInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "recovery.cause.all"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.all"); value.Exists() {
 		data.RecoveryCauseAll = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.arp-inspection"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.arp-inspection"); value.Exists() {
 		data.RecoveryCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseArpInspection = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.bpduguard"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.bpduguard"); value.Exists() {
 		data.RecoveryCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseBpduguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.channel-misconfig"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.channel-misconfig"); value.Exists() {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.dhcp-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.dhcp-rate-limit"); value.Exists() {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.dtp-flap"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.dtp-flap"); value.Exists() {
 		data.RecoveryCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.gbic-invalid"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.gbic-invalid"); value.Exists() {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.inline-power"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.inline-power"); value.Exists() {
 		data.RecoveryCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseInlinePower = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.l2ptguard"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.l2ptguard"); value.Exists() {
 		data.RecoveryCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.link-flap"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.link-flap"); value.Exists() {
 		data.RecoveryCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.link-monitor-failure"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.link-monitor-failure"); value.Exists() {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.loopback"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.loopback"); value.Exists() {
 		data.RecoveryCauseLoopback = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopback = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.mac-limit"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.mac-limit"); value.Exists() {
 		data.RecoveryCauseMacLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMacLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.mlacp-minlink"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.mlacp-minlink"); value.Exists() {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.pagp-flap"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.pagp-flap"); value.Exists() {
 		data.RecoveryCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePagpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.port-mode-failure"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.port-mode-failure"); value.Exists() {
 		data.RecoveryCausePortModeFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePortModeFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.pppoe-ia-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.pppoe-ia-rate-limit"); value.Exists() {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.psp"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.psp"); value.Exists() {
 		data.RecoveryCausePsp = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.psecure-violation"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.psecure-violation"); value.Exists() {
 		data.RecoveryCausePsecureViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsecureViolation = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.security-violation"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.security-violation"); value.Exists() {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.sfp-config-mismatch"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.sfp-config-mismatch"); value.Exists() {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.small-frame"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.small-frame"); value.Exists() {
 		data.RecoveryCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.storm-control"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.storm-control"); value.Exists() {
 		data.RecoveryCauseStormControl = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseStormControl = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.udld"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.udld"); value.Exists() {
 		data.RecoveryCauseUdld = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUdld = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.unicast-flood"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.unicast-flood"); value.Exists() {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.vmps"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.vmps"); value.Exists() {
 		data.RecoveryCauseVmps = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseVmps = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.loopdetect"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.loopdetect"); value.Exists() {
 		data.RecoveryCauseLoopdetect = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopdetect = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.oam-remote-failure"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.oam-remote-failure"); value.Exists() {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.mrp-miscabling"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.mrp-miscabling"); value.Exists() {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(false)
@@ -1982,253 +1982,253 @@ func (data *ErrdisableData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "detect.cause.all"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.all"); value.Exists() {
 		data.DetectCauseAll = types.BoolValue(true)
 	} else {
 		data.DetectCauseAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.arp-inspection"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.arp-inspection"); value.Exists() {
 		data.DetectCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.DetectCauseArpInspection = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.bpduguard"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.bpduguard"); value.Exists() {
 		data.DetectCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseBpduguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.dhcp-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.dhcp-rate-limit"); value.Exists() {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.dtp-flap"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.dtp-flap"); value.Exists() {
 		data.DetectCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.gbic-invalid"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.gbic-invalid"); value.Exists() {
 		data.DetectCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.DetectCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.inline-power"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.inline-power"); value.Exists() {
 		data.DetectCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.DetectCauseInlinePower = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.l2ptguard"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.l2ptguard"); value.Exists() {
 		data.DetectCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.link-flap"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.link-flap"); value.Exists() {
 		data.DetectCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.loopback"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.loopback"); value.Exists() {
 		data.DetectCauseLoopback = types.BoolValue(true)
 	} else {
 		data.DetectCauseLoopback = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.mlacp-minlink"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.mlacp-minlink"); value.Exists() {
 		data.DetectCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.DetectCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.pagp-flap"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.pagp-flap"); value.Exists() {
 		data.DetectCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCausePagpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.pppoe-ia-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.pppoe-ia-rate-limit"); value.Exists() {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.security-violation.shutdown.vlan"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.security-violation.shutdown.vlan"); value.Exists() {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(true)
 	} else {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.sfp-config-mismatch"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.sfp-config-mismatch"); value.Exists() {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.small-frame"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.small-frame"); value.Exists() {
 		data.DetectCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.DetectCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "detect.cause.loopdetect"); value.Exists() {
+	if value := res.Get(prefix+"detect.cause.loopdetect"); value.Exists() {
 		data.DetectCauseLoopdetect = types.BoolValue(value.Bool())
 	} else {
 		data.DetectCauseLoopdetect = types.BoolNull()
 	}
-	if value := res.Get(prefix + "flap-setting.cause.dtp-flap.max-flaps"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.dtp-flap.max-flaps"); value.Exists() {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.dtp-flap.time"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.dtp-flap.time"); value.Exists() {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.link-flap.max-flaps"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.link-flap.max-flaps"); value.Exists() {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.link-flap.time"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.link-flap.time"); value.Exists() {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.pagp-flap.max-flaps"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.pagp-flap.max-flaps"); value.Exists() {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "flap-setting.cause.pagp-flap.time"); value.Exists() {
+	if value := res.Get(prefix+"flap-setting.cause.pagp-flap.time"); value.Exists() {
 		data.FlapSettingCausePagpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "recovery.interval"); value.Exists() {
+	if value := res.Get(prefix+"recovery.interval"); value.Exists() {
 		data.RecoveryInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "recovery.cause.all"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.all"); value.Exists() {
 		data.RecoveryCauseAll = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.arp-inspection"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.arp-inspection"); value.Exists() {
 		data.RecoveryCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseArpInspection = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.bpduguard"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.bpduguard"); value.Exists() {
 		data.RecoveryCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseBpduguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.channel-misconfig"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.channel-misconfig"); value.Exists() {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.dhcp-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.dhcp-rate-limit"); value.Exists() {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.dtp-flap"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.dtp-flap"); value.Exists() {
 		data.RecoveryCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.gbic-invalid"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.gbic-invalid"); value.Exists() {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.inline-power"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.inline-power"); value.Exists() {
 		data.RecoveryCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseInlinePower = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.l2ptguard"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.l2ptguard"); value.Exists() {
 		data.RecoveryCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.link-flap"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.link-flap"); value.Exists() {
 		data.RecoveryCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.link-monitor-failure"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.link-monitor-failure"); value.Exists() {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.loopback"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.loopback"); value.Exists() {
 		data.RecoveryCauseLoopback = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopback = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.mac-limit"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.mac-limit"); value.Exists() {
 		data.RecoveryCauseMacLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMacLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.mlacp-minlink"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.mlacp-minlink"); value.Exists() {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.pagp-flap"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.pagp-flap"); value.Exists() {
 		data.RecoveryCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePagpFlap = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.port-mode-failure"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.port-mode-failure"); value.Exists() {
 		data.RecoveryCausePortModeFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePortModeFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.pppoe-ia-rate-limit"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.pppoe-ia-rate-limit"); value.Exists() {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.psp"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.psp"); value.Exists() {
 		data.RecoveryCausePsp = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.psecure-violation"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.psecure-violation"); value.Exists() {
 		data.RecoveryCausePsecureViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsecureViolation = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.security-violation"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.security-violation"); value.Exists() {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.sfp-config-mismatch"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.sfp-config-mismatch"); value.Exists() {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.small-frame"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.small-frame"); value.Exists() {
 		data.RecoveryCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.storm-control"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.storm-control"); value.Exists() {
 		data.RecoveryCauseStormControl = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseStormControl = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.udld"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.udld"); value.Exists() {
 		data.RecoveryCauseUdld = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUdld = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.unicast-flood"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.unicast-flood"); value.Exists() {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.vmps"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.vmps"); value.Exists() {
 		data.RecoveryCauseVmps = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseVmps = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.loopdetect"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.loopdetect"); value.Exists() {
 		data.RecoveryCauseLoopdetect = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopdetect = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.oam-remote-failure"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.oam-remote-failure"); value.Exists() {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "recovery.cause.mrp-miscabling"); value.Exists() {
+	if value := res.Get(prefix+"recovery.cause.mrp-miscabling"); value.Exists() {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(false)
@@ -2240,253 +2240,253 @@ func (data *ErrdisableData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *Errdisable) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/all"); value.Exists() {
 		data.DetectCauseAll = types.BoolValue(true)
 	} else {
 		data.DetectCauseAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/arp-inspection"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/arp-inspection"); value.Exists() {
 		data.DetectCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.DetectCauseArpInspection = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/bpduguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/bpduguard"); value.Exists() {
 		data.DetectCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseBpduguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/dhcp-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/dhcp-rate-limit"); value.Exists() {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/dtp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/dtp-flap"); value.Exists() {
 		data.DetectCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/gbic-invalid"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/gbic-invalid"); value.Exists() {
 		data.DetectCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.DetectCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/inline-power"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/inline-power"); value.Exists() {
 		data.DetectCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.DetectCauseInlinePower = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/l2ptguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/l2ptguard"); value.Exists() {
 		data.DetectCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/link-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/link-flap"); value.Exists() {
 		data.DetectCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/loopback"); value.Exists() {
 		data.DetectCauseLoopback = types.BoolValue(true)
 	} else {
 		data.DetectCauseLoopback = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/mlacp-minlink"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/mlacp-minlink"); value.Exists() {
 		data.DetectCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.DetectCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/pagp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/pagp-flap"); value.Exists() {
 		data.DetectCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCausePagpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/pppoe-ia-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/pppoe-ia-rate-limit"); value.Exists() {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/security-violation/shutdown/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/security-violation/shutdown/vlan"); value.Exists() {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(true)
 	} else {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/sfp-config-mismatch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/sfp-config-mismatch"); value.Exists() {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/small-frame"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/small-frame"); value.Exists() {
 		data.DetectCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.DetectCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/loopdetect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/loopdetect"); value.Exists() {
 		data.DetectCauseLoopdetect = types.BoolValue(value.Bool())
 	} else {
 		data.DetectCauseLoopdetect = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/dtp-flap/max-flaps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/dtp-flap/max-flaps"); value.Exists() {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/dtp-flap/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/dtp-flap/time"); value.Exists() {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/link-flap/max-flaps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/link-flap/max-flaps"); value.Exists() {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/link-flap/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/link-flap/time"); value.Exists() {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/pagp-flap/max-flaps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/pagp-flap/max-flaps"); value.Exists() {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/pagp-flap/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/pagp-flap/time"); value.Exists() {
 		data.FlapSettingCausePagpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/interval"); value.Exists() {
 		data.RecoveryInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/all"); value.Exists() {
 		data.RecoveryCauseAll = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/arp-inspection"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/arp-inspection"); value.Exists() {
 		data.RecoveryCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseArpInspection = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/bpduguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/bpduguard"); value.Exists() {
 		data.RecoveryCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseBpduguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/channel-misconfig"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/channel-misconfig"); value.Exists() {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/dhcp-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/dhcp-rate-limit"); value.Exists() {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/dtp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/dtp-flap"); value.Exists() {
 		data.RecoveryCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/gbic-invalid"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/gbic-invalid"); value.Exists() {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/inline-power"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/inline-power"); value.Exists() {
 		data.RecoveryCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseInlinePower = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/l2ptguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/l2ptguard"); value.Exists() {
 		data.RecoveryCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/link-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/link-flap"); value.Exists() {
 		data.RecoveryCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/link-monitor-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/link-monitor-failure"); value.Exists() {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/loopback"); value.Exists() {
 		data.RecoveryCauseLoopback = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopback = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mac-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mac-limit"); value.Exists() {
 		data.RecoveryCauseMacLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMacLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mlacp-minlink"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mlacp-minlink"); value.Exists() {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/pagp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/pagp-flap"); value.Exists() {
 		data.RecoveryCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePagpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/port-mode-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/port-mode-failure"); value.Exists() {
 		data.RecoveryCausePortModeFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePortModeFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/pppoe-ia-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/pppoe-ia-rate-limit"); value.Exists() {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/psp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/psp"); value.Exists() {
 		data.RecoveryCausePsp = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/psecure-violation"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/psecure-violation"); value.Exists() {
 		data.RecoveryCausePsecureViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsecureViolation = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/security-violation"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/security-violation"); value.Exists() {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/sfp-config-mismatch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/sfp-config-mismatch"); value.Exists() {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/small-frame"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/small-frame"); value.Exists() {
 		data.RecoveryCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/storm-control"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/storm-control"); value.Exists() {
 		data.RecoveryCauseStormControl = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseStormControl = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/udld"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/udld"); value.Exists() {
 		data.RecoveryCauseUdld = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUdld = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/unicast-flood"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/unicast-flood"); value.Exists() {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/vmps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/vmps"); value.Exists() {
 		data.RecoveryCauseVmps = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseVmps = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/loopdetect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/loopdetect"); value.Exists() {
 		data.RecoveryCauseLoopdetect = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopdetect = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/oam-remote-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/oam-remote-failure"); value.Exists() {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mrp-miscabling"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mrp-miscabling"); value.Exists() {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(false)
@@ -2498,253 +2498,253 @@ func (data *Errdisable) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ErrdisableData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/all"); value.Exists() {
 		data.DetectCauseAll = types.BoolValue(true)
 	} else {
 		data.DetectCauseAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/arp-inspection"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/arp-inspection"); value.Exists() {
 		data.DetectCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.DetectCauseArpInspection = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/bpduguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/bpduguard"); value.Exists() {
 		data.DetectCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseBpduguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/dhcp-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/dhcp-rate-limit"); value.Exists() {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/dtp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/dtp-flap"); value.Exists() {
 		data.DetectCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/gbic-invalid"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/gbic-invalid"); value.Exists() {
 		data.DetectCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.DetectCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/inline-power"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/inline-power"); value.Exists() {
 		data.DetectCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.DetectCauseInlinePower = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/l2ptguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/l2ptguard"); value.Exists() {
 		data.DetectCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.DetectCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/link-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/link-flap"); value.Exists() {
 		data.DetectCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.DetectCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/loopback"); value.Exists() {
 		data.DetectCauseLoopback = types.BoolValue(true)
 	} else {
 		data.DetectCauseLoopback = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/mlacp-minlink"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/mlacp-minlink"); value.Exists() {
 		data.DetectCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.DetectCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/pagp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/pagp-flap"); value.Exists() {
 		data.DetectCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.DetectCausePagpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/pppoe-ia-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/pppoe-ia-rate-limit"); value.Exists() {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.DetectCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/security-violation/shutdown/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/security-violation/shutdown/vlan"); value.Exists() {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(true)
 	} else {
 		data.DetectCauseSecurityViolationShutdownVlan = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/sfp-config-mismatch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/sfp-config-mismatch"); value.Exists() {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.DetectCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/small-frame"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/small-frame"); value.Exists() {
 		data.DetectCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.DetectCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detect/cause/loopdetect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detect/cause/loopdetect"); value.Exists() {
 		data.DetectCauseLoopdetect = types.BoolValue(value.Bool())
 	} else {
 		data.DetectCauseLoopdetect = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/dtp-flap/max-flaps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/dtp-flap/max-flaps"); value.Exists() {
 		data.FlapSettingCauseDtpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/dtp-flap/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/dtp-flap/time"); value.Exists() {
 		data.FlapSettingCauseDtpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/link-flap/max-flaps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/link-flap/max-flaps"); value.Exists() {
 		data.FlapSettingCauseLinkFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/link-flap/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/link-flap/time"); value.Exists() {
 		data.FlapSettingCauseLinkFlapTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/pagp-flap/max-flaps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/pagp-flap/max-flaps"); value.Exists() {
 		data.FlapSettingCausePagpFlapMaxFlaps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flap-setting/cause/pagp-flap/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flap-setting/cause/pagp-flap/time"); value.Exists() {
 		data.FlapSettingCausePagpFlapTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/interval"); value.Exists() {
 		data.RecoveryInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/all"); value.Exists() {
 		data.RecoveryCauseAll = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/arp-inspection"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/arp-inspection"); value.Exists() {
 		data.RecoveryCauseArpInspection = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseArpInspection = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/bpduguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/bpduguard"); value.Exists() {
 		data.RecoveryCauseBpduguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseBpduguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/channel-misconfig"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/channel-misconfig"); value.Exists() {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseChannelMisconfig = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/dhcp-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/dhcp-rate-limit"); value.Exists() {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDhcpRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/dtp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/dtp-flap"); value.Exists() {
 		data.RecoveryCauseDtpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseDtpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/gbic-invalid"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/gbic-invalid"); value.Exists() {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseGbicInvalid = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/inline-power"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/inline-power"); value.Exists() {
 		data.RecoveryCauseInlinePower = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseInlinePower = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/l2ptguard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/l2ptguard"); value.Exists() {
 		data.RecoveryCauseL2ptguard = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseL2ptguard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/link-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/link-flap"); value.Exists() {
 		data.RecoveryCauseLinkFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/link-monitor-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/link-monitor-failure"); value.Exists() {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLinkMonitorFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/loopback"); value.Exists() {
 		data.RecoveryCauseLoopback = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopback = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mac-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mac-limit"); value.Exists() {
 		data.RecoveryCauseMacLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMacLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mlacp-minlink"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mlacp-minlink"); value.Exists() {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMlacpMinlink = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/pagp-flap"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/pagp-flap"); value.Exists() {
 		data.RecoveryCausePagpFlap = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePagpFlap = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/port-mode-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/port-mode-failure"); value.Exists() {
 		data.RecoveryCausePortModeFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePortModeFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/pppoe-ia-rate-limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/pppoe-ia-rate-limit"); value.Exists() {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePppoeIaRateLimit = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/psp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/psp"); value.Exists() {
 		data.RecoveryCausePsp = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/psecure-violation"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/psecure-violation"); value.Exists() {
 		data.RecoveryCausePsecureViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCausePsecureViolation = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/security-violation"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/security-violation"); value.Exists() {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSecurityViolation = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/sfp-config-mismatch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/sfp-config-mismatch"); value.Exists() {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSfpConfigMismatch = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/small-frame"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/small-frame"); value.Exists() {
 		data.RecoveryCauseSmallFrame = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseSmallFrame = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/storm-control"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/storm-control"); value.Exists() {
 		data.RecoveryCauseStormControl = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseStormControl = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/udld"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/udld"); value.Exists() {
 		data.RecoveryCauseUdld = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUdld = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/unicast-flood"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/unicast-flood"); value.Exists() {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseUnicastFlood = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/vmps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/vmps"); value.Exists() {
 		data.RecoveryCauseVmps = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseVmps = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/loopdetect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/loopdetect"); value.Exists() {
 		data.RecoveryCauseLoopdetect = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseLoopdetect = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/oam-remote-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/oam-remote-failure"); value.Exists() {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseOamRemoteFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/recovery/cause/mrp-miscabling"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/recovery/cause/mrp-miscabling"); value.Exists() {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(true)
 	} else {
 		data.RecoveryCauseMrpMiscabling = types.BoolValue(false)

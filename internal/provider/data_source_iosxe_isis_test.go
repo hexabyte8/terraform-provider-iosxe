@@ -42,7 +42,7 @@ func TestAccDataSourceIosxeISIS(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeISISConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -61,12 +61,12 @@ func testAccDataSourceIosxeISISConfig() string {
 	config += `	area_tag = "TEST"` + "\n"
 	config += `	nets = [{` + "\n"
 	config += `		tag = "49.0001.1920.0000.2001.00"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	metric_style_wide = true` + "\n"
 	config += `	log_adjacency_changes = true` + "\n"
 	config += `	log_adjacency_changes_all = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_isis" "test" {
 			area_tag = "TEST"

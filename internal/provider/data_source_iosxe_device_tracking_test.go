@@ -43,7 +43,7 @@ func TestAccDataSourceIosxeDeviceTracking(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeDeviceTrackingConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -65,7 +65,7 @@ func testAccDataSourceIosxeDeviceTrackingConfig() string {
 	config += `	tracking_auto_source_fallback_override = true` + "\n"
 	config += `	tracking_retry_interval = 10` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_device_tracking" "test" {
 			depends_on = [iosxe_device_tracking.test]

@@ -23,115 +23,115 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type InterfacePortChannel struct {
-	Device                         types.String                                         `tfsdk:"device"`
-	Id                             types.String                                         `tfsdk:"id"`
-	DeleteMode                     types.String                                         `tfsdk:"delete_mode"`
-	Name                           types.Int64                                          `tfsdk:"name"`
-	Description                    types.String                                         `tfsdk:"description"`
-	Shutdown                       types.Bool                                           `tfsdk:"shutdown"`
-	Mtu                            types.Int64                                          `tfsdk:"mtu"`
-	Switchport                     types.Bool                                           `tfsdk:"switchport"`
-	IpProxyArp                     types.Bool                                           `tfsdk:"ip_proxy_arp"`
-	IpRedirects                    types.Bool                                           `tfsdk:"ip_redirects"`
-	IpUnreachables                 types.Bool                                           `tfsdk:"ip_unreachables"`
-	VrfForwarding                  types.String                                         `tfsdk:"vrf_forwarding"`
-	Ipv4Address                    types.String                                         `tfsdk:"ipv4_address"`
-	Ipv4AddressMask                types.String                                         `tfsdk:"ipv4_address_mask"`
-	Ipv4AddressDhcp                types.Bool                                           `tfsdk:"ipv4_address_dhcp"`
-	IpAccessGroupInEnable          types.Bool                                           `tfsdk:"ip_access_group_in_enable"`
-	IpAccessGroupIn                types.String                                         `tfsdk:"ip_access_group_in"`
-	IpAccessGroupOutEnable         types.Bool                                           `tfsdk:"ip_access_group_out_enable"`
-	IpAccessGroupOut               types.String                                         `tfsdk:"ip_access_group_out"`
-	IpDhcpRelaySourceInterface     types.String                                         `tfsdk:"ip_dhcp_relay_source_interface"`
-	SpanningTreeGuard              types.String                                         `tfsdk:"spanning_tree_guard"`
-	AutoQosClassify                types.Bool                                           `tfsdk:"auto_qos_classify"`
-	AutoQosClassifyPolice          types.Bool                                           `tfsdk:"auto_qos_classify_police"`
-	AutoQosTrust                   types.Bool                                           `tfsdk:"auto_qos_trust"`
-	AutoQosTrustCos                types.Bool                                           `tfsdk:"auto_qos_trust_cos"`
-	AutoQosTrustDscp               types.Bool                                           `tfsdk:"auto_qos_trust_dscp"`
-	AutoQosVideoCts                types.Bool                                           `tfsdk:"auto_qos_video_cts"`
-	AutoQosVideoIpCamera           types.Bool                                           `tfsdk:"auto_qos_video_ip_camera"`
-	AutoQosVideoMediaPlayer        types.Bool                                           `tfsdk:"auto_qos_video_media_player"`
-	AutoQosVoipCiscoPhone          types.Bool                                           `tfsdk:"auto_qos_voip_cisco_phone"`
-	AutoQosVoipCiscoSoftphone      types.Bool                                           `tfsdk:"auto_qos_voip_cisco_softphone"`
-	AutoQosVoipTrust               types.Bool                                           `tfsdk:"auto_qos_voip_trust"`
-	TrustDevice                    types.String                                         `tfsdk:"trust_device"`
-	HelperAddresses                []InterfacePortChannelHelperAddresses                `tfsdk:"helper_addresses"`
-	BfdTemplate                    types.String                                         `tfsdk:"bfd_template"`
-	BfdEnable                      types.Bool                                           `tfsdk:"bfd_enable"`
-	BfdLocalAddress                types.String                                         `tfsdk:"bfd_local_address"`
-	BfdInterval                    types.Int64                                          `tfsdk:"bfd_interval"`
-	BfdIntervalMinRx               types.Int64                                          `tfsdk:"bfd_interval_min_rx"`
-	BfdIntervalMultiplier          types.Int64                                          `tfsdk:"bfd_interval_multiplier"`
-	BfdEcho                        types.Bool                                           `tfsdk:"bfd_echo"`
-	Ipv6Enable                     types.Bool                                           `tfsdk:"ipv6_enable"`
-	Ipv6Mtu                        types.Int64                                          `tfsdk:"ipv6_mtu"`
-	Ipv6NdRaSuppressAll            types.Bool                                           `tfsdk:"ipv6_nd_ra_suppress_all"`
-	Ipv6AddressAutoconfigDefault   types.Bool                                           `tfsdk:"ipv6_address_autoconfig_default"`
-	Ipv6AddressDhcp                types.Bool                                           `tfsdk:"ipv6_address_dhcp"`
-	Ipv6LinkLocalAddresses         []InterfacePortChannelIpv6LinkLocalAddresses         `tfsdk:"ipv6_link_local_addresses"`
-	Ipv6Addresses                  []InterfacePortChannelIpv6Addresses                  `tfsdk:"ipv6_addresses"`
-	Ipv6FlowMonitors               []InterfacePortChannelIpv6FlowMonitors               `tfsdk:"ipv6_flow_monitors"`
-	ArpTimeout                     types.Int64                                          `tfsdk:"arp_timeout"`
-	IpArpInspectionTrust           types.Bool                                           `tfsdk:"ip_arp_inspection_trust"`
-	IpArpInspectionLimitRate       types.Int64                                          `tfsdk:"ip_arp_inspection_limit_rate"`
-	SpanningTreeLinkType           types.String                                         `tfsdk:"spanning_tree_link_type"`
-	BpduguardEnable                types.Bool                                           `tfsdk:"bpduguard_enable"`
-	BpduguardDisable               types.Bool                                           `tfsdk:"bpduguard_disable"`
-	SpanningTreePortfast           types.Bool                                           `tfsdk:"spanning_tree_portfast"`
-	SpanningTreePortfastDisable    types.Bool                                           `tfsdk:"spanning_tree_portfast_disable"`
-	SpanningTreePortfastTrunk      types.Bool                                           `tfsdk:"spanning_tree_portfast_trunk"`
-	SpanningTreePortfastEdge       types.Bool                                           `tfsdk:"spanning_tree_portfast_edge"`
-	IpDhcpSnoopingTrust            types.Bool                                           `tfsdk:"ip_dhcp_snooping_trust"`
-	LoadInterval                   types.Int64                                          `tfsdk:"load_interval"`
-	SnmpTrapLinkStatus             types.Bool                                           `tfsdk:"snmp_trap_link_status"`
-	LoggingEventLinkStatusEnable   types.Bool                                           `tfsdk:"logging_event_link_status_enable"`
-	DeviceTracking                 types.Bool                                           `tfsdk:"device_tracking"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.Int64 `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	Mtu types.Int64 `tfsdk:"mtu"`
+	Switchport types.Bool `tfsdk:"switchport"`
+	IpProxyArp types.Bool `tfsdk:"ip_proxy_arp"`
+	IpRedirects types.Bool `tfsdk:"ip_redirects"`
+	IpUnreachables types.Bool `tfsdk:"ip_unreachables"`
+	VrfForwarding types.String `tfsdk:"vrf_forwarding"`
+	Ipv4Address types.String `tfsdk:"ipv4_address"`
+	Ipv4AddressMask types.String `tfsdk:"ipv4_address_mask"`
+	Ipv4AddressDhcp types.Bool `tfsdk:"ipv4_address_dhcp"`
+	IpAccessGroupInEnable types.Bool `tfsdk:"ip_access_group_in_enable"`
+	IpAccessGroupIn types.String `tfsdk:"ip_access_group_in"`
+	IpAccessGroupOutEnable types.Bool `tfsdk:"ip_access_group_out_enable"`
+	IpAccessGroupOut types.String `tfsdk:"ip_access_group_out"`
+	IpDhcpRelaySourceInterface types.String `tfsdk:"ip_dhcp_relay_source_interface"`
+	SpanningTreeGuard types.String `tfsdk:"spanning_tree_guard"`
+	AutoQosClassify types.Bool `tfsdk:"auto_qos_classify"`
+	AutoQosClassifyPolice types.Bool `tfsdk:"auto_qos_classify_police"`
+	AutoQosTrust types.Bool `tfsdk:"auto_qos_trust"`
+	AutoQosTrustCos types.Bool `tfsdk:"auto_qos_trust_cos"`
+	AutoQosTrustDscp types.Bool `tfsdk:"auto_qos_trust_dscp"`
+	AutoQosVideoCts types.Bool `tfsdk:"auto_qos_video_cts"`
+	AutoQosVideoIpCamera types.Bool `tfsdk:"auto_qos_video_ip_camera"`
+	AutoQosVideoMediaPlayer types.Bool `tfsdk:"auto_qos_video_media_player"`
+	AutoQosVoipCiscoPhone types.Bool `tfsdk:"auto_qos_voip_cisco_phone"`
+	AutoQosVoipCiscoSoftphone types.Bool `tfsdk:"auto_qos_voip_cisco_softphone"`
+	AutoQosVoipTrust types.Bool `tfsdk:"auto_qos_voip_trust"`
+	TrustDevice types.String `tfsdk:"trust_device"`
+	HelperAddresses []InterfacePortChannelHelperAddresses `tfsdk:"helper_addresses"`
+	BfdTemplate types.String `tfsdk:"bfd_template"`
+	BfdEnable types.Bool `tfsdk:"bfd_enable"`
+	BfdLocalAddress types.String `tfsdk:"bfd_local_address"`
+	BfdInterval types.Int64 `tfsdk:"bfd_interval"`
+	BfdIntervalMinRx types.Int64 `tfsdk:"bfd_interval_min_rx"`
+	BfdIntervalMultiplier types.Int64 `tfsdk:"bfd_interval_multiplier"`
+	BfdEcho types.Bool `tfsdk:"bfd_echo"`
+	Ipv6Enable types.Bool `tfsdk:"ipv6_enable"`
+	Ipv6Mtu types.Int64 `tfsdk:"ipv6_mtu"`
+	Ipv6NdRaSuppressAll types.Bool `tfsdk:"ipv6_nd_ra_suppress_all"`
+	Ipv6AddressAutoconfigDefault types.Bool `tfsdk:"ipv6_address_autoconfig_default"`
+	Ipv6AddressDhcp types.Bool `tfsdk:"ipv6_address_dhcp"`
+	Ipv6LinkLocalAddresses []InterfacePortChannelIpv6LinkLocalAddresses `tfsdk:"ipv6_link_local_addresses"`
+	Ipv6Addresses []InterfacePortChannelIpv6Addresses `tfsdk:"ipv6_addresses"`
+	Ipv6FlowMonitors []InterfacePortChannelIpv6FlowMonitors `tfsdk:"ipv6_flow_monitors"`
+	ArpTimeout types.Int64 `tfsdk:"arp_timeout"`
+	IpArpInspectionTrust types.Bool `tfsdk:"ip_arp_inspection_trust"`
+	IpArpInspectionLimitRate types.Int64 `tfsdk:"ip_arp_inspection_limit_rate"`
+	SpanningTreeLinkType types.String `tfsdk:"spanning_tree_link_type"`
+	BpduguardEnable types.Bool `tfsdk:"bpduguard_enable"`
+	BpduguardDisable types.Bool `tfsdk:"bpduguard_disable"`
+	SpanningTreePortfast types.Bool `tfsdk:"spanning_tree_portfast"`
+	SpanningTreePortfastDisable types.Bool `tfsdk:"spanning_tree_portfast_disable"`
+	SpanningTreePortfastTrunk types.Bool `tfsdk:"spanning_tree_portfast_trunk"`
+	SpanningTreePortfastEdge types.Bool `tfsdk:"spanning_tree_portfast_edge"`
+	IpDhcpSnoopingTrust types.Bool `tfsdk:"ip_dhcp_snooping_trust"`
+	LoadInterval types.Int64 `tfsdk:"load_interval"`
+	SnmpTrapLinkStatus types.Bool `tfsdk:"snmp_trap_link_status"`
+	LoggingEventLinkStatusEnable types.Bool `tfsdk:"logging_event_link_status_enable"`
+	DeviceTracking types.Bool `tfsdk:"device_tracking"`
 	DeviceTrackingAttachedPolicies []InterfacePortChannelDeviceTrackingAttachedPolicies `tfsdk:"device_tracking_attached_policies"`
-	NegotiationAuto                types.Bool                                           `tfsdk:"negotiation_auto"`
-	EvpnEthernetSegments           []InterfacePortChannelEvpnEthernetSegments           `tfsdk:"evpn_ethernet_segments"`
-	EvpnEthernetSegmentsLegacy     []InterfacePortChannelEvpnEthernetSegmentsLegacy     `tfsdk:"evpn_ethernet_segments_legacy"`
-	IpIgmpVersion                  types.Int64                                          `tfsdk:"ip_igmp_version"`
-	IpRouterIsis                   types.String                                         `tfsdk:"ip_router_isis"`
-	IpNatInside                    types.Bool                                           `tfsdk:"ip_nat_inside"`
-	IpNatOutside                   types.Bool                                           `tfsdk:"ip_nat_outside"`
-	IpFlowMonitors                 []InterfacePortChannelIpFlowMonitors                 `tfsdk:"ip_flow_monitors"`
-	ZoneMemberSecurity             types.String                                         `tfsdk:"zone_member_security"`
+	NegotiationAuto types.Bool `tfsdk:"negotiation_auto"`
+	EvpnEthernetSegments []InterfacePortChannelEvpnEthernetSegments `tfsdk:"evpn_ethernet_segments"`
+	EvpnEthernetSegmentsLegacy []InterfacePortChannelEvpnEthernetSegmentsLegacy `tfsdk:"evpn_ethernet_segments_legacy"`
+	IpIgmpVersion types.Int64 `tfsdk:"ip_igmp_version"`
+	IpRouterIsis types.String `tfsdk:"ip_router_isis"`
+	IpNatInside types.Bool `tfsdk:"ip_nat_inside"`
+	IpNatOutside types.Bool `tfsdk:"ip_nat_outside"`
+	IpFlowMonitors []InterfacePortChannelIpFlowMonitors `tfsdk:"ip_flow_monitors"`
+	ZoneMemberSecurity types.String `tfsdk:"zone_member_security"`
 }
 type InterfacePortChannelHelperAddresses struct {
 	Address types.String `tfsdk:"address"`
-	Global  types.Bool   `tfsdk:"global"`
-	Vrf     types.String `tfsdk:"vrf"`
+	Global types.Bool `tfsdk:"global"`
+	Vrf types.String `tfsdk:"vrf"`
 }
 type InterfacePortChannelIpv6LinkLocalAddresses struct {
-	Address   types.String `tfsdk:"address"`
-	LinkLocal types.Bool   `tfsdk:"link_local"`
+	Address types.String `tfsdk:"address"`
+	LinkLocal types.Bool `tfsdk:"link_local"`
 }
 type InterfacePortChannelIpv6Addresses struct {
 	Prefix types.String `tfsdk:"prefix"`
-	Eui64  types.Bool   `tfsdk:"eui_64"`
+	Eui64 types.Bool `tfsdk:"eui_64"`
 }
 type InterfacePortChannelIpv6FlowMonitors struct {
-	Name      types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Direction types.String `tfsdk:"direction"`
 }
 type InterfacePortChannelDeviceTrackingAttachedPolicies struct {
@@ -144,100 +144,100 @@ type InterfacePortChannelEvpnEthernetSegmentsLegacy struct {
 	EsValue types.Int64 `tfsdk:"es_value"`
 }
 type InterfacePortChannelIpFlowMonitors struct {
-	Name      types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Direction types.String `tfsdk:"direction"`
 }
 
 type InterfacePortChannelData struct {
-	Device                         types.String                                             `tfsdk:"device"`
-	Id                             types.String                                             `tfsdk:"id"`
-	Name                           types.Int64                                              `tfsdk:"name"`
-	Description                    types.String                                             `tfsdk:"description"`
-	Shutdown                       types.Bool                                               `tfsdk:"shutdown"`
-	Mtu                            types.Int64                                              `tfsdk:"mtu"`
-	Switchport                     types.Bool                                               `tfsdk:"switchport"`
-	IpProxyArp                     types.Bool                                               `tfsdk:"ip_proxy_arp"`
-	IpRedirects                    types.Bool                                               `tfsdk:"ip_redirects"`
-	IpUnreachables                 types.Bool                                               `tfsdk:"ip_unreachables"`
-	VrfForwarding                  types.String                                             `tfsdk:"vrf_forwarding"`
-	Ipv4Address                    types.String                                             `tfsdk:"ipv4_address"`
-	Ipv4AddressMask                types.String                                             `tfsdk:"ipv4_address_mask"`
-	Ipv4AddressDhcp                types.Bool                                               `tfsdk:"ipv4_address_dhcp"`
-	IpAccessGroupInEnable          types.Bool                                               `tfsdk:"ip_access_group_in_enable"`
-	IpAccessGroupIn                types.String                                             `tfsdk:"ip_access_group_in"`
-	IpAccessGroupOutEnable         types.Bool                                               `tfsdk:"ip_access_group_out_enable"`
-	IpAccessGroupOut               types.String                                             `tfsdk:"ip_access_group_out"`
-	IpDhcpRelaySourceInterface     types.String                                             `tfsdk:"ip_dhcp_relay_source_interface"`
-	SpanningTreeGuard              types.String                                             `tfsdk:"spanning_tree_guard"`
-	AutoQosClassify                types.Bool                                               `tfsdk:"auto_qos_classify"`
-	AutoQosClassifyPolice          types.Bool                                               `tfsdk:"auto_qos_classify_police"`
-	AutoQosTrust                   types.Bool                                               `tfsdk:"auto_qos_trust"`
-	AutoQosTrustCos                types.Bool                                               `tfsdk:"auto_qos_trust_cos"`
-	AutoQosTrustDscp               types.Bool                                               `tfsdk:"auto_qos_trust_dscp"`
-	AutoQosVideoCts                types.Bool                                               `tfsdk:"auto_qos_video_cts"`
-	AutoQosVideoIpCamera           types.Bool                                               `tfsdk:"auto_qos_video_ip_camera"`
-	AutoQosVideoMediaPlayer        types.Bool                                               `tfsdk:"auto_qos_video_media_player"`
-	AutoQosVoipCiscoPhone          types.Bool                                               `tfsdk:"auto_qos_voip_cisco_phone"`
-	AutoQosVoipCiscoSoftphone      types.Bool                                               `tfsdk:"auto_qos_voip_cisco_softphone"`
-	AutoQosVoipTrust               types.Bool                                               `tfsdk:"auto_qos_voip_trust"`
-	TrustDevice                    types.String                                             `tfsdk:"trust_device"`
-	HelperAddresses                []InterfacePortChannelHelperAddressesData                `tfsdk:"helper_addresses"`
-	BfdTemplate                    types.String                                             `tfsdk:"bfd_template"`
-	BfdEnable                      types.Bool                                               `tfsdk:"bfd_enable"`
-	BfdLocalAddress                types.String                                             `tfsdk:"bfd_local_address"`
-	BfdInterval                    types.Int64                                              `tfsdk:"bfd_interval"`
-	BfdIntervalMinRx               types.Int64                                              `tfsdk:"bfd_interval_min_rx"`
-	BfdIntervalMultiplier          types.Int64                                              `tfsdk:"bfd_interval_multiplier"`
-	BfdEcho                        types.Bool                                               `tfsdk:"bfd_echo"`
-	Ipv6Enable                     types.Bool                                               `tfsdk:"ipv6_enable"`
-	Ipv6Mtu                        types.Int64                                              `tfsdk:"ipv6_mtu"`
-	Ipv6NdRaSuppressAll            types.Bool                                               `tfsdk:"ipv6_nd_ra_suppress_all"`
-	Ipv6AddressAutoconfigDefault   types.Bool                                               `tfsdk:"ipv6_address_autoconfig_default"`
-	Ipv6AddressDhcp                types.Bool                                               `tfsdk:"ipv6_address_dhcp"`
-	Ipv6LinkLocalAddresses         []InterfacePortChannelIpv6LinkLocalAddressesData         `tfsdk:"ipv6_link_local_addresses"`
-	Ipv6Addresses                  []InterfacePortChannelIpv6AddressesData                  `tfsdk:"ipv6_addresses"`
-	Ipv6FlowMonitors               []InterfacePortChannelIpv6FlowMonitorsData               `tfsdk:"ipv6_flow_monitors"`
-	ArpTimeout                     types.Int64                                              `tfsdk:"arp_timeout"`
-	IpArpInspectionTrust           types.Bool                                               `tfsdk:"ip_arp_inspection_trust"`
-	IpArpInspectionLimitRate       types.Int64                                              `tfsdk:"ip_arp_inspection_limit_rate"`
-	SpanningTreeLinkType           types.String                                             `tfsdk:"spanning_tree_link_type"`
-	BpduguardEnable                types.Bool                                               `tfsdk:"bpduguard_enable"`
-	BpduguardDisable               types.Bool                                               `tfsdk:"bpduguard_disable"`
-	SpanningTreePortfast           types.Bool                                               `tfsdk:"spanning_tree_portfast"`
-	SpanningTreePortfastDisable    types.Bool                                               `tfsdk:"spanning_tree_portfast_disable"`
-	SpanningTreePortfastTrunk      types.Bool                                               `tfsdk:"spanning_tree_portfast_trunk"`
-	SpanningTreePortfastEdge       types.Bool                                               `tfsdk:"spanning_tree_portfast_edge"`
-	IpDhcpSnoopingTrust            types.Bool                                               `tfsdk:"ip_dhcp_snooping_trust"`
-	LoadInterval                   types.Int64                                              `tfsdk:"load_interval"`
-	SnmpTrapLinkStatus             types.Bool                                               `tfsdk:"snmp_trap_link_status"`
-	LoggingEventLinkStatusEnable   types.Bool                                               `tfsdk:"logging_event_link_status_enable"`
-	DeviceTracking                 types.Bool                                               `tfsdk:"device_tracking"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.Int64 `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	Mtu types.Int64 `tfsdk:"mtu"`
+	Switchport types.Bool `tfsdk:"switchport"`
+	IpProxyArp types.Bool `tfsdk:"ip_proxy_arp"`
+	IpRedirects types.Bool `tfsdk:"ip_redirects"`
+	IpUnreachables types.Bool `tfsdk:"ip_unreachables"`
+	VrfForwarding types.String `tfsdk:"vrf_forwarding"`
+	Ipv4Address types.String `tfsdk:"ipv4_address"`
+	Ipv4AddressMask types.String `tfsdk:"ipv4_address_mask"`
+	Ipv4AddressDhcp types.Bool `tfsdk:"ipv4_address_dhcp"`
+	IpAccessGroupInEnable types.Bool `tfsdk:"ip_access_group_in_enable"`
+	IpAccessGroupIn types.String `tfsdk:"ip_access_group_in"`
+	IpAccessGroupOutEnable types.Bool `tfsdk:"ip_access_group_out_enable"`
+	IpAccessGroupOut types.String `tfsdk:"ip_access_group_out"`
+	IpDhcpRelaySourceInterface types.String `tfsdk:"ip_dhcp_relay_source_interface"`
+	SpanningTreeGuard types.String `tfsdk:"spanning_tree_guard"`
+	AutoQosClassify types.Bool `tfsdk:"auto_qos_classify"`
+	AutoQosClassifyPolice types.Bool `tfsdk:"auto_qos_classify_police"`
+	AutoQosTrust types.Bool `tfsdk:"auto_qos_trust"`
+	AutoQosTrustCos types.Bool `tfsdk:"auto_qos_trust_cos"`
+	AutoQosTrustDscp types.Bool `tfsdk:"auto_qos_trust_dscp"`
+	AutoQosVideoCts types.Bool `tfsdk:"auto_qos_video_cts"`
+	AutoQosVideoIpCamera types.Bool `tfsdk:"auto_qos_video_ip_camera"`
+	AutoQosVideoMediaPlayer types.Bool `tfsdk:"auto_qos_video_media_player"`
+	AutoQosVoipCiscoPhone types.Bool `tfsdk:"auto_qos_voip_cisco_phone"`
+	AutoQosVoipCiscoSoftphone types.Bool `tfsdk:"auto_qos_voip_cisco_softphone"`
+	AutoQosVoipTrust types.Bool `tfsdk:"auto_qos_voip_trust"`
+	TrustDevice types.String `tfsdk:"trust_device"`
+	HelperAddresses []InterfacePortChannelHelperAddressesData `tfsdk:"helper_addresses"`
+	BfdTemplate types.String `tfsdk:"bfd_template"`
+	BfdEnable types.Bool `tfsdk:"bfd_enable"`
+	BfdLocalAddress types.String `tfsdk:"bfd_local_address"`
+	BfdInterval types.Int64 `tfsdk:"bfd_interval"`
+	BfdIntervalMinRx types.Int64 `tfsdk:"bfd_interval_min_rx"`
+	BfdIntervalMultiplier types.Int64 `tfsdk:"bfd_interval_multiplier"`
+	BfdEcho types.Bool `tfsdk:"bfd_echo"`
+	Ipv6Enable types.Bool `tfsdk:"ipv6_enable"`
+	Ipv6Mtu types.Int64 `tfsdk:"ipv6_mtu"`
+	Ipv6NdRaSuppressAll types.Bool `tfsdk:"ipv6_nd_ra_suppress_all"`
+	Ipv6AddressAutoconfigDefault types.Bool `tfsdk:"ipv6_address_autoconfig_default"`
+	Ipv6AddressDhcp types.Bool `tfsdk:"ipv6_address_dhcp"`
+	Ipv6LinkLocalAddresses []InterfacePortChannelIpv6LinkLocalAddressesData `tfsdk:"ipv6_link_local_addresses"`
+	Ipv6Addresses []InterfacePortChannelIpv6AddressesData `tfsdk:"ipv6_addresses"`
+	Ipv6FlowMonitors []InterfacePortChannelIpv6FlowMonitorsData `tfsdk:"ipv6_flow_monitors"`
+	ArpTimeout types.Int64 `tfsdk:"arp_timeout"`
+	IpArpInspectionTrust types.Bool `tfsdk:"ip_arp_inspection_trust"`
+	IpArpInspectionLimitRate types.Int64 `tfsdk:"ip_arp_inspection_limit_rate"`
+	SpanningTreeLinkType types.String `tfsdk:"spanning_tree_link_type"`
+	BpduguardEnable types.Bool `tfsdk:"bpduguard_enable"`
+	BpduguardDisable types.Bool `tfsdk:"bpduguard_disable"`
+	SpanningTreePortfast types.Bool `tfsdk:"spanning_tree_portfast"`
+	SpanningTreePortfastDisable types.Bool `tfsdk:"spanning_tree_portfast_disable"`
+	SpanningTreePortfastTrunk types.Bool `tfsdk:"spanning_tree_portfast_trunk"`
+	SpanningTreePortfastEdge types.Bool `tfsdk:"spanning_tree_portfast_edge"`
+	IpDhcpSnoopingTrust types.Bool `tfsdk:"ip_dhcp_snooping_trust"`
+	LoadInterval types.Int64 `tfsdk:"load_interval"`
+	SnmpTrapLinkStatus types.Bool `tfsdk:"snmp_trap_link_status"`
+	LoggingEventLinkStatusEnable types.Bool `tfsdk:"logging_event_link_status_enable"`
+	DeviceTracking types.Bool `tfsdk:"device_tracking"`
 	DeviceTrackingAttachedPolicies []InterfacePortChannelDeviceTrackingAttachedPoliciesData `tfsdk:"device_tracking_attached_policies"`
-	NegotiationAuto                types.Bool                                               `tfsdk:"negotiation_auto"`
-	EvpnEthernetSegments           []InterfacePortChannelEvpnEthernetSegmentsData           `tfsdk:"evpn_ethernet_segments"`
-	EvpnEthernetSegmentsLegacy     []InterfacePortChannelEvpnEthernetSegmentsLegacyData     `tfsdk:"evpn_ethernet_segments_legacy"`
-	IpIgmpVersion                  types.Int64                                              `tfsdk:"ip_igmp_version"`
-	IpRouterIsis                   types.String                                             `tfsdk:"ip_router_isis"`
-	IpNatInside                    types.Bool                                               `tfsdk:"ip_nat_inside"`
-	IpNatOutside                   types.Bool                                               `tfsdk:"ip_nat_outside"`
-	IpFlowMonitors                 []InterfacePortChannelIpFlowMonitorsData                 `tfsdk:"ip_flow_monitors"`
-	ZoneMemberSecurity             types.String                                             `tfsdk:"zone_member_security"`
+	NegotiationAuto types.Bool `tfsdk:"negotiation_auto"`
+	EvpnEthernetSegments []InterfacePortChannelEvpnEthernetSegmentsData `tfsdk:"evpn_ethernet_segments"`
+	EvpnEthernetSegmentsLegacy []InterfacePortChannelEvpnEthernetSegmentsLegacyData `tfsdk:"evpn_ethernet_segments_legacy"`
+	IpIgmpVersion types.Int64 `tfsdk:"ip_igmp_version"`
+	IpRouterIsis types.String `tfsdk:"ip_router_isis"`
+	IpNatInside types.Bool `tfsdk:"ip_nat_inside"`
+	IpNatOutside types.Bool `tfsdk:"ip_nat_outside"`
+	IpFlowMonitors []InterfacePortChannelIpFlowMonitorsData `tfsdk:"ip_flow_monitors"`
+	ZoneMemberSecurity types.String `tfsdk:"zone_member_security"`
 }
 type InterfacePortChannelHelperAddressesData struct {
 	Address types.String `tfsdk:"address"`
-	Global  types.Bool   `tfsdk:"global"`
-	Vrf     types.String `tfsdk:"vrf"`
+	Global types.Bool `tfsdk:"global"`
+	Vrf types.String `tfsdk:"vrf"`
 }
 type InterfacePortChannelIpv6LinkLocalAddressesData struct {
-	Address   types.String `tfsdk:"address"`
-	LinkLocal types.Bool   `tfsdk:"link_local"`
+	Address types.String `tfsdk:"address"`
+	LinkLocal types.Bool `tfsdk:"link_local"`
 }
 type InterfacePortChannelIpv6AddressesData struct {
 	Prefix types.String `tfsdk:"prefix"`
-	Eui64  types.Bool   `tfsdk:"eui_64"`
+	Eui64 types.Bool `tfsdk:"eui_64"`
 }
 type InterfacePortChannelIpv6FlowMonitorsData struct {
-	Name      types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Direction types.String `tfsdk:"direction"`
 }
 type InterfacePortChannelDeviceTrackingAttachedPoliciesData struct {
@@ -250,7 +250,7 @@ type InterfacePortChannelEvpnEthernetSegmentsLegacyData struct {
 	EsValue types.Int64 `tfsdk:"es_value"`
 }
 type InterfacePortChannelIpFlowMonitorsData struct {
-	Name      types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Direction types.String `tfsdk:"direction"`
 }
 
@@ -643,154 +643,154 @@ func (data InterfacePortChannel) toBody(ctx context.Context, config InterfacePor
 func (data InterfacePortChannel) toBodyXML(ctx context.Context, config InterfacePortChannel) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", strconv.FormatInt(data.Name.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", strconv.FormatInt(data.Name.ValueInt64(), 10))
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.Shutdown.IsNull() && !data.Shutdown.IsUnknown() {
 		if data.Shutdown.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/shutdown", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/shutdown", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/shutdown")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/shutdown")
 		}
 	}
 	if !data.Mtu.IsNull() && !data.Mtu.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/mtu", strconv.FormatInt(data.Mtu.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/mtu", strconv.FormatInt(data.Mtu.ValueInt64(), 10))
 	}
 	if !data.Switchport.IsNull() && !data.Switchport.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/switchport-conf/switchport", data.Switchport.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/switchport-conf/switchport", data.Switchport.ValueBool())
 	}
 	if !data.IpProxyArp.IsNull() && !data.IpProxyArp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/proxy-arp", data.IpProxyArp.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/proxy-arp", data.IpProxyArp.ValueBool())
 	}
 	if !data.IpRedirects.IsNull() && !data.IpRedirects.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/redirects", data.IpRedirects.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/redirects", data.IpRedirects.ValueBool())
 	}
 	if !data.IpUnreachables.IsNull() && !data.IpUnreachables.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/Cisco-IOS-XE-icmp:unreachables", data.IpUnreachables.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/Cisco-IOS-XE-icmp:unreachables", data.IpUnreachables.ValueBool())
 	}
 	if !data.VrfForwarding.IsNull() && !data.VrfForwarding.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/vrf/forwarding", data.VrfForwarding.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/vrf/forwarding", data.VrfForwarding.ValueString())
 	}
 	if !data.Ipv4Address.IsNull() && !data.Ipv4Address.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/address/primary/address", data.Ipv4Address.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/address/primary/address", data.Ipv4Address.ValueString())
 	}
 	if !data.Ipv4AddressMask.IsNull() && !data.Ipv4AddressMask.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/address/primary/mask", data.Ipv4AddressMask.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/address/primary/mask", data.Ipv4AddressMask.ValueString())
 	}
 	if !data.Ipv4AddressDhcp.IsNull() && !data.Ipv4AddressDhcp.IsUnknown() {
 		if data.Ipv4AddressDhcp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/address/dhcp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/address/dhcp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/address/dhcp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/address/dhcp")
 		}
 	}
 	if !data.IpAccessGroupInEnable.IsNull() && !data.IpAccessGroupInEnable.IsUnknown() {
 		if data.IpAccessGroupInEnable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/access-group/in/acl/in", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/access-group/in/acl/in", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/access-group/in/acl/in")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/access-group/in/acl/in")
 		}
 	}
 	if !data.IpAccessGroupIn.IsNull() && !data.IpAccessGroupIn.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/access-group/in/acl/acl-name", data.IpAccessGroupIn.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/access-group/in/acl/acl-name", data.IpAccessGroupIn.ValueString())
 	}
 	if !data.IpAccessGroupOutEnable.IsNull() && !data.IpAccessGroupOutEnable.IsUnknown() {
 		if data.IpAccessGroupOutEnable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/access-group/out/acl/out", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/access-group/out/acl/out", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/access-group/out/acl/out")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/access-group/out/acl/out")
 		}
 	}
 	if !data.IpAccessGroupOut.IsNull() && !data.IpAccessGroupOut.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/access-group/out/acl/acl-name", data.IpAccessGroupOut.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/access-group/out/acl/acl-name", data.IpAccessGroupOut.ValueString())
 	}
 	if !data.IpDhcpRelaySourceInterface.IsNull() && !data.IpDhcpRelaySourceInterface.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface", data.IpDhcpRelaySourceInterface.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface", data.IpDhcpRelaySourceInterface.ValueString())
 	}
 	if !data.SpanningTreeGuard.IsNull() && !data.SpanningTreeGuard.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/guard", data.SpanningTreeGuard.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/guard", data.SpanningTreeGuard.ValueString())
 	}
 	if !data.AutoQosClassify.IsNull() && !data.AutoQosClassify.IsUnknown() {
 		if data.AutoQosClassify.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify")
 		}
 	}
 	if !data.AutoQosClassifyPolice.IsNull() && !data.AutoQosClassifyPolice.IsUnknown() {
 		if data.AutoQosClassifyPolice.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify/police", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify/police", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify/police")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify/police")
 		}
 	}
 	if !data.AutoQosTrust.IsNull() && !data.AutoQosTrust.IsUnknown() {
 		if data.AutoQosTrust.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust")
 		}
 	}
 	if !data.AutoQosTrustCos.IsNull() && !data.AutoQosTrustCos.IsUnknown() {
 		if data.AutoQosTrustCos.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/cos", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/cos", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/cos")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/cos")
 		}
 	}
 	if !data.AutoQosTrustDscp.IsNull() && !data.AutoQosTrustDscp.IsUnknown() {
 		if data.AutoQosTrustDscp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/dscp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/dscp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/dscp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/dscp")
 		}
 	}
 	if !data.AutoQosVideoCts.IsNull() && !data.AutoQosVideoCts.IsUnknown() {
 		if data.AutoQosVideoCts.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/cts", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/cts", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/cts")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/cts")
 		}
 	}
 	if !data.AutoQosVideoIpCamera.IsNull() && !data.AutoQosVideoIpCamera.IsUnknown() {
 		if data.AutoQosVideoIpCamera.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/ip-camera", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/ip-camera", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/ip-camera")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/ip-camera")
 		}
 	}
 	if !data.AutoQosVideoMediaPlayer.IsNull() && !data.AutoQosVideoMediaPlayer.IsUnknown() {
 		if data.AutoQosVideoMediaPlayer.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/media-player", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/media-player", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/media-player")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/media-player")
 		}
 	}
 	if !data.AutoQosVoipCiscoPhone.IsNull() && !data.AutoQosVoipCiscoPhone.IsUnknown() {
 		if data.AutoQosVoipCiscoPhone.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone")
 		}
 	}
 	if !data.AutoQosVoipCiscoSoftphone.IsNull() && !data.AutoQosVoipCiscoSoftphone.IsUnknown() {
 		if data.AutoQosVoipCiscoSoftphone.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone")
 		}
 	}
 	if !data.AutoQosVoipTrust.IsNull() && !data.AutoQosVoipTrust.IsUnknown() {
 		if data.AutoQosVoipTrust.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/trust", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/trust", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/trust")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/trust")
 		}
 	}
 	if !data.TrustDevice.IsNull() && !data.TrustDevice.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/trust/device", data.TrustDevice.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/trust/device", data.TrustDevice.ValueString())
 	}
 	if len(data.HelperAddresses) > 0 {
 		for _, item := range data.HelperAddresses {
@@ -812,55 +812,55 @@ func (data InterfacePortChannel) toBodyXML(ctx context.Context, config Interface
 		}
 	}
 	if !data.BfdTemplate.IsNull() && !data.BfdTemplate.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:template", data.BfdTemplate.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:template", data.BfdTemplate.ValueString())
 	}
 	if !data.BfdEnable.IsNull() && !data.BfdEnable.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:enable", data.BfdEnable.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:enable", data.BfdEnable.ValueBool())
 	}
 	if !data.BfdLocalAddress.IsNull() && !data.BfdLocalAddress.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:local-address", data.BfdLocalAddress.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:local-address", data.BfdLocalAddress.ValueString())
 	}
 	if !data.BfdInterval.IsNull() && !data.BfdInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs", strconv.FormatInt(data.BfdInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs", strconv.FormatInt(data.BfdInterval.ValueInt64(), 10))
 	}
 	if !data.BfdIntervalMinRx.IsNull() && !data.BfdIntervalMinRx.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx", strconv.FormatInt(data.BfdIntervalMinRx.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx", strconv.FormatInt(data.BfdIntervalMinRx.ValueInt64(), 10))
 	}
 	if !data.BfdIntervalMultiplier.IsNull() && !data.BfdIntervalMultiplier.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier", strconv.FormatInt(data.BfdIntervalMultiplier.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier", strconv.FormatInt(data.BfdIntervalMultiplier.ValueInt64(), 10))
 	}
 	if !data.BfdEcho.IsNull() && !data.BfdEcho.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:echo", data.BfdEcho.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:echo", data.BfdEcho.ValueBool())
 	}
 	if !data.Ipv6Enable.IsNull() && !data.Ipv6Enable.IsUnknown() {
 		if data.Ipv6Enable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ipv6/enable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ipv6/enable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ipv6/enable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ipv6/enable")
 		}
 	}
 	if !data.Ipv6Mtu.IsNull() && !data.Ipv6Mtu.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ipv6/mtu", strconv.FormatInt(data.Ipv6Mtu.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ipv6/mtu", strconv.FormatInt(data.Ipv6Mtu.ValueInt64(), 10))
 	}
 	if !data.Ipv6NdRaSuppressAll.IsNull() && !data.Ipv6NdRaSuppressAll.IsUnknown() {
 		if data.Ipv6NdRaSuppressAll.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all")
 		}
 	}
 	if !data.Ipv6AddressAutoconfigDefault.IsNull() && !data.Ipv6AddressAutoconfigDefault.IsUnknown() {
 		if data.Ipv6AddressAutoconfigDefault.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ipv6/address/autoconfig/default", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ipv6/address/autoconfig/default", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ipv6/address/autoconfig/default")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ipv6/address/autoconfig/default")
 		}
 	}
 	if !data.Ipv6AddressDhcp.IsNull() && !data.Ipv6AddressDhcp.IsUnknown() {
 		if data.Ipv6AddressDhcp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ipv6/address/dhcp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ipv6/address/dhcp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ipv6/address/dhcp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ipv6/address/dhcp")
 		}
 	}
 	if len(data.Ipv6LinkLocalAddresses) > 0 {
@@ -908,84 +908,84 @@ func (data InterfacePortChannel) toBodyXML(ctx context.Context, config Interface
 		}
 	}
 	if !data.ArpTimeout.IsNull() && !data.ArpTimeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/arp/timeout", strconv.FormatInt(data.ArpTimeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/arp/timeout", strconv.FormatInt(data.ArpTimeout.ValueInt64(), 10))
 	}
 	if !data.IpArpInspectionTrust.IsNull() && !data.IpArpInspectionTrust.IsUnknown() {
 		if data.IpArpInspectionTrust.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/arp/inspection/trust", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/arp/inspection/trust", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/arp/inspection/trust")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/arp/inspection/trust")
 		}
 	}
 	if !data.IpArpInspectionLimitRate.IsNull() && !data.IpArpInspectionLimitRate.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/arp/inspection/limit/rate", strconv.FormatInt(data.IpArpInspectionLimitRate.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/arp/inspection/limit/rate", strconv.FormatInt(data.IpArpInspectionLimitRate.ValueInt64(), 10))
 	}
 	if !data.SpanningTreeLinkType.IsNull() && !data.SpanningTreeLinkType.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type", data.SpanningTreeLinkType.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type", data.SpanningTreeLinkType.ValueString())
 	}
 	if !data.BpduguardEnable.IsNull() && !data.BpduguardEnable.IsUnknown() {
 		if data.BpduguardEnable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable")
 		}
 	}
 	if !data.BpduguardDisable.IsNull() && !data.BpduguardDisable.IsUnknown() {
 		if data.BpduguardDisable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable")
 		}
 	}
 	if !data.SpanningTreePortfast.IsNull() && !data.SpanningTreePortfast.IsUnknown() {
 		if data.SpanningTreePortfast.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast")
 		}
 	}
 	if !data.SpanningTreePortfastDisable.IsNull() && !data.SpanningTreePortfastDisable.IsUnknown() {
 		if data.SpanningTreePortfastDisable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable")
 		}
 	}
 	if !data.SpanningTreePortfastTrunk.IsNull() && !data.SpanningTreePortfastTrunk.IsUnknown() {
 		if data.SpanningTreePortfastTrunk.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk")
 		}
 	}
 	if !data.SpanningTreePortfastEdge.IsNull() && !data.SpanningTreePortfastEdge.IsUnknown() {
 		if data.SpanningTreePortfastEdge.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge")
 		}
 	}
 	if !data.IpDhcpSnoopingTrust.IsNull() && !data.IpDhcpSnoopingTrust.IsUnknown() {
 		if data.IpDhcpSnoopingTrust.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust")
 		}
 	}
 	if !data.LoadInterval.IsNull() && !data.LoadInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/load-interval", strconv.FormatInt(data.LoadInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/load-interval", strconv.FormatInt(data.LoadInterval.ValueInt64(), 10))
 	}
 	if !data.SnmpTrapLinkStatus.IsNull() && !data.SnmpTrapLinkStatus.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-snmp:snmp/trap/link-status", data.SnmpTrapLinkStatus.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-snmp:snmp/trap/link-status", data.SnmpTrapLinkStatus.ValueBool())
 	}
 	if !data.LoggingEventLinkStatusEnable.IsNull() && !data.LoggingEventLinkStatusEnable.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/logging/event/link-status-enable", data.LoggingEventLinkStatusEnable.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/logging/event/link-status-enable", data.LoggingEventLinkStatusEnable.ValueBool())
 	}
 	if !data.DeviceTracking.IsNull() && !data.DeviceTracking.IsUnknown() {
 		if data.DeviceTracking.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking")
 		}
 	}
 	if len(data.DeviceTrackingAttachedPolicies) > 0 {
@@ -998,7 +998,7 @@ func (data InterfacePortChannel) toBodyXML(ctx context.Context, config Interface
 		}
 	}
 	if !data.NegotiationAuto.IsNull() && !data.NegotiationAuto.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ethernet:negotiation/auto", data.NegotiationAuto.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ethernet:negotiation/auto", data.NegotiationAuto.ValueBool())
 	}
 	if len(data.EvpnEthernetSegments) > 0 {
 		for _, item := range data.EvpnEthernetSegments {
@@ -1019,23 +1019,23 @@ func (data InterfacePortChannel) toBodyXML(ctx context.Context, config Interface
 		}
 	}
 	if !data.IpIgmpVersion.IsNull() && !data.IpIgmpVersion.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/Cisco-IOS-XE-igmp:igmp/version", strconv.FormatInt(data.IpIgmpVersion.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/Cisco-IOS-XE-igmp:igmp/version", strconv.FormatInt(data.IpIgmpVersion.ValueInt64(), 10))
 	}
 	if !data.IpRouterIsis.IsNull() && !data.IpRouterIsis.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/router/Cisco-IOS-XE-isis:isis/tag", data.IpRouterIsis.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/router/Cisco-IOS-XE-isis:isis/tag", data.IpRouterIsis.ValueString())
 	}
 	if !data.IpNatInside.IsNull() && !data.IpNatInside.IsUnknown() {
 		if data.IpNatInside.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/inside", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/inside", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/inside")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/inside")
 		}
 	}
 	if !data.IpNatOutside.IsNull() && !data.IpNatOutside.IsUnknown() {
 		if data.IpNatOutside.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/outside", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/outside", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/outside")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/outside")
 		}
 	}
 	if len(data.IpFlowMonitors) > 0 {
@@ -1051,7 +1051,7 @@ func (data InterfacePortChannel) toBodyXML(ctx context.Context, config Interface
 		}
 	}
 	if !data.ZoneMemberSecurity.IsNull() && !data.ZoneMemberSecurity.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security", data.ZoneMemberSecurity.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security", data.ZoneMemberSecurity.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -1069,17 +1069,17 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.Int64Value(value.Int())
 	} else {
 		data.Name = types.Int64Null()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "shutdown"); !data.Shutdown.IsNull() {
+	if value := res.Get(prefix+"shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(true)
 		} else {
@@ -1088,55 +1088,55 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := res.Get(prefix + "mtu"); value.Exists() && !data.Mtu.IsNull() {
+	if value := res.Get(prefix+"mtu"); value.Exists() && !data.Mtu.IsNull() {
 		data.Mtu = types.Int64Value(value.Int())
 	} else {
 		data.Mtu = types.Int64Null()
 	}
-	if value := res.Get(prefix + "switchport-conf.switchport"); !data.Switchport.IsNull() {
+	if value := res.Get(prefix+"switchport-conf.switchport"); !data.Switchport.IsNull() {
 		if value.Exists() {
 			data.Switchport = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.Switchport = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.proxy-arp"); !data.IpProxyArp.IsNull() {
+	if value := res.Get(prefix+"ip.proxy-arp"); !data.IpProxyArp.IsNull() {
 		if value.Exists() {
 			data.IpProxyArp = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.IpProxyArp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.redirects"); !data.IpRedirects.IsNull() {
+	if value := res.Get(prefix+"ip.redirects"); !data.IpRedirects.IsNull() {
 		if value.Exists() {
 			data.IpRedirects = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.IpRedirects = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-icmp:unreachables"); !data.IpUnreachables.IsNull() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-icmp:unreachables"); !data.IpUnreachables.IsNull() {
 		if value.Exists() {
 			data.IpUnreachables = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.IpUnreachables = types.BoolNull()
 	}
-	if value := res.Get(prefix + "vrf.forwarding"); value.Exists() && !data.VrfForwarding.IsNull() {
+	if value := res.Get(prefix+"vrf.forwarding"); value.Exists() && !data.VrfForwarding.IsNull() {
 		data.VrfForwarding = types.StringValue(value.String())
 	} else {
 		data.VrfForwarding = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.address.primary.address"); value.Exists() && !data.Ipv4Address.IsNull() {
+	if value := res.Get(prefix+"ip.address.primary.address"); value.Exists() && !data.Ipv4Address.IsNull() {
 		data.Ipv4Address = types.StringValue(value.String())
 	} else {
 		data.Ipv4Address = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.address.primary.mask"); value.Exists() && !data.Ipv4AddressMask.IsNull() {
+	if value := res.Get(prefix+"ip.address.primary.mask"); value.Exists() && !data.Ipv4AddressMask.IsNull() {
 		data.Ipv4AddressMask = types.StringValue(value.String())
 	} else {
 		data.Ipv4AddressMask = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.address.dhcp"); !data.Ipv4AddressDhcp.IsNull() {
+	if value := res.Get(prefix+"ip.address.dhcp"); !data.Ipv4AddressDhcp.IsNull() {
 		if value.Exists() {
 			data.Ipv4AddressDhcp = types.BoolValue(true)
 		} else {
@@ -1145,7 +1145,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.Ipv4AddressDhcp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.access-group.in.acl.in"); !data.IpAccessGroupInEnable.IsNull() {
+	if value := res.Get(prefix+"ip.access-group.in.acl.in"); !data.IpAccessGroupInEnable.IsNull() {
 		if value.Exists() {
 			data.IpAccessGroupInEnable = types.BoolValue(true)
 		} else {
@@ -1154,12 +1154,12 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.IpAccessGroupInEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.access-group.in.acl.acl-name"); value.Exists() && !data.IpAccessGroupIn.IsNull() {
+	if value := res.Get(prefix+"ip.access-group.in.acl.acl-name"); value.Exists() && !data.IpAccessGroupIn.IsNull() {
 		data.IpAccessGroupIn = types.StringValue(value.String())
 	} else {
 		data.IpAccessGroupIn = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.access-group.out.acl.out"); !data.IpAccessGroupOutEnable.IsNull() {
+	if value := res.Get(prefix+"ip.access-group.out.acl.out"); !data.IpAccessGroupOutEnable.IsNull() {
 		if value.Exists() {
 			data.IpAccessGroupOutEnable = types.BoolValue(true)
 		} else {
@@ -1168,22 +1168,22 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.IpAccessGroupOutEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.access-group.out.acl.acl-name"); value.Exists() && !data.IpAccessGroupOut.IsNull() {
+	if value := res.Get(prefix+"ip.access-group.out.acl.acl-name"); value.Exists() && !data.IpAccessGroupOut.IsNull() {
 		data.IpAccessGroupOut = types.StringValue(value.String())
 	} else {
 		data.IpAccessGroupOut = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.dhcp.Cisco-IOS-XE-dhcp:relay.source-interface"); value.Exists() && !data.IpDhcpRelaySourceInterface.IsNull() {
+	if value := res.Get(prefix+"ip.dhcp.Cisco-IOS-XE-dhcp:relay.source-interface"); value.Exists() && !data.IpDhcpRelaySourceInterface.IsNull() {
 		data.IpDhcpRelaySourceInterface = types.StringValue(value.String())
 	} else {
 		data.IpDhcpRelaySourceInterface = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.guard"); value.Exists() && !data.SpanningTreeGuard.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.guard"); value.Exists() && !data.SpanningTreeGuard.IsNull() {
 		data.SpanningTreeGuard = types.StringValue(value.String())
 	} else {
 		data.SpanningTreeGuard = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.classify"); !data.AutoQosClassify.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.classify"); !data.AutoQosClassify.IsNull() {
 		if value.Exists() {
 			data.AutoQosClassify = types.BoolValue(true)
 		} else {
@@ -1192,7 +1192,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosClassify = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.classify.police"); !data.AutoQosClassifyPolice.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.classify.police"); !data.AutoQosClassifyPolice.IsNull() {
 		if value.Exists() {
 			data.AutoQosClassifyPolice = types.BoolValue(true)
 		} else {
@@ -1201,7 +1201,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosClassifyPolice = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust"); !data.AutoQosTrust.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust"); !data.AutoQosTrust.IsNull() {
 		if value.Exists() {
 			data.AutoQosTrust = types.BoolValue(true)
 		} else {
@@ -1210,7 +1210,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosTrust = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust.cos"); !data.AutoQosTrustCos.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust.cos"); !data.AutoQosTrustCos.IsNull() {
 		if value.Exists() {
 			data.AutoQosTrustCos = types.BoolValue(true)
 		} else {
@@ -1219,7 +1219,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosTrustCos = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust.dscp"); !data.AutoQosTrustDscp.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust.dscp"); !data.AutoQosTrustDscp.IsNull() {
 		if value.Exists() {
 			data.AutoQosTrustDscp = types.BoolValue(true)
 		} else {
@@ -1228,7 +1228,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosTrustDscp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.cts"); !data.AutoQosVideoCts.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.cts"); !data.AutoQosVideoCts.IsNull() {
 		if value.Exists() {
 			data.AutoQosVideoCts = types.BoolValue(true)
 		} else {
@@ -1237,7 +1237,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosVideoCts = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.ip-camera"); !data.AutoQosVideoIpCamera.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.ip-camera"); !data.AutoQosVideoIpCamera.IsNull() {
 		if value.Exists() {
 			data.AutoQosVideoIpCamera = types.BoolValue(true)
 		} else {
@@ -1246,7 +1246,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosVideoIpCamera = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.media-player"); !data.AutoQosVideoMediaPlayer.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.media-player"); !data.AutoQosVideoMediaPlayer.IsNull() {
 		if value.Exists() {
 			data.AutoQosVideoMediaPlayer = types.BoolValue(true)
 		} else {
@@ -1255,7 +1255,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosVideoMediaPlayer = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.cisco-phone"); !data.AutoQosVoipCiscoPhone.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.cisco-phone"); !data.AutoQosVoipCiscoPhone.IsNull() {
 		if value.Exists() {
 			data.AutoQosVoipCiscoPhone = types.BoolValue(true)
 		} else {
@@ -1264,7 +1264,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosVoipCiscoPhone = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.cisco-softphone"); !data.AutoQosVoipCiscoSoftphone.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.cisco-softphone"); !data.AutoQosVoipCiscoSoftphone.IsNull() {
 		if value.Exists() {
 			data.AutoQosVoipCiscoSoftphone = types.BoolValue(true)
 		} else {
@@ -1273,7 +1273,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosVoipCiscoSoftphone = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.trust"); !data.AutoQosVoipTrust.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.trust"); !data.AutoQosVoipTrust.IsNull() {
 		if value.Exists() {
 			data.AutoQosVoipTrust = types.BoolValue(true)
 		} else {
@@ -1282,17 +1282,17 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.AutoQosVoipTrust = types.BoolNull()
 	}
-	if value := res.Get(prefix + "trust.device"); value.Exists() && !data.TrustDevice.IsNull() {
+	if value := res.Get(prefix+"trust.device"); value.Exists() && !data.TrustDevice.IsNull() {
 		data.TrustDevice = types.StringValue(value.String())
 	} else {
 		data.TrustDevice = types.StringNull()
 	}
 	for i := range data.HelperAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.HelperAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.HelperAddresses[i].Address.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "ip.helper-address").ForEach(
+		res.Get(prefix+"ip.helper-address").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1330,46 +1330,46 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 			data.HelperAddresses[i].Vrf = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:template"); value.Exists() && !data.BfdTemplate.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:template"); value.Exists() && !data.BfdTemplate.IsNull() {
 		data.BfdTemplate = types.StringValue(value.String())
 	} else {
 		data.BfdTemplate = types.StringNull()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:enable"); !data.BfdEnable.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:enable"); !data.BfdEnable.IsNull() {
 		if value.Exists() {
 			data.BfdEnable = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.BfdEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:local-address"); value.Exists() && !data.BfdLocalAddress.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:local-address"); value.Exists() && !data.BfdLocalAddress.IsNull() {
 		data.BfdLocalAddress = types.StringValue(value.String())
 	} else {
 		data.BfdLocalAddress = types.StringNull()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.msecs"); value.Exists() && !data.BfdInterval.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.msecs"); value.Exists() && !data.BfdInterval.IsNull() {
 		data.BfdInterval = types.Int64Value(value.Int())
 	} else {
 		data.BfdInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.min_rx"); value.Exists() && !data.BfdIntervalMinRx.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.min_rx"); value.Exists() && !data.BfdIntervalMinRx.IsNull() {
 		data.BfdIntervalMinRx = types.Int64Value(value.Int())
 	} else {
 		data.BfdIntervalMinRx = types.Int64Null()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.multiplier"); value.Exists() && !data.BfdIntervalMultiplier.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.multiplier"); value.Exists() && !data.BfdIntervalMultiplier.IsNull() {
 		data.BfdIntervalMultiplier = types.Int64Value(value.Int())
 	} else {
 		data.BfdIntervalMultiplier = types.Int64Null()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:echo"); !data.BfdEcho.IsNull() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:echo"); !data.BfdEcho.IsNull() {
 		if value.Exists() {
 			data.BfdEcho = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.BfdEcho = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ipv6.enable"); !data.Ipv6Enable.IsNull() {
+	if value := res.Get(prefix+"ipv6.enable"); !data.Ipv6Enable.IsNull() {
 		if value.Exists() {
 			data.Ipv6Enable = types.BoolValue(true)
 		} else {
@@ -1378,12 +1378,12 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.Ipv6Enable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ipv6.mtu"); value.Exists() && !data.Ipv6Mtu.IsNull() {
+	if value := res.Get(prefix+"ipv6.mtu"); value.Exists() && !data.Ipv6Mtu.IsNull() {
 		data.Ipv6Mtu = types.Int64Value(value.Int())
 	} else {
 		data.Ipv6Mtu = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ipv6.nd.Cisco-IOS-XE-nd:ra.suppress.all"); !data.Ipv6NdRaSuppressAll.IsNull() {
+	if value := res.Get(prefix+"ipv6.nd.Cisco-IOS-XE-nd:ra.suppress.all"); !data.Ipv6NdRaSuppressAll.IsNull() {
 		if value.Exists() {
 			data.Ipv6NdRaSuppressAll = types.BoolValue(true)
 		} else {
@@ -1392,7 +1392,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.Ipv6NdRaSuppressAll = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ipv6.address.autoconfig.default"); !data.Ipv6AddressAutoconfigDefault.IsNull() {
+	if value := res.Get(prefix+"ipv6.address.autoconfig.default"); !data.Ipv6AddressAutoconfigDefault.IsNull() {
 		if value.Exists() {
 			data.Ipv6AddressAutoconfigDefault = types.BoolValue(true)
 		} else {
@@ -1401,7 +1401,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.Ipv6AddressAutoconfigDefault = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ipv6.address.dhcp"); !data.Ipv6AddressDhcp.IsNull() {
+	if value := res.Get(prefix+"ipv6.address.dhcp"); !data.Ipv6AddressDhcp.IsNull() {
 		if value.Exists() {
 			data.Ipv6AddressDhcp = types.BoolValue(true)
 		} else {
@@ -1411,11 +1411,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		data.Ipv6AddressDhcp = types.BoolNull()
 	}
 	for i := range data.Ipv6LinkLocalAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.Ipv6LinkLocalAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "ipv6.address.link-local-address").ForEach(
+		res.Get(prefix+"ipv6.address.link-local-address").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1449,11 +1449,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		}
 	}
 	for i := range data.Ipv6Addresses {
-		keys := [...]string{"prefix"}
-		keyValues := [...]string{data.Ipv6Addresses[i].Prefix.ValueString()}
+		keys := [...]string{ "prefix",  }
+		keyValues := [...]string{ data.Ipv6Addresses[i].Prefix.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "ipv6.address.prefix-list").ForEach(
+		res.Get(prefix+"ipv6.address.prefix-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1487,11 +1487,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		}
 	}
 	for i := range data.Ipv6FlowMonitors {
-		keys := [...]string{"name", "direction"}
-		keyValues := [...]string{data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString()}
+		keys := [...]string{ "name", "direction",  }
+		keyValues := [...]string{ data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "ipv6.Cisco-IOS-XE-flow:flow.monitor-new").ForEach(
+		res.Get(prefix+"ipv6.Cisco-IOS-XE-flow:flow.monitor-new").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1520,12 +1520,12 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 			data.Ipv6FlowMonitors[i].Direction = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "arp.timeout"); value.Exists() && !data.ArpTimeout.IsNull() {
+	if value := res.Get(prefix+"arp.timeout"); value.Exists() && !data.ArpTimeout.IsNull() {
 		data.ArpTimeout = types.Int64Value(value.Int())
 	} else {
 		data.ArpTimeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ip.arp.inspection.trust"); !data.IpArpInspectionTrust.IsNull() {
+	if value := res.Get(prefix+"ip.arp.inspection.trust"); !data.IpArpInspectionTrust.IsNull() {
 		if value.Exists() {
 			data.IpArpInspectionTrust = types.BoolValue(true)
 		} else {
@@ -1534,17 +1534,17 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.IpArpInspectionTrust = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.arp.inspection.limit.rate"); value.Exists() && !data.IpArpInspectionLimitRate.IsNull() {
+	if value := res.Get(prefix+"ip.arp.inspection.limit.rate"); value.Exists() && !data.IpArpInspectionLimitRate.IsNull() {
 		data.IpArpInspectionLimitRate = types.Int64Value(value.Int())
 	} else {
 		data.IpArpInspectionLimitRate = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.link-type"); value.Exists() && !data.SpanningTreeLinkType.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.link-type"); value.Exists() && !data.SpanningTreeLinkType.IsNull() {
 		data.SpanningTreeLinkType = types.StringValue(value.String())
 	} else {
 		data.SpanningTreeLinkType = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.enable"); !data.BpduguardEnable.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.enable"); !data.BpduguardEnable.IsNull() {
 		if value.Exists() {
 			data.BpduguardEnable = types.BoolValue(true)
 		} else {
@@ -1553,7 +1553,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.BpduguardEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.disable"); !data.BpduguardDisable.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.disable"); !data.BpduguardDisable.IsNull() {
 		if value.Exists() {
 			data.BpduguardDisable = types.BoolValue(true)
 		} else {
@@ -1562,7 +1562,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.BpduguardDisable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast"); !data.SpanningTreePortfast.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast"); !data.SpanningTreePortfast.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfast = types.BoolValue(true)
 		} else {
@@ -1571,7 +1571,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SpanningTreePortfast = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.disable"); !data.SpanningTreePortfastDisable.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.disable"); !data.SpanningTreePortfastDisable.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfastDisable = types.BoolValue(true)
 		} else {
@@ -1580,7 +1580,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SpanningTreePortfastDisable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.trunk"); !data.SpanningTreePortfastTrunk.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.trunk"); !data.SpanningTreePortfastTrunk.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfastTrunk = types.BoolValue(true)
 		} else {
@@ -1589,7 +1589,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SpanningTreePortfastTrunk = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.edge"); !data.SpanningTreePortfastEdge.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.edge"); !data.SpanningTreePortfastEdge.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfastEdge = types.BoolValue(true)
 		} else {
@@ -1598,7 +1598,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SpanningTreePortfastEdge = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.dhcp.Cisco-IOS-XE-dhcp:snooping.trust"); !data.IpDhcpSnoopingTrust.IsNull() {
+	if value := res.Get(prefix+"ip.dhcp.Cisco-IOS-XE-dhcp:snooping.trust"); !data.IpDhcpSnoopingTrust.IsNull() {
 		if value.Exists() {
 			data.IpDhcpSnoopingTrust = types.BoolValue(true)
 		} else {
@@ -1607,26 +1607,26 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.IpDhcpSnoopingTrust = types.BoolNull()
 	}
-	if value := res.Get(prefix + "load-interval"); value.Exists() && !data.LoadInterval.IsNull() {
+	if value := res.Get(prefix+"load-interval"); value.Exists() && !data.LoadInterval.IsNull() {
 		data.LoadInterval = types.Int64Value(value.Int())
 	} else {
 		data.LoadInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-snmp:snmp.trap.link-status"); !data.SnmpTrapLinkStatus.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-snmp:snmp.trap.link-status"); !data.SnmpTrapLinkStatus.IsNull() {
 		if value.Exists() {
 			data.SnmpTrapLinkStatus = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.SnmpTrapLinkStatus = types.BoolNull()
 	}
-	if value := res.Get(prefix + "logging.event.link-status-enable"); !data.LoggingEventLinkStatusEnable.IsNull() {
+	if value := res.Get(prefix+"logging.event.link-status-enable"); !data.LoggingEventLinkStatusEnable.IsNull() {
 		if value.Exists() {
 			data.LoggingEventLinkStatusEnable = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LoggingEventLinkStatusEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:device-tracking"); !data.DeviceTracking.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:device-tracking"); !data.DeviceTracking.IsNull() {
 		if value.Exists() {
 			data.DeviceTracking = types.BoolValue(true)
 		} else {
@@ -1636,11 +1636,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		data.DeviceTracking = types.BoolNull()
 	}
 	for i := range data.DeviceTrackingAttachedPolicies {
-		keys := [...]string{"attach-policy"}
-		keyValues := [...]string{data.DeviceTrackingAttachedPolicies[i].Name.ValueString()}
+		keys := [...]string{ "attach-policy",  }
+		keyValues := [...]string{ data.DeviceTrackingAttachedPolicies[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-switch:device-tracking.attached-policies").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-switch:device-tracking.attached-policies").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1664,7 +1664,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 			data.DeviceTrackingAttachedPolicies[i].Name = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ethernet:negotiation.auto"); !data.NegotiationAuto.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ethernet:negotiation.auto"); !data.NegotiationAuto.IsNull() {
 		if value.Exists() {
 			data.NegotiationAuto = types.BoolValue(value.Bool())
 		}
@@ -1672,11 +1672,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		data.NegotiationAuto = types.BoolNull()
 	}
 	for i := range data.EvpnEthernetSegments {
-		keys := [...]string{"es-value"}
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10)}
+		keys := [...]string{ "es-value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-l2vpn:evpn.ethernet-segment-num.ethernet-segment").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-l2vpn:evpn.ethernet-segment-num.ethernet-segment").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1701,11 +1701,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		}
 	}
 	for i := range data.EvpnEthernetSegmentsLegacy {
-		keys := [...]string{"es-value"}
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10)}
+		keys := [...]string{ "es-value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-l2vpn:evpn.ethernet-segment").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-l2vpn:evpn.ethernet-segment").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1729,17 +1729,17 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 			data.EvpnEthernetSegmentsLegacy[i].EsValue = types.Int64Null()
 		}
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-igmp:igmp.version"); value.Exists() && !data.IpIgmpVersion.IsNull() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-igmp:igmp.version"); value.Exists() && !data.IpIgmpVersion.IsNull() {
 		data.IpIgmpVersion = types.Int64Value(value.Int())
 	} else {
 		data.IpIgmpVersion = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ip.router.Cisco-IOS-XE-isis:isis.tag"); value.Exists() && !data.IpRouterIsis.IsNull() {
+	if value := res.Get(prefix+"ip.router.Cisco-IOS-XE-isis:isis.tag"); value.Exists() && !data.IpRouterIsis.IsNull() {
 		data.IpRouterIsis = types.StringValue(value.String())
 	} else {
 		data.IpRouterIsis = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-nat:nat.inside"); !data.IpNatInside.IsNull() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-nat:nat.inside"); !data.IpNatInside.IsNull() {
 		if value.Exists() {
 			data.IpNatInside = types.BoolValue(true)
 		} else {
@@ -1748,7 +1748,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.IpNatInside = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-nat:nat.outside"); !data.IpNatOutside.IsNull() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-nat:nat.outside"); !data.IpNatOutside.IsNull() {
 		if value.Exists() {
 			data.IpNatOutside = types.BoolValue(true)
 		} else {
@@ -1758,11 +1758,11 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 		data.IpNatOutside = types.BoolNull()
 	}
 	for i := range data.IpFlowMonitors {
-		keys := [...]string{"name", "direction"}
-		keyValues := [...]string{data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString()}
+		keys := [...]string{ "name", "direction",  }
+		keyValues := [...]string{ data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "ip.Cisco-IOS-XE-flow:flow.monitor-new").ForEach(
+		res.Get(prefix+"ip.Cisco-IOS-XE-flow:flow.monitor-new").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1791,7 +1791,7 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 			data.IpFlowMonitors[i].Direction = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-zone:zone-member.security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-zone:zone-member.security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	} else {
 		data.ZoneMemberSecurity = types.StringNull()
@@ -1803,17 +1803,17 @@ func (data *InterfacePortChannel) updateFromBody(ctx context.Context, res gjson.
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.Int64Value(value.Int())
 	} else {
 		data.Name = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); !data.Shutdown.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(true)
 		} else {
@@ -1822,55 +1822,55 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mtu"); value.Exists() && !data.Mtu.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mtu"); value.Exists() && !data.Mtu.IsNull() {
 		data.Mtu = types.Int64Value(value.Int())
 	} else {
 		data.Mtu = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/switchport-conf/switchport"); !data.Switchport.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/switchport-conf/switchport"); !data.Switchport.IsNull() {
 		if value.Exists() {
 			data.Switchport = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.Switchport = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/proxy-arp"); !data.IpProxyArp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/proxy-arp"); !data.IpProxyArp.IsNull() {
 		if value.Exists() {
 			data.IpProxyArp = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.IpProxyArp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/redirects"); !data.IpRedirects.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/redirects"); !data.IpRedirects.IsNull() {
 		if value.Exists() {
 			data.IpRedirects = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.IpRedirects = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-icmp:unreachables"); !data.IpUnreachables.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-icmp:unreachables"); !data.IpUnreachables.IsNull() {
 		if value.Exists() {
 			data.IpUnreachables = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.IpUnreachables = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf/forwarding"); value.Exists() && !data.VrfForwarding.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf/forwarding"); value.Exists() && !data.VrfForwarding.IsNull() {
 		data.VrfForwarding = types.StringValue(value.String())
 	} else {
 		data.VrfForwarding = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/primary/address"); value.Exists() && !data.Ipv4Address.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/primary/address"); value.Exists() && !data.Ipv4Address.IsNull() {
 		data.Ipv4Address = types.StringValue(value.String())
 	} else {
 		data.Ipv4Address = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/primary/mask"); value.Exists() && !data.Ipv4AddressMask.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/primary/mask"); value.Exists() && !data.Ipv4AddressMask.IsNull() {
 		data.Ipv4AddressMask = types.StringValue(value.String())
 	} else {
 		data.Ipv4AddressMask = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/dhcp"); !data.Ipv4AddressDhcp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/dhcp"); !data.Ipv4AddressDhcp.IsNull() {
 		if value.Exists() {
 			data.Ipv4AddressDhcp = types.BoolValue(true)
 		} else {
@@ -1879,7 +1879,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.Ipv4AddressDhcp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/in/acl/in"); !data.IpAccessGroupInEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/in/acl/in"); !data.IpAccessGroupInEnable.IsNull() {
 		if value.Exists() {
 			data.IpAccessGroupInEnable = types.BoolValue(true)
 		} else {
@@ -1888,12 +1888,12 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.IpAccessGroupInEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/in/acl/acl-name"); value.Exists() && !data.IpAccessGroupIn.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/in/acl/acl-name"); value.Exists() && !data.IpAccessGroupIn.IsNull() {
 		data.IpAccessGroupIn = types.StringValue(value.String())
 	} else {
 		data.IpAccessGroupIn = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/out/acl/out"); !data.IpAccessGroupOutEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/out/acl/out"); !data.IpAccessGroupOutEnable.IsNull() {
 		if value.Exists() {
 			data.IpAccessGroupOutEnable = types.BoolValue(true)
 		} else {
@@ -1902,22 +1902,22 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.IpAccessGroupOutEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/out/acl/acl-name"); value.Exists() && !data.IpAccessGroupOut.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/out/acl/acl-name"); value.Exists() && !data.IpAccessGroupOut.IsNull() {
 		data.IpAccessGroupOut = types.StringValue(value.String())
 	} else {
 		data.IpAccessGroupOut = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface"); value.Exists() && !data.IpDhcpRelaySourceInterface.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface"); value.Exists() && !data.IpDhcpRelaySourceInterface.IsNull() {
 		data.IpDhcpRelaySourceInterface = types.StringValue(value.String())
 	} else {
 		data.IpDhcpRelaySourceInterface = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/guard"); value.Exists() && !data.SpanningTreeGuard.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/guard"); value.Exists() && !data.SpanningTreeGuard.IsNull() {
 		data.SpanningTreeGuard = types.StringValue(value.String())
 	} else {
 		data.SpanningTreeGuard = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify"); !data.AutoQosClassify.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify"); !data.AutoQosClassify.IsNull() {
 		if value.Exists() {
 			data.AutoQosClassify = types.BoolValue(true)
 		} else {
@@ -1926,7 +1926,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosClassify = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify/police"); !data.AutoQosClassifyPolice.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify/police"); !data.AutoQosClassifyPolice.IsNull() {
 		if value.Exists() {
 			data.AutoQosClassifyPolice = types.BoolValue(true)
 		} else {
@@ -1935,7 +1935,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosClassifyPolice = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust"); !data.AutoQosTrust.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust"); !data.AutoQosTrust.IsNull() {
 		if value.Exists() {
 			data.AutoQosTrust = types.BoolValue(true)
 		} else {
@@ -1944,7 +1944,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosTrust = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/cos"); !data.AutoQosTrustCos.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/cos"); !data.AutoQosTrustCos.IsNull() {
 		if value.Exists() {
 			data.AutoQosTrustCos = types.BoolValue(true)
 		} else {
@@ -1953,7 +1953,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosTrustCos = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/dscp"); !data.AutoQosTrustDscp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/dscp"); !data.AutoQosTrustDscp.IsNull() {
 		if value.Exists() {
 			data.AutoQosTrustDscp = types.BoolValue(true)
 		} else {
@@ -1962,7 +1962,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosTrustDscp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/cts"); !data.AutoQosVideoCts.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/cts"); !data.AutoQosVideoCts.IsNull() {
 		if value.Exists() {
 			data.AutoQosVideoCts = types.BoolValue(true)
 		} else {
@@ -1971,7 +1971,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosVideoCts = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/ip-camera"); !data.AutoQosVideoIpCamera.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/ip-camera"); !data.AutoQosVideoIpCamera.IsNull() {
 		if value.Exists() {
 			data.AutoQosVideoIpCamera = types.BoolValue(true)
 		} else {
@@ -1980,7 +1980,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosVideoIpCamera = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/media-player"); !data.AutoQosVideoMediaPlayer.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/media-player"); !data.AutoQosVideoMediaPlayer.IsNull() {
 		if value.Exists() {
 			data.AutoQosVideoMediaPlayer = types.BoolValue(true)
 		} else {
@@ -1989,7 +1989,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosVideoMediaPlayer = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone"); !data.AutoQosVoipCiscoPhone.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone"); !data.AutoQosVoipCiscoPhone.IsNull() {
 		if value.Exists() {
 			data.AutoQosVoipCiscoPhone = types.BoolValue(true)
 		} else {
@@ -1998,7 +1998,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosVoipCiscoPhone = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone"); !data.AutoQosVoipCiscoSoftphone.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone"); !data.AutoQosVoipCiscoSoftphone.IsNull() {
 		if value.Exists() {
 			data.AutoQosVoipCiscoSoftphone = types.BoolValue(true)
 		} else {
@@ -2007,7 +2007,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosVoipCiscoSoftphone = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/trust"); !data.AutoQosVoipTrust.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/trust"); !data.AutoQosVoipTrust.IsNull() {
 		if value.Exists() {
 			data.AutoQosVoipTrust = types.BoolValue(true)
 		} else {
@@ -2016,17 +2016,17 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.AutoQosVoipTrust = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trust/device"); value.Exists() && !data.TrustDevice.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trust/device"); value.Exists() && !data.TrustDevice.IsNull() {
 		data.TrustDevice = types.StringValue(value.String())
 	} else {
 		data.TrustDevice = types.StringNull()
 	}
 	for i := range data.HelperAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.HelperAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.HelperAddresses[i].Address.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/helper-address").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/helper-address").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2064,46 +2064,46 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 			data.HelperAddresses[i].Vrf = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:template"); value.Exists() && !data.BfdTemplate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:template"); value.Exists() && !data.BfdTemplate.IsNull() {
 		data.BfdTemplate = types.StringValue(value.String())
 	} else {
 		data.BfdTemplate = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:enable"); !data.BfdEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:enable"); !data.BfdEnable.IsNull() {
 		if value.Exists() {
 			data.BfdEnable = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.BfdEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:local-address"); value.Exists() && !data.BfdLocalAddress.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:local-address"); value.Exists() && !data.BfdLocalAddress.IsNull() {
 		data.BfdLocalAddress = types.StringValue(value.String())
 	} else {
 		data.BfdLocalAddress = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs"); value.Exists() && !data.BfdInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs"); value.Exists() && !data.BfdInterval.IsNull() {
 		data.BfdInterval = types.Int64Value(value.Int())
 	} else {
 		data.BfdInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx"); value.Exists() && !data.BfdIntervalMinRx.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx"); value.Exists() && !data.BfdIntervalMinRx.IsNull() {
 		data.BfdIntervalMinRx = types.Int64Value(value.Int())
 	} else {
 		data.BfdIntervalMinRx = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier"); value.Exists() && !data.BfdIntervalMultiplier.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier"); value.Exists() && !data.BfdIntervalMultiplier.IsNull() {
 		data.BfdIntervalMultiplier = types.Int64Value(value.Int())
 	} else {
 		data.BfdIntervalMultiplier = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:echo"); !data.BfdEcho.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:echo"); !data.BfdEcho.IsNull() {
 		if value.Exists() {
 			data.BfdEcho = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.BfdEcho = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/enable"); !data.Ipv6Enable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/enable"); !data.Ipv6Enable.IsNull() {
 		if value.Exists() {
 			data.Ipv6Enable = types.BoolValue(true)
 		} else {
@@ -2112,12 +2112,12 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.Ipv6Enable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/mtu"); value.Exists() && !data.Ipv6Mtu.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/mtu"); value.Exists() && !data.Ipv6Mtu.IsNull() {
 		data.Ipv6Mtu = types.Int64Value(value.Int())
 	} else {
 		data.Ipv6Mtu = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all"); !data.Ipv6NdRaSuppressAll.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all"); !data.Ipv6NdRaSuppressAll.IsNull() {
 		if value.Exists() {
 			data.Ipv6NdRaSuppressAll = types.BoolValue(true)
 		} else {
@@ -2126,7 +2126,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.Ipv6NdRaSuppressAll = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/autoconfig/default"); !data.Ipv6AddressAutoconfigDefault.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/autoconfig/default"); !data.Ipv6AddressAutoconfigDefault.IsNull() {
 		if value.Exists() {
 			data.Ipv6AddressAutoconfigDefault = types.BoolValue(true)
 		} else {
@@ -2135,7 +2135,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.Ipv6AddressAutoconfigDefault = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/dhcp"); !data.Ipv6AddressDhcp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/dhcp"); !data.Ipv6AddressDhcp.IsNull() {
 		if value.Exists() {
 			data.Ipv6AddressDhcp = types.BoolValue(true)
 		} else {
@@ -2145,11 +2145,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		data.Ipv6AddressDhcp = types.BoolNull()
 	}
 	for i := range data.Ipv6LinkLocalAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.Ipv6LinkLocalAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/link-local-address").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/link-local-address").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2183,11 +2183,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		}
 	}
 	for i := range data.Ipv6Addresses {
-		keys := [...]string{"prefix"}
-		keyValues := [...]string{data.Ipv6Addresses[i].Prefix.ValueString()}
+		keys := [...]string{ "prefix",  }
+		keyValues := [...]string{ data.Ipv6Addresses[i].Prefix.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/prefix-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/prefix-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2221,11 +2221,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		}
 	}
 	for i := range data.Ipv6FlowMonitors {
-		keys := [...]string{"name", "direction"}
-		keyValues := [...]string{data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString()}
+		keys := [...]string{ "name", "direction",  }
+		keyValues := [...]string{ data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/Cisco-IOS-XE-flow:flow/monitor-new").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/Cisco-IOS-XE-flow:flow/monitor-new").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2254,12 +2254,12 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 			data.Ipv6FlowMonitors[i].Direction = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/arp/timeout"); value.Exists() && !data.ArpTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/arp/timeout"); value.Exists() && !data.ArpTimeout.IsNull() {
 		data.ArpTimeout = types.Int64Value(value.Int())
 	} else {
 		data.ArpTimeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/arp/inspection/trust"); !data.IpArpInspectionTrust.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/arp/inspection/trust"); !data.IpArpInspectionTrust.IsNull() {
 		if value.Exists() {
 			data.IpArpInspectionTrust = types.BoolValue(true)
 		} else {
@@ -2268,17 +2268,17 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.IpArpInspectionTrust = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/arp/inspection/limit/rate"); value.Exists() && !data.IpArpInspectionLimitRate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/arp/inspection/limit/rate"); value.Exists() && !data.IpArpInspectionLimitRate.IsNull() {
 		data.IpArpInspectionLimitRate = types.Int64Value(value.Int())
 	} else {
 		data.IpArpInspectionLimitRate = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type"); value.Exists() && !data.SpanningTreeLinkType.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type"); value.Exists() && !data.SpanningTreeLinkType.IsNull() {
 		data.SpanningTreeLinkType = types.StringValue(value.String())
 	} else {
 		data.SpanningTreeLinkType = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable"); !data.BpduguardEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable"); !data.BpduguardEnable.IsNull() {
 		if value.Exists() {
 			data.BpduguardEnable = types.BoolValue(true)
 		} else {
@@ -2287,7 +2287,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.BpduguardEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable"); !data.BpduguardDisable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable"); !data.BpduguardDisable.IsNull() {
 		if value.Exists() {
 			data.BpduguardDisable = types.BoolValue(true)
 		} else {
@@ -2296,7 +2296,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.BpduguardDisable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast"); !data.SpanningTreePortfast.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast"); !data.SpanningTreePortfast.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfast = types.BoolValue(true)
 		} else {
@@ -2305,7 +2305,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SpanningTreePortfast = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable"); !data.SpanningTreePortfastDisable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable"); !data.SpanningTreePortfastDisable.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfastDisable = types.BoolValue(true)
 		} else {
@@ -2314,7 +2314,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SpanningTreePortfastDisable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk"); !data.SpanningTreePortfastTrunk.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk"); !data.SpanningTreePortfastTrunk.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfastTrunk = types.BoolValue(true)
 		} else {
@@ -2323,7 +2323,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SpanningTreePortfastTrunk = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge"); !data.SpanningTreePortfastEdge.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge"); !data.SpanningTreePortfastEdge.IsNull() {
 		if value.Exists() {
 			data.SpanningTreePortfastEdge = types.BoolValue(true)
 		} else {
@@ -2332,7 +2332,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SpanningTreePortfastEdge = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust"); !data.IpDhcpSnoopingTrust.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust"); !data.IpDhcpSnoopingTrust.IsNull() {
 		if value.Exists() {
 			data.IpDhcpSnoopingTrust = types.BoolValue(true)
 		} else {
@@ -2341,26 +2341,26 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.IpDhcpSnoopingTrust = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/load-interval"); value.Exists() && !data.LoadInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/load-interval"); value.Exists() && !data.LoadInterval.IsNull() {
 		data.LoadInterval = types.Int64Value(value.Int())
 	} else {
 		data.LoadInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-snmp:snmp/trap/link-status"); !data.SnmpTrapLinkStatus.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-snmp:snmp/trap/link-status"); !data.SnmpTrapLinkStatus.IsNull() {
 		if value.Exists() {
 			data.SnmpTrapLinkStatus = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.SnmpTrapLinkStatus = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/logging/event/link-status-enable"); !data.LoggingEventLinkStatusEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/logging/event/link-status-enable"); !data.LoggingEventLinkStatusEnable.IsNull() {
 		if value.Exists() {
 			data.LoggingEventLinkStatusEnable = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LoggingEventLinkStatusEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking"); !data.DeviceTracking.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking"); !data.DeviceTracking.IsNull() {
 		if value.Exists() {
 			data.DeviceTracking = types.BoolValue(true)
 		} else {
@@ -2370,11 +2370,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		data.DeviceTracking = types.BoolNull()
 	}
 	for i := range data.DeviceTrackingAttachedPolicies {
-		keys := [...]string{"attach-policy"}
-		keyValues := [...]string{data.DeviceTrackingAttachedPolicies[i].Name.ValueString()}
+		keys := [...]string{ "attach-policy",  }
+		keyValues := [...]string{ data.DeviceTrackingAttachedPolicies[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking/attached-policies").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking/attached-policies").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2398,7 +2398,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 			data.DeviceTrackingAttachedPolicies[i].Name = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ethernet:negotiation/auto"); !data.NegotiationAuto.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ethernet:negotiation/auto"); !data.NegotiationAuto.IsNull() {
 		if value.Exists() {
 			data.NegotiationAuto = types.BoolValue(value.Bool())
 		}
@@ -2406,11 +2406,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		data.NegotiationAuto = types.BoolNull()
 	}
 	for i := range data.EvpnEthernetSegments {
-		keys := [...]string{"es-value"}
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10)}
+		keys := [...]string{ "es-value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2435,11 +2435,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		}
 	}
 	for i := range data.EvpnEthernetSegmentsLegacy {
-		keys := [...]string{"es-value"}
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10)}
+		keys := [...]string{ "es-value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2463,17 +2463,17 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 			data.EvpnEthernetSegmentsLegacy[i].EsValue = types.Int64Null()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-igmp:igmp/version"); value.Exists() && !data.IpIgmpVersion.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-igmp:igmp/version"); value.Exists() && !data.IpIgmpVersion.IsNull() {
 		data.IpIgmpVersion = types.Int64Value(value.Int())
 	} else {
 		data.IpIgmpVersion = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/router/Cisco-IOS-XE-isis:isis/tag"); value.Exists() && !data.IpRouterIsis.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/router/Cisco-IOS-XE-isis:isis/tag"); value.Exists() && !data.IpRouterIsis.IsNull() {
 		data.IpRouterIsis = types.StringValue(value.String())
 	} else {
 		data.IpRouterIsis = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/inside"); !data.IpNatInside.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/inside"); !data.IpNatInside.IsNull() {
 		if value.Exists() {
 			data.IpNatInside = types.BoolValue(true)
 		} else {
@@ -2482,7 +2482,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.IpNatInside = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/outside"); !data.IpNatOutside.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/outside"); !data.IpNatOutside.IsNull() {
 		if value.Exists() {
 			data.IpNatOutside = types.BoolValue(true)
 		} else {
@@ -2492,11 +2492,11 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 		data.IpNatOutside = types.BoolNull()
 	}
 	for i := range data.IpFlowMonitors {
-		keys := [...]string{"name", "direction"}
-		keyValues := [...]string{data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString()}
+		keys := [...]string{ "name", "direction",  }
+		keyValues := [...]string{ data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-flow:flow/monitor-new").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-flow:flow/monitor-new").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2525,7 +2525,7 @@ func (data *InterfacePortChannel) updateFromBodyXML(ctx context.Context, res xml
 			data.IpFlowMonitors[i].Direction = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	} else {
 		data.ZoneMemberSecurity = types.StringNull()
@@ -2541,132 +2541,132 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "mtu"); value.Exists() {
+	if value := res.Get(prefix+"mtu"); value.Exists() {
 		data.Mtu = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "switchport-conf.switchport"); value.Exists() {
+	if value := res.Get(prefix+"switchport-conf.switchport"); value.Exists() {
 		data.Switchport = types.BoolValue(value.Bool())
 	} else {
 		data.Switchport = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.proxy-arp"); value.Exists() {
+	if value := res.Get(prefix+"ip.proxy-arp"); value.Exists() {
 		data.IpProxyArp = types.BoolValue(value.Bool())
 	} else {
 		data.IpProxyArp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.redirects"); value.Exists() {
+	if value := res.Get(prefix+"ip.redirects"); value.Exists() {
 		data.IpRedirects = types.BoolValue(value.Bool())
 	} else {
 		data.IpRedirects = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
 		data.IpUnreachables = types.BoolValue(value.Bool())
 	} else {
 		data.IpUnreachables = types.BoolNull()
 	}
-	if value := res.Get(prefix + "vrf.forwarding"); value.Exists() {
+	if value := res.Get(prefix+"vrf.forwarding"); value.Exists() {
 		data.VrfForwarding = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.address.primary.address"); value.Exists() {
+	if value := res.Get(prefix+"ip.address.primary.address"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.address.primary.mask"); value.Exists() {
+	if value := res.Get(prefix+"ip.address.primary.mask"); value.Exists() {
 		data.Ipv4AddressMask = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.address.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"ip.address.dhcp"); value.Exists() {
 		data.Ipv4AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv4AddressDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.access-group.in.acl.in"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.in.acl.in"); value.Exists() {
 		data.IpAccessGroupInEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupInEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.access-group.in.acl.acl-name"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.in.acl.acl-name"); value.Exists() {
 		data.IpAccessGroupIn = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.access-group.out.acl.out"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.out.acl.out"); value.Exists() {
 		data.IpAccessGroupOutEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupOutEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.access-group.out.acl.acl-name"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.out.acl.acl-name"); value.Exists() {
 		data.IpAccessGroupOut = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.dhcp.Cisco-IOS-XE-dhcp:relay.source-interface"); value.Exists() {
+	if value := res.Get(prefix+"ip.dhcp.Cisco-IOS-XE-dhcp:relay.source-interface"); value.Exists() {
 		data.IpDhcpRelaySourceInterface = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.guard"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.guard"); value.Exists() {
 		data.SpanningTreeGuard = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.classify"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.classify"); value.Exists() {
 		data.AutoQosClassify = types.BoolValue(true)
 	} else {
 		data.AutoQosClassify = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.classify.police"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.classify.police"); value.Exists() {
 		data.AutoQosClassifyPolice = types.BoolValue(true)
 	} else {
 		data.AutoQosClassifyPolice = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust"); value.Exists() {
 		data.AutoQosTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust.cos"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust.cos"); value.Exists() {
 		data.AutoQosTrustCos = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustCos = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust.dscp"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust.dscp"); value.Exists() {
 		data.AutoQosTrustDscp = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustDscp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.cts"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.cts"); value.Exists() {
 		data.AutoQosVideoCts = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoCts = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.ip-camera"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.ip-camera"); value.Exists() {
 		data.AutoQosVideoIpCamera = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoIpCamera = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.media-player"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.media-player"); value.Exists() {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.cisco-phone"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.cisco-phone"); value.Exists() {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.cisco-softphone"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.cisco-softphone"); value.Exists() {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.trust"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.trust"); value.Exists() {
 		data.AutoQosVoipTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "trust.device"); value.Exists() {
+	if value := res.Get(prefix+"trust.device"); value.Exists() {
 		data.TrustDevice = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.helper-address"); value.Exists() {
+	if value := res.Get(prefix+"ip.helper-address"); value.Exists() {
 		data.HelperAddresses = make([]InterfacePortChannelHelperAddresses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelHelperAddresses{}
@@ -2685,55 +2685,55 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:template"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:template"); value.Exists() {
 		data.BfdTemplate = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:enable"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:enable"); value.Exists() {
 		data.BfdEnable = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:local-address"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:local-address"); value.Exists() {
 		data.BfdLocalAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.msecs"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.msecs"); value.Exists() {
 		data.BfdInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.min_rx"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.min_rx"); value.Exists() {
 		data.BfdIntervalMinRx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.multiplier"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.multiplier"); value.Exists() {
 		data.BfdIntervalMultiplier = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:echo"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:echo"); value.Exists() {
 		data.BfdEcho = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEcho = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ipv6.enable"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.enable"); value.Exists() {
 		data.Ipv6Enable = types.BoolValue(true)
 	} else {
 		data.Ipv6Enable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.mtu"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.mtu"); value.Exists() {
 		data.Ipv6Mtu = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ipv6.nd.Cisco-IOS-XE-nd:ra.suppress.all"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.nd.Cisco-IOS-XE-nd:ra.suppress.all"); value.Exists() {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(true)
 	} else {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.address.autoconfig.default"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.autoconfig.default"); value.Exists() {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.address.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.dhcp"); value.Exists() {
 		data.Ipv6AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.address.link-local-address"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.link-local-address"); value.Exists() {
 		data.Ipv6LinkLocalAddresses = make([]InterfacePortChannelIpv6LinkLocalAddresses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpv6LinkLocalAddresses{}
@@ -2749,7 +2749,7 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "ipv6.address.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.prefix-list"); value.Exists() {
 		data.Ipv6Addresses = make([]InterfacePortChannelIpv6Addresses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpv6Addresses{}
@@ -2765,7 +2765,7 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "ipv6.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
 		data.Ipv6FlowMonitors = make([]InterfacePortChannelIpv6FlowMonitors, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpv6FlowMonitors{}
@@ -2779,74 +2779,74 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "arp.timeout"); value.Exists() {
+	if value := res.Get(prefix+"arp.timeout"); value.Exists() {
 		data.ArpTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.arp.inspection.trust"); value.Exists() {
+	if value := res.Get(prefix+"ip.arp.inspection.trust"); value.Exists() {
 		data.IpArpInspectionTrust = types.BoolValue(true)
 	} else {
 		data.IpArpInspectionTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.arp.inspection.limit.rate"); value.Exists() {
+	if value := res.Get(prefix+"ip.arp.inspection.limit.rate"); value.Exists() {
 		data.IpArpInspectionLimitRate = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.link-type"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.link-type"); value.Exists() {
 		data.SpanningTreeLinkType = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.enable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.enable"); value.Exists() {
 		data.BpduguardEnable = types.BoolValue(true)
 	} else {
 		data.BpduguardEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.disable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.disable"); value.Exists() {
 		data.BpduguardDisable = types.BoolValue(true)
 	} else {
 		data.BpduguardDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast"); value.Exists() {
 		data.SpanningTreePortfast = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfast = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.disable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.disable"); value.Exists() {
 		data.SpanningTreePortfastDisable = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.trunk"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.trunk"); value.Exists() {
 		data.SpanningTreePortfastTrunk = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastTrunk = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.edge"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.edge"); value.Exists() {
 		data.SpanningTreePortfastEdge = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastEdge = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.dhcp.Cisco-IOS-XE-dhcp:snooping.trust"); value.Exists() {
+	if value := res.Get(prefix+"ip.dhcp.Cisco-IOS-XE-dhcp:snooping.trust"); value.Exists() {
 		data.IpDhcpSnoopingTrust = types.BoolValue(true)
 	} else {
 		data.IpDhcpSnoopingTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "load-interval"); value.Exists() {
+	if value := res.Get(prefix+"load-interval"); value.Exists() {
 		data.LoadInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-snmp:snmp.trap.link-status"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-snmp:snmp.trap.link-status"); value.Exists() {
 		data.SnmpTrapLinkStatus = types.BoolValue(value.Bool())
 	} else {
 		data.SnmpTrapLinkStatus = types.BoolNull()
 	}
-	if value := res.Get(prefix + "logging.event.link-status-enable"); value.Exists() {
+	if value := res.Get(prefix+"logging.event.link-status-enable"); value.Exists() {
 		data.LoggingEventLinkStatusEnable = types.BoolValue(value.Bool())
 	} else {
 		data.LoggingEventLinkStatusEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
 		data.DeviceTracking = types.BoolValue(true)
 	} else {
 		data.DeviceTracking = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:device-tracking.attached-policies"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:device-tracking.attached-policies"); value.Exists() {
 		data.DeviceTrackingAttachedPolicies = make([]InterfacePortChannelDeviceTrackingAttachedPolicies, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelDeviceTrackingAttachedPolicies{}
@@ -2857,12 +2857,12 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ethernet:negotiation.auto"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ethernet:negotiation.auto"); value.Exists() {
 		data.NegotiationAuto = types.BoolValue(value.Bool())
 	} else {
 		data.NegotiationAuto = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-l2vpn:evpn.ethernet-segment-num.ethernet-segment"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-l2vpn:evpn.ethernet-segment-num.ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegments = make([]InterfacePortChannelEvpnEthernetSegments, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegments{}
@@ -2873,7 +2873,7 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-l2vpn:evpn.ethernet-segment"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-l2vpn:evpn.ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegmentsLegacy = make([]InterfacePortChannelEvpnEthernetSegmentsLegacy, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegmentsLegacy{}
@@ -2884,23 +2884,23 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-igmp:igmp.version"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-igmp:igmp.version"); value.Exists() {
 		data.IpIgmpVersion = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.router.Cisco-IOS-XE-isis:isis.tag"); value.Exists() {
+	if value := res.Get(prefix+"ip.router.Cisco-IOS-XE-isis:isis.tag"); value.Exists() {
 		data.IpRouterIsis = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-nat:nat.inside"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-nat:nat.inside"); value.Exists() {
 		data.IpNatInside = types.BoolValue(true)
 	} else {
 		data.IpNatInside = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-nat:nat.outside"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-nat:nat.outside"); value.Exists() {
 		data.IpNatOutside = types.BoolValue(true)
 	} else {
 		data.IpNatOutside = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
 		data.IpFlowMonitors = make([]InterfacePortChannelIpFlowMonitors, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpFlowMonitors{}
@@ -2914,7 +2914,7 @@ func (data *InterfacePortChannel) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -2928,132 +2928,132 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "mtu"); value.Exists() {
+	if value := res.Get(prefix+"mtu"); value.Exists() {
 		data.Mtu = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "switchport-conf.switchport"); value.Exists() {
+	if value := res.Get(prefix+"switchport-conf.switchport"); value.Exists() {
 		data.Switchport = types.BoolValue(value.Bool())
 	} else {
 		data.Switchport = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.proxy-arp"); value.Exists() {
+	if value := res.Get(prefix+"ip.proxy-arp"); value.Exists() {
 		data.IpProxyArp = types.BoolValue(value.Bool())
 	} else {
 		data.IpProxyArp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.redirects"); value.Exists() {
+	if value := res.Get(prefix+"ip.redirects"); value.Exists() {
 		data.IpRedirects = types.BoolValue(value.Bool())
 	} else {
 		data.IpRedirects = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
 		data.IpUnreachables = types.BoolValue(value.Bool())
 	} else {
 		data.IpUnreachables = types.BoolNull()
 	}
-	if value := res.Get(prefix + "vrf.forwarding"); value.Exists() {
+	if value := res.Get(prefix+"vrf.forwarding"); value.Exists() {
 		data.VrfForwarding = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.address.primary.address"); value.Exists() {
+	if value := res.Get(prefix+"ip.address.primary.address"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.address.primary.mask"); value.Exists() {
+	if value := res.Get(prefix+"ip.address.primary.mask"); value.Exists() {
 		data.Ipv4AddressMask = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.address.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"ip.address.dhcp"); value.Exists() {
 		data.Ipv4AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv4AddressDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.access-group.in.acl.in"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.in.acl.in"); value.Exists() {
 		data.IpAccessGroupInEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupInEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.access-group.in.acl.acl-name"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.in.acl.acl-name"); value.Exists() {
 		data.IpAccessGroupIn = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.access-group.out.acl.out"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.out.acl.out"); value.Exists() {
 		data.IpAccessGroupOutEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupOutEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.access-group.out.acl.acl-name"); value.Exists() {
+	if value := res.Get(prefix+"ip.access-group.out.acl.acl-name"); value.Exists() {
 		data.IpAccessGroupOut = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.dhcp.Cisco-IOS-XE-dhcp:relay.source-interface"); value.Exists() {
+	if value := res.Get(prefix+"ip.dhcp.Cisco-IOS-XE-dhcp:relay.source-interface"); value.Exists() {
 		data.IpDhcpRelaySourceInterface = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.guard"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.guard"); value.Exists() {
 		data.SpanningTreeGuard = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.classify"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.classify"); value.Exists() {
 		data.AutoQosClassify = types.BoolValue(true)
 	} else {
 		data.AutoQosClassify = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.classify.police"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.classify.police"); value.Exists() {
 		data.AutoQosClassifyPolice = types.BoolValue(true)
 	} else {
 		data.AutoQosClassifyPolice = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust"); value.Exists() {
 		data.AutoQosTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust.cos"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust.cos"); value.Exists() {
 		data.AutoQosTrustCos = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustCos = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.trust.dscp"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.trust.dscp"); value.Exists() {
 		data.AutoQosTrustDscp = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustDscp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.cts"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.cts"); value.Exists() {
 		data.AutoQosVideoCts = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoCts = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.ip-camera"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.ip-camera"); value.Exists() {
 		data.AutoQosVideoIpCamera = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoIpCamera = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.video.media-player"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.video.media-player"); value.Exists() {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.cisco-phone"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.cisco-phone"); value.Exists() {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.cisco-softphone"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.cisco-softphone"); value.Exists() {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:auto.qos.voip.trust"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:auto.qos.voip.trust"); value.Exists() {
 		data.AutoQosVoipTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "trust.device"); value.Exists() {
+	if value := res.Get(prefix+"trust.device"); value.Exists() {
 		data.TrustDevice = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.helper-address"); value.Exists() {
+	if value := res.Get(prefix+"ip.helper-address"); value.Exists() {
 		data.HelperAddresses = make([]InterfacePortChannelHelperAddressesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelHelperAddressesData{}
@@ -3072,55 +3072,55 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:template"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:template"); value.Exists() {
 		data.BfdTemplate = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:enable"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:enable"); value.Exists() {
 		data.BfdEnable = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:local-address"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:local-address"); value.Exists() {
 		data.BfdLocalAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.msecs"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.msecs"); value.Exists() {
 		data.BfdInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.min_rx"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.min_rx"); value.Exists() {
 		data.BfdIntervalMinRx = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:interval-interface.multiplier"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:interval-interface.multiplier"); value.Exists() {
 		data.BfdIntervalMultiplier = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bfd.Cisco-IOS-XE-bfd:echo"); value.Exists() {
+	if value := res.Get(prefix+"bfd.Cisco-IOS-XE-bfd:echo"); value.Exists() {
 		data.BfdEcho = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEcho = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ipv6.enable"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.enable"); value.Exists() {
 		data.Ipv6Enable = types.BoolValue(true)
 	} else {
 		data.Ipv6Enable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.mtu"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.mtu"); value.Exists() {
 		data.Ipv6Mtu = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ipv6.nd.Cisco-IOS-XE-nd:ra.suppress.all"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.nd.Cisco-IOS-XE-nd:ra.suppress.all"); value.Exists() {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(true)
 	} else {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.address.autoconfig.default"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.autoconfig.default"); value.Exists() {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.address.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.dhcp"); value.Exists() {
 		data.Ipv6AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ipv6.address.link-local-address"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.link-local-address"); value.Exists() {
 		data.Ipv6LinkLocalAddresses = make([]InterfacePortChannelIpv6LinkLocalAddressesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpv6LinkLocalAddressesData{}
@@ -3136,7 +3136,7 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "ipv6.address.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.address.prefix-list"); value.Exists() {
 		data.Ipv6Addresses = make([]InterfacePortChannelIpv6AddressesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpv6AddressesData{}
@@ -3152,7 +3152,7 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "ipv6.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
+	if value := res.Get(prefix+"ipv6.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
 		data.Ipv6FlowMonitors = make([]InterfacePortChannelIpv6FlowMonitorsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpv6FlowMonitorsData{}
@@ -3166,74 +3166,74 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "arp.timeout"); value.Exists() {
+	if value := res.Get(prefix+"arp.timeout"); value.Exists() {
 		data.ArpTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.arp.inspection.trust"); value.Exists() {
+	if value := res.Get(prefix+"ip.arp.inspection.trust"); value.Exists() {
 		data.IpArpInspectionTrust = types.BoolValue(true)
 	} else {
 		data.IpArpInspectionTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.arp.inspection.limit.rate"); value.Exists() {
+	if value := res.Get(prefix+"ip.arp.inspection.limit.rate"); value.Exists() {
 		data.IpArpInspectionLimitRate = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.link-type"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.link-type"); value.Exists() {
 		data.SpanningTreeLinkType = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.enable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.enable"); value.Exists() {
 		data.BpduguardEnable = types.BoolValue(true)
 	} else {
 		data.BpduguardEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.disable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.bpduguard.disable"); value.Exists() {
 		data.BpduguardDisable = types.BoolValue(true)
 	} else {
 		data.BpduguardDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast"); value.Exists() {
 		data.SpanningTreePortfast = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfast = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.disable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.disable"); value.Exists() {
 		data.SpanningTreePortfastDisable = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.trunk"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.trunk"); value.Exists() {
 		data.SpanningTreePortfastTrunk = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastTrunk = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.edge"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-spanning-tree:spanning-tree.portfast.edge"); value.Exists() {
 		data.SpanningTreePortfastEdge = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastEdge = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.dhcp.Cisco-IOS-XE-dhcp:snooping.trust"); value.Exists() {
+	if value := res.Get(prefix+"ip.dhcp.Cisco-IOS-XE-dhcp:snooping.trust"); value.Exists() {
 		data.IpDhcpSnoopingTrust = types.BoolValue(true)
 	} else {
 		data.IpDhcpSnoopingTrust = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "load-interval"); value.Exists() {
+	if value := res.Get(prefix+"load-interval"); value.Exists() {
 		data.LoadInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-snmp:snmp.trap.link-status"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-snmp:snmp.trap.link-status"); value.Exists() {
 		data.SnmpTrapLinkStatus = types.BoolValue(value.Bool())
 	} else {
 		data.SnmpTrapLinkStatus = types.BoolNull()
 	}
-	if value := res.Get(prefix + "logging.event.link-status-enable"); value.Exists() {
+	if value := res.Get(prefix+"logging.event.link-status-enable"); value.Exists() {
 		data.LoggingEventLinkStatusEnable = types.BoolValue(value.Bool())
 	} else {
 		data.LoggingEventLinkStatusEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
 		data.DeviceTracking = types.BoolValue(true)
 	} else {
 		data.DeviceTracking = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-switch:device-tracking.attached-policies"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-switch:device-tracking.attached-policies"); value.Exists() {
 		data.DeviceTrackingAttachedPolicies = make([]InterfacePortChannelDeviceTrackingAttachedPoliciesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelDeviceTrackingAttachedPoliciesData{}
@@ -3244,12 +3244,12 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ethernet:negotiation.auto"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ethernet:negotiation.auto"); value.Exists() {
 		data.NegotiationAuto = types.BoolValue(value.Bool())
 	} else {
 		data.NegotiationAuto = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-l2vpn:evpn.ethernet-segment-num.ethernet-segment"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-l2vpn:evpn.ethernet-segment-num.ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegments = make([]InterfacePortChannelEvpnEthernetSegmentsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegmentsData{}
@@ -3260,7 +3260,7 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-l2vpn:evpn.ethernet-segment"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-l2vpn:evpn.ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegmentsLegacy = make([]InterfacePortChannelEvpnEthernetSegmentsLegacyData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegmentsLegacyData{}
@@ -3271,23 +3271,23 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-igmp:igmp.version"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-igmp:igmp.version"); value.Exists() {
 		data.IpIgmpVersion = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.router.Cisco-IOS-XE-isis:isis.tag"); value.Exists() {
+	if value := res.Get(prefix+"ip.router.Cisco-IOS-XE-isis:isis.tag"); value.Exists() {
 		data.IpRouterIsis = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-nat:nat.inside"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-nat:nat.inside"); value.Exists() {
 		data.IpNatInside = types.BoolValue(true)
 	} else {
 		data.IpNatInside = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-nat:nat.outside"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-nat:nat.outside"); value.Exists() {
 		data.IpNatOutside = types.BoolValue(true)
 	} else {
 		data.IpNatOutside = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ip.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
+	if value := res.Get(prefix+"ip.Cisco-IOS-XE-flow:flow.monitor-new"); value.Exists() {
 		data.IpFlowMonitors = make([]InterfacePortChannelIpFlowMonitorsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfacePortChannelIpFlowMonitorsData{}
@@ -3301,7 +3301,7 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -3311,132 +3311,132 @@ func (data *InterfacePortChannelData) fromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mtu"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mtu"); value.Exists() {
 		data.Mtu = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/switchport-conf/switchport"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/switchport-conf/switchport"); value.Exists() {
 		data.Switchport = types.BoolValue(value.Bool())
 	} else {
 		data.Switchport = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/proxy-arp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/proxy-arp"); value.Exists() {
 		data.IpProxyArp = types.BoolValue(value.Bool())
 	} else {
 		data.IpProxyArp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/redirects"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/redirects"); value.Exists() {
 		data.IpRedirects = types.BoolValue(value.Bool())
 	} else {
 		data.IpRedirects = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
 		data.IpUnreachables = types.BoolValue(value.Bool())
 	} else {
 		data.IpUnreachables = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf/forwarding"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf/forwarding"); value.Exists() {
 		data.VrfForwarding = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/primary/address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/primary/address"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/primary/mask"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/primary/mask"); value.Exists() {
 		data.Ipv4AddressMask = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/dhcp"); value.Exists() {
 		data.Ipv4AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv4AddressDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/in/acl/in"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/in/acl/in"); value.Exists() {
 		data.IpAccessGroupInEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupInEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/in/acl/acl-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/in/acl/acl-name"); value.Exists() {
 		data.IpAccessGroupIn = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/out/acl/out"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/out/acl/out"); value.Exists() {
 		data.IpAccessGroupOutEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupOutEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/out/acl/acl-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/out/acl/acl-name"); value.Exists() {
 		data.IpAccessGroupOut = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface"); value.Exists() {
 		data.IpDhcpRelaySourceInterface = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/guard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/guard"); value.Exists() {
 		data.SpanningTreeGuard = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify"); value.Exists() {
 		data.AutoQosClassify = types.BoolValue(true)
 	} else {
 		data.AutoQosClassify = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify/police"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify/police"); value.Exists() {
 		data.AutoQosClassifyPolice = types.BoolValue(true)
 	} else {
 		data.AutoQosClassifyPolice = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust"); value.Exists() {
 		data.AutoQosTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/cos"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/cos"); value.Exists() {
 		data.AutoQosTrustCos = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustCos = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/dscp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/dscp"); value.Exists() {
 		data.AutoQosTrustDscp = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustDscp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/cts"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/cts"); value.Exists() {
 		data.AutoQosVideoCts = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoCts = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/ip-camera"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/ip-camera"); value.Exists() {
 		data.AutoQosVideoIpCamera = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoIpCamera = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/media-player"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/media-player"); value.Exists() {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone"); value.Exists() {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone"); value.Exists() {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/trust"); value.Exists() {
 		data.AutoQosVoipTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trust/device"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trust/device"); value.Exists() {
 		data.TrustDevice = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/helper-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/helper-address"); value.Exists() {
 		data.HelperAddresses = make([]InterfacePortChannelHelperAddresses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelHelperAddresses{}
@@ -3455,55 +3455,55 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:template"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:template"); value.Exists() {
 		data.BfdTemplate = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:enable"); value.Exists() {
 		data.BfdEnable = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:local-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:local-address"); value.Exists() {
 		data.BfdLocalAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs"); value.Exists() {
 		data.BfdInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx"); value.Exists() {
 		data.BfdIntervalMinRx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier"); value.Exists() {
 		data.BfdIntervalMultiplier = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:echo"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:echo"); value.Exists() {
 		data.BfdEcho = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEcho = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/enable"); value.Exists() {
 		data.Ipv6Enable = types.BoolValue(true)
 	} else {
 		data.Ipv6Enable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/mtu"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/mtu"); value.Exists() {
 		data.Ipv6Mtu = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all"); value.Exists() {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(true)
 	} else {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/autoconfig/default"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/autoconfig/default"); value.Exists() {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/dhcp"); value.Exists() {
 		data.Ipv6AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/link-local-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/link-local-address"); value.Exists() {
 		data.Ipv6LinkLocalAddresses = make([]InterfacePortChannelIpv6LinkLocalAddresses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpv6LinkLocalAddresses{}
@@ -3519,7 +3519,7 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/prefix-list"); value.Exists() {
 		data.Ipv6Addresses = make([]InterfacePortChannelIpv6Addresses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpv6Addresses{}
@@ -3535,7 +3535,7 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
 		data.Ipv6FlowMonitors = make([]InterfacePortChannelIpv6FlowMonitors, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpv6FlowMonitors{}
@@ -3549,74 +3549,74 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/arp/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/arp/timeout"); value.Exists() {
 		data.ArpTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/arp/inspection/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/arp/inspection/trust"); value.Exists() {
 		data.IpArpInspectionTrust = types.BoolValue(true)
 	} else {
 		data.IpArpInspectionTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/arp/inspection/limit/rate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/arp/inspection/limit/rate"); value.Exists() {
 		data.IpArpInspectionLimitRate = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type"); value.Exists() {
 		data.SpanningTreeLinkType = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable"); value.Exists() {
 		data.BpduguardEnable = types.BoolValue(true)
 	} else {
 		data.BpduguardEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable"); value.Exists() {
 		data.BpduguardDisable = types.BoolValue(true)
 	} else {
 		data.BpduguardDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast"); value.Exists() {
 		data.SpanningTreePortfast = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfast = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable"); value.Exists() {
 		data.SpanningTreePortfastDisable = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk"); value.Exists() {
 		data.SpanningTreePortfastTrunk = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastTrunk = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge"); value.Exists() {
 		data.SpanningTreePortfastEdge = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastEdge = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust"); value.Exists() {
 		data.IpDhcpSnoopingTrust = types.BoolValue(true)
 	} else {
 		data.IpDhcpSnoopingTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/load-interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/load-interval"); value.Exists() {
 		data.LoadInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-snmp:snmp/trap/link-status"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-snmp:snmp/trap/link-status"); value.Exists() {
 		data.SnmpTrapLinkStatus = types.BoolValue(value.Bool())
 	} else {
 		data.SnmpTrapLinkStatus = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/logging/event/link-status-enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/logging/event/link-status-enable"); value.Exists() {
 		data.LoggingEventLinkStatusEnable = types.BoolValue(value.Bool())
 	} else {
 		data.LoggingEventLinkStatusEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
 		data.DeviceTracking = types.BoolValue(true)
 	} else {
 		data.DeviceTracking = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking/attached-policies"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking/attached-policies"); value.Exists() {
 		data.DeviceTrackingAttachedPolicies = make([]InterfacePortChannelDeviceTrackingAttachedPolicies, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelDeviceTrackingAttachedPolicies{}
@@ -3627,12 +3627,12 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ethernet:negotiation/auto"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ethernet:negotiation/auto"); value.Exists() {
 		data.NegotiationAuto = types.BoolValue(value.Bool())
 	} else {
 		data.NegotiationAuto = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegments = make([]InterfacePortChannelEvpnEthernetSegments, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegments{}
@@ -3643,7 +3643,7 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegmentsLegacy = make([]InterfacePortChannelEvpnEthernetSegmentsLegacy, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegmentsLegacy{}
@@ -3654,23 +3654,23 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-igmp:igmp/version"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-igmp:igmp/version"); value.Exists() {
 		data.IpIgmpVersion = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/router/Cisco-IOS-XE-isis:isis/tag"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/router/Cisco-IOS-XE-isis:isis/tag"); value.Exists() {
 		data.IpRouterIsis = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/inside"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/inside"); value.Exists() {
 		data.IpNatInside = types.BoolValue(true)
 	} else {
 		data.IpNatInside = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/outside"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/outside"); value.Exists() {
 		data.IpNatOutside = types.BoolValue(true)
 	} else {
 		data.IpNatOutside = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
 		data.IpFlowMonitors = make([]InterfacePortChannelIpFlowMonitors, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpFlowMonitors{}
@@ -3684,7 +3684,7 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -3694,132 +3694,132 @@ func (data *InterfacePortChannel) fromBodyXML(ctx context.Context, res xmldot.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mtu"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mtu"); value.Exists() {
 		data.Mtu = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/switchport-conf/switchport"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/switchport-conf/switchport"); value.Exists() {
 		data.Switchport = types.BoolValue(value.Bool())
 	} else {
 		data.Switchport = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/proxy-arp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/proxy-arp"); value.Exists() {
 		data.IpProxyArp = types.BoolValue(value.Bool())
 	} else {
 		data.IpProxyArp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/redirects"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/redirects"); value.Exists() {
 		data.IpRedirects = types.BoolValue(value.Bool())
 	} else {
 		data.IpRedirects = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-icmp:unreachables"); value.Exists() {
 		data.IpUnreachables = types.BoolValue(value.Bool())
 	} else {
 		data.IpUnreachables = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf/forwarding"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf/forwarding"); value.Exists() {
 		data.VrfForwarding = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/primary/address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/primary/address"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/primary/mask"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/primary/mask"); value.Exists() {
 		data.Ipv4AddressMask = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/address/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/address/dhcp"); value.Exists() {
 		data.Ipv4AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv4AddressDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/in/acl/in"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/in/acl/in"); value.Exists() {
 		data.IpAccessGroupInEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupInEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/in/acl/acl-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/in/acl/acl-name"); value.Exists() {
 		data.IpAccessGroupIn = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/out/acl/out"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/out/acl/out"); value.Exists() {
 		data.IpAccessGroupOutEnable = types.BoolValue(true)
 	} else {
 		data.IpAccessGroupOutEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/access-group/out/acl/acl-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/access-group/out/acl/acl-name"); value.Exists() {
 		data.IpAccessGroupOut = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:relay/source-interface"); value.Exists() {
 		data.IpDhcpRelaySourceInterface = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/guard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/guard"); value.Exists() {
 		data.SpanningTreeGuard = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify"); value.Exists() {
 		data.AutoQosClassify = types.BoolValue(true)
 	} else {
 		data.AutoQosClassify = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/classify/police"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/classify/police"); value.Exists() {
 		data.AutoQosClassifyPolice = types.BoolValue(true)
 	} else {
 		data.AutoQosClassifyPolice = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust"); value.Exists() {
 		data.AutoQosTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/cos"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/cos"); value.Exists() {
 		data.AutoQosTrustCos = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustCos = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/trust/dscp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/trust/dscp"); value.Exists() {
 		data.AutoQosTrustDscp = types.BoolValue(true)
 	} else {
 		data.AutoQosTrustDscp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/cts"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/cts"); value.Exists() {
 		data.AutoQosVideoCts = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoCts = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/ip-camera"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/ip-camera"); value.Exists() {
 		data.AutoQosVideoIpCamera = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoIpCamera = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/video/media-player"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/video/media-player"); value.Exists() {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(true)
 	} else {
 		data.AutoQosVideoMediaPlayer = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-phone"); value.Exists() {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoPhone = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/cisco-softphone"); value.Exists() {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipCiscoSoftphone = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:auto/qos/voip/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:auto/qos/voip/trust"); value.Exists() {
 		data.AutoQosVoipTrust = types.BoolValue(true)
 	} else {
 		data.AutoQosVoipTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trust/device"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trust/device"); value.Exists() {
 		data.TrustDevice = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/helper-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/helper-address"); value.Exists() {
 		data.HelperAddresses = make([]InterfacePortChannelHelperAddressesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelHelperAddressesData{}
@@ -3838,55 +3838,55 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:template"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:template"); value.Exists() {
 		data.BfdTemplate = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:enable"); value.Exists() {
 		data.BfdEnable = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:local-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:local-address"); value.Exists() {
 		data.BfdLocalAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/msecs"); value.Exists() {
 		data.BfdInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/min_rx"); value.Exists() {
 		data.BfdIntervalMinRx = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:interval-interface/multiplier"); value.Exists() {
 		data.BfdIntervalMultiplier = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:echo"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bfd/Cisco-IOS-XE-bfd:echo"); value.Exists() {
 		data.BfdEcho = types.BoolValue(value.Bool())
 	} else {
 		data.BfdEcho = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/enable"); value.Exists() {
 		data.Ipv6Enable = types.BoolValue(true)
 	} else {
 		data.Ipv6Enable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/mtu"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/mtu"); value.Exists() {
 		data.Ipv6Mtu = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/nd/Cisco-IOS-XE-nd:ra/suppress/all"); value.Exists() {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(true)
 	} else {
 		data.Ipv6NdRaSuppressAll = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/autoconfig/default"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/autoconfig/default"); value.Exists() {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressAutoconfigDefault = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/dhcp"); value.Exists() {
 		data.Ipv6AddressDhcp = types.BoolValue(true)
 	} else {
 		data.Ipv6AddressDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/link-local-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/link-local-address"); value.Exists() {
 		data.Ipv6LinkLocalAddresses = make([]InterfacePortChannelIpv6LinkLocalAddressesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpv6LinkLocalAddressesData{}
@@ -3902,7 +3902,7 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/address/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/address/prefix-list"); value.Exists() {
 		data.Ipv6Addresses = make([]InterfacePortChannelIpv6AddressesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpv6AddressesData{}
@@ -3918,7 +3918,7 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ipv6/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ipv6/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
 		data.Ipv6FlowMonitors = make([]InterfacePortChannelIpv6FlowMonitorsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpv6FlowMonitorsData{}
@@ -3932,74 +3932,74 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/arp/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/arp/timeout"); value.Exists() {
 		data.ArpTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/arp/inspection/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/arp/inspection/trust"); value.Exists() {
 		data.IpArpInspectionTrust = types.BoolValue(true)
 	} else {
 		data.IpArpInspectionTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/arp/inspection/limit/rate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/arp/inspection/limit/rate"); value.Exists() {
 		data.IpArpInspectionLimitRate = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/link-type"); value.Exists() {
 		data.SpanningTreeLinkType = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/enable"); value.Exists() {
 		data.BpduguardEnable = types.BoolValue(true)
 	} else {
 		data.BpduguardEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/bpduguard/disable"); value.Exists() {
 		data.BpduguardDisable = types.BoolValue(true)
 	} else {
 		data.BpduguardDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast"); value.Exists() {
 		data.SpanningTreePortfast = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfast = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/disable"); value.Exists() {
 		data.SpanningTreePortfastDisable = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/trunk"); value.Exists() {
 		data.SpanningTreePortfastTrunk = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastTrunk = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-spanning-tree:spanning-tree/portfast/edge"); value.Exists() {
 		data.SpanningTreePortfastEdge = types.BoolValue(true)
 	} else {
 		data.SpanningTreePortfastEdge = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/dhcp/Cisco-IOS-XE-dhcp:snooping/trust"); value.Exists() {
 		data.IpDhcpSnoopingTrust = types.BoolValue(true)
 	} else {
 		data.IpDhcpSnoopingTrust = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/load-interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/load-interval"); value.Exists() {
 		data.LoadInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-snmp:snmp/trap/link-status"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-snmp:snmp/trap/link-status"); value.Exists() {
 		data.SnmpTrapLinkStatus = types.BoolValue(value.Bool())
 	} else {
 		data.SnmpTrapLinkStatus = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/logging/event/link-status-enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/logging/event/link-status-enable"); value.Exists() {
 		data.LoggingEventLinkStatusEnable = types.BoolValue(value.Bool())
 	} else {
 		data.LoggingEventLinkStatusEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking"); value.Exists() {
 		data.DeviceTracking = types.BoolValue(true)
 	} else {
 		data.DeviceTracking = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-switch:device-tracking/attached-policies"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-switch:device-tracking/attached-policies"); value.Exists() {
 		data.DeviceTrackingAttachedPolicies = make([]InterfacePortChannelDeviceTrackingAttachedPoliciesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelDeviceTrackingAttachedPoliciesData{}
@@ -4010,12 +4010,12 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ethernet:negotiation/auto"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ethernet:negotiation/auto"); value.Exists() {
 		data.NegotiationAuto = types.BoolValue(value.Bool())
 	} else {
 		data.NegotiationAuto = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegments = make([]InterfacePortChannelEvpnEthernetSegmentsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegmentsData{}
@@ -4026,7 +4026,7 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment"); value.Exists() {
 		data.EvpnEthernetSegmentsLegacy = make([]InterfacePortChannelEvpnEthernetSegmentsLegacyData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelEvpnEthernetSegmentsLegacyData{}
@@ -4037,23 +4037,23 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-igmp:igmp/version"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-igmp:igmp/version"); value.Exists() {
 		data.IpIgmpVersion = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/router/Cisco-IOS-XE-isis:isis/tag"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/router/Cisco-IOS-XE-isis:isis/tag"); value.Exists() {
 		data.IpRouterIsis = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/inside"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/inside"); value.Exists() {
 		data.IpNatInside = types.BoolValue(true)
 	} else {
 		data.IpNatInside = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-nat:nat/outside"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-nat:nat/outside"); value.Exists() {
 		data.IpNatOutside = types.BoolValue(true)
 	} else {
 		data.IpNatOutside = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/Cisco-IOS-XE-flow:flow/monitor-new"); value.Exists() {
 		data.IpFlowMonitors = make([]InterfacePortChannelIpFlowMonitorsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfacePortChannelIpFlowMonitorsData{}
@@ -4067,7 +4067,7 @@ func (data *InterfacePortChannelData) fromBodyXML(ctx context.Context, res xmldo
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -4082,8 +4082,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/Cisco-IOS-XE-zone:zone-member/security", state.getPath()))
 	}
 	for i := range state.IpFlowMonitors {
-		stateKeyValues := [...]string{state.IpFlowMonitors[i].Name.ValueString(), state.IpFlowMonitors[i].Direction.ValueString()}
-
+		stateKeyValues := [...]string{ state.IpFlowMonitors[i].Name.ValueString(), state.IpFlowMonitors[i].Direction.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.IpFlowMonitors[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4125,8 +4125,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/ip/Cisco-IOS-XE-igmp:igmp/version", state.getPath()))
 	}
 	for i := range state.EvpnEthernetSegmentsLegacy {
-		stateKeyValues := [...]string{strconv.FormatInt(state.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -4150,8 +4150,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		}
 	}
 	for i := range state.EvpnEthernetSegments {
-		stateKeyValues := [...]string{strconv.FormatInt(state.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.EvpnEthernetSegments[i].EsValue.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -4178,8 +4178,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/Cisco-IOS-XE-ethernet:negotiation/auto", state.getPath()))
 	}
 	for i := range state.DeviceTrackingAttachedPolicies {
-		stateKeyValues := [...]string{state.DeviceTrackingAttachedPolicies[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.DeviceTrackingAttachedPolicies[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.DeviceTrackingAttachedPolicies[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4248,8 +4248,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/arp/timeout", state.getPath()))
 	}
 	for i := range state.Ipv6FlowMonitors {
-		stateKeyValues := [...]string{state.Ipv6FlowMonitors[i].Name.ValueString(), state.Ipv6FlowMonitors[i].Direction.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6FlowMonitors[i].Name.ValueString(), state.Ipv6FlowMonitors[i].Direction.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6FlowMonitors[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4279,8 +4279,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		}
 	}
 	for i := range state.Ipv6Addresses {
-		stateKeyValues := [...]string{state.Ipv6Addresses[i].Prefix.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6Addresses[i].Prefix.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6Addresses[i].Prefix.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4307,8 +4307,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		}
 	}
 	for i := range state.Ipv6LinkLocalAddresses {
-		stateKeyValues := [...]string{state.Ipv6LinkLocalAddresses[i].Address.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6LinkLocalAddresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4368,8 +4368,8 @@ func (data *InterfacePortChannel) getDeletedItems(ctx context.Context, state Int
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/bfd/Cisco-IOS-XE-bfd:enable", state.getPath()))
 	}
 	for i := range state.HelperAddresses {
-		stateKeyValues := [...]string{state.HelperAddresses[i].Address.ValueString()}
-
+		stateKeyValues := [...]string{ state.HelperAddresses[i].Address.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.HelperAddresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4499,13 +4499,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security")
 	}
 	for i := range state.IpFlowMonitors {
-		stateKeys := [...]string{"name", "direction"}
-		stateKeyValues := [...]string{state.IpFlowMonitors[i].Name.ValueString(), state.IpFlowMonitors[i].Direction.ValueString()}
+		stateKeys := [...]string{ "name", "direction",  }
+		stateKeyValues := [...]string{ state.IpFlowMonitors[i].Name.ValueString(), state.IpFlowMonitors[i].Direction.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.IpFlowMonitors[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4547,13 +4547,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/ip/Cisco-IOS-XE-igmp:igmp/version")
 	}
 	for i := range state.EvpnEthernetSegmentsLegacy {
-		stateKeys := [...]string{"es-value"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10)}
+		stateKeys := [...]string{ "es-value",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -4577,13 +4577,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		}
 	}
 	for i := range state.EvpnEthernetSegments {
-		stateKeys := [...]string{"es-value"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10)}
+		stateKeys := [...]string{ "es-value",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.EvpnEthernetSegments[i].EsValue.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -4610,13 +4610,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/Cisco-IOS-XE-ethernet:negotiation/auto")
 	}
 	for i := range state.DeviceTrackingAttachedPolicies {
-		stateKeys := [...]string{"attach-policy"}
-		stateKeyValues := [...]string{state.DeviceTrackingAttachedPolicies[i].Name.ValueString()}
+		stateKeys := [...]string{ "attach-policy",  }
+		stateKeyValues := [...]string{ state.DeviceTrackingAttachedPolicies[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.DeviceTrackingAttachedPolicies[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4685,13 +4685,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/arp/timeout")
 	}
 	for i := range state.Ipv6FlowMonitors {
-		stateKeys := [...]string{"name", "direction"}
-		stateKeyValues := [...]string{state.Ipv6FlowMonitors[i].Name.ValueString(), state.Ipv6FlowMonitors[i].Direction.ValueString()}
+		stateKeys := [...]string{ "name", "direction",  }
+		stateKeyValues := [...]string{ state.Ipv6FlowMonitors[i].Name.ValueString(), state.Ipv6FlowMonitors[i].Direction.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6FlowMonitors[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4721,13 +4721,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		}
 	}
 	for i := range state.Ipv6Addresses {
-		stateKeys := [...]string{"prefix"}
-		stateKeyValues := [...]string{state.Ipv6Addresses[i].Prefix.ValueString()}
+		stateKeys := [...]string{ "prefix",  }
+		stateKeyValues := [...]string{ state.Ipv6Addresses[i].Prefix.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6Addresses[i].Prefix.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4754,13 +4754,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		}
 	}
 	for i := range state.Ipv6LinkLocalAddresses {
-		stateKeys := [...]string{"address"}
-		stateKeyValues := [...]string{state.Ipv6LinkLocalAddresses[i].Address.ValueString()}
+		stateKeys := [...]string{ "address",  }
+		stateKeyValues := [...]string{ state.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6LinkLocalAddresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4820,13 +4820,13 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/bfd/Cisco-IOS-XE-bfd:enable")
 	}
 	for i := range state.HelperAddresses {
-		stateKeys := [...]string{"address"}
-		stateKeyValues := [...]string{state.HelperAddresses[i].Address.ValueString()}
+		stateKeys := [...]string{ "address",  }
+		stateKeyValues := [...]string{ state.HelperAddresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.HelperAddresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4953,14 +4953,20 @@ func (data *InterfacePortChannel) addDeletedItemsXML(ctx context.Context, state 
 
 func (data *InterfacePortChannel) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	if !data.IpNatOutside.IsNull() && !data.IpNatOutside.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ip/Cisco-IOS-XE-nat:nat/outside", data.getPath()))
 	}
 	if !data.IpNatInside.IsNull() && !data.IpNatInside.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ip/Cisco-IOS-XE-nat:nat/inside", data.getPath()))
 	}
-
+	
+	
+	
+	
+	
+	
 	if !data.DeviceTracking.IsNull() && !data.DeviceTracking.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-switch:device-tracking", data.getPath()))
 	}
@@ -4988,16 +4994,20 @@ func (data *InterfacePortChannel) getEmptyLeafsDelete(ctx context.Context) []str
 	if !data.IpArpInspectionTrust.IsNull() && !data.IpArpInspectionTrust.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ip/arp/inspection/trust", data.getPath()))
 	}
-
+	
+	
+	
+	
 	for i := range data.Ipv6Addresses {
-		keyValues := [...]string{data.Ipv6Addresses[i].Prefix.ValueString()}
+		keyValues := [...]string{ data.Ipv6Addresses[i].Prefix.ValueString(),  }
 		if !data.Ipv6Addresses[i].Eui64.IsNull() && !data.Ipv6Addresses[i].Eui64.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ipv6/address/prefix-list=%v/eui-64", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.Ipv6LinkLocalAddresses {
-		keyValues := [...]string{data.Ipv6LinkLocalAddresses[i].Address.ValueString()}
+		keyValues := [...]string{ data.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
 		if !data.Ipv6LinkLocalAddresses[i].LinkLocal.IsNull() && !data.Ipv6LinkLocalAddresses[i].LinkLocal.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ipv6/address/link-local-address=%v/link-local", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -5014,9 +5024,10 @@ func (data *InterfacePortChannel) getEmptyLeafsDelete(ctx context.Context) []str
 	if !data.Ipv6Enable.IsNull() && !data.Ipv6Enable.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ipv6/enable", data.getPath()))
 	}
-
+	
+	
 	for i := range data.HelperAddresses {
-		keyValues := [...]string{data.HelperAddresses[i].Address.ValueString()}
+		keyValues := [...]string{ data.HelperAddresses[i].Address.ValueString(),  }
 		if !data.HelperAddresses[i].Global.IsNull() && !data.HelperAddresses[i].Global.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ip/helper-address=%v/global", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -5080,7 +5091,7 @@ func (data *InterfacePortChannel) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-zone:zone-member/security", data.getPath()))
 	}
 	for i := range data.IpFlowMonitors {
-		keyValues := [...]string{data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString()}
+		keyValues := [...]string{ data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ip/Cisco-IOS-XE-flow:flow/monitor-new=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5097,12 +5108,12 @@ func (data *InterfacePortChannel) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ip/Cisco-IOS-XE-igmp:igmp/version", data.getPath()))
 	}
 	for i := range data.EvpnEthernetSegmentsLegacy {
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.EvpnEthernetSegments {
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment-num/ethernet-segment=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5110,7 +5121,7 @@ func (data *InterfacePortChannel) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ethernet:negotiation/auto", data.getPath()))
 	}
 	for i := range data.DeviceTrackingAttachedPolicies {
-		keyValues := [...]string{data.DeviceTrackingAttachedPolicies[i].Name.ValueString()}
+		keyValues := [...]string{ data.DeviceTrackingAttachedPolicies[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-switch:device-tracking/attached-policies=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5160,17 +5171,17 @@ func (data *InterfacePortChannel) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/arp/timeout", data.getPath()))
 	}
 	for i := range data.Ipv6FlowMonitors {
-		keyValues := [...]string{data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString()}
+		keyValues := [...]string{ data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ipv6/Cisco-IOS-XE-flow:flow/monitor-new=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv6Addresses {
-		keyValues := [...]string{data.Ipv6Addresses[i].Prefix.ValueString()}
+		keyValues := [...]string{ data.Ipv6Addresses[i].Prefix.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ipv6/address/prefix-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv6LinkLocalAddresses {
-		keyValues := [...]string{data.Ipv6LinkLocalAddresses[i].Address.ValueString()}
+		keyValues := [...]string{ data.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ipv6/address/link-local-address=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5208,7 +5219,7 @@ func (data *InterfacePortChannel) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/bfd/Cisco-IOS-XE-bfd:enable", data.getPath()))
 	}
 	for i := range data.HelperAddresses {
-		keyValues := [...]string{data.HelperAddresses[i].Address.ValueString()}
+		keyValues := [...]string{ data.HelperAddresses[i].Address.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ip/helper-address=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -5313,8 +5324,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security")
 	}
 	for i := range data.IpFlowMonitors {
-		keys := [...]string{"name", "direction"}
-		keyValues := [...]string{data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString()}
+		keys := [...]string{ "name", "direction",  }
+		keyValues := [...]string{ data.IpFlowMonitors[i].Name.ValueString(), data.IpFlowMonitors[i].Direction.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5335,8 +5346,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/ip/Cisco-IOS-XE-igmp:igmp/version")
 	}
 	for i := range data.EvpnEthernetSegmentsLegacy {
-		keys := [...]string{"es-value"}
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10)}
+		keys := [...]string{ "es-value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegmentsLegacy[i].EsValue.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5345,8 +5356,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-l2vpn:evpn/ethernet-segment%v", predicates))
 	}
 	for i := range data.EvpnEthernetSegments {
-		keys := [...]string{"es-value"}
-		keyValues := [...]string{strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10)}
+		keys := [...]string{ "es-value",  }
+		keyValues := [...]string{ strconv.FormatInt(data.EvpnEthernetSegments[i].EsValue.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5358,8 +5369,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/Cisco-IOS-XE-ethernet:negotiation/auto")
 	}
 	for i := range data.DeviceTrackingAttachedPolicies {
-		keys := [...]string{"attach-policy"}
-		keyValues := [...]string{data.DeviceTrackingAttachedPolicies[i].Name.ValueString()}
+		keys := [...]string{ "attach-policy",  }
+		keyValues := [...]string{ data.DeviceTrackingAttachedPolicies[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5413,8 +5424,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/arp/timeout")
 	}
 	for i := range data.Ipv6FlowMonitors {
-		keys := [...]string{"name", "direction"}
-		keyValues := [...]string{data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString()}
+		keys := [...]string{ "name", "direction",  }
+		keyValues := [...]string{ data.Ipv6FlowMonitors[i].Name.ValueString(), data.Ipv6FlowMonitors[i].Direction.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5423,8 +5434,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/ipv6/Cisco-IOS-XE-flow:flow/monitor-new%v", predicates))
 	}
 	for i := range data.Ipv6Addresses {
-		keys := [...]string{"prefix"}
-		keyValues := [...]string{data.Ipv6Addresses[i].Prefix.ValueString()}
+		keys := [...]string{ "prefix",  }
+		keyValues := [...]string{ data.Ipv6Addresses[i].Prefix.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5433,8 +5444,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/ipv6/address/prefix-list%v", predicates))
 	}
 	for i := range data.Ipv6LinkLocalAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.Ipv6LinkLocalAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.Ipv6LinkLocalAddresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -5476,8 +5487,8 @@ func (data *InterfacePortChannel) addDeletePathsXML(ctx context.Context, body st
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/bfd/Cisco-IOS-XE-bfd:enable")
 	}
 	for i := range data.HelperAddresses {
-		keys := [...]string{"address"}
-		keyValues := [...]string{data.HelperAddresses[i].Address.ValueString()}
+		keys := [...]string{ "address",  }
+		keyValues := [...]string{ data.HelperAddresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

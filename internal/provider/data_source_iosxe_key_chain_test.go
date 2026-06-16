@@ -49,7 +49,7 @@ func TestAccDataSourceIosxeKeyChain(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeKeyChainConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -78,9 +78,9 @@ func testAccDataSourceIosxeKeyChainConfig() string {
 	config += `		send_lifetime_start_day = 1` + "\n"
 	config += `		send_lifetime_start_year = 2025` + "\n"
 	config += `		send_lifetime_infinite = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_key_chain" "test" {
 			name = "OSPF-AUTH"

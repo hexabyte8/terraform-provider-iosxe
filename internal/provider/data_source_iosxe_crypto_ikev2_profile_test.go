@@ -53,8 +53,8 @@ func TestAccDataSourceIosxeCryptoIKEv2Profile(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeCryptoIKEv2ProfilePrerequisitesConfig + testAccDataSourceIosxeCryptoIKEv2ProfileConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeCryptoIKEv2ProfilePrerequisitesConfig+testAccDataSourceIosxeCryptoIKEv2ProfileConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +81,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -99,7 +98,7 @@ func testAccDataSourceIosxeCryptoIKEv2ProfileConfig() string {
 	config += `	match_identity_remote_ipv4_addresses = [{` + "\n"
 	config += `		address = "1.2.3.4"` + "\n"
 	config += `		mask = "255.255.255.0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	match_identity_remote_keys = ["key1"]` + "\n"
 	config += `	keyring_local = "test"` + "\n"
 	config += `	ivrf = "VRF1"` + "\n"
@@ -110,7 +109,7 @@ func testAccDataSourceIosxeCryptoIKEv2ProfileConfig() string {
 	config += `	config_exchange_request = false` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_ikev2_profile" "test" {
 			name = "profile1"

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -50,19 +48,19 @@ func TestAccIosxeCryptoIPSecProfile(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeCryptoIPSecProfilePrerequisitesConfig + testAccIosxeCryptoIPSecProfileConfig_minimum(),
+				Config: testAccIosxeCryptoIPSecProfilePrerequisitesConfig+testAccIosxeCryptoIPSecProfileConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeCryptoIPSecProfilePrerequisitesConfig + testAccIosxeCryptoIPSecProfileConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeCryptoIPSecProfilePrerequisitesConfig+testAccIosxeCryptoIPSecProfileConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_crypto_ipsec_profile.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeCryptoIPSecProfileImportStateIdFunc("iosxe_crypto_ipsec_profile.test"),
-				ImportStateVerifyIgnore: []string{"set_security_association_lifetime_seconds_legacy"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_crypto_ipsec_profile.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeCryptoIPSecProfileImportStateIdFunc("iosxe_crypto_ipsec_profile.test"),
+				ImportStateVerifyIgnore: []string{ "set_security_association_lifetime_seconds_legacy", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -103,7 +101,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

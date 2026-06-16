@@ -25,28 +25,28 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type Crypto struct {
-	Device                        types.String `tfsdk:"device"`
-	Id                            types.String `tfsdk:"id"`
-	EngineComplianceShieldDisable types.Bool   `tfsdk:"engine_compliance_shield_disable"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	EngineComplianceShieldDisable types.Bool `tfsdk:"engine_compliance_shield_disable"`
 }
 
 type CryptoData struct {
-	Device                        types.String `tfsdk:"device"`
-	Id                            types.String `tfsdk:"id"`
-	EngineComplianceShieldDisable types.Bool   `tfsdk:"engine_compliance_shield_disable"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	EngineComplianceShieldDisable types.Bool `tfsdk:"engine_compliance_shield_disable"`
 }
 
 // End of section. //template:end types
@@ -105,9 +105,9 @@ func (data Crypto) toBodyXML(ctx context.Context, config Crypto) string {
 	body := netconf.Body{}
 	if !data.EngineComplianceShieldDisable.IsNull() && !data.EngineComplianceShieldDisable.IsUnknown() {
 		if data.EngineComplianceShieldDisable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-crypto:engine/compliance/shield/disable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-crypto:engine/compliance/shield/disable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-crypto:engine/compliance/shield/disable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-crypto:engine/compliance/shield/disable")
 		}
 	}
 	bodyString, err := body.String()
@@ -126,7 +126,7 @@ func (data *Crypto) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-crypto:engine.compliance.shield.disable"); !data.EngineComplianceShieldDisable.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-crypto:engine.compliance.shield.disable"); !data.EngineComplianceShieldDisable.IsNull() {
 		if value.Exists() {
 			data.EngineComplianceShieldDisable = types.BoolValue(true)
 		} else {
@@ -142,7 +142,7 @@ func (data *Crypto) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *Crypto) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-crypto:engine/compliance/shield/disable"); !data.EngineComplianceShieldDisable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-crypto:engine/compliance/shield/disable"); !data.EngineComplianceShieldDisable.IsNull() {
 		if value.Exists() {
 			data.EngineComplianceShieldDisable = types.BoolValue(true)
 		} else {
@@ -162,7 +162,7 @@ func (data *Crypto) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-crypto:engine.compliance.shield.disable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-crypto:engine.compliance.shield.disable"); value.Exists() {
 		data.EngineComplianceShieldDisable = types.BoolValue(true)
 	} else {
 		data.EngineComplianceShieldDisable = types.BoolValue(false)
@@ -178,7 +178,7 @@ func (data *CryptoData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-crypto:engine.compliance.shield.disable"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-crypto:engine.compliance.shield.disable"); value.Exists() {
 		data.EngineComplianceShieldDisable = types.BoolValue(true)
 	} else {
 		data.EngineComplianceShieldDisable = types.BoolValue(false)
@@ -190,7 +190,7 @@ func (data *CryptoData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *Crypto) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-crypto:engine/compliance/shield/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-crypto:engine/compliance/shield/disable"); value.Exists() {
 		data.EngineComplianceShieldDisable = types.BoolValue(true)
 	} else {
 		data.EngineComplianceShieldDisable = types.BoolValue(false)
@@ -202,7 +202,7 @@ func (data *Crypto) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CryptoData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-crypto:engine/compliance/shield/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-crypto:engine/compliance/shield/disable"); value.Exists() {
 		data.EngineComplianceShieldDisable = types.BoolValue(true)
 	} else {
 		data.EngineComplianceShieldDisable = types.BoolValue(false)

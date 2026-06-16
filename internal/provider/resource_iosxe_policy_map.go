@@ -25,9 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,8 +33,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -87,10 +87,10 @@ func (r *PolicyMapResource) Schema(ctx context.Context, req resource.SchemaReque
 				},
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("type of the policy-map").AddStringEnumDescription("access-control", "appnav", "control", "epbr", "inspect", "ngsw-qos", "packet-service", "performance-monitor", "queueing", "service", "service-chain", "umbrella").String,
+				MarkdownDescription: helpers.NewAttributeDescription("type of the policy-map").AddStringEnumDescription("access-control", "appnav", "control", "epbr", "inspect", "ngsw-qos", "packet-service", "performance-monitor", "queueing", "service", "service-chain", "umbrella", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("access-control", "appnav", "control", "epbr", "inspect", "ngsw-qos", "packet-service", "performance-monitor", "queueing", "service", "service-chain", "umbrella"),
+					stringvalidator.OneOf("access-control", "appnav", "control", "epbr", "inspect", "ngsw-qos", "packet-service", "performance-monitor", "queueing", "service", "service-chain", "umbrella", ),
 				},
 			},
 			"subscriber": schema.BoolAttribute{
@@ -114,17 +114,17 @@ func (r *PolicyMapResource) Schema(ctx context.Context, req resource.SchemaReque
 							Required:            true,
 						},
 						"class_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("type of the class-map").AddStringEnumDescription("inspect").String,
+							MarkdownDescription: helpers.NewAttributeDescription("type of the class-map").AddStringEnumDescription("inspect", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("inspect"),
+								stringvalidator.OneOf("inspect", ),
 							},
 						},
 						"policy_action": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("cxsc", "drop", "inspect", "pass").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("cxsc", "drop", "inspect", "pass", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("cxsc", "drop", "inspect", "pass"),
+								stringvalidator.OneOf("cxsc", "drop", "inspect", "pass", ),
 							},
 						},
 						"policy_log": schema.BoolAttribute{
@@ -141,10 +141,10 @@ func (r *PolicyMapResource) Schema(ctx context.Context, req resource.SchemaReque
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"type": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("bandwidth", "compression", "dbl", "drop", "estimate", "fair-queue", "forward", "netflow-sampler", "police", "priority", "queue-buffers", "queue-limit", "random-detect", "service-policy", "set", "shape", "trust").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("bandwidth", "compression", "dbl", "drop", "estimate", "fair-queue", "forward", "netflow-sampler", "police", "priority", "queue-buffers", "queue-limit", "random-detect", "service-policy", "set", "shape", "trust", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("bandwidth", "compression", "dbl", "drop", "estimate", "fair-queue", "forward", "netflow-sampler", "police", "priority", "queue-buffers", "queue-limit", "random-detect", "service-policy", "set", "shape", "trust"),
+											stringvalidator.OneOf("bandwidth", "compression", "dbl", "drop", "estimate", "fair-queue", "forward", "netflow-sampler", "police", "priority", "queue-buffers", "queue-limit", "random-detect", "service-policy", "set", "shape", "trust", ),
 										},
 									},
 									"bandwidth_bits": schema.Int64Attribute{
@@ -162,10 +162,10 @@ func (r *PolicyMapResource) Schema(ctx context.Context, req resource.SchemaReque
 										},
 									},
 									"bandwidth_remaining_option": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("percent", "ratio").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("percent", "ratio", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("percent", "ratio"),
+											stringvalidator.OneOf("percent", "ratio", ),
 										},
 									},
 									"bandwidth_remaining_percent": schema.Int64Attribute{
@@ -204,10 +204,10 @@ func (r *PolicyMapResource) Schema(ctx context.Context, req resource.SchemaReque
 										},
 									},
 									"queue_limit_type": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("bytes", "ms", "packets", "us").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("bytes", "ms", "packets", "us", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("bytes", "ms", "packets", "us"),
+											stringvalidator.OneOf("bytes", "ms", "packets", "us", ),
 										},
 									},
 									"shape_average_bit_rate": schema.Int64Attribute{
@@ -445,7 +445,7 @@ func (r *PolicyMapResource) Create(ctx context.Context, req resource.CreateReque
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -493,7 +493,7 @@ func (r *PolicyMapResource) Read(ctx context.Context, req resource.ReadRequest, 
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

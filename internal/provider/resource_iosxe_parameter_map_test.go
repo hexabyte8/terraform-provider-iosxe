@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeParameterMap(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_parameter_map.test", "name", "PM_INSPECT1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_parameter_map.test", "icmp_idle_time", "10"))
@@ -52,15 +50,15 @@ func TestAccIosxeParameterMap(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeParameterMapConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_parameter_map.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeParameterMapImportStateIdFunc("iosxe_parameter_map.test"),
-				ImportStateVerifyIgnore: []string{"alert", "audit_trail", "icmp_unreachable_allow", "log_dropped_packets", "log_flow", "tcp_half_close_reset_off", "tcp_half_open_reset_off", "tcp_idle_reset_off", "tcp_window_scale_enforcement_loose", "zone_mismatch_drop"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_parameter_map.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeParameterMapImportStateIdFunc("iosxe_parameter_map.test"),
+				ImportStateVerifyIgnore: []string{ "alert","audit_trail","icmp_unreachable_allow","log_dropped_packets","log_flow","tcp_half_close_reset_off","tcp_half_open_reset_off","tcp_idle_reset_off","tcp_window_scale_enforcement_loose","zone_mismatch_drop", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

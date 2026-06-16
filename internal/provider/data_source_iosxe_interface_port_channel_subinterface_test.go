@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeInterfacePortChannelSubinterface(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel_subinterface.test", "encapsulation_dot1q_vlan_id", "666"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel_subinterface.test", "description", "My Interface Description"))
@@ -72,8 +71,8 @@ func TestAccDataSourceIosxeInterfacePortChannelSubinterface(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfacePortChannelSubinterfacePrerequisitesConfig + testAccDataSourceIosxeInterfacePortChannelSubinterfaceConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfacePortChannelSubinterfacePrerequisitesConfig+testAccDataSourceIosxeInterfacePortChannelSubinterfaceConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -147,7 +146,6 @@ resource "iosxe_yang" "PreReq6" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -173,7 +171,7 @@ func testAccDataSourceIosxeInterfacePortChannelSubinterfaceConfig() string {
 	config += `	helper_addresses = [{` + "\n"
 	config += `		address = "10.10.10.10"` + "\n"
 	config += `		global = false` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	bfd_template = "bfd_template1"` + "\n"
 	config += `	bfd_enable = true` + "\n"
 	config += `	bfd_local_address = "1.2.3.4"` + "\n"
@@ -184,20 +182,20 @@ func testAccDataSourceIosxeInterfacePortChannelSubinterfaceConfig() string {
 	config += `	ipv6_link_local_addresses = [{` + "\n"
 	config += `		address = "fe80::9656:d028:8652:66b8"` + "\n"
 	config += `		link_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_addresses = [{` + "\n"
 	config += `		prefix = "2003:DB8::/32"` + "\n"
 	config += `		eui_64 = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	arp_timeout = 2147` + "\n"
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	ip_flow_monitors = [{` + "\n"
 	config += `		name = "MON2"` + "\n"
 	config += `		direction = "input"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, iosxe_yang.PreReq3, iosxe_yang.PreReq4, iosxe_yang.PreReq5, iosxe_yang.PreReq6, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_port_channel_subinterface" "test" {
 			name = "20.666"

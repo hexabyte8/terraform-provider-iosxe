@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeBridgeDomain(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_bridge_domain.test", "bridge_domain_id", "836"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_bridge_domain.test", "member_vni", "10800"))
@@ -51,15 +49,15 @@ func TestAccIosxeBridgeDomain(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeBridgeDomainConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bridge_domain.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBridgeDomainImportStateIdFunc("iosxe_bridge_domain.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bridge_domain.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBridgeDomainImportStateIdFunc("iosxe_bridge_domain.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

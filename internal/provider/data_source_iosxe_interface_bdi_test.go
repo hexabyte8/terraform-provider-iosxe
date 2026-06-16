@@ -40,7 +40,7 @@ func TestAccDataSourceIosxeInterfaceBDI(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeInterfaceBDIConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -60,7 +60,7 @@ func testAccDataSourceIosxeInterfaceBDIConfig() string {
 	config += `	mac_address = "0000.11AA.22BB"` + "\n"
 	config += `	ip_mtu = 1400` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_bdi" "test" {
 			name = "100"

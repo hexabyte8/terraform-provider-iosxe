@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeBGPL2VPNEVPNNeighbor(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bgp_l2vpn_evpn_neighbor.test", "activate", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bgp_l2vpn_evpn_neighbor.test", "send_community", "both"))
@@ -48,8 +47,8 @@ func TestAccDataSourceIosxeBGPL2VPNEVPNNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPL2VPNEVPNNeighborPrerequisitesConfig + testAccDataSourceIosxeBGPL2VPNEVPNNeighborConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPL2VPNEVPNNeighborPrerequisitesConfig+testAccDataSourceIosxeBGPL2VPNEVPNNeighborConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -99,7 +98,6 @@ resource "iosxe_yang" "PreReq4" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -116,11 +114,11 @@ func testAccDataSourceIosxeBGPL2VPNEVPNNeighborConfig() string {
 	config += `	route_maps = [{` + "\n"
 	config += `		in_out = "in"` + "\n"
 	config += `		route_map_name = "RM1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	inherit_peer_policy = "PEER_POLICY_TEMPLATE_1"` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, iosxe_yang.PreReq3, iosxe_yang.PreReq4, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_l2vpn_evpn_neighbor" "test" {
 			asn = "65000"

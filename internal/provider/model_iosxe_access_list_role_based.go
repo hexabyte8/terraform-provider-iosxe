@@ -23,126 +23,126 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type AccessListRoleBased struct {
-	Device  types.String                 `tfsdk:"device"`
-	Id      types.String                 `tfsdk:"id"`
-	Name    types.String                 `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []AccessListRoleBasedEntries `tfsdk:"entries"`
 }
 type AccessListRoleBasedEntries struct {
-	Sequence         types.Int64  `tfsdk:"sequence"`
-	Remark           types.String `tfsdk:"remark"`
-	AceRuleAction    types.String `tfsdk:"ace_rule_action"`
-	AceRuleProtocol  types.String `tfsdk:"ace_rule_protocol"`
-	Ack              types.Bool   `tfsdk:"ack"`
-	Fin              types.Bool   `tfsdk:"fin"`
-	Psh              types.Bool   `tfsdk:"psh"`
-	Rst              types.Bool   `tfsdk:"rst"`
-	Syn              types.Bool   `tfsdk:"syn"`
-	Urg              types.Bool   `tfsdk:"urg"`
-	Established      types.Bool   `tfsdk:"established"`
-	Dscp             types.String `tfsdk:"dscp"`
-	Fragments        types.Bool   `tfsdk:"fragments"`
-	Option           types.String `tfsdk:"option"`
-	Precedence       types.String `tfsdk:"precedence"`
-	TimeRange        types.String `tfsdk:"time_range"`
-	Tos              types.String `tfsdk:"tos"`
-	Log              types.Bool   `tfsdk:"log"`
-	LogInput         types.Bool   `tfsdk:"log_input"`
-	MatchAllPlusack  types.Bool   `tfsdk:"match_all_plusack"`
-	MatchAllPlusfin  types.Bool   `tfsdk:"match_all_plusfin"`
-	MatchAllPluspsh  types.Bool   `tfsdk:"match_all_pluspsh"`
-	MatchAllPlusrst  types.Bool   `tfsdk:"match_all_plusrst"`
-	MatchAllPlussyn  types.Bool   `tfsdk:"match_all_plussyn"`
-	MatchAllPlusurg  types.Bool   `tfsdk:"match_all_plusurg"`
-	MatchAllMinusack types.Bool   `tfsdk:"match_all_minusack"`
-	MatchAllMinusfin types.Bool   `tfsdk:"match_all_minusfin"`
-	MatchAllMinuspsh types.Bool   `tfsdk:"match_all_minuspsh"`
-	MatchAllMinusrst types.Bool   `tfsdk:"match_all_minusrst"`
-	MatchAllMinussyn types.Bool   `tfsdk:"match_all_minussyn"`
-	MatchAllMinusurg types.Bool   `tfsdk:"match_all_minusurg"`
-	MatchAnyPlusack  types.Bool   `tfsdk:"match_any_plusack"`
-	MatchAnyPlusfin  types.Bool   `tfsdk:"match_any_plusfin"`
-	MatchAnyPluspsh  types.Bool   `tfsdk:"match_any_pluspsh"`
-	MatchAnyPlusrst  types.Bool   `tfsdk:"match_any_plusrst"`
-	MatchAnyPlussyn  types.Bool   `tfsdk:"match_any_plussyn"`
-	MatchAnyPlusurg  types.Bool   `tfsdk:"match_any_plusurg"`
-	MatchAnyMinusack types.Bool   `tfsdk:"match_any_minusack"`
-	MatchAnyMinusfin types.Bool   `tfsdk:"match_any_minusfin"`
-	MatchAnyMinuspsh types.Bool   `tfsdk:"match_any_minuspsh"`
-	MatchAnyMinusrst types.Bool   `tfsdk:"match_any_minusrst"`
-	MatchAnyMinussyn types.Bool   `tfsdk:"match_any_minussyn"`
-	MatchAnyMinusurg types.Bool   `tfsdk:"match_any_minusurg"`
+	Sequence types.Int64 `tfsdk:"sequence"`
+	Remark types.String `tfsdk:"remark"`
+	AceRuleAction types.String `tfsdk:"ace_rule_action"`
+	AceRuleProtocol types.String `tfsdk:"ace_rule_protocol"`
+	Ack types.Bool `tfsdk:"ack"`
+	Fin types.Bool `tfsdk:"fin"`
+	Psh types.Bool `tfsdk:"psh"`
+	Rst types.Bool `tfsdk:"rst"`
+	Syn types.Bool `tfsdk:"syn"`
+	Urg types.Bool `tfsdk:"urg"`
+	Established types.Bool `tfsdk:"established"`
+	Dscp types.String `tfsdk:"dscp"`
+	Fragments types.Bool `tfsdk:"fragments"`
+	Option types.String `tfsdk:"option"`
+	Precedence types.String `tfsdk:"precedence"`
+	TimeRange types.String `tfsdk:"time_range"`
+	Tos types.String `tfsdk:"tos"`
+	Log types.Bool `tfsdk:"log"`
+	LogInput types.Bool `tfsdk:"log_input"`
+	MatchAllPlusack types.Bool `tfsdk:"match_all_plusack"`
+	MatchAllPlusfin types.Bool `tfsdk:"match_all_plusfin"`
+	MatchAllPluspsh types.Bool `tfsdk:"match_all_pluspsh"`
+	MatchAllPlusrst types.Bool `tfsdk:"match_all_plusrst"`
+	MatchAllPlussyn types.Bool `tfsdk:"match_all_plussyn"`
+	MatchAllPlusurg types.Bool `tfsdk:"match_all_plusurg"`
+	MatchAllMinusack types.Bool `tfsdk:"match_all_minusack"`
+	MatchAllMinusfin types.Bool `tfsdk:"match_all_minusfin"`
+	MatchAllMinuspsh types.Bool `tfsdk:"match_all_minuspsh"`
+	MatchAllMinusrst types.Bool `tfsdk:"match_all_minusrst"`
+	MatchAllMinussyn types.Bool `tfsdk:"match_all_minussyn"`
+	MatchAllMinusurg types.Bool `tfsdk:"match_all_minusurg"`
+	MatchAnyPlusack types.Bool `tfsdk:"match_any_plusack"`
+	MatchAnyPlusfin types.Bool `tfsdk:"match_any_plusfin"`
+	MatchAnyPluspsh types.Bool `tfsdk:"match_any_pluspsh"`
+	MatchAnyPlusrst types.Bool `tfsdk:"match_any_plusrst"`
+	MatchAnyPlussyn types.Bool `tfsdk:"match_any_plussyn"`
+	MatchAnyPlusurg types.Bool `tfsdk:"match_any_plusurg"`
+	MatchAnyMinusack types.Bool `tfsdk:"match_any_minusack"`
+	MatchAnyMinusfin types.Bool `tfsdk:"match_any_minusfin"`
+	MatchAnyMinuspsh types.Bool `tfsdk:"match_any_minuspsh"`
+	MatchAnyMinusrst types.Bool `tfsdk:"match_any_minusrst"`
+	MatchAnyMinussyn types.Bool `tfsdk:"match_any_minussyn"`
+	MatchAnyMinusurg types.Bool `tfsdk:"match_any_minusurg"`
 }
 
 type AccessListRoleBasedData struct {
-	Device  types.String                     `tfsdk:"device"`
-	Id      types.String                     `tfsdk:"id"`
-	Name    types.String                     `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []AccessListRoleBasedEntriesData `tfsdk:"entries"`
 }
 type AccessListRoleBasedEntriesData struct {
-	Sequence         types.Int64  `tfsdk:"sequence"`
-	Remark           types.String `tfsdk:"remark"`
-	AceRuleAction    types.String `tfsdk:"ace_rule_action"`
-	AceRuleProtocol  types.String `tfsdk:"ace_rule_protocol"`
-	Ack              types.Bool   `tfsdk:"ack"`
-	Fin              types.Bool   `tfsdk:"fin"`
-	Psh              types.Bool   `tfsdk:"psh"`
-	Rst              types.Bool   `tfsdk:"rst"`
-	Syn              types.Bool   `tfsdk:"syn"`
-	Urg              types.Bool   `tfsdk:"urg"`
-	Established      types.Bool   `tfsdk:"established"`
-	Dscp             types.String `tfsdk:"dscp"`
-	Fragments        types.Bool   `tfsdk:"fragments"`
-	Option           types.String `tfsdk:"option"`
-	Precedence       types.String `tfsdk:"precedence"`
-	TimeRange        types.String `tfsdk:"time_range"`
-	Tos              types.String `tfsdk:"tos"`
-	Log              types.Bool   `tfsdk:"log"`
-	LogInput         types.Bool   `tfsdk:"log_input"`
-	MatchAllPlusack  types.Bool   `tfsdk:"match_all_plusack"`
-	MatchAllPlusfin  types.Bool   `tfsdk:"match_all_plusfin"`
-	MatchAllPluspsh  types.Bool   `tfsdk:"match_all_pluspsh"`
-	MatchAllPlusrst  types.Bool   `tfsdk:"match_all_plusrst"`
-	MatchAllPlussyn  types.Bool   `tfsdk:"match_all_plussyn"`
-	MatchAllPlusurg  types.Bool   `tfsdk:"match_all_plusurg"`
-	MatchAllMinusack types.Bool   `tfsdk:"match_all_minusack"`
-	MatchAllMinusfin types.Bool   `tfsdk:"match_all_minusfin"`
-	MatchAllMinuspsh types.Bool   `tfsdk:"match_all_minuspsh"`
-	MatchAllMinusrst types.Bool   `tfsdk:"match_all_minusrst"`
-	MatchAllMinussyn types.Bool   `tfsdk:"match_all_minussyn"`
-	MatchAllMinusurg types.Bool   `tfsdk:"match_all_minusurg"`
-	MatchAnyPlusack  types.Bool   `tfsdk:"match_any_plusack"`
-	MatchAnyPlusfin  types.Bool   `tfsdk:"match_any_plusfin"`
-	MatchAnyPluspsh  types.Bool   `tfsdk:"match_any_pluspsh"`
-	MatchAnyPlusrst  types.Bool   `tfsdk:"match_any_plusrst"`
-	MatchAnyPlussyn  types.Bool   `tfsdk:"match_any_plussyn"`
-	MatchAnyPlusurg  types.Bool   `tfsdk:"match_any_plusurg"`
-	MatchAnyMinusack types.Bool   `tfsdk:"match_any_minusack"`
-	MatchAnyMinusfin types.Bool   `tfsdk:"match_any_minusfin"`
-	MatchAnyMinuspsh types.Bool   `tfsdk:"match_any_minuspsh"`
-	MatchAnyMinusrst types.Bool   `tfsdk:"match_any_minusrst"`
-	MatchAnyMinussyn types.Bool   `tfsdk:"match_any_minussyn"`
-	MatchAnyMinusurg types.Bool   `tfsdk:"match_any_minusurg"`
+	Sequence types.Int64 `tfsdk:"sequence"`
+	Remark types.String `tfsdk:"remark"`
+	AceRuleAction types.String `tfsdk:"ace_rule_action"`
+	AceRuleProtocol types.String `tfsdk:"ace_rule_protocol"`
+	Ack types.Bool `tfsdk:"ack"`
+	Fin types.Bool `tfsdk:"fin"`
+	Psh types.Bool `tfsdk:"psh"`
+	Rst types.Bool `tfsdk:"rst"`
+	Syn types.Bool `tfsdk:"syn"`
+	Urg types.Bool `tfsdk:"urg"`
+	Established types.Bool `tfsdk:"established"`
+	Dscp types.String `tfsdk:"dscp"`
+	Fragments types.Bool `tfsdk:"fragments"`
+	Option types.String `tfsdk:"option"`
+	Precedence types.String `tfsdk:"precedence"`
+	TimeRange types.String `tfsdk:"time_range"`
+	Tos types.String `tfsdk:"tos"`
+	Log types.Bool `tfsdk:"log"`
+	LogInput types.Bool `tfsdk:"log_input"`
+	MatchAllPlusack types.Bool `tfsdk:"match_all_plusack"`
+	MatchAllPlusfin types.Bool `tfsdk:"match_all_plusfin"`
+	MatchAllPluspsh types.Bool `tfsdk:"match_all_pluspsh"`
+	MatchAllPlusrst types.Bool `tfsdk:"match_all_plusrst"`
+	MatchAllPlussyn types.Bool `tfsdk:"match_all_plussyn"`
+	MatchAllPlusurg types.Bool `tfsdk:"match_all_plusurg"`
+	MatchAllMinusack types.Bool `tfsdk:"match_all_minusack"`
+	MatchAllMinusfin types.Bool `tfsdk:"match_all_minusfin"`
+	MatchAllMinuspsh types.Bool `tfsdk:"match_all_minuspsh"`
+	MatchAllMinusrst types.Bool `tfsdk:"match_all_minusrst"`
+	MatchAllMinussyn types.Bool `tfsdk:"match_all_minussyn"`
+	MatchAllMinusurg types.Bool `tfsdk:"match_all_minusurg"`
+	MatchAnyPlusack types.Bool `tfsdk:"match_any_plusack"`
+	MatchAnyPlusfin types.Bool `tfsdk:"match_any_plusfin"`
+	MatchAnyPluspsh types.Bool `tfsdk:"match_any_pluspsh"`
+	MatchAnyPlusrst types.Bool `tfsdk:"match_any_plusrst"`
+	MatchAnyPlussyn types.Bool `tfsdk:"match_any_plussyn"`
+	MatchAnyPlusurg types.Bool `tfsdk:"match_any_plusurg"`
+	MatchAnyMinusack types.Bool `tfsdk:"match_any_minusack"`
+	MatchAnyMinusfin types.Bool `tfsdk:"match_any_minusfin"`
+	MatchAnyMinuspsh types.Bool `tfsdk:"match_any_minuspsh"`
+	MatchAnyMinusrst types.Bool `tfsdk:"match_any_minusrst"`
+	MatchAnyMinussyn types.Bool `tfsdk:"match_any_minussyn"`
+	MatchAnyMinusurg types.Bool `tfsdk:"match_any_minusurg"`
 }
 
 // End of section. //template:end types
@@ -402,7 +402,7 @@ func (data AccessListRoleBased) toBody(ctx context.Context, config AccessListRol
 func (data AccessListRoleBased) toBodyXML(ctx context.Context, config AccessListRoleBased) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if len(data.Entries) > 0 {
 		for _, item := range data.Entries {
@@ -691,17 +691,17 @@ func (data *AccessListRoleBased) updateFromBody(ctx context.Context, res gjson.R
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "access-list-seq-rule").ForEach(
+		res.Get(prefix+"access-list-seq-rule").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1078,17 +1078,17 @@ func (data *AccessListRoleBased) updateFromBody(ctx context.Context, res gjson.R
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *AccessListRoleBased) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1469,7 +1469,7 @@ func (data *AccessListRoleBased) fromBody(ctx context.Context, res gjson.Result)
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-list-seq-rule"); value.Exists() {
+	if value := res.Get(prefix+"access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListRoleBasedEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AccessListRoleBasedEntries{}
@@ -1685,7 +1685,7 @@ func (data *AccessListRoleBasedData) fromBody(ctx context.Context, res gjson.Res
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-list-seq-rule"); value.Exists() {
+	if value := res.Get(prefix+"access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListRoleBasedEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AccessListRoleBasedEntriesData{}
@@ -1897,7 +1897,7 @@ func (data *AccessListRoleBasedData) fromBody(ctx context.Context, res gjson.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *AccessListRoleBased) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListRoleBasedEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AccessListRoleBasedEntries{}
@@ -2109,7 +2109,7 @@ func (data *AccessListRoleBased) fromBodyXML(ctx context.Context, res xmldot.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *AccessListRoleBasedData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListRoleBasedEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AccessListRoleBasedEntriesData{}
@@ -2323,8 +2323,8 @@ func (data *AccessListRoleBasedData) fromBodyXML(ctx context.Context, res xmldot
 func (data *AccessListRoleBased) getDeletedItems(ctx context.Context, state AccessListRoleBased) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Entries {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Sequence.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2484,13 +2484,13 @@ func (data *AccessListRoleBased) getDeletedItems(ctx context.Context, state Acce
 func (data *AccessListRoleBased) addDeletedItemsXML(ctx context.Context, state AccessListRoleBased, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Entries {
-		stateKeys := [...]string{"sequence"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10)}
+		stateKeys := [...]string{ "sequence",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Sequence.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2650,9 +2650,10 @@ func (data *AccessListRoleBased) addDeletedItemsXML(ctx context.Context, state A
 
 func (data *AccessListRoleBased) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 		if !data.Entries[i].MatchAnyMinusurg.IsNull() && !data.Entries[i].MatchAnyMinusurg.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/access-list-seq-rule=%v/ace-rule/match-any/minusurg", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -2767,7 +2768,7 @@ func (data *AccessListRoleBased) getEmptyLeafsDelete(ctx context.Context) []stri
 func (data *AccessListRoleBased) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/access-list-seq-rule=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2782,8 +2783,8 @@ func (data *AccessListRoleBased) getDeletePaths(ctx context.Context) []string {
 func (data *AccessListRoleBased) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

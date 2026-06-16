@@ -25,9 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,8 +33,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -176,24 +176,24 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							Optional:            true,
 						},
 						"version": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("SNMP version to use for notification messages").AddStringEnumDescription("1", "2c", "3").String,
+							MarkdownDescription: helpers.NewAttributeDescription("SNMP version to use for notification messages").AddStringEnumDescription("1", "2c", "3", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("1", "2c", "3"),
+								stringvalidator.OneOf("1", "2c", "3", ),
 							},
 						},
 						"encryption": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Specifies an encryption type for community string").AddStringEnumDescription("0", "6", "7").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Specifies an encryption type for community string").AddStringEnumDescription("0", "6", "7", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0", "6", "7"),
+								stringvalidator.OneOf("0", "6", "7", ),
 							},
 						},
 						"security_level": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("auth", "noauth", "priv").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("auth", "noauth", "priv", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("auth", "noauth", "priv"),
+								stringvalidator.OneOf("auth", "noauth", "priv", ),
 							},
 						},
 					},
@@ -227,24 +227,24 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							Optional:            true,
 						},
 						"version": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("SNMP version to use for notification messages").AddStringEnumDescription("1", "2c", "3").String,
+							MarkdownDescription: helpers.NewAttributeDescription("SNMP version to use for notification messages").AddStringEnumDescription("1", "2c", "3", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("1", "2c", "3"),
+								stringvalidator.OneOf("1", "2c", "3", ),
 							},
 						},
 						"encryption": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Specifies an encryption type for community string").AddStringEnumDescription("0", "6", "7").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Specifies an encryption type for community string").AddStringEnumDescription("0", "6", "7", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0", "6", "7"),
+								stringvalidator.OneOf("0", "6", "7", ),
 							},
 						},
 						"security_level": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("auth", "noauth", "priv").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("auth", "noauth", "priv", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("auth", "noauth", "priv"),
+								stringvalidator.OneOf("auth", "noauth", "priv", ),
 							},
 						},
 					},
@@ -1095,10 +1095,10 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							},
 						},
 						"permission": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("ro", "rw").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("ro", "rw", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("ro", "rw"),
+								stringvalidator.OneOf("ro", "rw", ),
 							},
 						},
 						"ipv6": schema.StringAttribute{
@@ -1141,10 +1141,10 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							Required:            true,
 						},
 						"inc_exl": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("excluded", "included").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("excluded", "included", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("excluded", "included"),
+								stringvalidator.OneOf("excluded", "included", ),
 							},
 						},
 					},
@@ -1165,10 +1165,10 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"security_level": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("DEPRECATED security level type").AddStringEnumDescription("auth", "noauth", "priv").String,
+										MarkdownDescription: helpers.NewAttributeDescription("DEPRECATED security level type").AddStringEnumDescription("auth", "noauth", "priv", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("auth", "noauth", "priv"),
+											stringvalidator.OneOf("auth", "noauth", "priv", ),
 										},
 									},
 									"context_node": schema.StringAttribute{
@@ -1176,10 +1176,10 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 										Optional:            true,
 									},
 									"match_node": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("DEPRECATED context name match criteria").AddStringEnumDescription("exact", "prefix").String,
+										MarkdownDescription: helpers.NewAttributeDescription("DEPRECATED context name match criteria").AddStringEnumDescription("exact", "prefix", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("exact", "prefix"),
+											stringvalidator.OneOf("exact", "prefix", ),
 										},
 									},
 									"read_node": schema.StringAttribute{
@@ -1235,17 +1235,17 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							Required:            true,
 						},
 						"v3_auth_algorithm": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Use HMAC SHA/MD5 algorithm for authentication").AddStringEnumDescription("md5", "sha").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Use HMAC SHA/MD5 algorithm for authentication").AddStringEnumDescription("md5", "sha", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("md5", "sha"),
+								stringvalidator.OneOf("md5", "sha", ),
 							},
 						},
 						"v3_auth_sha2": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Use HMAC SHA-2 algorithm for authentication").AddStringEnumDescription("256", "384", "512").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Use HMAC SHA-2 algorithm for authentication").AddStringEnumDescription("256", "384", "512", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("256", "384", "512"),
+								stringvalidator.OneOf("256", "384", "512", ),
 							},
 						},
 						"v3_auth_password": schema.StringAttribute{
@@ -1263,10 +1263,10 @@ func (r *SNMPServerResource) Schema(ctx context.Context, req resource.SchemaRequ
 							Optional:            true,
 						},
 						"v3_auth_priv_aes_algorithm": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("128", "192", "256").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("128", "192", "256", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("128", "192", "256"),
+								stringvalidator.OneOf("128", "192", "256", ),
 							},
 						},
 						"v3_auth_priv_aes_password": schema.StringAttribute{
@@ -1490,7 +1490,7 @@ func (r *SNMPServerResource) Create(ctx context.Context, req resource.CreateRequ
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -1538,7 +1538,7 @@ func (r *SNMPServerResource) Read(ctx context.Context, req resource.ReadRequest,
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

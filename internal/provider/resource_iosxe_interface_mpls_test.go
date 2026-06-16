@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -41,19 +40,19 @@ func TestAccIosxeInterfaceMPLS(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfaceMPLSPrerequisitesConfig + testAccIosxeInterfaceMPLSConfig_minimum(),
+				Config: testAccIosxeInterfaceMPLSPrerequisitesConfig+testAccIosxeInterfaceMPLSConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfaceMPLSPrerequisitesConfig + testAccIosxeInterfaceMPLSConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfaceMPLSPrerequisitesConfig+testAccIosxeInterfaceMPLSConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_mpls.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceMPLSImportStateIdFunc("iosxe_interface_mpls.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_mpls.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceMPLSImportStateIdFunc("iosxe_interface_mpls.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,7 +68,7 @@ func iosxeInterfaceMPLSImportStateIdFunc(resourceName string) resource.ImportSta
 		Type := primary.Attributes["type"]
 		Name := primary.Attributes["name"]
 
-		return fmt.Sprintf("%s,%s", Type, Name), nil
+		return fmt.Sprintf("%s,%s", Type,Name), nil
 	}
 }
 
@@ -85,7 +84,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

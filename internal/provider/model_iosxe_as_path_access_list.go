@@ -23,44 +23,44 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ASPathAccessList struct {
-	Device  types.String              `tfsdk:"device"`
-	Id      types.String              `tfsdk:"id"`
-	Name    types.Int64               `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.Int64 `tfsdk:"name"`
 	Entries []ASPathAccessListEntries `tfsdk:"entries"`
 }
 type ASPathAccessListEntries struct {
 	Action types.String `tfsdk:"action"`
-	Regex  types.String `tfsdk:"regex"`
+	Regex types.String `tfsdk:"regex"`
 }
 
 type ASPathAccessListData struct {
-	Device  types.String                  `tfsdk:"device"`
-	Id      types.String                  `tfsdk:"id"`
-	Name    types.Int64                   `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.Int64 `tfsdk:"name"`
 	Entries []ASPathAccessListEntriesData `tfsdk:"entries"`
 }
 type ASPathAccessListEntriesData struct {
 	Action types.String `tfsdk:"action"`
-	Regex  types.String `tfsdk:"regex"`
+	Regex types.String `tfsdk:"regex"`
 }
 
 // End of section. //template:end types
@@ -129,7 +129,7 @@ func (data ASPathAccessList) toBody(ctx context.Context, config ASPathAccessList
 func (data ASPathAccessList) toBodyXML(ctx context.Context, config ASPathAccessList) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", strconv.FormatInt(data.Name.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", strconv.FormatInt(data.Name.ValueInt64(), 10))
 	}
 	if len(data.Entries) > 0 {
 		for _, item := range data.Entries {
@@ -159,17 +159,17 @@ func (data *ASPathAccessList) updateFromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.Int64Value(value.Int())
 	} else {
 		data.Name = types.Int64Null()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"action", "string"}
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keys := [...]string{ "action", "string",  }
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "extended-grouping.extended_grouping").ForEach(
+		res.Get(prefix+"extended-grouping.extended_grouping").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -205,17 +205,17 @@ func (data *ASPathAccessList) updateFromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ASPathAccessList) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.Int64Value(value.Int())
 	} else {
 		data.Name = types.Int64Null()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"action", "string"}
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keys := [...]string{ "action", "string",  }
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/extended-grouping/extended_grouping").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/extended-grouping/extended_grouping").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -255,7 +255,7 @@ func (data *ASPathAccessList) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "extended-grouping.extended_grouping"); value.Exists() {
+	if value := res.Get(prefix+"extended-grouping.extended_grouping"); value.Exists() {
 		data.Entries = make([]ASPathAccessListEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ASPathAccessListEntries{}
@@ -280,7 +280,7 @@ func (data *ASPathAccessListData) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "extended-grouping.extended_grouping"); value.Exists() {
+	if value := res.Get(prefix+"extended-grouping.extended_grouping"); value.Exists() {
 		data.Entries = make([]ASPathAccessListEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ASPathAccessListEntriesData{}
@@ -301,7 +301,7 @@ func (data *ASPathAccessListData) fromBody(ctx context.Context, res gjson.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ASPathAccessList) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/extended-grouping/extended_grouping"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/extended-grouping/extended_grouping"); value.Exists() {
 		data.Entries = make([]ASPathAccessListEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ASPathAccessListEntries{}
@@ -322,7 +322,7 @@ func (data *ASPathAccessList) fromBodyXML(ctx context.Context, res xmldot.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ASPathAccessListData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/extended-grouping/extended_grouping"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/extended-grouping/extended_grouping"); value.Exists() {
 		data.Entries = make([]ASPathAccessListEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ASPathAccessListEntriesData{}
@@ -345,8 +345,8 @@ func (data *ASPathAccessListData) fromBodyXML(ctx context.Context, res xmldot.Re
 func (data *ASPathAccessList) getDeletedItems(ctx context.Context, state ASPathAccessList) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Entries {
-		stateKeyValues := [...]string{state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString()}
-
+		stateKeyValues := [...]string{ state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Action.ValueString()).IsZero() {
 			emptyKeys = false
@@ -386,13 +386,13 @@ func (data *ASPathAccessList) getDeletedItems(ctx context.Context, state ASPathA
 func (data *ASPathAccessList) addDeletedItemsXML(ctx context.Context, state ASPathAccessList, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Entries {
-		stateKeys := [...]string{"action", "string"}
-		stateKeyValues := [...]string{state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString()}
+		stateKeys := [...]string{ "action", "string",  }
+		stateKeyValues := [...]string{ state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Action.ValueString()).IsZero() {
 			emptyKeys = false
@@ -432,6 +432,8 @@ func (data *ASPathAccessList) addDeletedItemsXML(ctx context.Context, state ASPa
 
 func (data *ASPathAccessList) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -443,7 +445,7 @@ func (data *ASPathAccessList) getEmptyLeafsDelete(ctx context.Context) []string 
 func (data *ASPathAccessList) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Entries {
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/extended-grouping/extended_grouping=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -458,8 +460,8 @@ func (data *ASPathAccessList) getDeletePaths(ctx context.Context) []string {
 func (data *ASPathAccessList) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Entries {
-		keys := [...]string{"action", "string"}
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keys := [...]string{ "action", "string",  }
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

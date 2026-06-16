@@ -50,9 +50,10 @@ const (
 )
 
 type t struct {
-	path   string
-	prefix string
-	suffix string
+	path      string
+	prefix    string
+	suffix    string
+	condition func(YamlConfig) bool // if non-nil, skip generation when condition returns false
 }
 
 var templates = []t{
@@ -95,6 +96,12 @@ var templates = []t{
 		path:   "./gen/templates/import.sh",
 		prefix: "./examples/resources/iosxe_",
 		suffix: "/import.sh",
+	},
+	{
+		path:      "./gen/templates/list_resource.go",
+		prefix:    "./internal/provider/list_resource_iosxe_",
+		suffix:    ".go",
+		condition: func(c YamlConfig) bool { return HasId(c.Attributes) },
 	},
 }
 
@@ -152,6 +159,10 @@ type YamlConfigAttribute struct {
 	ReadFilter         string                `yaml:"read_filter"`
 	TestTags           []string              `yaml:"test_tags"`
 	Attributes         []YamlConfigAttribute `yaml:"attributes"`
+	// ListConfig marks this attribute as required in the list resource config block.
+	// Use this for attributes that provide parent context needed to build the collection
+	// path (e.g., ASN for BGP resources, interface type for interface resources).
+	ListConfig bool `yaml:"list_config"`
 }
 
 type YamlTest struct {
@@ -236,6 +247,58 @@ func HasId(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
+// ListConfigAttributes returns attributes that should appear in the list resource
+// config block (those marked with list_config: true). These provide parent context
+// needed to construct the collection path (e.g., ASN for BGP, type for interfaces).
+func ListConfigAttributes(attrs []YamlConfigAttribute) []YamlConfigAttribute {
+	var result []YamlConfigAttribute
+	for _, attr := range attrs {
+		if attr.ListConfig {
+			result = append(result, attr)
+		}
+	}
+	return result
+}
+
+// ListIdentityAttributes returns all Id and Reference attributes, which together
+// uniquely identify a resource instance and form the resource identity schema.
+func ListIdentityAttributes(attrs []YamlConfigAttribute) []YamlConfigAttribute {
+	var result []YamlConfigAttribute
+	for _, attr := range attrs {
+		if attr.Id || attr.Reference {
+			result = append(result, attr)
+		}
+	}
+	return result
+}
+
+// ListJsonKeyAttributes returns key attributes (Id or Reference) that are NOT
+// list_config attributes. These are extracted from each JSON array item when listing.
+func ListJsonKeyAttributes(attrs []YamlConfigAttribute) []YamlConfigAttribute {
+	var result []YamlConfigAttribute
+	for _, attr := range attrs {
+		if (attr.Id || attr.Reference) && !attr.ListConfig {
+			result = append(result, attr)
+		}
+	}
+	return result
+}
+
+// HasStringPatterns returns true if any attribute (recursively) has string pattern validations.
+func HasStringPatterns(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if len(attr.StringPatterns) > 0 {
+			return true
+		}
+		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
+			if HasStringPatterns(attr.Attributes) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // Templating helper function to check if any attribute is sensitive (recursive)
 func HasSensitiveAttr(attributes []YamlConfigAttribute) bool {
 	for _, attr := range attributes {
@@ -245,6 +308,125 @@ func HasSensitiveAttr(attributes []YamlConfigAttribute) bool {
 		// Recursively check nested list/set attributes
 		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
 			if HasSensitiveAttr(attr.Attributes) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if any attribute is Float64 type (recursive)
+func HasFloat64Attr(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if attr.Type == "Float64" {
+			return true
+		}
+		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
+			if HasFloat64Attr(attr.Attributes) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if any key/reference attribute is non-string (Bool or Int64)
+func HasNonStringId(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if (attr.Id || attr.Reference) && (attr.Type == "Int64" || attr.Type == "Bool" || attr.Type == "Float64") {
+			return true
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if any attribute is a List or Set type (recursive)
+func HasListOrSetAttr(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if attr.Type == "List" || attr.Type == "Set" {
+			return true
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if any attribute needs strconv (Int64/Float64 types or any List/Set for strconv.Itoa)
+func NeedsStrconv(attributes []YamlConfigAttribute) bool {
+	if HasListOrSetAttr(attributes) {
+		return true
+	}
+	for _, attr := range attributes {
+		if attr.Type == "Int64" || attr.Type == "Float64" {
+			return true
+		}
+		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
+			if NeedsStrconv(attr.Attributes) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if any top-level attribute requires a type-specific RequiresReplace plan modifier
+func HasRequiresReplaceTypeAttr(attributes []YamlConfigAttribute, typeName string) bool {
+	for _, attr := range attributes {
+		if attr.Type == typeName && (attr.Id || attr.Reference || attr.RequiresReplace) {
+			return true
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if any attribute of the given type has a default value
+func HasDefaultTypeAttr(attributes []YamlConfigAttribute, typeName string) bool {
+	for _, attr := range attributes {
+		if attr.Type == typeName && attr.DefaultValue != "" {
+			return true
+		}
+		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
+			if HasDefaultTypeAttr(attr.Attributes, typeName) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if stringvalidator import is needed
+// It's needed if the resource has a delete_mode attr (not noDelete && not noDeleteAttrs)
+// OR if any attribute has enum values, string length/pattern constraints (recursively)
+func NeedsStringValidator(attributes []YamlConfigAttribute, noDelete bool, noDeleteAttributes bool) bool {
+	if !noDelete && !noDeleteAttributes {
+		return true
+	}
+	return HasEnumOrLengthOrPatternAttr(attributes)
+}
+
+// Templating helper function to check if any attribute has string enum values, length, or pattern constraints (recursive)
+func HasEnumOrLengthOrPatternAttr(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if len(attr.EnumValues) > 0 || attr.StringMinLength != 0 || attr.StringMaxLength != 0 || len(attr.StringPatterns) > 0 {
+			return true
+		}
+		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
+			if HasEnumOrLengthOrPatternAttr(attr.Attributes) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Templating helper function to check if int64validator import is needed
+// It's needed if any Int64 attribute has min/max range constraints (recursive)
+func NeedsInt64Validator(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if attr.Type == "Int64" && (attr.MinInt != 0 || attr.MaxInt != 0) {
+			return true
+		}
+		if (attr.Type == "List" || attr.Type == "Set") && len(attr.Attributes) > 0 {
+			if NeedsInt64Validator(attr.Attributes) {
 				return true
 			}
 		}
@@ -330,19 +512,31 @@ func ToDotPath(path string) string {
 
 // Map of templating functions
 var functions = template.FuncMap{
-	"toGoName":          ToGoName,
-	"camelCase":         CamelCase,
-	"snakeCase":         SnakeCase,
-	"hasId":             HasId,
-	"hasSensitiveAttr":  HasSensitiveAttr,
-	"add":               Add,
-	"getImportExcludes": GetImportExcludes,
-	"importAttributes":  ImportAttributes,
-	"getDeletePath":     GetDeletePath,
-	"reverseAttributes": ReverseAttributes,
-	"xpathAttributes":   XPathAttributes,
-	"toRestconfPath":    ToRestconfPath,
-	"toDotPath":         ToDotPath,
+	"toGoName":               ToGoName,
+	"camelCase":              CamelCase,
+	"snakeCase":              SnakeCase,
+	"hasId":                  HasId,
+	"hasSensitiveAttr":       HasSensitiveAttr,
+	"add":                    Add,
+	"getImportExcludes":      GetImportExcludes,
+	"importAttributes":       ImportAttributes,
+	"getDeletePath":          GetDeletePath,
+	"reverseAttributes":      ReverseAttributes,
+	"xpathAttributes":        XPathAttributes,
+	"toRestconfPath":         ToRestconfPath,
+	"toDotPath":              ToDotPath,
+	"listConfigAttributes":   ListConfigAttributes,
+	"listIdentityAttributes": ListIdentityAttributes,
+	"listJsonKeyAttributes":  ListJsonKeyAttributes,
+	"hasStringPatterns":      HasStringPatterns,
+	"hasFloat64Attr":         HasFloat64Attr,
+	"hasNonStringId":         HasNonStringId,
+	"hasListOrSetAttr":           HasListOrSetAttr,
+	"needsStrconv":               NeedsStrconv,
+	"hasRequiresReplaceTypeAttr":   HasRequiresReplaceTypeAttr,
+	"hasDefaultTypeAttr":           HasDefaultTypeAttr,
+	"needsStringValidator":         NeedsStringValidator,
+	"needsInt64Validator":          NeedsInt64Validator,
 }
 
 func resolvePath(e *yang.Entry, path string) *yang.Entry {
@@ -769,6 +963,9 @@ func main() {
 		} else {
 			// Iterate over templates and render files
 			for _, t := range templates {
+				if t.condition != nil && !t.condition(configs[i]) {
+					continue
+				}
 				renderTemplate(t.path, t.prefix+SnakeCase(configs[i].Name)+t.suffix, configs[i])
 			}
 		}

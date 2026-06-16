@@ -41,8 +41,8 @@ func TestAccDataSourceIosxeBGP(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPPrerequisitesConfig + testAccDataSourceIosxeBGPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPPrerequisitesConfig+testAccDataSourceIosxeBGPConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -62,7 +62,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -77,7 +76,7 @@ func testAccDataSourceIosxeBGPConfig() string {
 	config += `	bgp_update_delay = 200` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp" "test" {
 			asn = "65000"

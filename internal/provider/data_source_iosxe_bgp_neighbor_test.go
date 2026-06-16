@@ -55,8 +55,8 @@ func TestAccDataSourceIosxeBGPNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPNeighborPrerequisitesConfig + testAccDataSourceIosxeBGPNeighborConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPNeighborPrerequisitesConfig+testAccDataSourceIosxeBGPNeighborConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +81,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -113,7 +112,7 @@ func testAccDataSourceIosxeBGPNeighborConfig() string {
 	config += `	update_source_interface_loopback = 100` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_neighbor" "test" {
 			asn = "65000"

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -58,16 +57,16 @@ func TestAccIosxeBGPNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPNeighborPrerequisitesConfig + testAccIosxeBGPNeighborConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPNeighborPrerequisitesConfig+testAccIosxeBGPNeighborConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_neighbor.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPNeighborImportStateIdFunc("iosxe_bgp_neighbor.test"),
-				ImportStateVerifyIgnore: []string{"fall_over_bfd_multi_hop", "local_as_no_prepend", "local_as_replace_as", "local_as_dual_as", "ebgp_multihop"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_neighbor.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPNeighborImportStateIdFunc("iosxe_bgp_neighbor.test"),
+				ImportStateVerifyIgnore: []string{ "fall_over_bfd_multi_hop","local_as_no_prepend","local_as_replace_as","local_as_dual_as","ebgp_multihop", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -83,7 +82,7 @@ func iosxeBGPNeighborImportStateIdFunc(resourceName string) resource.ImportState
 		Asn := primary.Attributes["asn"]
 		Ip := primary.Attributes["ip"]
 
-		return fmt.Sprintf("%s,%s", Asn, Ip), nil
+		return fmt.Sprintf("%s,%s", Asn,Ip), nil
 	}
 }
 
@@ -106,7 +105,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfaceSwitchport(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_switchport.test", "mode_access", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_switchport.test", "mode_dot1q_tunnel", "false"))
@@ -58,15 +56,15 @@ func TestAccIosxeInterfaceSwitchport(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeInterfaceSwitchportConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_switchport.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceSwitchportImportStateIdFunc("iosxe_interface_switchport.test"),
-				ImportStateVerifyIgnore: []string{"trunk_allowed_vlans_none", "trunk_allowed_vlans_none_legacy"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_switchport.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceSwitchportImportStateIdFunc("iosxe_interface_switchport.test"),
+				ImportStateVerifyIgnore: []string{ "trunk_allowed_vlans_none","trunk_allowed_vlans_none_legacy", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -82,7 +80,7 @@ func iosxeInterfaceSwitchportImportStateIdFunc(resourceName string) resource.Imp
 		Type := primary.Attributes["type"]
 		Name := primary.Attributes["name"]
 
-		return fmt.Sprintf("%s,%s", Type, Name), nil
+		return fmt.Sprintf("%s,%s", Type,Name), nil
 	}
 }
 

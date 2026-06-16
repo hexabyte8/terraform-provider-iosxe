@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeBGPAddressFamilyIPv4MVPN(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	if os.Getenv("IOSXE1715") != "" {
 		checks = append(checks, resource.TestCheckResourceAttr("iosxe_bgp_address_family_ipv4_mvpn.test", "af_name", "mvpn"))
@@ -46,19 +44,19 @@ func TestAccIosxeBGPAddressFamilyIPv4MVPN(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPAddressFamilyIPv4MVPNPrerequisitesConfig + testAccIosxeBGPAddressFamilyIPv4MVPNConfig_minimum(),
+				Config: testAccIosxeBGPAddressFamilyIPv4MVPNPrerequisitesConfig+testAccIosxeBGPAddressFamilyIPv4MVPNConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeBGPAddressFamilyIPv4MVPNPrerequisitesConfig + testAccIosxeBGPAddressFamilyIPv4MVPNConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPAddressFamilyIPv4MVPNPrerequisitesConfig+testAccIosxeBGPAddressFamilyIPv4MVPNConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_address_family_ipv4_mvpn.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPAddressFamilyIPv4MVPNImportStateIdFunc("iosxe_bgp_address_family_ipv4_mvpn.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_address_family_ipv4_mvpn.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPAddressFamilyIPv4MVPNImportStateIdFunc("iosxe_bgp_address_family_ipv4_mvpn.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -74,7 +72,7 @@ func iosxeBGPAddressFamilyIPv4MVPNImportStateIdFunc(resourceName string) resourc
 		Asn := primary.Attributes["asn"]
 		AfName := primary.Attributes["af_name"]
 
-		return fmt.Sprintf("%s,%s", Asn, AfName), nil
+		return fmt.Sprintf("%s,%s", Asn,AfName), nil
 	}
 }
 
@@ -90,7 +88,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

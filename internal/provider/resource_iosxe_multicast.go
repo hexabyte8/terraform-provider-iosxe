@@ -25,8 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,8 +33,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 )
 
 // End of section. //template:end imports
@@ -90,10 +90,10 @@ func (r *MulticastResource) Schema(ctx context.Context, req resource.SchemaReque
 				Optional:            true,
 			},
 			"multipath_s_g_hash": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Per-(source, group) load sharing algorithm selection").AddStringEnumDescription("basic", "next-hop-based").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Per-(source, group) load sharing algorithm selection").AddStringEnumDescription("basic", "next-hop-based", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("basic", "next-hop-based"),
+					stringvalidator.OneOf("basic", "next-hop-based", ),
 				},
 			},
 			"vrfs": schema.ListNestedAttribute{
@@ -110,10 +110,10 @@ func (r *MulticastResource) Schema(ctx context.Context, req resource.SchemaReque
 							Optional:            true,
 						},
 						"multipath_s_g_hash": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Per-(source, group) load sharing algorithm selection").AddStringEnumDescription("basic", "next-hop-based").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Per-(source, group) load sharing algorithm selection").AddStringEnumDescription("basic", "next-hop-based", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("basic", "next-hop-based"),
+								stringvalidator.OneOf("basic", "next-hop-based", ),
 							},
 						},
 					},
@@ -211,7 +211,7 @@ func (r *MulticastResource) Create(ctx context.Context, req resource.CreateReque
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -259,7 +259,7 @@ func (r *MulticastResource) Read(ctx context.Context, req resource.ReadRequest, 
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

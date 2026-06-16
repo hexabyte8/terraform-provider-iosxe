@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeDeviceSensor(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_device_sensor.test", "filter_lists_lldp.0.name", "lldp1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_device_sensor.test", "filter_lists_lldp.0.tlv_name_port_id", "true"))
@@ -65,7 +64,7 @@ func TestAccDataSourceIosxeDeviceSensor(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeDeviceSensorConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -88,7 +87,7 @@ func testAccDataSourceIosxeDeviceSensorConfig() string {
 	config += `		tlv_name_system_name = true` + "\n"
 	config += `		tlv_name_system_description = true` + "\n"
 	config += `		tlv_name_system_capabilities = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	filter_lists_dhcp = [{` + "\n"
 	config += `		name = "dhcp1"` + "\n"
 	config += `		option_name_host_name = true` + "\n"
@@ -98,7 +97,7 @@ func testAccDataSourceIosxeDeviceSensorConfig() string {
 	config += `		option_name_class_identifier = true` + "\n"
 	config += `		option_name_client_identifier = true` + "\n"
 	config += `		option_name_client_fqdn = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	filter_lists_cdp = [{` + "\n"
 	config += `		name = "cdp1"` + "\n"
 	config += `		tlv_name_device_name = true` + "\n"
@@ -106,16 +105,16 @@ func testAccDataSourceIosxeDeviceSensorConfig() string {
 	config += `		tlv_name_port_id_type = true` + "\n"
 	config += `		tlv_name_capabilities_type = true` + "\n"
 	config += `		tlv_name_platform_type = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	filter_spec_dhcp_includes = [{` + "\n"
 	config += `		name = "dhcp1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	filter_spec_lldp_includes = [{` + "\n"
 	config += `		name = "lldp1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	notify_all_changes = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_device_sensor" "test" {
 			depends_on = [iosxe_device_sensor.test]

@@ -42,7 +42,7 @@ func TestAccDataSourceIosxeBanner(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeBannerConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -63,7 +63,7 @@ func testAccDataSourceIosxeBannerConfig() string {
 	config += `	prompt_timeout_banner = "My Prompt-Timeout Banner"` + "\n"
 	config += `	motd_banner = "My MOTD Banner"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_banner" "test" {
 			depends_on = [iosxe_banner.test]

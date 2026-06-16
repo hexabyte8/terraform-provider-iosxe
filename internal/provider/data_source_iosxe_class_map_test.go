@@ -52,7 +52,7 @@ func TestAccDataSourceIosxeClassMap(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeClassMapConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -76,7 +76,7 @@ func testAccDataSourceIosxeClassMapConfig() string {
 	config += `	match_result_type_success = true` + "\n"
 	config += `	match_activated_service_templates = [{` + "\n"
 	config += `		service_name = "CRITICAL_AUTH_ACCESS"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	match_authorizing_method_priority_greater_than = [20]` + "\n"
 	config += `	match_method_dot1x = true` + "\n"
 	config += `	match_result_type_method_dot1x_authoritative = true` + "\n"
@@ -85,7 +85,7 @@ func testAccDataSourceIosxeClassMapConfig() string {
 	config += `	match_method_mab = true` + "\n"
 	config += `	match_result_type_method_mab_authoritative = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_class_map" "test" {
 			name = "CM1"

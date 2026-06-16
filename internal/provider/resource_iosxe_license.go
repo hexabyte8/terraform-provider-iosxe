@@ -25,8 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,8 +33,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 )
 
 // End of section. //template:end imports
@@ -90,10 +90,10 @@ func (r *LicenseResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Optional:            true,
 			},
 			"boot_level_network_advantage_addon": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("select add-on to include").AddStringEnumDescription("dna-advantage", "dna-essentials").String,
+				MarkdownDescription: helpers.NewAttributeDescription("select add-on to include").AddStringEnumDescription("dna-advantage", "dna-essentials", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("dna-advantage", "dna-essentials"),
+					stringvalidator.OneOf("dna-advantage", "dna-essentials", ),
 				},
 			},
 			"boot_level_network_essentials": schema.BoolAttribute{
@@ -101,17 +101,17 @@ func (r *LicenseResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Optional:            true,
 			},
 			"boot_level_network_essentials_addon": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("select add-on to include").AddStringEnumDescription("dna-essentials").String,
+				MarkdownDescription: helpers.NewAttributeDescription("select add-on to include").AddStringEnumDescription("dna-essentials", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("dna-essentials"),
+					stringvalidator.OneOf("dna-essentials", ),
 				},
 			},
 			"smart_transport_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The transport type. If transport-type is set to        callhome then any additional transport settings must        be done from the callhome CLI.        If the transport-type is set to smart, additional        settings are available below.        If the transport-type is set to cslu,        url needs to be set for cisco smart license utility.        If the transport-type is set to off, user has to manually        upload the usage reports.").AddStringEnumDescription("Off", "automatic", "callhome", "cslu", "smart").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The transport type. If transport-type is set to        callhome then any additional transport settings must        be done from the callhome CLI.        If the transport-type is set to smart, additional        settings are available below.        If the transport-type is set to cslu,        url needs to be set for cisco smart license utility.        If the transport-type is set to off, user has to manually        upload the usage reports.").AddStringEnumDescription("Off", "automatic", "callhome", "cslu", "smart", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Off", "automatic", "callhome", "cslu", "smart"),
+					stringvalidator.OneOf("Off", "automatic", "callhome", "cslu", "smart", ),
 				},
 			},
 			"smart_url_cslu": schema.StringAttribute{
@@ -230,7 +230,7 @@ func (r *LicenseResource) Create(ctx context.Context, req resource.CreateRequest
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -278,7 +278,7 @@ func (r *LicenseResource) Read(ctx context.Context, req resource.ReadRequest, re
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

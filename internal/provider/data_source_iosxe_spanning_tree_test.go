@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeSpanningTree(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_spanning_tree.test", "mode", "mst"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_spanning_tree.test", "logging", "true"))
@@ -52,7 +51,7 @@ func TestAccDataSourceIosxeSpanningTree(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeSpanningTreeConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -76,13 +75,13 @@ func testAccDataSourceIosxeSpanningTreeConfig() string {
 	config += `	mst_instances = [{` + "\n"
 	config += `		id = 1` + "\n"
 	config += `		vlan_ids = [10]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	vlans = [{` + "\n"
 	config += `		id = "10"` + "\n"
 	config += `		priority = 32768` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_spanning_tree" "test" {
 			depends_on = [iosxe_spanning_tree.test]

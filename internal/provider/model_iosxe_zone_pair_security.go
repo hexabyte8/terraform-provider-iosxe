@@ -23,38 +23,38 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ZonePairSecurity struct {
-	Device                   types.String `tfsdk:"device"`
-	Id                       types.String `tfsdk:"id"`
-	Name                     types.String `tfsdk:"name"`
-	Source                   types.String `tfsdk:"source"`
-	Destination              types.String `tfsdk:"destination"`
-	Description              types.String `tfsdk:"description"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Source types.String `tfsdk:"source"`
+	Destination types.String `tfsdk:"destination"`
+	Description types.String `tfsdk:"description"`
 	ServicePolicyTypeInspect types.String `tfsdk:"service_policy_type_inspect"`
 }
 
 type ZonePairSecurityData struct {
-	Device                   types.String `tfsdk:"device"`
-	Id                       types.String `tfsdk:"id"`
-	Name                     types.String `tfsdk:"name"`
-	Source                   types.String `tfsdk:"source"`
-	Destination              types.String `tfsdk:"destination"`
-	Description              types.String `tfsdk:"description"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Source types.String `tfsdk:"source"`
+	Destination types.String `tfsdk:"destination"`
+	Description types.String `tfsdk:"description"`
 	ServicePolicyTypeInspect types.String `tfsdk:"service_policy_type_inspect"`
 }
 
@@ -125,19 +125,19 @@ func (data ZonePairSecurity) toBody(ctx context.Context, config ZonePairSecurity
 func (data ZonePairSecurity) toBodyXML(ctx context.Context, config ZonePairSecurity) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Name.ValueString())
 	}
 	if !data.Source.IsNull() && !data.Source.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source", data.Source.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source", data.Source.ValueString())
 	}
 	if !data.Destination.IsNull() && !data.Destination.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/destination", data.Destination.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/destination", data.Destination.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.ServicePolicyTypeInspect.IsNull() && !data.ServicePolicyTypeInspect.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/service-policy/type/inspect", data.ServicePolicyTypeInspect.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/service-policy/type/inspect", data.ServicePolicyTypeInspect.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -155,27 +155,27 @@ func (data *ZonePairSecurity) updateFromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "source"); value.Exists() && !data.Source.IsNull() {
+	if value := res.Get(prefix+"source"); value.Exists() && !data.Source.IsNull() {
 		data.Source = types.StringValue(value.String())
 	} else {
 		data.Source = types.StringNull()
 	}
-	if value := res.Get(prefix + "destination"); value.Exists() && !data.Destination.IsNull() {
+	if value := res.Get(prefix+"destination"); value.Exists() && !data.Destination.IsNull() {
 		data.Destination = types.StringValue(value.String())
 	} else {
 		data.Destination = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "service-policy.type.inspect"); value.Exists() && !data.ServicePolicyTypeInspect.IsNull() {
+	if value := res.Get(prefix+"service-policy.type.inspect"); value.Exists() && !data.ServicePolicyTypeInspect.IsNull() {
 		data.ServicePolicyTypeInspect = types.StringValue(value.String())
 	} else {
 		data.ServicePolicyTypeInspect = types.StringNull()
@@ -187,27 +187,27 @@ func (data *ZonePairSecurity) updateFromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ZonePairSecurity) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source"); value.Exists() && !data.Source.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source"); value.Exists() && !data.Source.IsNull() {
 		data.Source = types.StringValue(value.String())
 	} else {
 		data.Source = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination"); value.Exists() && !data.Destination.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination"); value.Exists() && !data.Destination.IsNull() {
 		data.Destination = types.StringValue(value.String())
 	} else {
 		data.Destination = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/type/inspect"); value.Exists() && !data.ServicePolicyTypeInspect.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/type/inspect"); value.Exists() && !data.ServicePolicyTypeInspect.IsNull() {
 		data.ServicePolicyTypeInspect = types.StringValue(value.String())
 	} else {
 		data.ServicePolicyTypeInspect = types.StringNull()
@@ -223,16 +223,16 @@ func (data *ZonePairSecurity) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "source"); value.Exists() {
+	if value := res.Get(prefix+"source"); value.Exists() {
 		data.Source = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "destination"); value.Exists() {
+	if value := res.Get(prefix+"destination"); value.Exists() {
 		data.Destination = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "service-policy.type.inspect"); value.Exists() {
+	if value := res.Get(prefix+"service-policy.type.inspect"); value.Exists() {
 		data.ServicePolicyTypeInspect = types.StringValue(value.String())
 	}
 }
@@ -246,16 +246,16 @@ func (data *ZonePairSecurityData) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "source"); value.Exists() {
+	if value := res.Get(prefix+"source"); value.Exists() {
 		data.Source = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "destination"); value.Exists() {
+	if value := res.Get(prefix+"destination"); value.Exists() {
 		data.Destination = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "service-policy.type.inspect"); value.Exists() {
+	if value := res.Get(prefix+"service-policy.type.inspect"); value.Exists() {
 		data.ServicePolicyTypeInspect = types.StringValue(value.String())
 	}
 }
@@ -265,16 +265,16 @@ func (data *ZonePairSecurityData) fromBody(ctx context.Context, res gjson.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ZonePairSecurity) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source"); value.Exists() {
 		data.Source = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination"); value.Exists() {
 		data.Destination = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/type/inspect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/type/inspect"); value.Exists() {
 		data.ServicePolicyTypeInspect = types.StringValue(value.String())
 	}
 }
@@ -284,16 +284,16 @@ func (data *ZonePairSecurity) fromBodyXML(ctx context.Context, res xmldot.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ZonePairSecurityData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source"); value.Exists() {
 		data.Source = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination"); value.Exists() {
 		data.Destination = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/type/inspect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/type/inspect"); value.Exists() {
 		data.ServicePolicyTypeInspect = types.StringValue(value.String())
 	}
 }

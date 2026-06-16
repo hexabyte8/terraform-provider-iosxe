@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -48,15 +47,15 @@ func TestAccIosxeStaticRoute(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccIosxeStaticRouteConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_static_route.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeStaticRouteImportStateIdFunc("iosxe_static_route.test"),
-				ImportStateVerifyIgnore: []string{"next_hops_with_track.0.permanent"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_static_route.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeStaticRouteImportStateIdFunc("iosxe_static_route.test"),
+				ImportStateVerifyIgnore: []string{ "next_hops_with_track.0.permanent", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -72,7 +71,7 @@ func iosxeStaticRouteImportStateIdFunc(resourceName string) resource.ImportState
 		Prefix := primary.Attributes["prefix"]
 		Mask := primary.Attributes["mask"]
 
-		return fmt.Sprintf("%s,%s", Prefix, Mask), nil
+		return fmt.Sprintf("%s,%s", Prefix,Mask), nil
 	}
 }
 

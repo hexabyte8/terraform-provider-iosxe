@@ -23,88 +23,88 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type CryptoIKEv2Profile struct {
-	Device                                   types.String                                           `tfsdk:"device"`
-	Id                                       types.String                                           `tfsdk:"id"`
-	DeleteMode                               types.String                                           `tfsdk:"delete_mode"`
-	Name                                     types.String                                           `tfsdk:"name"`
-	Description                              types.String                                           `tfsdk:"description"`
-	AuthenticationRemotePreShare             types.Bool                                             `tfsdk:"authentication_remote_pre_share"`
-	AuthenticationLocalPreShare              types.Bool                                             `tfsdk:"authentication_local_pre_share"`
-	IdentityLocalAddress                     types.String                                           `tfsdk:"identity_local_address"`
-	IdentityLocalKeyId                       types.String                                           `tfsdk:"identity_local_key_id"`
-	MatchInboundOnly                         types.Bool                                             `tfsdk:"match_inbound_only"`
-	MatchAddressLocalIp                      types.String                                           `tfsdk:"match_address_local_ip"`
-	MatchFvrf                                types.String                                           `tfsdk:"match_fvrf"`
-	MatchFvrfAny                             types.Bool                                             `tfsdk:"match_fvrf_any"`
-	MatchIdentityRemoteIpv4Addresses         []CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses   `tfsdk:"match_identity_remote_ipv4_addresses"`
-	MatchIdentityRemoteIpv6Prefixes          types.List                                             `tfsdk:"match_identity_remote_ipv6_prefixes"`
-	MatchIdentityRemoteKeys                  types.List                                             `tfsdk:"match_identity_remote_keys"`
-	KeyringLocal                             types.String                                           `tfsdk:"keyring_local"`
-	Ivrf                                     types.String                                           `tfsdk:"ivrf"`
-	DpdInterval                              types.Int64                                            `tfsdk:"dpd_interval"`
-	DpdRetry                                 types.Int64                                            `tfsdk:"dpd_retry"`
-	DpdQuery                                 types.String                                           `tfsdk:"dpd_query"`
-	Lifetime                                 types.Int64                                            `tfsdk:"lifetime"`
-	MatchAddressLocalInterfaceLoopbackLegacy types.Int64                                            `tfsdk:"match_address_local_interface_loopback_legacy"`
-	MatchAddressLocalInterfaceLoopback       []CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback `tfsdk:"match_address_local_interface_loopback"`
-	ConfigExchangeRequest                    types.Bool                                             `tfsdk:"config_exchange_request"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	AuthenticationRemotePreShare types.Bool `tfsdk:"authentication_remote_pre_share"`
+	AuthenticationLocalPreShare types.Bool `tfsdk:"authentication_local_pre_share"`
+	IdentityLocalAddress types.String `tfsdk:"identity_local_address"`
+	IdentityLocalKeyId types.String `tfsdk:"identity_local_key_id"`
+	MatchInboundOnly types.Bool `tfsdk:"match_inbound_only"`
+	MatchAddressLocalIp types.String `tfsdk:"match_address_local_ip"`
+	MatchFvrf types.String `tfsdk:"match_fvrf"`
+	MatchFvrfAny types.Bool `tfsdk:"match_fvrf_any"`
+	MatchIdentityRemoteIpv4Addresses []CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses `tfsdk:"match_identity_remote_ipv4_addresses"`
+	MatchIdentityRemoteIpv6Prefixes types.List `tfsdk:"match_identity_remote_ipv6_prefixes"`
+	MatchIdentityRemoteKeys types.List `tfsdk:"match_identity_remote_keys"`
+	KeyringLocal types.String `tfsdk:"keyring_local"`
+	Ivrf types.String `tfsdk:"ivrf"`
+	DpdInterval types.Int64 `tfsdk:"dpd_interval"`
+	DpdRetry types.Int64 `tfsdk:"dpd_retry"`
+	DpdQuery types.String `tfsdk:"dpd_query"`
+	Lifetime types.Int64 `tfsdk:"lifetime"`
+	MatchAddressLocalInterfaceLoopbackLegacy types.Int64 `tfsdk:"match_address_local_interface_loopback_legacy"`
+	MatchAddressLocalInterfaceLoopback []CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback `tfsdk:"match_address_local_interface_loopback"`
+	ConfigExchangeRequest types.Bool `tfsdk:"config_exchange_request"`
 }
 type CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses struct {
 	Address types.String `tfsdk:"address"`
-	Mask    types.String `tfsdk:"mask"`
+	Mask types.String `tfsdk:"mask"`
 }
 type CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback struct {
 	LoopbackNumber types.Int64 `tfsdk:"loopback_number"`
 }
 
 type CryptoIKEv2ProfileData struct {
-	Device                                   types.String                                               `tfsdk:"device"`
-	Id                                       types.String                                               `tfsdk:"id"`
-	Name                                     types.String                                               `tfsdk:"name"`
-	Description                              types.String                                               `tfsdk:"description"`
-	AuthenticationRemotePreShare             types.Bool                                                 `tfsdk:"authentication_remote_pre_share"`
-	AuthenticationLocalPreShare              types.Bool                                                 `tfsdk:"authentication_local_pre_share"`
-	IdentityLocalAddress                     types.String                                               `tfsdk:"identity_local_address"`
-	IdentityLocalKeyId                       types.String                                               `tfsdk:"identity_local_key_id"`
-	MatchInboundOnly                         types.Bool                                                 `tfsdk:"match_inbound_only"`
-	MatchAddressLocalIp                      types.String                                               `tfsdk:"match_address_local_ip"`
-	MatchFvrf                                types.String                                               `tfsdk:"match_fvrf"`
-	MatchFvrfAny                             types.Bool                                                 `tfsdk:"match_fvrf_any"`
-	MatchIdentityRemoteIpv4Addresses         []CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData   `tfsdk:"match_identity_remote_ipv4_addresses"`
-	MatchIdentityRemoteIpv6Prefixes          types.List                                                 `tfsdk:"match_identity_remote_ipv6_prefixes"`
-	MatchIdentityRemoteKeys                  types.List                                                 `tfsdk:"match_identity_remote_keys"`
-	KeyringLocal                             types.String                                               `tfsdk:"keyring_local"`
-	Ivrf                                     types.String                                               `tfsdk:"ivrf"`
-	DpdInterval                              types.Int64                                                `tfsdk:"dpd_interval"`
-	DpdRetry                                 types.Int64                                                `tfsdk:"dpd_retry"`
-	DpdQuery                                 types.String                                               `tfsdk:"dpd_query"`
-	Lifetime                                 types.Int64                                                `tfsdk:"lifetime"`
-	MatchAddressLocalInterfaceLoopbackLegacy types.Int64                                                `tfsdk:"match_address_local_interface_loopback_legacy"`
-	MatchAddressLocalInterfaceLoopback       []CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData `tfsdk:"match_address_local_interface_loopback"`
-	ConfigExchangeRequest                    types.Bool                                                 `tfsdk:"config_exchange_request"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	AuthenticationRemotePreShare types.Bool `tfsdk:"authentication_remote_pre_share"`
+	AuthenticationLocalPreShare types.Bool `tfsdk:"authentication_local_pre_share"`
+	IdentityLocalAddress types.String `tfsdk:"identity_local_address"`
+	IdentityLocalKeyId types.String `tfsdk:"identity_local_key_id"`
+	MatchInboundOnly types.Bool `tfsdk:"match_inbound_only"`
+	MatchAddressLocalIp types.String `tfsdk:"match_address_local_ip"`
+	MatchFvrf types.String `tfsdk:"match_fvrf"`
+	MatchFvrfAny types.Bool `tfsdk:"match_fvrf_any"`
+	MatchIdentityRemoteIpv4Addresses []CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData `tfsdk:"match_identity_remote_ipv4_addresses"`
+	MatchIdentityRemoteIpv6Prefixes types.List `tfsdk:"match_identity_remote_ipv6_prefixes"`
+	MatchIdentityRemoteKeys types.List `tfsdk:"match_identity_remote_keys"`
+	KeyringLocal types.String `tfsdk:"keyring_local"`
+	Ivrf types.String `tfsdk:"ivrf"`
+	DpdInterval types.Int64 `tfsdk:"dpd_interval"`
+	DpdRetry types.Int64 `tfsdk:"dpd_retry"`
+	DpdQuery types.String `tfsdk:"dpd_query"`
+	Lifetime types.Int64 `tfsdk:"lifetime"`
+	MatchAddressLocalInterfaceLoopbackLegacy types.Int64 `tfsdk:"match_address_local_interface_loopback_legacy"`
+	MatchAddressLocalInterfaceLoopback []CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData `tfsdk:"match_address_local_interface_loopback"`
+	ConfigExchangeRequest types.Bool `tfsdk:"config_exchange_request"`
 }
 type CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData struct {
 	Address types.String `tfsdk:"address"`
-	Mask    types.String `tfsdk:"mask"`
+	Mask types.String `tfsdk:"mask"`
 }
 type CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData struct {
 	LoopbackNumber types.Int64 `tfsdk:"loopback_number"`
@@ -253,49 +253,49 @@ func (data CryptoIKEv2Profile) toBody(ctx context.Context, config CryptoIKEv2Pro
 func (data CryptoIKEv2Profile) toBodyXML(ctx context.Context, config CryptoIKEv2Profile) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.AuthenticationRemotePreShare.IsNull() && !data.AuthenticationRemotePreShare.IsUnknown() {
 		if data.AuthenticationRemotePreShare.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/authentication/remote/pre-share", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/authentication/remote/pre-share", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/authentication/remote/pre-share")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/authentication/remote/pre-share")
 		}
 	}
 	if !data.AuthenticationLocalPreShare.IsNull() && !data.AuthenticationLocalPreShare.IsUnknown() {
 		if data.AuthenticationLocalPreShare.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/authentication/local/pre-share", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/authentication/local/pre-share", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/authentication/local/pre-share")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/authentication/local/pre-share")
 		}
 	}
 	if !data.IdentityLocalAddress.IsNull() && !data.IdentityLocalAddress.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/identity/local/address", data.IdentityLocalAddress.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/identity/local/address", data.IdentityLocalAddress.ValueString())
 	}
 	if !data.IdentityLocalKeyId.IsNull() && !data.IdentityLocalKeyId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/identity/local/key-id", data.IdentityLocalKeyId.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/identity/local/key-id", data.IdentityLocalKeyId.ValueString())
 	}
 	if !data.MatchInboundOnly.IsNull() && !data.MatchInboundOnly.IsUnknown() {
 		if data.MatchInboundOnly.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/inbound-only", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/inbound-only", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/inbound-only")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/inbound-only")
 		}
 	}
 	if !data.MatchAddressLocalIp.IsNull() && !data.MatchAddressLocalIp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/match/address/local/ip", data.MatchAddressLocalIp.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/match/address/local/ip", data.MatchAddressLocalIp.ValueString())
 	}
 	if !data.MatchFvrf.IsNull() && !data.MatchFvrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/match/fvrf/name", data.MatchFvrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/match/fvrf/name", data.MatchFvrf.ValueString())
 	}
 	if !data.MatchFvrfAny.IsNull() && !data.MatchFvrfAny.IsUnknown() {
 		if data.MatchFvrfAny.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/fvrf/any", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/fvrf/any", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/fvrf/any")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/fvrf/any")
 		}
 	}
 	if len(data.MatchIdentityRemoteIpv4Addresses) > 0 {
@@ -314,36 +314,36 @@ func (data CryptoIKEv2Profile) toBodyXML(ctx context.Context, config CryptoIKEv2
 		var values []string
 		data.MatchIdentityRemoteIpv6Prefixes.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/identity/remote/address/ipv6-prefix", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/identity/remote/address/ipv6-prefix", v)
 		}
 	}
 	if !data.MatchIdentityRemoteKeys.IsNull() && !data.MatchIdentityRemoteKeys.IsUnknown() {
 		var values []string
 		data.MatchIdentityRemoteKeys.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/identity/remote/key-ids", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/identity/remote/key-ids", v)
 		}
 	}
 	if !data.KeyringLocal.IsNull() && !data.KeyringLocal.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/keyring/local/name", data.KeyringLocal.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/keyring/local/name", data.KeyringLocal.ValueString())
 	}
 	if !data.Ivrf.IsNull() && !data.Ivrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ivrf", data.Ivrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ivrf", data.Ivrf.ValueString())
 	}
 	if !data.DpdInterval.IsNull() && !data.DpdInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dpd/interval", strconv.FormatInt(data.DpdInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dpd/interval", strconv.FormatInt(data.DpdInterval.ValueInt64(), 10))
 	}
 	if !data.DpdRetry.IsNull() && !data.DpdRetry.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dpd/retry", strconv.FormatInt(data.DpdRetry.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dpd/retry", strconv.FormatInt(data.DpdRetry.ValueInt64(), 10))
 	}
 	if !data.DpdQuery.IsNull() && !data.DpdQuery.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dpd/query", data.DpdQuery.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dpd/query", data.DpdQuery.ValueString())
 	}
 	if !data.Lifetime.IsNull() && !data.Lifetime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/lifetime/seconds", strconv.FormatInt(data.Lifetime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/lifetime/seconds", strconv.FormatInt(data.Lifetime.ValueInt64(), 10))
 	}
 	if !data.MatchAddressLocalInterfaceLoopbackLegacy.IsNull() && !data.MatchAddressLocalInterfaceLoopbackLegacy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/match/address/local/interface-options/Loopback", strconv.FormatInt(data.MatchAddressLocalInterfaceLoopbackLegacy.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/match/address/local/interface-options/Loopback", strconv.FormatInt(data.MatchAddressLocalInterfaceLoopbackLegacy.ValueInt64(), 10))
 	}
 	if len(data.MatchAddressLocalInterfaceLoopback) > 0 {
 		for _, item := range data.MatchAddressLocalInterfaceLoopback {
@@ -355,7 +355,7 @@ func (data CryptoIKEv2Profile) toBodyXML(ctx context.Context, config CryptoIKEv2
 		}
 	}
 	if !data.ConfigExchangeRequest.IsNull() && !data.ConfigExchangeRequest.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/config-exchange/request-1", data.ConfigExchangeRequest.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/config-exchange/request-1", data.ConfigExchangeRequest.ValueBool())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -373,17 +373,17 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "authentication.remote.pre-share"); !data.AuthenticationRemotePreShare.IsNull() {
+	if value := res.Get(prefix+"authentication.remote.pre-share"); !data.AuthenticationRemotePreShare.IsNull() {
 		if value.Exists() {
 			data.AuthenticationRemotePreShare = types.BoolValue(true)
 		} else {
@@ -392,7 +392,7 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 	} else {
 		data.AuthenticationRemotePreShare = types.BoolNull()
 	}
-	if value := res.Get(prefix + "authentication.local.pre-share"); !data.AuthenticationLocalPreShare.IsNull() {
+	if value := res.Get(prefix+"authentication.local.pre-share"); !data.AuthenticationLocalPreShare.IsNull() {
 		if value.Exists() {
 			data.AuthenticationLocalPreShare = types.BoolValue(true)
 		} else {
@@ -401,17 +401,17 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 	} else {
 		data.AuthenticationLocalPreShare = types.BoolNull()
 	}
-	if value := res.Get(prefix + "identity.local.address"); value.Exists() && !data.IdentityLocalAddress.IsNull() {
+	if value := res.Get(prefix+"identity.local.address"); value.Exists() && !data.IdentityLocalAddress.IsNull() {
 		data.IdentityLocalAddress = types.StringValue(value.String())
 	} else {
 		data.IdentityLocalAddress = types.StringNull()
 	}
-	if value := res.Get(prefix + "identity.local.key-id"); value.Exists() && !data.IdentityLocalKeyId.IsNull() {
+	if value := res.Get(prefix+"identity.local.key-id"); value.Exists() && !data.IdentityLocalKeyId.IsNull() {
 		data.IdentityLocalKeyId = types.StringValue(value.String())
 	} else {
 		data.IdentityLocalKeyId = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.inbound-only"); !data.MatchInboundOnly.IsNull() {
+	if value := res.Get(prefix+"match.inbound-only"); !data.MatchInboundOnly.IsNull() {
 		if value.Exists() {
 			data.MatchInboundOnly = types.BoolValue(true)
 		} else {
@@ -420,17 +420,17 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 	} else {
 		data.MatchInboundOnly = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.address.local.ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
+	if value := res.Get(prefix+"match.address.local.ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
 		data.MatchAddressLocalIp = types.StringValue(value.String())
 	} else {
 		data.MatchAddressLocalIp = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.fvrf.name"); value.Exists() && !data.MatchFvrf.IsNull() {
+	if value := res.Get(prefix+"match.fvrf.name"); value.Exists() && !data.MatchFvrf.IsNull() {
 		data.MatchFvrf = types.StringValue(value.String())
 	} else {
 		data.MatchFvrf = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.fvrf.any"); !data.MatchFvrfAny.IsNull() {
+	if value := res.Get(prefix+"match.fvrf.any"); !data.MatchFvrfAny.IsNull() {
 		if value.Exists() {
 			data.MatchFvrfAny = types.BoolValue(true)
 		} else {
@@ -440,11 +440,11 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 		data.MatchFvrfAny = types.BoolNull()
 	}
 	for i := range data.MatchIdentityRemoteIpv4Addresses {
-		keys := [...]string{"ipv4-address"}
-		keyValues := [...]string{data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()}
+		keys := [...]string{ "ipv4-address",  }
+		keyValues := [...]string{ data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "match.identity.remote.address.ipv4").ForEach(
+		res.Get(prefix+"match.identity.remote.address.ipv4").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -473,57 +473,57 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 			data.MatchIdentityRemoteIpv4Addresses[i].Mask = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "match.identity.remote.address.ipv6-prefix"); value.Exists() && !data.MatchIdentityRemoteIpv6Prefixes.IsNull() {
+	if value := res.Get(prefix+"match.identity.remote.address.ipv6-prefix"); value.Exists() && !data.MatchIdentityRemoteIpv6Prefixes.IsNull() {
 		data.MatchIdentityRemoteIpv6Prefixes = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIdentityRemoteIpv6Prefixes = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.identity.remote.key-ids"); value.Exists() && !data.MatchIdentityRemoteKeys.IsNull() {
+	if value := res.Get(prefix+"match.identity.remote.key-ids"); value.Exists() && !data.MatchIdentityRemoteKeys.IsNull() {
 		data.MatchIdentityRemoteKeys = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIdentityRemoteKeys = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "keyring.local.name"); value.Exists() && !data.KeyringLocal.IsNull() {
+	if value := res.Get(prefix+"keyring.local.name"); value.Exists() && !data.KeyringLocal.IsNull() {
 		data.KeyringLocal = types.StringValue(value.String())
 	} else {
 		data.KeyringLocal = types.StringNull()
 	}
-	if value := res.Get(prefix + "ivrf"); value.Exists() && !data.Ivrf.IsNull() {
+	if value := res.Get(prefix+"ivrf"); value.Exists() && !data.Ivrf.IsNull() {
 		data.Ivrf = types.StringValue(value.String())
 	} else {
 		data.Ivrf = types.StringNull()
 	}
-	if value := res.Get(prefix + "dpd.interval"); value.Exists() && !data.DpdInterval.IsNull() {
+	if value := res.Get(prefix+"dpd.interval"); value.Exists() && !data.DpdInterval.IsNull() {
 		data.DpdInterval = types.Int64Value(value.Int())
 	} else {
 		data.DpdInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "dpd.retry"); value.Exists() && !data.DpdRetry.IsNull() {
+	if value := res.Get(prefix+"dpd.retry"); value.Exists() && !data.DpdRetry.IsNull() {
 		data.DpdRetry = types.Int64Value(value.Int())
 	} else {
 		data.DpdRetry = types.Int64Null()
 	}
-	if value := res.Get(prefix + "dpd.query"); value.Exists() && !data.DpdQuery.IsNull() {
+	if value := res.Get(prefix+"dpd.query"); value.Exists() && !data.DpdQuery.IsNull() {
 		data.DpdQuery = types.StringValue(value.String())
 	} else {
 		data.DpdQuery = types.StringNull()
 	}
-	if value := res.Get(prefix + "lifetime.seconds"); value.Exists() && !data.Lifetime.IsNull() {
+	if value := res.Get(prefix+"lifetime.seconds"); value.Exists() && !data.Lifetime.IsNull() {
 		data.Lifetime = types.Int64Value(value.Int())
 	} else {
 		data.Lifetime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "match.address.local.interface-options.Loopback"); value.Exists() && !data.MatchAddressLocalInterfaceLoopbackLegacy.IsNull() {
+	if value := res.Get(prefix+"match.address.local.interface-options.Loopback"); value.Exists() && !data.MatchAddressLocalInterfaceLoopbackLegacy.IsNull() {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Value(value.Int())
 	} else {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Null()
 	}
 	for i := range data.MatchAddressLocalInterfaceLoopback {
-		keys := [...]string{"Loopback"}
-		keyValues := [...]string{strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10)}
+		keys := [...]string{ "Loopback",  }
+		keyValues := [...]string{ strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "match.address.local.interface-options-local.Loopback").ForEach(
+		res.Get(prefix+"match.address.local.interface-options-local.Loopback").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -547,7 +547,7 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 			data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber = types.Int64Null()
 		}
 	}
-	if value := res.Get(prefix + "config-exchange.request-1"); !data.ConfigExchangeRequest.IsNull() {
+	if value := res.Get(prefix+"config-exchange.request-1"); !data.ConfigExchangeRequest.IsNull() {
 		if value.Exists() {
 			data.ConfigExchangeRequest = types.BoolValue(value.Bool())
 		}
@@ -561,17 +561,17 @@ func (data *CryptoIKEv2Profile) updateFromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/remote/pre-share"); !data.AuthenticationRemotePreShare.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/remote/pre-share"); !data.AuthenticationRemotePreShare.IsNull() {
 		if value.Exists() {
 			data.AuthenticationRemotePreShare = types.BoolValue(true)
 		} else {
@@ -580,7 +580,7 @@ func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldo
 	} else {
 		data.AuthenticationRemotePreShare = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/local/pre-share"); !data.AuthenticationLocalPreShare.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/local/pre-share"); !data.AuthenticationLocalPreShare.IsNull() {
 		if value.Exists() {
 			data.AuthenticationLocalPreShare = types.BoolValue(true)
 		} else {
@@ -589,17 +589,17 @@ func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldo
 	} else {
 		data.AuthenticationLocalPreShare = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identity/local/address"); value.Exists() && !data.IdentityLocalAddress.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identity/local/address"); value.Exists() && !data.IdentityLocalAddress.IsNull() {
 		data.IdentityLocalAddress = types.StringValue(value.String())
 	} else {
 		data.IdentityLocalAddress = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identity/local/key-id"); value.Exists() && !data.IdentityLocalKeyId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identity/local/key-id"); value.Exists() && !data.IdentityLocalKeyId.IsNull() {
 		data.IdentityLocalKeyId = types.StringValue(value.String())
 	} else {
 		data.IdentityLocalKeyId = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/inbound-only"); !data.MatchInboundOnly.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/inbound-only"); !data.MatchInboundOnly.IsNull() {
 		if value.Exists() {
 			data.MatchInboundOnly = types.BoolValue(true)
 		} else {
@@ -608,17 +608,17 @@ func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldo
 	} else {
 		data.MatchInboundOnly = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
 		data.MatchAddressLocalIp = types.StringValue(value.String())
 	} else {
 		data.MatchAddressLocalIp = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/name"); value.Exists() && !data.MatchFvrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/name"); value.Exists() && !data.MatchFvrf.IsNull() {
 		data.MatchFvrf = types.StringValue(value.String())
 	} else {
 		data.MatchFvrf = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/any"); !data.MatchFvrfAny.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/any"); !data.MatchFvrfAny.IsNull() {
 		if value.Exists() {
 			data.MatchFvrfAny = types.BoolValue(true)
 		} else {
@@ -628,11 +628,11 @@ func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldo
 		data.MatchFvrfAny = types.BoolNull()
 	}
 	for i := range data.MatchIdentityRemoteIpv4Addresses {
-		keys := [...]string{"ipv4-address"}
-		keyValues := [...]string{data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()}
+		keys := [...]string{ "ipv4-address",  }
+		keyValues := [...]string{ data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/address/ipv4").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/address/ipv4").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -661,57 +661,57 @@ func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldo
 			data.MatchIdentityRemoteIpv4Addresses[i].Mask = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/address/ipv6-prefix"); value.Exists() && !data.MatchIdentityRemoteIpv6Prefixes.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/address/ipv6-prefix"); value.Exists() && !data.MatchIdentityRemoteIpv6Prefixes.IsNull() {
 		data.MatchIdentityRemoteIpv6Prefixes = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIdentityRemoteIpv6Prefixes = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/key-ids"); value.Exists() && !data.MatchIdentityRemoteKeys.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/key-ids"); value.Exists() && !data.MatchIdentityRemoteKeys.IsNull() {
 		data.MatchIdentityRemoteKeys = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIdentityRemoteKeys = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/keyring/local/name"); value.Exists() && !data.KeyringLocal.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/keyring/local/name"); value.Exists() && !data.KeyringLocal.IsNull() {
 		data.KeyringLocal = types.StringValue(value.String())
 	} else {
 		data.KeyringLocal = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ivrf"); value.Exists() && !data.Ivrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ivrf"); value.Exists() && !data.Ivrf.IsNull() {
 		data.Ivrf = types.StringValue(value.String())
 	} else {
 		data.Ivrf = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/interval"); value.Exists() && !data.DpdInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/interval"); value.Exists() && !data.DpdInterval.IsNull() {
 		data.DpdInterval = types.Int64Value(value.Int())
 	} else {
 		data.DpdInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/retry"); value.Exists() && !data.DpdRetry.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/retry"); value.Exists() && !data.DpdRetry.IsNull() {
 		data.DpdRetry = types.Int64Value(value.Int())
 	} else {
 		data.DpdRetry = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/query"); value.Exists() && !data.DpdQuery.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/query"); value.Exists() && !data.DpdQuery.IsNull() {
 		data.DpdQuery = types.StringValue(value.String())
 	} else {
 		data.DpdQuery = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lifetime/seconds"); value.Exists() && !data.Lifetime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lifetime/seconds"); value.Exists() && !data.Lifetime.IsNull() {
 		data.Lifetime = types.Int64Value(value.Int())
 	} else {
 		data.Lifetime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/interface-options/Loopback"); value.Exists() && !data.MatchAddressLocalInterfaceLoopbackLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/interface-options/Loopback"); value.Exists() && !data.MatchAddressLocalInterfaceLoopbackLegacy.IsNull() {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Value(value.Int())
 	} else {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Null()
 	}
 	for i := range data.MatchAddressLocalInterfaceLoopback {
-		keys := [...]string{"Loopback"}
-		keyValues := [...]string{strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10)}
+		keys := [...]string{ "Loopback",  }
+		keyValues := [...]string{ strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/interface-options-local/Loopback").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/interface-options-local/Loopback").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -735,7 +735,7 @@ func (data *CryptoIKEv2Profile) updateFromBodyXML(ctx context.Context, res xmldo
 			data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber = types.Int64Null()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/config-exchange/request-1"); !data.ConfigExchangeRequest.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/config-exchange/request-1"); !data.ConfigExchangeRequest.IsNull() {
 		if value.Exists() {
 			data.ConfigExchangeRequest = types.BoolValue(value.Bool())
 		}
@@ -753,42 +753,42 @@ func (data *CryptoIKEv2Profile) fromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.remote.pre-share"); value.Exists() {
+	if value := res.Get(prefix+"authentication.remote.pre-share"); value.Exists() {
 		data.AuthenticationRemotePreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationRemotePreShare = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "authentication.local.pre-share"); value.Exists() {
+	if value := res.Get(prefix+"authentication.local.pre-share"); value.Exists() {
 		data.AuthenticationLocalPreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationLocalPreShare = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "identity.local.address"); value.Exists() {
+	if value := res.Get(prefix+"identity.local.address"); value.Exists() {
 		data.IdentityLocalAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "identity.local.key-id"); value.Exists() {
+	if value := res.Get(prefix+"identity.local.key-id"); value.Exists() {
 		data.IdentityLocalKeyId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.inbound-only"); value.Exists() {
+	if value := res.Get(prefix+"match.inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.address.local.ip"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local.ip"); value.Exists() {
 		data.MatchAddressLocalIp = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.fvrf.name"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.fvrf.any"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.identity.remote.address.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"match.identity.remote.address.ipv4"); value.Exists() {
 		data.MatchIdentityRemoteIpv4Addresses = make([]CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses{}
@@ -802,38 +802,38 @@ func (data *CryptoIKEv2Profile) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get(prefix + "match.identity.remote.address.ipv6-prefix"); value.Exists() {
+	if value := res.Get(prefix+"match.identity.remote.address.ipv6-prefix"); value.Exists() {
 		data.MatchIdentityRemoteIpv6Prefixes = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIdentityRemoteIpv6Prefixes = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.identity.remote.key-ids"); value.Exists() {
+	if value := res.Get(prefix+"match.identity.remote.key-ids"); value.Exists() {
 		data.MatchIdentityRemoteKeys = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIdentityRemoteKeys = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "keyring.local.name"); value.Exists() {
+	if value := res.Get(prefix+"keyring.local.name"); value.Exists() {
 		data.KeyringLocal = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ivrf"); value.Exists() {
+	if value := res.Get(prefix+"ivrf"); value.Exists() {
 		data.Ivrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "dpd.interval"); value.Exists() {
+	if value := res.Get(prefix+"dpd.interval"); value.Exists() {
 		data.DpdInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dpd.retry"); value.Exists() {
+	if value := res.Get(prefix+"dpd.retry"); value.Exists() {
 		data.DpdRetry = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dpd.query"); value.Exists() {
+	if value := res.Get(prefix+"dpd.query"); value.Exists() {
 		data.DpdQuery = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "lifetime.seconds"); value.Exists() {
+	if value := res.Get(prefix+"lifetime.seconds"); value.Exists() {
 		data.Lifetime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "match.address.local.interface-options.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local.interface-options.Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "match.address.local.interface-options-local.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local.interface-options-local.Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopback = make([]CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback{}
@@ -844,7 +844,7 @@ func (data *CryptoIKEv2Profile) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get(prefix + "config-exchange.request-1"); value.Exists() {
+	if value := res.Get(prefix+"config-exchange.request-1"); value.Exists() {
 		data.ConfigExchangeRequest = types.BoolValue(value.Bool())
 	} else {
 		data.ConfigExchangeRequest = types.BoolNull()
@@ -860,42 +860,42 @@ func (data *CryptoIKEv2ProfileData) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "authentication.remote.pre-share"); value.Exists() {
+	if value := res.Get(prefix+"authentication.remote.pre-share"); value.Exists() {
 		data.AuthenticationRemotePreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationRemotePreShare = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "authentication.local.pre-share"); value.Exists() {
+	if value := res.Get(prefix+"authentication.local.pre-share"); value.Exists() {
 		data.AuthenticationLocalPreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationLocalPreShare = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "identity.local.address"); value.Exists() {
+	if value := res.Get(prefix+"identity.local.address"); value.Exists() {
 		data.IdentityLocalAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "identity.local.key-id"); value.Exists() {
+	if value := res.Get(prefix+"identity.local.key-id"); value.Exists() {
 		data.IdentityLocalKeyId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.inbound-only"); value.Exists() {
+	if value := res.Get(prefix+"match.inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.address.local.ip"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local.ip"); value.Exists() {
 		data.MatchAddressLocalIp = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.fvrf.name"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.fvrf.any"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.identity.remote.address.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"match.identity.remote.address.ipv4"); value.Exists() {
 		data.MatchIdentityRemoteIpv4Addresses = make([]CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData{}
@@ -909,38 +909,38 @@ func (data *CryptoIKEv2ProfileData) fromBody(ctx context.Context, res gjson.Resu
 			return true
 		})
 	}
-	if value := res.Get(prefix + "match.identity.remote.address.ipv6-prefix"); value.Exists() {
+	if value := res.Get(prefix+"match.identity.remote.address.ipv6-prefix"); value.Exists() {
 		data.MatchIdentityRemoteIpv6Prefixes = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIdentityRemoteIpv6Prefixes = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.identity.remote.key-ids"); value.Exists() {
+	if value := res.Get(prefix+"match.identity.remote.key-ids"); value.Exists() {
 		data.MatchIdentityRemoteKeys = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIdentityRemoteKeys = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "keyring.local.name"); value.Exists() {
+	if value := res.Get(prefix+"keyring.local.name"); value.Exists() {
 		data.KeyringLocal = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ivrf"); value.Exists() {
+	if value := res.Get(prefix+"ivrf"); value.Exists() {
 		data.Ivrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "dpd.interval"); value.Exists() {
+	if value := res.Get(prefix+"dpd.interval"); value.Exists() {
 		data.DpdInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dpd.retry"); value.Exists() {
+	if value := res.Get(prefix+"dpd.retry"); value.Exists() {
 		data.DpdRetry = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "dpd.query"); value.Exists() {
+	if value := res.Get(prefix+"dpd.query"); value.Exists() {
 		data.DpdQuery = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "lifetime.seconds"); value.Exists() {
+	if value := res.Get(prefix+"lifetime.seconds"); value.Exists() {
 		data.Lifetime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "match.address.local.interface-options.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local.interface-options.Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "match.address.local.interface-options-local.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local.interface-options-local.Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopback = make([]CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData{}
@@ -951,7 +951,7 @@ func (data *CryptoIKEv2ProfileData) fromBody(ctx context.Context, res gjson.Resu
 			return true
 		})
 	}
-	if value := res.Get(prefix + "config-exchange.request-1"); value.Exists() {
+	if value := res.Get(prefix+"config-exchange.request-1"); value.Exists() {
 		data.ConfigExchangeRequest = types.BoolValue(value.Bool())
 	} else {
 		data.ConfigExchangeRequest = types.BoolNull()
@@ -963,42 +963,42 @@ func (data *CryptoIKEv2ProfileData) fromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *CryptoIKEv2Profile) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/remote/pre-share"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/remote/pre-share"); value.Exists() {
 		data.AuthenticationRemotePreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationRemotePreShare = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/local/pre-share"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/local/pre-share"); value.Exists() {
 		data.AuthenticationLocalPreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationLocalPreShare = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identity/local/address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identity/local/address"); value.Exists() {
 		data.IdentityLocalAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identity/local/key-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identity/local/key-id"); value.Exists() {
 		data.IdentityLocalKeyId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/inbound-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/ip"); value.Exists() {
 		data.MatchAddressLocalIp = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/any"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/address/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/address/ipv4"); value.Exists() {
 		data.MatchIdentityRemoteIpv4Addresses = make([]CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2ProfileMatchIdentityRemoteIpv4Addresses{}
@@ -1012,38 +1012,38 @@ func (data *CryptoIKEv2Profile) fromBodyXML(ctx context.Context, res xmldot.Resu
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/address/ipv6-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/address/ipv6-prefix"); value.Exists() {
 		data.MatchIdentityRemoteIpv6Prefixes = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIdentityRemoteIpv6Prefixes = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/key-ids"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/key-ids"); value.Exists() {
 		data.MatchIdentityRemoteKeys = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIdentityRemoteKeys = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/keyring/local/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/keyring/local/name"); value.Exists() {
 		data.KeyringLocal = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ivrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ivrf"); value.Exists() {
 		data.Ivrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/interval"); value.Exists() {
 		data.DpdInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/retry"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/retry"); value.Exists() {
 		data.DpdRetry = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/query"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/query"); value.Exists() {
 		data.DpdQuery = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lifetime/seconds"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lifetime/seconds"); value.Exists() {
 		data.Lifetime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/interface-options/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/interface-options/Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/interface-options-local/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/interface-options-local/Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopback = make([]CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopback{}
@@ -1054,7 +1054,7 @@ func (data *CryptoIKEv2Profile) fromBodyXML(ctx context.Context, res xmldot.Resu
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/config-exchange/request-1"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/config-exchange/request-1"); value.Exists() {
 		data.ConfigExchangeRequest = types.BoolValue(value.Bool())
 	} else {
 		data.ConfigExchangeRequest = types.BoolNull()
@@ -1066,42 +1066,42 @@ func (data *CryptoIKEv2Profile) fromBodyXML(ctx context.Context, res xmldot.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CryptoIKEv2ProfileData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/remote/pre-share"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/remote/pre-share"); value.Exists() {
 		data.AuthenticationRemotePreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationRemotePreShare = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/authentication/local/pre-share"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/authentication/local/pre-share"); value.Exists() {
 		data.AuthenticationLocalPreShare = types.BoolValue(true)
 	} else {
 		data.AuthenticationLocalPreShare = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identity/local/address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identity/local/address"); value.Exists() {
 		data.IdentityLocalAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identity/local/key-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identity/local/key-id"); value.Exists() {
 		data.IdentityLocalKeyId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/inbound-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/ip"); value.Exists() {
 		data.MatchAddressLocalIp = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/any"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/address/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/address/ipv4"); value.Exists() {
 		data.MatchIdentityRemoteIpv4Addresses = make([]CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2ProfileMatchIdentityRemoteIpv4AddressesData{}
@@ -1115,38 +1115,38 @@ func (data *CryptoIKEv2ProfileData) fromBodyXML(ctx context.Context, res xmldot.
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/address/ipv6-prefix"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/address/ipv6-prefix"); value.Exists() {
 		data.MatchIdentityRemoteIpv6Prefixes = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIdentityRemoteIpv6Prefixes = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/identity/remote/key-ids"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/identity/remote/key-ids"); value.Exists() {
 		data.MatchIdentityRemoteKeys = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIdentityRemoteKeys = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/keyring/local/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/keyring/local/name"); value.Exists() {
 		data.KeyringLocal = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ivrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ivrf"); value.Exists() {
 		data.Ivrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/interval"); value.Exists() {
 		data.DpdInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/retry"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/retry"); value.Exists() {
 		data.DpdRetry = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dpd/query"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dpd/query"); value.Exists() {
 		data.DpdQuery = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lifetime/seconds"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lifetime/seconds"); value.Exists() {
 		data.Lifetime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/interface-options/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/interface-options/Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopbackLegacy = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local/interface-options-local/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local/interface-options-local/Loopback"); value.Exists() {
 		data.MatchAddressLocalInterfaceLoopback = make([]CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2ProfileMatchAddressLocalInterfaceLoopbackData{}
@@ -1157,7 +1157,7 @@ func (data *CryptoIKEv2ProfileData) fromBodyXML(ctx context.Context, res xmldot.
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/config-exchange/request-1"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/config-exchange/request-1"); value.Exists() {
 		data.ConfigExchangeRequest = types.BoolValue(value.Bool())
 	} else {
 		data.ConfigExchangeRequest = types.BoolNull()
@@ -1174,8 +1174,8 @@ func (data *CryptoIKEv2Profile) getDeletedItems(ctx context.Context, state Crypt
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/config-exchange/request-1", state.getPath()))
 	}
 	for i := range state.MatchAddressLocalInterfaceLoopback {
-		stateKeyValues := [...]string{strconv.FormatInt(state.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -1262,8 +1262,8 @@ func (data *CryptoIKEv2Profile) getDeletedItems(ctx context.Context, state Crypt
 		}
 	}
 	for i := range state.MatchIdentityRemoteIpv4Addresses {
-		stateKeyValues := [...]string{state.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()}
-
+		stateKeyValues := [...]string{ state.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1330,13 +1330,13 @@ func (data *CryptoIKEv2Profile) addDeletedItemsXML(ctx context.Context, state Cr
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/config-exchange/request-1")
 	}
 	for i := range state.MatchAddressLocalInterfaceLoopback {
-		stateKeys := [...]string{"Loopback"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10)}
+		stateKeys := [...]string{ "Loopback",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -1431,13 +1431,13 @@ func (data *CryptoIKEv2Profile) addDeletedItemsXML(ctx context.Context, state Cr
 		}
 	}
 	for i := range state.MatchIdentityRemoteIpv4Addresses {
-		stateKeys := [...]string{"ipv4-address"}
-		stateKeyValues := [...]string{state.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()}
+		stateKeys := [...]string{ "ipv4-address",  }
+		stateKeyValues := [...]string{ state.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1501,7 +1501,10 @@ func (data *CryptoIKEv2Profile) addDeletedItemsXML(ctx context.Context, state Cr
 
 func (data *CryptoIKEv2Profile) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
+	
+	
 	if !data.MatchFvrfAny.IsNull() && !data.MatchFvrfAny.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/match/fvrf/any", data.getPath()))
 	}
@@ -1528,7 +1531,7 @@ func (data *CryptoIKEv2Profile) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/config-exchange/request-1", data.getPath()))
 	}
 	for i := range data.MatchAddressLocalInterfaceLoopback {
-		keyValues := [...]string{strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/address/local/interface-options-local/Loopback=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1560,7 +1563,7 @@ func (data *CryptoIKEv2Profile) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/identity/remote/address/ipv6-prefix", data.getPath()))
 	}
 	for i := range data.MatchIdentityRemoteIpv4Addresses {
-		keyValues := [...]string{data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()}
+		keyValues := [...]string{ data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/identity/remote/address/ipv4=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1605,8 +1608,8 @@ func (data *CryptoIKEv2Profile) addDeletePathsXML(ctx context.Context, body stri
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/config-exchange/request-1")
 	}
 	for i := range data.MatchAddressLocalInterfaceLoopback {
-		keys := [...]string{"Loopback"}
-		keyValues := [...]string{strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10)}
+		keys := [...]string{ "Loopback",  }
+		keyValues := [...]string{ strconv.FormatInt(data.MatchAddressLocalInterfaceLoopback[i].LoopbackNumber.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1650,8 +1653,8 @@ func (data *CryptoIKEv2Profile) addDeletePathsXML(ctx context.Context, body stri
 		}
 	}
 	for i := range data.MatchIdentityRemoteIpv4Addresses {
-		keys := [...]string{"ipv4-address"}
-		keyValues := [...]string{data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString()}
+		keys := [...]string{ "ipv4-address",  }
+		keyValues := [...]string{ data.MatchIdentityRemoteIpv4Addresses[i].Address.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

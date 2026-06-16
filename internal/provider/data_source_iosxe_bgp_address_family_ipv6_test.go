@@ -54,8 +54,8 @@ func TestAccDataSourceIosxeBGPAddressFamilyIPv6(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPAddressFamilyIPv6PrerequisitesConfig + testAccDataSourceIosxeBGPAddressFamilyIPv6Config(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPAddressFamilyIPv6PrerequisitesConfig+testAccDataSourceIosxeBGPAddressFamilyIPv6Config(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +81,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -99,16 +98,16 @@ func testAccDataSourceIosxeBGPAddressFamilyIPv6Config() string {
 	config += `	ipv6_unicast_redistribute_static_metric = 200` + "\n"
 	config += `	ipv6_unicast_aggregate_addresses = [{` + "\n"
 	config += `		ipv6_address = "2001:DB8::/32"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_unicast_networks = [{` + "\n"
 	config += `		network = "2001:1234::/64"` + "\n"
 	config += `		route_map = "RM1"` + "\n"
 	config += `		backdoor = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_unicast_admin_distances = [{` + "\n"
 	config += `		distance = 200` + "\n"
 	config += `		source_ipv6_address = "2001:DB8::/48"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_unicast_distance_bgp_external = 20` + "\n"
 	config += `	ipv6_unicast_distance_bgp_internal = 200` + "\n"
 	config += `	ipv6_unicast_distance_bgp_local = 200` + "\n"
@@ -116,7 +115,7 @@ func testAccDataSourceIosxeBGPAddressFamilyIPv6Config() string {
 	config += `	ipv6_unicast_maximum_paths_ibgp = 2` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_address_family_ipv6" "test" {
 			asn = "65000"

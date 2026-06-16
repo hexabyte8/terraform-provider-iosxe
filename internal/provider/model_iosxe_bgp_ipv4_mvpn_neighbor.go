@@ -23,37 +23,37 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPIPv4MVPNNeighbor struct {
-	Device        types.String `tfsdk:"device"`
-	Id            types.String `tfsdk:"id"`
-	DeleteMode    types.String `tfsdk:"delete_mode"`
-	Asn           types.String `tfsdk:"asn"`
-	Ip            types.String `tfsdk:"ip"`
-	Activate      types.Bool   `tfsdk:"activate"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	Ip types.String `tfsdk:"ip"`
+	Activate types.Bool `tfsdk:"activate"`
 	SendCommunity types.String `tfsdk:"send_community"`
 }
 
 type BGPIPv4MVPNNeighborData struct {
-	Device        types.String `tfsdk:"device"`
-	Id            types.String `tfsdk:"id"`
-	Asn           types.String `tfsdk:"asn"`
-	Ip            types.String `tfsdk:"ip"`
-	Activate      types.Bool   `tfsdk:"activate"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	Ip types.String `tfsdk:"ip"`
+	Activate types.Bool `tfsdk:"activate"`
 	SendCommunity types.String `tfsdk:"send_community"`
 }
 
@@ -120,17 +120,17 @@ func (data BGPIPv4MVPNNeighbor) toBody(ctx context.Context, config BGPIPv4MVPNNe
 func (data BGPIPv4MVPNNeighbor) toBodyXML(ctx context.Context, config BGPIPv4MVPNNeighbor) string {
 	body := netconf.Body{}
 	if !data.Ip.IsNull() && !data.Ip.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Ip.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Ip.ValueString())
 	}
 	if !data.Activate.IsNull() && !data.Activate.IsUnknown() {
 		if data.Activate.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/activate", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/activate", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/activate")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/activate")
 		}
 	}
 	if !data.SendCommunity.IsNull() && !data.SendCommunity.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/send-community/send-community-where", data.SendCommunity.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/send-community/send-community-where", data.SendCommunity.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -148,12 +148,12 @@ func (data *BGPIPv4MVPNNeighbor) updateFromBody(ctx context.Context, res gjson.R
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Ip.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Ip.IsNull() {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := res.Get(prefix + "activate"); !data.Activate.IsNull() {
+	if value := res.Get(prefix+"activate"); !data.Activate.IsNull() {
 		if value.Exists() {
 			data.Activate = types.BoolValue(true)
 		} else {
@@ -162,7 +162,7 @@ func (data *BGPIPv4MVPNNeighbor) updateFromBody(ctx context.Context, res gjson.R
 	} else {
 		data.Activate = types.BoolNull()
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
 		data.SendCommunity = types.StringValue(value.String())
 	} else {
 		data.SendCommunity = types.StringNull()
@@ -174,12 +174,12 @@ func (data *BGPIPv4MVPNNeighbor) updateFromBody(ctx context.Context, res gjson.R
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPIPv4MVPNNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Ip.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Ip.IsNull() {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/activate"); !data.Activate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/activate"); !data.Activate.IsNull() {
 		if value.Exists() {
 			data.Activate = types.BoolValue(true)
 		} else {
@@ -188,7 +188,7 @@ func (data *BGPIPv4MVPNNeighbor) updateFromBodyXML(ctx context.Context, res xmld
 	} else {
 		data.Activate = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
 		data.SendCommunity = types.StringValue(value.String())
 	} else {
 		data.SendCommunity = types.StringNull()
@@ -204,12 +204,12 @@ func (data *BGPIPv4MVPNNeighbor) fromBody(ctx context.Context, res gjson.Result)
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "activate"); value.Exists() {
+	if value := res.Get(prefix+"activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
 }
@@ -223,12 +223,12 @@ func (data *BGPIPv4MVPNNeighborData) fromBody(ctx context.Context, res gjson.Res
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "activate"); value.Exists() {
+	if value := res.Get(prefix+"activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
 }
@@ -238,12 +238,12 @@ func (data *BGPIPv4MVPNNeighborData) fromBody(ctx context.Context, res gjson.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPIPv4MVPNNeighbor) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/activate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
 }
@@ -253,12 +253,12 @@ func (data *BGPIPv4MVPNNeighbor) fromBodyXML(ctx context.Context, res xmldot.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPIPv4MVPNNeighborData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/activate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
 }

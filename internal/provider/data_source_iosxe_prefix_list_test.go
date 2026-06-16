@@ -46,7 +46,7 @@ func TestAccDataSourceIosxePrefixList(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxePrefixListConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,13 +68,13 @@ func testAccDataSourceIosxePrefixListConfig() string {
 	config += `		ip = "10.0.0.0/8"` + "\n"
 	config += `		ge = 24` + "\n"
 	config += `		le = 32` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	prefix_list_description = [{` + "\n"
 	config += `		name = "PREFIX_LIST_1"` + "\n"
 	config += `		description = "My prefix list"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_prefix_list" "test" {
 			depends_on = [iosxe_prefix_list.test]

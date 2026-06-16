@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -46,19 +45,19 @@ func TestAccIosxeBGPPeerPolicyTemplate(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPPeerPolicyTemplatePrerequisitesConfig + testAccIosxeBGPPeerPolicyTemplateConfig_minimum(),
+				Config: testAccIosxeBGPPeerPolicyTemplatePrerequisitesConfig+testAccIosxeBGPPeerPolicyTemplateConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeBGPPeerPolicyTemplatePrerequisitesConfig + testAccIosxeBGPPeerPolicyTemplateConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPPeerPolicyTemplatePrerequisitesConfig+testAccIosxeBGPPeerPolicyTemplateConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_peer_policy_template.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPPeerPolicyTemplateImportStateIdFunc("iosxe_bgp_peer_policy_template.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_peer_policy_template.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPPeerPolicyTemplateImportStateIdFunc("iosxe_bgp_peer_policy_template.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -74,7 +73,7 @@ func iosxeBGPPeerPolicyTemplateImportStateIdFunc(resourceName string) resource.I
 		Asn := primary.Attributes["asn"]
 		Name := primary.Attributes["name"]
 
-		return fmt.Sprintf("%s,%s", Asn, Name), nil
+		return fmt.Sprintf("%s,%s", Asn,Name), nil
 	}
 }
 
@@ -97,7 +96,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

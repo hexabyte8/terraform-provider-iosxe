@@ -63,7 +63,7 @@ func TestAccDataSourceIosxeService(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeServiceConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -104,7 +104,7 @@ func testAccDataSourceIosxeServiceConfig() string {
 	config += `	call_home = true` + "\n"
 	config += `	dhcp_config = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_service" "test" {
 			depends_on = [iosxe_service.test]

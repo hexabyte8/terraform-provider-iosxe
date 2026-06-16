@@ -23,50 +23,50 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type EVPNEthernetSegment struct {
-	Device                 types.String                         `tfsdk:"device"`
-	Id                     types.String                         `tfsdk:"id"`
-	EsValue                types.Int64                          `tfsdk:"es_value"`
-	DfElectionWaitTime     types.Int64                          `tfsdk:"df_election_wait_time"`
-	RedundancyAllActive    types.Bool                           `tfsdk:"redundancy_all_active"`
-	RedundancySingleActive types.Bool                           `tfsdk:"redundancy_single_active"`
-	IdentifierTypes        []EVPNEthernetSegmentIdentifierTypes `tfsdk:"identifier_types"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	EsValue types.Int64 `tfsdk:"es_value"`
+	DfElectionWaitTime types.Int64 `tfsdk:"df_election_wait_time"`
+	RedundancyAllActive types.Bool `tfsdk:"redundancy_all_active"`
+	RedundancySingleActive types.Bool `tfsdk:"redundancy_single_active"`
+	IdentifierTypes []EVPNEthernetSegmentIdentifierTypes `tfsdk:"identifier_types"`
 }
 type EVPNEthernetSegmentIdentifierTypes struct {
-	Type      types.Int64  `tfsdk:"type"`
+	Type types.Int64 `tfsdk:"type"`
 	HexString types.String `tfsdk:"hex_string"`
 	SystemMac types.String `tfsdk:"system_mac"`
 }
 
 type EVPNEthernetSegmentData struct {
-	Device                 types.String                             `tfsdk:"device"`
-	Id                     types.String                             `tfsdk:"id"`
-	EsValue                types.Int64                              `tfsdk:"es_value"`
-	DfElectionWaitTime     types.Int64                              `tfsdk:"df_election_wait_time"`
-	RedundancyAllActive    types.Bool                               `tfsdk:"redundancy_all_active"`
-	RedundancySingleActive types.Bool                               `tfsdk:"redundancy_single_active"`
-	IdentifierTypes        []EVPNEthernetSegmentIdentifierTypesData `tfsdk:"identifier_types"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	EsValue types.Int64 `tfsdk:"es_value"`
+	DfElectionWaitTime types.Int64 `tfsdk:"df_election_wait_time"`
+	RedundancyAllActive types.Bool `tfsdk:"redundancy_all_active"`
+	RedundancySingleActive types.Bool `tfsdk:"redundancy_single_active"`
+	IdentifierTypes []EVPNEthernetSegmentIdentifierTypesData `tfsdk:"identifier_types"`
 }
 type EVPNEthernetSegmentIdentifierTypesData struct {
-	Type      types.Int64  `tfsdk:"type"`
+	Type types.Int64 `tfsdk:"type"`
 	HexString types.String `tfsdk:"hex_string"`
 	SystemMac types.String `tfsdk:"system_mac"`
 }
@@ -153,23 +153,23 @@ func (data EVPNEthernetSegment) toBody(ctx context.Context, config EVPNEthernetS
 func (data EVPNEthernetSegment) toBodyXML(ctx context.Context, config EVPNEthernetSegment) string {
 	body := netconf.Body{}
 	if !data.EsValue.IsNull() && !data.EsValue.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/es-value", strconv.FormatInt(data.EsValue.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/es-value", strconv.FormatInt(data.EsValue.ValueInt64(), 10))
 	}
 	if !data.DfElectionWaitTime.IsNull() && !data.DfElectionWaitTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/df-election/wait-time", strconv.FormatInt(data.DfElectionWaitTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/df-election/wait-time", strconv.FormatInt(data.DfElectionWaitTime.ValueInt64(), 10))
 	}
 	if !data.RedundancyAllActive.IsNull() && !data.RedundancyAllActive.IsUnknown() {
 		if data.RedundancyAllActive.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/redundancy/all-active", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/redundancy/all-active", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/redundancy/all-active")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/redundancy/all-active")
 		}
 	}
 	if !data.RedundancySingleActive.IsNull() && !data.RedundancySingleActive.IsUnknown() {
 		if data.RedundancySingleActive.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/redundancy/single-active", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/redundancy/single-active", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/redundancy/single-active")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/redundancy/single-active")
 		}
 	}
 	if len(data.IdentifierTypes) > 0 {
@@ -203,17 +203,17 @@ func (data *EVPNEthernetSegment) updateFromBody(ctx context.Context, res gjson.R
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "es-value"); value.Exists() && !data.EsValue.IsNull() {
+	if value := res.Get(prefix+"es-value"); value.Exists() && !data.EsValue.IsNull() {
 		data.EsValue = types.Int64Value(value.Int())
 	} else {
 		data.EsValue = types.Int64Null()
 	}
-	if value := res.Get(prefix + "df-election.wait-time"); value.Exists() && !data.DfElectionWaitTime.IsNull() {
+	if value := res.Get(prefix+"df-election.wait-time"); value.Exists() && !data.DfElectionWaitTime.IsNull() {
 		data.DfElectionWaitTime = types.Int64Value(value.Int())
 	} else {
 		data.DfElectionWaitTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "redundancy.all-active"); !data.RedundancyAllActive.IsNull() {
+	if value := res.Get(prefix+"redundancy.all-active"); !data.RedundancyAllActive.IsNull() {
 		if value.Exists() {
 			data.RedundancyAllActive = types.BoolValue(true)
 		} else {
@@ -222,7 +222,7 @@ func (data *EVPNEthernetSegment) updateFromBody(ctx context.Context, res gjson.R
 	} else {
 		data.RedundancyAllActive = types.BoolNull()
 	}
-	if value := res.Get(prefix + "redundancy.single-active"); !data.RedundancySingleActive.IsNull() {
+	if value := res.Get(prefix+"redundancy.single-active"); !data.RedundancySingleActive.IsNull() {
 		if value.Exists() {
 			data.RedundancySingleActive = types.BoolValue(true)
 		} else {
@@ -232,11 +232,11 @@ func (data *EVPNEthernetSegment) updateFromBody(ctx context.Context, res gjson.R
 		data.RedundancySingleActive = types.BoolNull()
 	}
 	for i := range data.IdentifierTypes {
-		keys := [...]string{"identifier-type"}
-		keyValues := [...]string{strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10)}
+		keys := [...]string{ "identifier-type",  }
+		keyValues := [...]string{ strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "identifier.type").ForEach(
+		res.Get(prefix+"identifier.type").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -277,17 +277,17 @@ func (data *EVPNEthernetSegment) updateFromBody(ctx context.Context, res gjson.R
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *EVPNEthernetSegment) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/es-value"); value.Exists() && !data.EsValue.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/es-value"); value.Exists() && !data.EsValue.IsNull() {
 		data.EsValue = types.Int64Value(value.Int())
 	} else {
 		data.EsValue = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/df-election/wait-time"); value.Exists() && !data.DfElectionWaitTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/df-election/wait-time"); value.Exists() && !data.DfElectionWaitTime.IsNull() {
 		data.DfElectionWaitTime = types.Int64Value(value.Int())
 	} else {
 		data.DfElectionWaitTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redundancy/all-active"); !data.RedundancyAllActive.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redundancy/all-active"); !data.RedundancyAllActive.IsNull() {
 		if value.Exists() {
 			data.RedundancyAllActive = types.BoolValue(true)
 		} else {
@@ -296,7 +296,7 @@ func (data *EVPNEthernetSegment) updateFromBodyXML(ctx context.Context, res xmld
 	} else {
 		data.RedundancyAllActive = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redundancy/single-active"); !data.RedundancySingleActive.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redundancy/single-active"); !data.RedundancySingleActive.IsNull() {
 		if value.Exists() {
 			data.RedundancySingleActive = types.BoolValue(true)
 		} else {
@@ -306,11 +306,11 @@ func (data *EVPNEthernetSegment) updateFromBodyXML(ctx context.Context, res xmld
 		data.RedundancySingleActive = types.BoolNull()
 	}
 	for i := range data.IdentifierTypes {
-		keys := [...]string{"identifier-type"}
-		keyValues := [...]string{strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10)}
+		keys := [...]string{ "identifier-type",  }
+		keyValues := [...]string{ strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/identifier/type").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/identifier/type").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -355,20 +355,20 @@ func (data *EVPNEthernetSegment) fromBody(ctx context.Context, res gjson.Result)
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "df-election.wait-time"); value.Exists() {
+	if value := res.Get(prefix+"df-election.wait-time"); value.Exists() {
 		data.DfElectionWaitTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "redundancy.all-active"); value.Exists() {
+	if value := res.Get(prefix+"redundancy.all-active"); value.Exists() {
 		data.RedundancyAllActive = types.BoolValue(true)
 	} else {
 		data.RedundancyAllActive = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "redundancy.single-active"); value.Exists() {
+	if value := res.Get(prefix+"redundancy.single-active"); value.Exists() {
 		data.RedundancySingleActive = types.BoolValue(true)
 	} else {
 		data.RedundancySingleActive = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "identifier.type"); value.Exists() {
+	if value := res.Get(prefix+"identifier.type"); value.Exists() {
 		data.IdentifierTypes = make([]EVPNEthernetSegmentIdentifierTypes, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := EVPNEthernetSegmentIdentifierTypes{}
@@ -396,20 +396,20 @@ func (data *EVPNEthernetSegmentData) fromBody(ctx context.Context, res gjson.Res
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "df-election.wait-time"); value.Exists() {
+	if value := res.Get(prefix+"df-election.wait-time"); value.Exists() {
 		data.DfElectionWaitTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "redundancy.all-active"); value.Exists() {
+	if value := res.Get(prefix+"redundancy.all-active"); value.Exists() {
 		data.RedundancyAllActive = types.BoolValue(true)
 	} else {
 		data.RedundancyAllActive = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "redundancy.single-active"); value.Exists() {
+	if value := res.Get(prefix+"redundancy.single-active"); value.Exists() {
 		data.RedundancySingleActive = types.BoolValue(true)
 	} else {
 		data.RedundancySingleActive = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "identifier.type"); value.Exists() {
+	if value := res.Get(prefix+"identifier.type"); value.Exists() {
 		data.IdentifierTypes = make([]EVPNEthernetSegmentIdentifierTypesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := EVPNEthernetSegmentIdentifierTypesData{}
@@ -433,20 +433,20 @@ func (data *EVPNEthernetSegmentData) fromBody(ctx context.Context, res gjson.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *EVPNEthernetSegment) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/df-election/wait-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/df-election/wait-time"); value.Exists() {
 		data.DfElectionWaitTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redundancy/all-active"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redundancy/all-active"); value.Exists() {
 		data.RedundancyAllActive = types.BoolValue(true)
 	} else {
 		data.RedundancyAllActive = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redundancy/single-active"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redundancy/single-active"); value.Exists() {
 		data.RedundancySingleActive = types.BoolValue(true)
 	} else {
 		data.RedundancySingleActive = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identifier/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identifier/type"); value.Exists() {
 		data.IdentifierTypes = make([]EVPNEthernetSegmentIdentifierTypes, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := EVPNEthernetSegmentIdentifierTypes{}
@@ -470,20 +470,20 @@ func (data *EVPNEthernetSegment) fromBodyXML(ctx context.Context, res xmldot.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *EVPNEthernetSegmentData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/df-election/wait-time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/df-election/wait-time"); value.Exists() {
 		data.DfElectionWaitTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redundancy/all-active"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redundancy/all-active"); value.Exists() {
 		data.RedundancyAllActive = types.BoolValue(true)
 	} else {
 		data.RedundancyAllActive = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redundancy/single-active"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redundancy/single-active"); value.Exists() {
 		data.RedundancySingleActive = types.BoolValue(true)
 	} else {
 		data.RedundancySingleActive = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/identifier/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/identifier/type"); value.Exists() {
 		data.IdentifierTypes = make([]EVPNEthernetSegmentIdentifierTypesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := EVPNEthernetSegmentIdentifierTypesData{}
@@ -509,8 +509,8 @@ func (data *EVPNEthernetSegmentData) fromBodyXML(ctx context.Context, res xmldot
 func (data *EVPNEthernetSegment) getDeletedItems(ctx context.Context, state EVPNEthernetSegment) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.IdentifierTypes {
-		stateKeyValues := [...]string{strconv.FormatInt(state.IdentifierTypes[i].Type.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.IdentifierTypes[i].Type.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.IdentifierTypes[i].Type.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -559,13 +559,13 @@ func (data *EVPNEthernetSegment) getDeletedItems(ctx context.Context, state EVPN
 func (data *EVPNEthernetSegment) addDeletedItemsXML(ctx context.Context, state EVPNEthernetSegment, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.IdentifierTypes {
-		stateKeys := [...]string{"identifier-type"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.IdentifierTypes[i].Type.ValueInt64(), 10)}
+		stateKeys := [...]string{ "identifier-type",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.IdentifierTypes[i].Type.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.IdentifierTypes[i].Type.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -614,7 +614,8 @@ func (data *EVPNEthernetSegment) addDeletedItemsXML(ctx context.Context, state E
 
 func (data *EVPNEthernetSegment) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	if !data.RedundancySingleActive.IsNull() && !data.RedundancySingleActive.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/redundancy/single-active", data.getPath()))
 	}
@@ -632,7 +633,7 @@ func (data *EVPNEthernetSegment) getEmptyLeafsDelete(ctx context.Context) []stri
 func (data *EVPNEthernetSegment) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.IdentifierTypes {
-		keyValues := [...]string{strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/identifier/type=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -656,8 +657,8 @@ func (data *EVPNEthernetSegment) getDeletePaths(ctx context.Context) []string {
 func (data *EVPNEthernetSegment) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.IdentifierTypes {
-		keys := [...]string{"identifier-type"}
-		keyValues := [...]string{strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10)}
+		keys := [...]string{ "identifier-type",  }
+		keyValues := [...]string{ strconv.FormatInt(data.IdentifierTypes[i].Type.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

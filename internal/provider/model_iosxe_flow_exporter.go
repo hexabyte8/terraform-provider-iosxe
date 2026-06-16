@@ -23,77 +23,77 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type FlowExporter struct {
-	Device                             types.String `tfsdk:"device"`
-	Id                                 types.String `tfsdk:"id"`
-	DeleteMode                         types.String `tfsdk:"delete_mode"`
-	Name                               types.String `tfsdk:"name"`
-	Description                        types.String `tfsdk:"description"`
-	DestinationIp                      types.String `tfsdk:"destination_ip"`
-	DestinationIpVrf                   types.String `tfsdk:"destination_ip_vrf"`
-	SourceLoopback                     types.Int64  `tfsdk:"source_loopback"`
-	SourceGigabitEthernet              types.String `tfsdk:"source_gigabit_ethernet"`
-	SourceTwoGigabitEthernet           types.String `tfsdk:"source_two_gigabit_ethernet"`
-	SourceFiveGigabitEthernet          types.String `tfsdk:"source_five_gigabit_ethernet"`
-	SourceTenGigabitEthernet           types.String `tfsdk:"source_ten_gigabit_ethernet"`
-	SourceTwentyFiveGigabitEthernet    types.String `tfsdk:"source_twenty_five_gigabit_ethernet"`
-	SourceFortyGigabitEthernet         types.String `tfsdk:"source_forty_gigabit_ethernet"`
-	SourceHundredGigabitEthernet       types.String `tfsdk:"source_hundred_gigabit_ethernet"`
-	SourceVlan                         types.Int64  `tfsdk:"source_vlan"`
-	SourcePortChannel                  types.Int64  `tfsdk:"source_port_channel"`
-	TransportUdp                       types.Int64  `tfsdk:"transport_udp"`
-	Ttl                                types.Int64  `tfsdk:"ttl"`
-	TemplateDataTimeout                types.Int64  `tfsdk:"template_data_timeout"`
-	ExportProtocol                     types.String `tfsdk:"export_protocol"`
-	OptionInterfaceTableTimeout        types.Int64  `tfsdk:"option_interface_table_timeout"`
-	OptionVrfTableTimeout              types.Int64  `tfsdk:"option_vrf_table_timeout"`
-	OptionSamplerTable                 types.Bool   `tfsdk:"option_sampler_table"`
-	OptionApplicationTableTimeout      types.Int64  `tfsdk:"option_application_table_timeout"`
-	OptionApplicationAttributesTimeout types.Int64  `tfsdk:"option_application_attributes_timeout"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	DestinationIp types.String `tfsdk:"destination_ip"`
+	DestinationIpVrf types.String `tfsdk:"destination_ip_vrf"`
+	SourceLoopback types.Int64 `tfsdk:"source_loopback"`
+	SourceGigabitEthernet types.String `tfsdk:"source_gigabit_ethernet"`
+	SourceTwoGigabitEthernet types.String `tfsdk:"source_two_gigabit_ethernet"`
+	SourceFiveGigabitEthernet types.String `tfsdk:"source_five_gigabit_ethernet"`
+	SourceTenGigabitEthernet types.String `tfsdk:"source_ten_gigabit_ethernet"`
+	SourceTwentyFiveGigabitEthernet types.String `tfsdk:"source_twenty_five_gigabit_ethernet"`
+	SourceFortyGigabitEthernet types.String `tfsdk:"source_forty_gigabit_ethernet"`
+	SourceHundredGigabitEthernet types.String `tfsdk:"source_hundred_gigabit_ethernet"`
+	SourceVlan types.Int64 `tfsdk:"source_vlan"`
+	SourcePortChannel types.Int64 `tfsdk:"source_port_channel"`
+	TransportUdp types.Int64 `tfsdk:"transport_udp"`
+	Ttl types.Int64 `tfsdk:"ttl"`
+	TemplateDataTimeout types.Int64 `tfsdk:"template_data_timeout"`
+	ExportProtocol types.String `tfsdk:"export_protocol"`
+	OptionInterfaceTableTimeout types.Int64 `tfsdk:"option_interface_table_timeout"`
+	OptionVrfTableTimeout types.Int64 `tfsdk:"option_vrf_table_timeout"`
+	OptionSamplerTable types.Bool `tfsdk:"option_sampler_table"`
+	OptionApplicationTableTimeout types.Int64 `tfsdk:"option_application_table_timeout"`
+	OptionApplicationAttributesTimeout types.Int64 `tfsdk:"option_application_attributes_timeout"`
 }
 
 type FlowExporterData struct {
-	Device                             types.String `tfsdk:"device"`
-	Id                                 types.String `tfsdk:"id"`
-	Name                               types.String `tfsdk:"name"`
-	Description                        types.String `tfsdk:"description"`
-	DestinationIp                      types.String `tfsdk:"destination_ip"`
-	DestinationIpVrf                   types.String `tfsdk:"destination_ip_vrf"`
-	SourceLoopback                     types.Int64  `tfsdk:"source_loopback"`
-	SourceGigabitEthernet              types.String `tfsdk:"source_gigabit_ethernet"`
-	SourceTwoGigabitEthernet           types.String `tfsdk:"source_two_gigabit_ethernet"`
-	SourceFiveGigabitEthernet          types.String `tfsdk:"source_five_gigabit_ethernet"`
-	SourceTenGigabitEthernet           types.String `tfsdk:"source_ten_gigabit_ethernet"`
-	SourceTwentyFiveGigabitEthernet    types.String `tfsdk:"source_twenty_five_gigabit_ethernet"`
-	SourceFortyGigabitEthernet         types.String `tfsdk:"source_forty_gigabit_ethernet"`
-	SourceHundredGigabitEthernet       types.String `tfsdk:"source_hundred_gigabit_ethernet"`
-	SourceVlan                         types.Int64  `tfsdk:"source_vlan"`
-	SourcePortChannel                  types.Int64  `tfsdk:"source_port_channel"`
-	TransportUdp                       types.Int64  `tfsdk:"transport_udp"`
-	Ttl                                types.Int64  `tfsdk:"ttl"`
-	TemplateDataTimeout                types.Int64  `tfsdk:"template_data_timeout"`
-	ExportProtocol                     types.String `tfsdk:"export_protocol"`
-	OptionInterfaceTableTimeout        types.Int64  `tfsdk:"option_interface_table_timeout"`
-	OptionVrfTableTimeout              types.Int64  `tfsdk:"option_vrf_table_timeout"`
-	OptionSamplerTable                 types.Bool   `tfsdk:"option_sampler_table"`
-	OptionApplicationTableTimeout      types.Int64  `tfsdk:"option_application_table_timeout"`
-	OptionApplicationAttributesTimeout types.Int64  `tfsdk:"option_application_attributes_timeout"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	DestinationIp types.String `tfsdk:"destination_ip"`
+	DestinationIpVrf types.String `tfsdk:"destination_ip_vrf"`
+	SourceLoopback types.Int64 `tfsdk:"source_loopback"`
+	SourceGigabitEthernet types.String `tfsdk:"source_gigabit_ethernet"`
+	SourceTwoGigabitEthernet types.String `tfsdk:"source_two_gigabit_ethernet"`
+	SourceFiveGigabitEthernet types.String `tfsdk:"source_five_gigabit_ethernet"`
+	SourceTenGigabitEthernet types.String `tfsdk:"source_ten_gigabit_ethernet"`
+	SourceTwentyFiveGigabitEthernet types.String `tfsdk:"source_twenty_five_gigabit_ethernet"`
+	SourceFortyGigabitEthernet types.String `tfsdk:"source_forty_gigabit_ethernet"`
+	SourceHundredGigabitEthernet types.String `tfsdk:"source_hundred_gigabit_ethernet"`
+	SourceVlan types.Int64 `tfsdk:"source_vlan"`
+	SourcePortChannel types.Int64 `tfsdk:"source_port_channel"`
+	TransportUdp types.Int64 `tfsdk:"transport_udp"`
+	Ttl types.Int64 `tfsdk:"ttl"`
+	TemplateDataTimeout types.Int64 `tfsdk:"template_data_timeout"`
+	ExportProtocol types.String `tfsdk:"export_protocol"`
+	OptionInterfaceTableTimeout types.Int64 `tfsdk:"option_interface_table_timeout"`
+	OptionVrfTableTimeout types.Int64 `tfsdk:"option_vrf_table_timeout"`
+	OptionSamplerTable types.Bool `tfsdk:"option_sampler_table"`
+	OptionApplicationTableTimeout types.Int64 `tfsdk:"option_application_table_timeout"`
+	OptionApplicationAttributesTimeout types.Int64 `tfsdk:"option_application_attributes_timeout"`
 }
 
 // End of section. //template:end types
@@ -219,77 +219,77 @@ func (data FlowExporter) toBody(ctx context.Context, config FlowExporter) string
 func (data FlowExporter) toBodyXML(ctx context.Context, config FlowExporter) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.DestinationIp.IsNull() && !data.DestinationIp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/destination/ipdest/ip", data.DestinationIp.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/destination/ipdest/ip", data.DestinationIp.ValueString())
 	}
 	if !data.DestinationIpVrf.IsNull() && !data.DestinationIpVrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/destination/ipdest/vrf", data.DestinationIpVrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/destination/ipdest/vrf", data.DestinationIpVrf.ValueString())
 	}
 	if !data.SourceLoopback.IsNull() && !data.SourceLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/Loopback", strconv.FormatInt(data.SourceLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/Loopback", strconv.FormatInt(data.SourceLoopback.ValueInt64(), 10))
 	}
 	if !data.SourceGigabitEthernet.IsNull() && !data.SourceGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/GigabitEthernet", data.SourceGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/GigabitEthernet", data.SourceGigabitEthernet.ValueString())
 	}
 	if !data.SourceTwoGigabitEthernet.IsNull() && !data.SourceTwoGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/TwoGigabitEthernet", data.SourceTwoGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/TwoGigabitEthernet", data.SourceTwoGigabitEthernet.ValueString())
 	}
 	if !data.SourceFiveGigabitEthernet.IsNull() && !data.SourceFiveGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/FiveGigabitEthernet", data.SourceFiveGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/FiveGigabitEthernet", data.SourceFiveGigabitEthernet.ValueString())
 	}
 	if !data.SourceTenGigabitEthernet.IsNull() && !data.SourceTenGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/TenGigabitEthernet", data.SourceTenGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/TenGigabitEthernet", data.SourceTenGigabitEthernet.ValueString())
 	}
 	if !data.SourceTwentyFiveGigabitEthernet.IsNull() && !data.SourceTwentyFiveGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/TwentyFiveGigE", data.SourceTwentyFiveGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/TwentyFiveGigE", data.SourceTwentyFiveGigabitEthernet.ValueString())
 	}
 	if !data.SourceFortyGigabitEthernet.IsNull() && !data.SourceFortyGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/FortyGigabitEthernet", data.SourceFortyGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/FortyGigabitEthernet", data.SourceFortyGigabitEthernet.ValueString())
 	}
 	if !data.SourceHundredGigabitEthernet.IsNull() && !data.SourceHundredGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/HundredGigE", data.SourceHundredGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/HundredGigE", data.SourceHundredGigabitEthernet.ValueString())
 	}
 	if !data.SourceVlan.IsNull() && !data.SourceVlan.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/Vlan", strconv.FormatInt(data.SourceVlan.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/Vlan", strconv.FormatInt(data.SourceVlan.ValueInt64(), 10))
 	}
 	if !data.SourcePortChannel.IsNull() && !data.SourcePortChannel.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source/Port-channel", strconv.FormatInt(data.SourcePortChannel.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source/Port-channel", strconv.FormatInt(data.SourcePortChannel.ValueInt64(), 10))
 	}
 	if !data.TransportUdp.IsNull() && !data.TransportUdp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/transport/udp", strconv.FormatInt(data.TransportUdp.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/transport/udp", strconv.FormatInt(data.TransportUdp.ValueInt64(), 10))
 	}
 	if !data.Ttl.IsNull() && !data.Ttl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ttl", strconv.FormatInt(data.Ttl.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ttl", strconv.FormatInt(data.Ttl.ValueInt64(), 10))
 	}
 	if !data.TemplateDataTimeout.IsNull() && !data.TemplateDataTimeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/template/data/timeout", strconv.FormatInt(data.TemplateDataTimeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/template/data/timeout", strconv.FormatInt(data.TemplateDataTimeout.ValueInt64(), 10))
 	}
 	if !data.ExportProtocol.IsNull() && !data.ExportProtocol.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/export-protocol", data.ExportProtocol.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/export-protocol", data.ExportProtocol.ValueString())
 	}
 	if !data.OptionInterfaceTableTimeout.IsNull() && !data.OptionInterfaceTableTimeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/option/interface-table/timeout", strconv.FormatInt(data.OptionInterfaceTableTimeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/option/interface-table/timeout", strconv.FormatInt(data.OptionInterfaceTableTimeout.ValueInt64(), 10))
 	}
 	if !data.OptionVrfTableTimeout.IsNull() && !data.OptionVrfTableTimeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/option/vrf-table/timeout", strconv.FormatInt(data.OptionVrfTableTimeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/option/vrf-table/timeout", strconv.FormatInt(data.OptionVrfTableTimeout.ValueInt64(), 10))
 	}
 	if !data.OptionSamplerTable.IsNull() && !data.OptionSamplerTable.IsUnknown() {
 		if data.OptionSamplerTable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/option/sampler-table", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/option/sampler-table", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/option/sampler-table")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/option/sampler-table")
 		}
 	}
 	if !data.OptionApplicationTableTimeout.IsNull() && !data.OptionApplicationTableTimeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/option/application-table/timeout", strconv.FormatInt(data.OptionApplicationTableTimeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/option/application-table/timeout", strconv.FormatInt(data.OptionApplicationTableTimeout.ValueInt64(), 10))
 	}
 	if !data.OptionApplicationAttributesTimeout.IsNull() && !data.OptionApplicationAttributesTimeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/option/application-attributes/timeout", strconv.FormatInt(data.OptionApplicationAttributesTimeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/option/application-attributes/timeout", strconv.FormatInt(data.OptionApplicationAttributesTimeout.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -307,107 +307,107 @@ func (data *FlowExporter) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "destination.ipdest.ip"); value.Exists() && !data.DestinationIp.IsNull() {
+	if value := res.Get(prefix+"destination.ipdest.ip"); value.Exists() && !data.DestinationIp.IsNull() {
 		data.DestinationIp = types.StringValue(value.String())
 	} else {
 		data.DestinationIp = types.StringNull()
 	}
-	if value := res.Get(prefix + "destination.ipdest.vrf"); value.Exists() && !data.DestinationIpVrf.IsNull() {
+	if value := res.Get(prefix+"destination.ipdest.vrf"); value.Exists() && !data.DestinationIpVrf.IsNull() {
 		data.DestinationIpVrf = types.StringValue(value.String())
 	} else {
 		data.DestinationIpVrf = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
+	if value := res.Get(prefix+"source.Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.SourceLoopback = types.Int64Null()
 	}
-	if value := res.Get(prefix + "source.GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.TwoGigabitEthernet"); value.Exists() && !data.SourceTwoGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.TwoGigabitEthernet"); value.Exists() && !data.SourceTwoGigabitEthernet.IsNull() {
 		data.SourceTwoGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTwoGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.FiveGigabitEthernet"); value.Exists() && !data.SourceFiveGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.FiveGigabitEthernet"); value.Exists() && !data.SourceFiveGigabitEthernet.IsNull() {
 		data.SourceFiveGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceFiveGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTenGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.TwentyFiveGigE"); value.Exists() && !data.SourceTwentyFiveGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.TwentyFiveGigE"); value.Exists() && !data.SourceTwentyFiveGigabitEthernet.IsNull() {
 		data.SourceTwentyFiveGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTwentyFiveGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceFortyGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"source.HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceHundredGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "source.Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
+	if value := res.Get(prefix+"source.Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	} else {
 		data.SourceVlan = types.Int64Null()
 	}
-	if value := res.Get(prefix + "source.Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
+	if value := res.Get(prefix+"source.Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	} else {
 		data.SourcePortChannel = types.Int64Null()
 	}
-	if value := res.Get(prefix + "transport.udp"); value.Exists() && !data.TransportUdp.IsNull() {
+	if value := res.Get(prefix+"transport.udp"); value.Exists() && !data.TransportUdp.IsNull() {
 		data.TransportUdp = types.Int64Value(value.Int())
 	} else {
 		data.TransportUdp = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ttl"); value.Exists() && !data.Ttl.IsNull() {
+	if value := res.Get(prefix+"ttl"); value.Exists() && !data.Ttl.IsNull() {
 		data.Ttl = types.Int64Value(value.Int())
 	} else {
 		data.Ttl = types.Int64Null()
 	}
-	if value := res.Get(prefix + "template.data.timeout"); value.Exists() && !data.TemplateDataTimeout.IsNull() {
+	if value := res.Get(prefix+"template.data.timeout"); value.Exists() && !data.TemplateDataTimeout.IsNull() {
 		data.TemplateDataTimeout = types.Int64Value(value.Int())
 	} else {
 		data.TemplateDataTimeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "export-protocol"); value.Exists() && !data.ExportProtocol.IsNull() {
+	if value := res.Get(prefix+"export-protocol"); value.Exists() && !data.ExportProtocol.IsNull() {
 		data.ExportProtocol = types.StringValue(value.String())
 	} else {
 		data.ExportProtocol = types.StringNull()
 	}
-	if value := res.Get(prefix + "option.interface-table.timeout"); value.Exists() && !data.OptionInterfaceTableTimeout.IsNull() {
+	if value := res.Get(prefix+"option.interface-table.timeout"); value.Exists() && !data.OptionInterfaceTableTimeout.IsNull() {
 		data.OptionInterfaceTableTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionInterfaceTableTimeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "option.vrf-table.timeout"); value.Exists() && !data.OptionVrfTableTimeout.IsNull() {
+	if value := res.Get(prefix+"option.vrf-table.timeout"); value.Exists() && !data.OptionVrfTableTimeout.IsNull() {
 		data.OptionVrfTableTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionVrfTableTimeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "option.sampler-table"); !data.OptionSamplerTable.IsNull() {
+	if value := res.Get(prefix+"option.sampler-table"); !data.OptionSamplerTable.IsNull() {
 		if value.Exists() {
 			data.OptionSamplerTable = types.BoolValue(true)
 		} else {
@@ -416,12 +416,12 @@ func (data *FlowExporter) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.OptionSamplerTable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "option.application-table.timeout"); value.Exists() && !data.OptionApplicationTableTimeout.IsNull() {
+	if value := res.Get(prefix+"option.application-table.timeout"); value.Exists() && !data.OptionApplicationTableTimeout.IsNull() {
 		data.OptionApplicationTableTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionApplicationTableTimeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "option.application-attributes.timeout"); value.Exists() && !data.OptionApplicationAttributesTimeout.IsNull() {
+	if value := res.Get(prefix+"option.application-attributes.timeout"); value.Exists() && !data.OptionApplicationAttributesTimeout.IsNull() {
 		data.OptionApplicationAttributesTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionApplicationAttributesTimeout = types.Int64Null()
@@ -433,107 +433,107 @@ func (data *FlowExporter) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *FlowExporter) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination/ipdest/ip"); value.Exists() && !data.DestinationIp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination/ipdest/ip"); value.Exists() && !data.DestinationIp.IsNull() {
 		data.DestinationIp = types.StringValue(value.String())
 	} else {
 		data.DestinationIp = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination/ipdest/vrf"); value.Exists() && !data.DestinationIpVrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination/ipdest/vrf"); value.Exists() && !data.DestinationIpVrf.IsNull() {
 		data.DestinationIpVrf = types.StringValue(value.String())
 	} else {
 		data.DestinationIpVrf = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.SourceLoopback = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TwoGigabitEthernet"); value.Exists() && !data.SourceTwoGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TwoGigabitEthernet"); value.Exists() && !data.SourceTwoGigabitEthernet.IsNull() {
 		data.SourceTwoGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTwoGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/FiveGigabitEthernet"); value.Exists() && !data.SourceFiveGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/FiveGigabitEthernet"); value.Exists() && !data.SourceFiveGigabitEthernet.IsNull() {
 		data.SourceFiveGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceFiveGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTenGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TwentyFiveGigE"); value.Exists() && !data.SourceTwentyFiveGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TwentyFiveGigE"); value.Exists() && !data.SourceTwentyFiveGigabitEthernet.IsNull() {
 		data.SourceTwentyFiveGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTwentyFiveGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceFortyGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceHundredGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	} else {
 		data.SourceVlan = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	} else {
 		data.SourcePortChannel = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/transport/udp"); value.Exists() && !data.TransportUdp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/transport/udp"); value.Exists() && !data.TransportUdp.IsNull() {
 		data.TransportUdp = types.Int64Value(value.Int())
 	} else {
 		data.TransportUdp = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ttl"); value.Exists() && !data.Ttl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ttl"); value.Exists() && !data.Ttl.IsNull() {
 		data.Ttl = types.Int64Value(value.Int())
 	} else {
 		data.Ttl = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/template/data/timeout"); value.Exists() && !data.TemplateDataTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/template/data/timeout"); value.Exists() && !data.TemplateDataTimeout.IsNull() {
 		data.TemplateDataTimeout = types.Int64Value(value.Int())
 	} else {
 		data.TemplateDataTimeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/export-protocol"); value.Exists() && !data.ExportProtocol.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/export-protocol"); value.Exists() && !data.ExportProtocol.IsNull() {
 		data.ExportProtocol = types.StringValue(value.String())
 	} else {
 		data.ExportProtocol = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/interface-table/timeout"); value.Exists() && !data.OptionInterfaceTableTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/interface-table/timeout"); value.Exists() && !data.OptionInterfaceTableTimeout.IsNull() {
 		data.OptionInterfaceTableTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionInterfaceTableTimeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/vrf-table/timeout"); value.Exists() && !data.OptionVrfTableTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/vrf-table/timeout"); value.Exists() && !data.OptionVrfTableTimeout.IsNull() {
 		data.OptionVrfTableTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionVrfTableTimeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/sampler-table"); !data.OptionSamplerTable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/sampler-table"); !data.OptionSamplerTable.IsNull() {
 		if value.Exists() {
 			data.OptionSamplerTable = types.BoolValue(true)
 		} else {
@@ -542,12 +542,12 @@ func (data *FlowExporter) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.OptionSamplerTable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/application-table/timeout"); value.Exists() && !data.OptionApplicationTableTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/application-table/timeout"); value.Exists() && !data.OptionApplicationTableTimeout.IsNull() {
 		data.OptionApplicationTableTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionApplicationTableTimeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/application-attributes/timeout"); value.Exists() && !data.OptionApplicationAttributesTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/application-attributes/timeout"); value.Exists() && !data.OptionApplicationAttributesTimeout.IsNull() {
 		data.OptionApplicationAttributesTimeout = types.Int64Value(value.Int())
 	} else {
 		data.OptionApplicationAttributesTimeout = types.Int64Null()
@@ -563,72 +563,72 @@ func (data *FlowExporter) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "destination.ipdest.ip"); value.Exists() {
+	if value := res.Get(prefix+"destination.ipdest.ip"); value.Exists() {
 		data.DestinationIp = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "destination.ipdest.vrf"); value.Exists() {
+	if value := res.Get(prefix+"destination.ipdest.vrf"); value.Exists() {
 		data.DestinationIpVrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"source.Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "source.GigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.TwoGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.TwoGigabitEthernet"); value.Exists() {
 		data.SourceTwoGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.FiveGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.FiveGigabitEthernet"); value.Exists() {
 		data.SourceFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.TenGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.TwentyFiveGigE"); value.Exists() {
+	if value := res.Get(prefix+"source.TwentyFiveGigE"); value.Exists() {
 		data.SourceTwentyFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.FortyGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.HundredGigE"); value.Exists() {
+	if value := res.Get(prefix+"source.HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.Vlan"); value.Exists() {
+	if value := res.Get(prefix+"source.Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "source.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"source.Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "transport.udp"); value.Exists() {
+	if value := res.Get(prefix+"transport.udp"); value.Exists() {
 		data.TransportUdp = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ttl"); value.Exists() {
+	if value := res.Get(prefix+"ttl"); value.Exists() {
 		data.Ttl = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "template.data.timeout"); value.Exists() {
+	if value := res.Get(prefix+"template.data.timeout"); value.Exists() {
 		data.TemplateDataTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "export-protocol"); value.Exists() {
+	if value := res.Get(prefix+"export-protocol"); value.Exists() {
 		data.ExportProtocol = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "option.interface-table.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.interface-table.timeout"); value.Exists() {
 		data.OptionInterfaceTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.vrf-table.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.vrf-table.timeout"); value.Exists() {
 		data.OptionVrfTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.sampler-table"); value.Exists() {
+	if value := res.Get(prefix+"option.sampler-table"); value.Exists() {
 		data.OptionSamplerTable = types.BoolValue(true)
 	} else {
 		data.OptionSamplerTable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "option.application-table.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.application-table.timeout"); value.Exists() {
 		data.OptionApplicationTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.application-attributes.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.application-attributes.timeout"); value.Exists() {
 		data.OptionApplicationAttributesTimeout = types.Int64Value(value.Int())
 	}
 }
@@ -642,72 +642,72 @@ func (data *FlowExporterData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "destination.ipdest.ip"); value.Exists() {
+	if value := res.Get(prefix+"destination.ipdest.ip"); value.Exists() {
 		data.DestinationIp = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "destination.ipdest.vrf"); value.Exists() {
+	if value := res.Get(prefix+"destination.ipdest.vrf"); value.Exists() {
 		data.DestinationIpVrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"source.Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "source.GigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.TwoGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.TwoGigabitEthernet"); value.Exists() {
 		data.SourceTwoGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.FiveGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.FiveGigabitEthernet"); value.Exists() {
 		data.SourceFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.TenGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.TwentyFiveGigE"); value.Exists() {
+	if value := res.Get(prefix+"source.TwentyFiveGigE"); value.Exists() {
 		data.SourceTwentyFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.FortyGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"source.FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.HundredGigE"); value.Exists() {
+	if value := res.Get(prefix+"source.HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "source.Vlan"); value.Exists() {
+	if value := res.Get(prefix+"source.Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "source.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"source.Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "transport.udp"); value.Exists() {
+	if value := res.Get(prefix+"transport.udp"); value.Exists() {
 		data.TransportUdp = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ttl"); value.Exists() {
+	if value := res.Get(prefix+"ttl"); value.Exists() {
 		data.Ttl = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "template.data.timeout"); value.Exists() {
+	if value := res.Get(prefix+"template.data.timeout"); value.Exists() {
 		data.TemplateDataTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "export-protocol"); value.Exists() {
+	if value := res.Get(prefix+"export-protocol"); value.Exists() {
 		data.ExportProtocol = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "option.interface-table.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.interface-table.timeout"); value.Exists() {
 		data.OptionInterfaceTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.vrf-table.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.vrf-table.timeout"); value.Exists() {
 		data.OptionVrfTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.sampler-table"); value.Exists() {
+	if value := res.Get(prefix+"option.sampler-table"); value.Exists() {
 		data.OptionSamplerTable = types.BoolValue(true)
 	} else {
 		data.OptionSamplerTable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "option.application-table.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.application-table.timeout"); value.Exists() {
 		data.OptionApplicationTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.application-attributes.timeout"); value.Exists() {
+	if value := res.Get(prefix+"option.application-attributes.timeout"); value.Exists() {
 		data.OptionApplicationAttributesTimeout = types.Int64Value(value.Int())
 	}
 }
@@ -717,72 +717,72 @@ func (data *FlowExporterData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *FlowExporter) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination/ipdest/ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination/ipdest/ip"); value.Exists() {
 		data.DestinationIp = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination/ipdest/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination/ipdest/vrf"); value.Exists() {
 		data.DestinationIpVrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/GigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TwoGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TwoGigabitEthernet"); value.Exists() {
 		data.SourceTwoGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/FiveGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/FiveGigabitEthernet"); value.Exists() {
 		data.SourceFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TenGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TwentyFiveGigE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TwentyFiveGigE"); value.Exists() {
 		data.SourceTwentyFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/FortyGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/HundredGigE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/transport/udp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/transport/udp"); value.Exists() {
 		data.TransportUdp = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ttl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ttl"); value.Exists() {
 		data.Ttl = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/template/data/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/template/data/timeout"); value.Exists() {
 		data.TemplateDataTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/export-protocol"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/export-protocol"); value.Exists() {
 		data.ExportProtocol = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/interface-table/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/interface-table/timeout"); value.Exists() {
 		data.OptionInterfaceTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/vrf-table/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/vrf-table/timeout"); value.Exists() {
 		data.OptionVrfTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/sampler-table"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/sampler-table"); value.Exists() {
 		data.OptionSamplerTable = types.BoolValue(true)
 	} else {
 		data.OptionSamplerTable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/application-table/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/application-table/timeout"); value.Exists() {
 		data.OptionApplicationTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/application-attributes/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/application-attributes/timeout"); value.Exists() {
 		data.OptionApplicationAttributesTimeout = types.Int64Value(value.Int())
 	}
 }
@@ -792,72 +792,72 @@ func (data *FlowExporter) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *FlowExporterData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination/ipdest/ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination/ipdest/ip"); value.Exists() {
 		data.DestinationIp = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination/ipdest/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination/ipdest/vrf"); value.Exists() {
 		data.DestinationIpVrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/GigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TwoGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TwoGigabitEthernet"); value.Exists() {
 		data.SourceTwoGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/FiveGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/FiveGigabitEthernet"); value.Exists() {
 		data.SourceFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TenGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/TwentyFiveGigE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/TwentyFiveGigE"); value.Exists() {
 		data.SourceTwentyFiveGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/FortyGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/HundredGigE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source/Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/transport/udp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/transport/udp"); value.Exists() {
 		data.TransportUdp = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ttl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ttl"); value.Exists() {
 		data.Ttl = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/template/data/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/template/data/timeout"); value.Exists() {
 		data.TemplateDataTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/export-protocol"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/export-protocol"); value.Exists() {
 		data.ExportProtocol = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/interface-table/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/interface-table/timeout"); value.Exists() {
 		data.OptionInterfaceTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/vrf-table/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/vrf-table/timeout"); value.Exists() {
 		data.OptionVrfTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/sampler-table"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/sampler-table"); value.Exists() {
 		data.OptionSamplerTable = types.BoolValue(true)
 	} else {
 		data.OptionSamplerTable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/application-table/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/application-table/timeout"); value.Exists() {
 		data.OptionApplicationTableTimeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/application-attributes/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/application-attributes/timeout"); value.Exists() {
 		data.OptionApplicationAttributesTimeout = types.Int64Value(value.Int())
 	}
 }

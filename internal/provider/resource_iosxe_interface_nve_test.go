@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfaceNVE(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_nve.test", "name", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_nve.test", "description", "My Interface Description"))
@@ -54,15 +52,15 @@ func TestAccIosxeInterfaceNVE(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeInterfaceNVEConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_nve.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceNVEImportStateIdFunc("iosxe_interface_nve.test"),
-				ImportStateVerifyIgnore: []string{"vnis.0.ingress_replication", "vnis.0.local_routing"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_nve.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceNVEImportStateIdFunc("iosxe_interface_nve.test"),
+				ImportStateVerifyIgnore: []string{ "vnis.0.ingress_replication","vnis.0.local_routing", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

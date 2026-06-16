@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -54,19 +53,19 @@ func TestAccIosxeInterfaceOSPFv3(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfaceOSPFv3PrerequisitesConfig + testAccIosxeInterfaceOSPFv3Config_minimum(),
+				Config: testAccIosxeInterfaceOSPFv3PrerequisitesConfig+testAccIosxeInterfaceOSPFv3Config_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfaceOSPFv3PrerequisitesConfig + testAccIosxeInterfaceOSPFv3Config_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfaceOSPFv3PrerequisitesConfig+testAccIosxeInterfaceOSPFv3Config_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_ospfv3.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceOSPFv3ImportStateIdFunc("iosxe_interface_ospfv3.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_ospfv3.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceOSPFv3ImportStateIdFunc("iosxe_interface_ospfv3.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -82,7 +81,7 @@ func iosxeInterfaceOSPFv3ImportStateIdFunc(resourceName string) resource.ImportS
 		Type := primary.Attributes["type"]
 		Name := primary.Attributes["name"]
 
-		return fmt.Sprintf("%s,%s", Type, Name), nil
+		return fmt.Sprintf("%s,%s", Type,Name), nil
 	}
 }
 
@@ -118,7 +117,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

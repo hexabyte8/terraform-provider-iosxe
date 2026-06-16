@@ -41,7 +41,7 @@ func TestAccDataSourceIosxeLLDP(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeLLDPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -61,7 +61,7 @@ func testAccDataSourceIosxeLLDPConfig() string {
 	config += `	holdtime = 60` + "\n"
 	config += `	timer = 60` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_lldp" "test" {
 			depends_on = [iosxe_lldp.test]

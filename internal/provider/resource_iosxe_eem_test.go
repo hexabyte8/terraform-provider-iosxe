@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeEEM(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_eem.test", "environment_variables.0.name", "IOSXE_TEST_VAR"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_eem.test", "environment_variables.0.value", "test_pass"))
@@ -68,15 +66,15 @@ func TestAccIosxeEEM(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeEEMConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_eem.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeEEMImportStateIdFunc("iosxe_eem.test"),
-				ImportStateVerifyIgnore: []string{"applets.0.actions.0.else", "applets.0.actions.0.break", "applets.0.actions.0.continue", "applets.0.actions.0.end", "applets.0.actions.0.exit", "applets.0.actions.0.reload", "applets.0.actions.0.counter_op_dec", "applets.0.actions.0.counter_op_inc", "applets.0.actions.0.counter_op_set", "applets.0.actions.0.counter_op_nop"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_eem.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeEEMImportStateIdFunc("iosxe_eem.test"),
+				ImportStateVerifyIgnore: []string{ "applets.0.actions.0.else","applets.0.actions.0.break","applets.0.actions.0.continue","applets.0.actions.0.end","applets.0.actions.0.exit","applets.0.actions.0.reload","applets.0.actions.0.counter_op_dec","applets.0.actions.0.counter_op_inc","applets.0.actions.0.counter_op_set","applets.0.actions.0.counter_op_nop", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -89,7 +87,7 @@ func TestAccIosxeEEM(t *testing.T) {
 func iosxeEEMImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

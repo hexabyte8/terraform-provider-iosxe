@@ -48,8 +48,8 @@ func TestAccDataSourceIosxeMSDP(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeMSDPPrerequisitesConfig + testAccDataSourceIosxeMSDPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeMSDPPrerequisitesConfig+testAccDataSourceIosxeMSDPConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -85,7 +85,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -98,12 +97,12 @@ func testAccDataSourceIosxeMSDPConfig() string {
 	config += `		addr = "10.1.1.1"` + "\n"
 	config += `		remote_as = 65000` + "\n"
 	config += `		connect_source_loopback = 100` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	passwords = [{` + "\n"
 	config += `		addr = "10.1.1.1"` + "\n"
 	config += `		encryption = 0` + "\n"
 	config += `		password = "Cisco123"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	vrfs = [{` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
 	config += `		originator_id = "Loopback200"` + "\n"
@@ -117,10 +116,10 @@ func testAccDataSourceIosxeMSDPConfig() string {
 	config += `			encryption = 0` + "\n"
 	config += `			password = "Cisco123"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_msdp" "test" {
 			depends_on = [iosxe_msdp.test]

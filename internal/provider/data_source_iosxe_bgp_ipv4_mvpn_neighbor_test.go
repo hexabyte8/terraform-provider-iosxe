@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeBGPIPv4MVPNNeighbor(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	if os.Getenv("IOSXE1715") != "" {
 		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bgp_ipv4_mvpn_neighbor.test", "activate", "true"))
@@ -47,8 +46,8 @@ func TestAccDataSourceIosxeBGPIPv4MVPNNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPIPv4MVPNNeighborPrerequisitesConfig + testAccDataSourceIosxeBGPIPv4MVPNNeighborConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPIPv4MVPNNeighborPrerequisitesConfig+testAccDataSourceIosxeBGPIPv4MVPNNeighborConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -83,7 +82,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -105,7 +103,7 @@ func testAccDataSourceIosxeBGPIPv4MVPNNeighborConfig() string {
 	}
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_ipv4_mvpn_neighbor" "test" {
 			asn = "65000"

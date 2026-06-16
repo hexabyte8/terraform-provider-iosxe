@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeCryptoPKI(t *testing.T) {
 	if os.Getenv("CRYPTO_PKI") == "" {
-		t.Skip("skipping test, set environment variable CRYPTO_PKI")
-	}
+        t.Skip("skipping test, set environment variable CRYPTO_PKI")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_crypto_pki.test", "trustpoints.0.id", "trustpoint1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_crypto_pki.test", "trustpoints.0.enrollment_pkcs12", "true"))
@@ -46,7 +45,7 @@ func TestAccDataSourceIosxeCryptoPKI(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCryptoPKIConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -67,9 +66,9 @@ func testAccDataSourceIosxeCryptoPKIConfig() string {
 	config += `		enrollment_pkcs12 = true` + "\n"
 	config += `		revocation_check = ["none"]` + "\n"
 	config += `		hash = "sha256"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_pki" "test" {
 			depends_on = [iosxe_crypto_pki.test]

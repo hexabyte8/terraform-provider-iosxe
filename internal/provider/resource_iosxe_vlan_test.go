@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeVLAN(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vlan.test", "vlan_id", "123"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vlan.test", "name", "Vlan123"))
@@ -50,15 +48,15 @@ func TestAccIosxeVLAN(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeVLANConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_vlan.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeVLANImportStateIdFunc("iosxe_vlan.test"),
-				ImportStateVerifyIgnore: []string{"remote_span", "private_vlan_primary", "private_vlan_community", "private_vlan_isolated"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_vlan.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeVLANImportStateIdFunc("iosxe_vlan.test"),
+				ImportStateVerifyIgnore: []string{ "remote_span","private_vlan_primary","private_vlan_community","private_vlan_isolated", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

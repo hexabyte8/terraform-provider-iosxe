@@ -23,45 +23,45 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGP struct {
-	Device             types.String `tfsdk:"device"`
-	Id                 types.String `tfsdk:"id"`
-	DeleteMode         types.String `tfsdk:"delete_mode"`
-	Asn                types.String `tfsdk:"asn"`
-	DefaultIpv4Unicast types.Bool   `tfsdk:"default_ipv4_unicast"`
-	LogNeighborChanges types.Bool   `tfsdk:"log_neighbor_changes"`
-	RouterIdLoopback   types.Int64  `tfsdk:"router_id_loopback"`
-	RouterIdIp         types.String `tfsdk:"router_id_ip"`
-	BgpGracefulRestart types.Bool   `tfsdk:"bgp_graceful_restart"`
-	BgpUpdateDelay     types.Int64  `tfsdk:"bgp_update_delay"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	DefaultIpv4Unicast types.Bool `tfsdk:"default_ipv4_unicast"`
+	LogNeighborChanges types.Bool `tfsdk:"log_neighbor_changes"`
+	RouterIdLoopback types.Int64 `tfsdk:"router_id_loopback"`
+	RouterIdIp types.String `tfsdk:"router_id_ip"`
+	BgpGracefulRestart types.Bool `tfsdk:"bgp_graceful_restart"`
+	BgpUpdateDelay types.Int64 `tfsdk:"bgp_update_delay"`
 }
 
 type BGPData struct {
-	Device             types.String `tfsdk:"device"`
-	Id                 types.String `tfsdk:"id"`
-	Asn                types.String `tfsdk:"asn"`
-	DefaultIpv4Unicast types.Bool   `tfsdk:"default_ipv4_unicast"`
-	LogNeighborChanges types.Bool   `tfsdk:"log_neighbor_changes"`
-	RouterIdLoopback   types.Int64  `tfsdk:"router_id_loopback"`
-	RouterIdIp         types.String `tfsdk:"router_id_ip"`
-	BgpGracefulRestart types.Bool   `tfsdk:"bgp_graceful_restart"`
-	BgpUpdateDelay     types.Int64  `tfsdk:"bgp_update_delay"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	DefaultIpv4Unicast types.Bool `tfsdk:"default_ipv4_unicast"`
+	LogNeighborChanges types.Bool `tfsdk:"log_neighbor_changes"`
+	RouterIdLoopback types.Int64 `tfsdk:"router_id_loopback"`
+	RouterIdIp types.String `tfsdk:"router_id_ip"`
+	BgpGracefulRestart types.Bool `tfsdk:"bgp_graceful_restart"`
+	BgpUpdateDelay types.Int64 `tfsdk:"bgp_update_delay"`
 }
 
 // End of section. //template:end types
@@ -139,29 +139,29 @@ func (data BGP) toBody(ctx context.Context, config BGP) string {
 func (data BGP) toBodyXML(ctx context.Context, config BGP) string {
 	body := netconf.Body{}
 	if !data.Asn.IsNull() && !data.Asn.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Asn.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Asn.ValueString())
 	}
 	if !data.DefaultIpv4Unicast.IsNull() && !data.DefaultIpv4Unicast.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bgp/default/ipv4-unicast", data.DefaultIpv4Unicast.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bgp/default/ipv4-unicast", data.DefaultIpv4Unicast.ValueBool())
 	}
 	if !data.LogNeighborChanges.IsNull() && !data.LogNeighborChanges.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bgp/log-neighbor-changes", data.LogNeighborChanges.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bgp/log-neighbor-changes", data.LogNeighborChanges.ValueBool())
 	}
 	if !data.RouterIdLoopback.IsNull() && !data.RouterIdLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bgp/router-id/interface/Loopback", strconv.FormatInt(data.RouterIdLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bgp/router-id/interface/Loopback", strconv.FormatInt(data.RouterIdLoopback.ValueInt64(), 10))
 	}
 	if !data.RouterIdIp.IsNull() && !data.RouterIdIp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bgp/router-id/ip-id", data.RouterIdIp.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bgp/router-id/ip-id", data.RouterIdIp.ValueString())
 	}
 	if !data.BgpGracefulRestart.IsNull() && !data.BgpGracefulRestart.IsUnknown() {
 		if data.BgpGracefulRestart.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/bgp/gr-options/graceful-restart", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/bgp/gr-options/graceful-restart", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/bgp/gr-options/graceful-restart")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/bgp/gr-options/graceful-restart")
 		}
 	}
 	if !data.BgpUpdateDelay.IsNull() && !data.BgpUpdateDelay.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bgp/update-delay", strconv.FormatInt(data.BgpUpdateDelay.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bgp/update-delay", strconv.FormatInt(data.BgpUpdateDelay.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -179,36 +179,36 @@ func (data *BGP) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Asn.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Asn.IsNull() {
 		data.Asn = types.StringValue(value.String())
 	} else {
 		data.Asn = types.StringNull()
 	}
-	if value := res.Get(prefix + "bgp.default.ipv4-unicast"); !data.DefaultIpv4Unicast.IsNull() {
+	if value := res.Get(prefix+"bgp.default.ipv4-unicast"); !data.DefaultIpv4Unicast.IsNull() {
 		if value.Exists() {
 			data.DefaultIpv4Unicast = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.DefaultIpv4Unicast = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
+	if value := res.Get(prefix+"bgp.log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
 		if value.Exists() {
 			data.LogNeighborChanges = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.router-id.interface.Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
+	if value := res.Get(prefix+"bgp.router-id.interface.Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	} else {
 		data.RouterIdLoopback = types.Int64Null()
 	}
-	if value := res.Get(prefix + "bgp.router-id.ip-id"); value.Exists() && !data.RouterIdIp.IsNull() {
+	if value := res.Get(prefix+"bgp.router-id.ip-id"); value.Exists() && !data.RouterIdIp.IsNull() {
 		data.RouterIdIp = types.StringValue(value.String())
 	} else {
 		data.RouterIdIp = types.StringNull()
 	}
-	if value := res.Get(prefix + "bgp.gr-options.graceful-restart"); !data.BgpGracefulRestart.IsNull() {
+	if value := res.Get(prefix+"bgp.gr-options.graceful-restart"); !data.BgpGracefulRestart.IsNull() {
 		if value.Exists() {
 			data.BgpGracefulRestart = types.BoolValue(true)
 		} else {
@@ -217,7 +217,7 @@ func (data *BGP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.BgpGracefulRestart = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.update-delay"); value.Exists() && !data.BgpUpdateDelay.IsNull() {
+	if value := res.Get(prefix+"bgp.update-delay"); value.Exists() && !data.BgpUpdateDelay.IsNull() {
 		data.BgpUpdateDelay = types.Int64Value(value.Int())
 	} else {
 		data.BgpUpdateDelay = types.Int64Null()
@@ -229,36 +229,36 @@ func (data *BGP) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Asn.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Asn.IsNull() {
 		data.Asn = types.StringValue(value.String())
 	} else {
 		data.Asn = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/default/ipv4-unicast"); !data.DefaultIpv4Unicast.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/default/ipv4-unicast"); !data.DefaultIpv4Unicast.IsNull() {
 		if value.Exists() {
 			data.DefaultIpv4Unicast = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.DefaultIpv4Unicast = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
 		if value.Exists() {
 			data.LogNeighborChanges = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/router-id/interface/Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/router-id/interface/Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	} else {
 		data.RouterIdLoopback = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/router-id/ip-id"); value.Exists() && !data.RouterIdIp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/router-id/ip-id"); value.Exists() && !data.RouterIdIp.IsNull() {
 		data.RouterIdIp = types.StringValue(value.String())
 	} else {
 		data.RouterIdIp = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/gr-options/graceful-restart"); !data.BgpGracefulRestart.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/gr-options/graceful-restart"); !data.BgpGracefulRestart.IsNull() {
 		if value.Exists() {
 			data.BgpGracefulRestart = types.BoolValue(true)
 		} else {
@@ -267,7 +267,7 @@ func (data *BGP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.BgpGracefulRestart = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/update-delay"); value.Exists() && !data.BgpUpdateDelay.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/update-delay"); value.Exists() && !data.BgpUpdateDelay.IsNull() {
 		data.BgpUpdateDelay = types.Int64Value(value.Int())
 	} else {
 		data.BgpUpdateDelay = types.Int64Null()
@@ -283,28 +283,28 @@ func (data *BGP) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "bgp.default.ipv4-unicast"); value.Exists() {
+	if value := res.Get(prefix+"bgp.default.ipv4-unicast"); value.Exists() {
 		data.DefaultIpv4Unicast = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultIpv4Unicast = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.log-neighbor-changes"); value.Exists() {
+	if value := res.Get(prefix+"bgp.log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.router-id.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"bgp.router-id.interface.Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bgp.router-id.ip-id"); value.Exists() {
+	if value := res.Get(prefix+"bgp.router-id.ip-id"); value.Exists() {
 		data.RouterIdIp = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bgp.gr-options.graceful-restart"); value.Exists() {
+	if value := res.Get(prefix+"bgp.gr-options.graceful-restart"); value.Exists() {
 		data.BgpGracefulRestart = types.BoolValue(true)
 	} else {
 		data.BgpGracefulRestart = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "bgp.update-delay"); value.Exists() {
+	if value := res.Get(prefix+"bgp.update-delay"); value.Exists() {
 		data.BgpUpdateDelay = types.Int64Value(value.Int())
 	}
 }
@@ -318,28 +318,28 @@ func (data *BGPData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "bgp.default.ipv4-unicast"); value.Exists() {
+	if value := res.Get(prefix+"bgp.default.ipv4-unicast"); value.Exists() {
 		data.DefaultIpv4Unicast = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultIpv4Unicast = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.log-neighbor-changes"); value.Exists() {
+	if value := res.Get(prefix+"bgp.log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "bgp.router-id.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"bgp.router-id.interface.Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "bgp.router-id.ip-id"); value.Exists() {
+	if value := res.Get(prefix+"bgp.router-id.ip-id"); value.Exists() {
 		data.RouterIdIp = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bgp.gr-options.graceful-restart"); value.Exists() {
+	if value := res.Get(prefix+"bgp.gr-options.graceful-restart"); value.Exists() {
 		data.BgpGracefulRestart = types.BoolValue(true)
 	} else {
 		data.BgpGracefulRestart = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "bgp.update-delay"); value.Exists() {
+	if value := res.Get(prefix+"bgp.update-delay"); value.Exists() {
 		data.BgpUpdateDelay = types.Int64Value(value.Int())
 	}
 }
@@ -349,28 +349,28 @@ func (data *BGPData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGP) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/default/ipv4-unicast"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/default/ipv4-unicast"); value.Exists() {
 		data.DefaultIpv4Unicast = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultIpv4Unicast = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/log-neighbor-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/router-id/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/router-id/interface/Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/router-id/ip-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/router-id/ip-id"); value.Exists() {
 		data.RouterIdIp = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/gr-options/graceful-restart"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/gr-options/graceful-restart"); value.Exists() {
 		data.BgpGracefulRestart = types.BoolValue(true)
 	} else {
 		data.BgpGracefulRestart = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/update-delay"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/update-delay"); value.Exists() {
 		data.BgpUpdateDelay = types.Int64Value(value.Int())
 	}
 }
@@ -380,28 +380,28 @@ func (data *BGP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/default/ipv4-unicast"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/default/ipv4-unicast"); value.Exists() {
 		data.DefaultIpv4Unicast = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultIpv4Unicast = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/log-neighbor-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/router-id/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/router-id/interface/Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/router-id/ip-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/router-id/ip-id"); value.Exists() {
 		data.RouterIdIp = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/gr-options/graceful-restart"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/gr-options/graceful-restart"); value.Exists() {
 		data.BgpGracefulRestart = types.BoolValue(true)
 	} else {
 		data.BgpGracefulRestart = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bgp/update-delay"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bgp/update-delay"); value.Exists() {
 		data.BgpUpdateDelay = types.Int64Value(value.Int())
 	}
 }

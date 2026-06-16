@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -46,19 +45,19 @@ func TestAccIosxePIMIPv6(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxePIMIPv6PrerequisitesConfig + testAccIosxePIMIPv6Config_minimum(),
+				Config: testAccIosxePIMIPv6PrerequisitesConfig+testAccIosxePIMIPv6Config_minimum(),
 			},
 			{
-				Config: testAccIosxePIMIPv6PrerequisitesConfig + testAccIosxePIMIPv6Config_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxePIMIPv6PrerequisitesConfig+testAccIosxePIMIPv6Config_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_pim_ipv6.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxePIMIPv6ImportStateIdFunc("iosxe_pim_ipv6.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_pim_ipv6.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxePIMIPv6ImportStateIdFunc("iosxe_pim_ipv6.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -71,7 +70,7 @@ func TestAccIosxePIMIPv6(t *testing.T) {
 func iosxePIMIPv6ImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 
@@ -89,7 +88,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

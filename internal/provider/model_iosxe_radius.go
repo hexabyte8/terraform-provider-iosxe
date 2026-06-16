@@ -23,64 +23,64 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type Radius struct {
-	Device                       types.String `tfsdk:"device"`
-	Id                           types.String `tfsdk:"id"`
-	Name                         types.String `tfsdk:"name"`
-	Ipv4Address                  types.String `tfsdk:"ipv4_address"`
-	AuthenticationPort           types.Int64  `tfsdk:"authentication_port"`
-	AccountingPort               types.Int64  `tfsdk:"accounting_port"`
-	Timeout                      types.Int64  `tfsdk:"timeout"`
-	Retransmit                   types.Int64  `tfsdk:"retransmit"`
-	Key                          types.String `tfsdk:"key"`
-	KeyWO                        types.String `tfsdk:"key_wo"`
-	KeyWOVersion                 types.Int64  `tfsdk:"key_wo_version"`
-	KeyEncryption                types.String `tfsdk:"key_encryption"`
-	AutomateTesterUsername       types.String `tfsdk:"automate_tester_username"`
-	AutomateTesterIgnoreAcctPort types.Bool   `tfsdk:"automate_tester_ignore_acct_port"`
-	AutomateTesterIgnoreAuthPort types.Bool   `tfsdk:"automate_tester_ignore_auth_port"`
-	AutomateTesterProbeOnConfig  types.Bool   `tfsdk:"automate_tester_probe_on_config"`
-	AutomateTesterIdleTime       types.Int64  `tfsdk:"automate_tester_idle_time"`
-	PacKey                       types.String `tfsdk:"pac_key"`
-	PacKeyWO                     types.String `tfsdk:"pac_key_wo"`
-	PacKeyWOVersion              types.Int64  `tfsdk:"pac_key_wo_version"`
-	PacKeyEncryption             types.String `tfsdk:"pac_key_encryption"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Ipv4Address types.String `tfsdk:"ipv4_address"`
+	AuthenticationPort types.Int64 `tfsdk:"authentication_port"`
+	AccountingPort types.Int64 `tfsdk:"accounting_port"`
+	Timeout types.Int64 `tfsdk:"timeout"`
+	Retransmit types.Int64 `tfsdk:"retransmit"`
+	Key types.String `tfsdk:"key"`
+	KeyWO types.String `tfsdk:"key_wo"`
+	KeyWOVersion types.Int64 `tfsdk:"key_wo_version"`
+	KeyEncryption types.String `tfsdk:"key_encryption"`
+	AutomateTesterUsername types.String `tfsdk:"automate_tester_username"`
+	AutomateTesterIgnoreAcctPort types.Bool `tfsdk:"automate_tester_ignore_acct_port"`
+	AutomateTesterIgnoreAuthPort types.Bool `tfsdk:"automate_tester_ignore_auth_port"`
+	AutomateTesterProbeOnConfig types.Bool `tfsdk:"automate_tester_probe_on_config"`
+	AutomateTesterIdleTime types.Int64 `tfsdk:"automate_tester_idle_time"`
+	PacKey types.String `tfsdk:"pac_key"`
+	PacKeyWO types.String `tfsdk:"pac_key_wo"`
+	PacKeyWOVersion types.Int64 `tfsdk:"pac_key_wo_version"`
+	PacKeyEncryption types.String `tfsdk:"pac_key_encryption"`
 }
 
 type RadiusData struct {
-	Device                       types.String `tfsdk:"device"`
-	Id                           types.String `tfsdk:"id"`
-	Name                         types.String `tfsdk:"name"`
-	Ipv4Address                  types.String `tfsdk:"ipv4_address"`
-	AuthenticationPort           types.Int64  `tfsdk:"authentication_port"`
-	AccountingPort               types.Int64  `tfsdk:"accounting_port"`
-	Timeout                      types.Int64  `tfsdk:"timeout"`
-	Retransmit                   types.Int64  `tfsdk:"retransmit"`
-	Key                          types.String `tfsdk:"key"`
-	KeyEncryption                types.String `tfsdk:"key_encryption"`
-	AutomateTesterUsername       types.String `tfsdk:"automate_tester_username"`
-	AutomateTesterIgnoreAcctPort types.Bool   `tfsdk:"automate_tester_ignore_acct_port"`
-	AutomateTesterIgnoreAuthPort types.Bool   `tfsdk:"automate_tester_ignore_auth_port"`
-	AutomateTesterProbeOnConfig  types.Bool   `tfsdk:"automate_tester_probe_on_config"`
-	AutomateTesterIdleTime       types.Int64  `tfsdk:"automate_tester_idle_time"`
-	PacKey                       types.String `tfsdk:"pac_key"`
-	PacKeyEncryption             types.String `tfsdk:"pac_key_encryption"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Ipv4Address types.String `tfsdk:"ipv4_address"`
+	AuthenticationPort types.Int64 `tfsdk:"authentication_port"`
+	AccountingPort types.Int64 `tfsdk:"accounting_port"`
+	Timeout types.Int64 `tfsdk:"timeout"`
+	Retransmit types.Int64 `tfsdk:"retransmit"`
+	Key types.String `tfsdk:"key"`
+	KeyEncryption types.String `tfsdk:"key_encryption"`
+	AutomateTesterUsername types.String `tfsdk:"automate_tester_username"`
+	AutomateTesterIgnoreAcctPort types.Bool `tfsdk:"automate_tester_ignore_acct_port"`
+	AutomateTesterIgnoreAuthPort types.Bool `tfsdk:"automate_tester_ignore_auth_port"`
+	AutomateTesterProbeOnConfig types.Bool `tfsdk:"automate_tester_probe_on_config"`
+	AutomateTesterIdleTime types.Int64 `tfsdk:"automate_tester_idle_time"`
+	PacKey types.String `tfsdk:"pac_key"`
+	PacKeyEncryption types.String `tfsdk:"pac_key_encryption"`
 }
 
 // End of section. //template:end types
@@ -194,69 +194,69 @@ func (data Radius) toBody(ctx context.Context, config Radius) string {
 func (data Radius) toBodyXML(ctx context.Context, config Radius) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Name.ValueString())
 	}
 	if !data.Ipv4Address.IsNull() && !data.Ipv4Address.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/address/ipv4", data.Ipv4Address.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/address/ipv4", data.Ipv4Address.ValueString())
 	}
 	if !data.AuthenticationPort.IsNull() && !data.AuthenticationPort.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/address/auth-port", strconv.FormatInt(data.AuthenticationPort.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/address/auth-port", strconv.FormatInt(data.AuthenticationPort.ValueInt64(), 10))
 	}
 	if !data.AccountingPort.IsNull() && !data.AccountingPort.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/address/acct-port", strconv.FormatInt(data.AccountingPort.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/address/acct-port", strconv.FormatInt(data.AccountingPort.ValueInt64(), 10))
 	}
 	if !data.Timeout.IsNull() && !data.Timeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/timeout", strconv.FormatInt(data.Timeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/timeout", strconv.FormatInt(data.Timeout.ValueInt64(), 10))
 	}
 	if !data.Retransmit.IsNull() && !data.Retransmit.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/retransmit", strconv.FormatInt(data.Retransmit.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/retransmit", strconv.FormatInt(data.Retransmit.ValueInt64(), 10))
 	}
 	if !data.Key.IsNull() && !data.Key.IsUnknown() {
 		if !config.KeyWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/key/key", config.KeyWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/key/key", config.KeyWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/key/key", data.Key.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/key/key", data.Key.ValueString())
 		}
 	}
 	if !data.KeyEncryption.IsNull() && !data.KeyEncryption.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/key/encryption", data.KeyEncryption.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/key/encryption", data.KeyEncryption.ValueString())
 	}
 	if !data.AutomateTesterUsername.IsNull() && !data.AutomateTesterUsername.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/automate-tester/username", data.AutomateTesterUsername.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/automate-tester/username", data.AutomateTesterUsername.ValueString())
 	}
 	if !data.AutomateTesterIgnoreAcctPort.IsNull() && !data.AutomateTesterIgnoreAcctPort.IsUnknown() {
 		if data.AutomateTesterIgnoreAcctPort.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/automate-tester/ignore-acct-port", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/automate-tester/ignore-acct-port", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/automate-tester/ignore-acct-port")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/automate-tester/ignore-acct-port")
 		}
 	}
 	if !data.AutomateTesterIgnoreAuthPort.IsNull() && !data.AutomateTesterIgnoreAuthPort.IsUnknown() {
 		if data.AutomateTesterIgnoreAuthPort.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/automate-tester/ignore-auth-port", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/automate-tester/ignore-auth-port", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/automate-tester/ignore-auth-port")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/automate-tester/ignore-auth-port")
 		}
 	}
 	if !data.AutomateTesterProbeOnConfig.IsNull() && !data.AutomateTesterProbeOnConfig.IsUnknown() {
 		if data.AutomateTesterProbeOnConfig.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/automate-tester/probe-on-config", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/automate-tester/probe-on-config", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/automate-tester/probe-on-config")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/automate-tester/probe-on-config")
 		}
 	}
 	if !data.AutomateTesterIdleTime.IsNull() && !data.AutomateTesterIdleTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/automate-tester/idle-time-config", strconv.FormatInt(data.AutomateTesterIdleTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/automate-tester/idle-time-config", strconv.FormatInt(data.AutomateTesterIdleTime.ValueInt64(), 10))
 	}
 	if !data.PacKey.IsNull() && !data.PacKey.IsUnknown() {
 		if !config.PacKeyWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/pac/key/key", config.PacKeyWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/pac/key/key", config.PacKeyWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/pac/key/key", data.PacKey.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/pac/key/key", data.PacKey.ValueString())
 		}
 	}
 	if !data.PacKeyEncryption.IsNull() && !data.PacKeyEncryption.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/pac/key/encryption", data.PacKeyEncryption.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/pac/key/encryption", data.PacKeyEncryption.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -274,42 +274,42 @@ func (data *Radius) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "address.ipv4"); value.Exists() && !data.Ipv4Address.IsNull() {
+	if value := res.Get(prefix+"address.ipv4"); value.Exists() && !data.Ipv4Address.IsNull() {
 		data.Ipv4Address = types.StringValue(value.String())
 	} else {
 		data.Ipv4Address = types.StringNull()
 	}
-	if value := res.Get(prefix + "address.auth-port"); value.Exists() && !data.AuthenticationPort.IsNull() {
+	if value := res.Get(prefix+"address.auth-port"); value.Exists() && !data.AuthenticationPort.IsNull() {
 		data.AuthenticationPort = types.Int64Value(value.Int())
 	} else {
 		data.AuthenticationPort = types.Int64Null()
 	}
-	if value := res.Get(prefix + "address.acct-port"); value.Exists() && !data.AccountingPort.IsNull() {
+	if value := res.Get(prefix+"address.acct-port"); value.Exists() && !data.AccountingPort.IsNull() {
 		data.AccountingPort = types.Int64Value(value.Int())
 	} else {
 		data.AccountingPort = types.Int64Null()
 	}
-	if value := res.Get(prefix + "timeout"); value.Exists() && !data.Timeout.IsNull() {
+	if value := res.Get(prefix+"timeout"); value.Exists() && !data.Timeout.IsNull() {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "retransmit"); value.Exists() && !data.Retransmit.IsNull() {
+	if value := res.Get(prefix+"retransmit"); value.Exists() && !data.Retransmit.IsNull() {
 		data.Retransmit = types.Int64Value(value.Int())
 	} else {
 		data.Retransmit = types.Int64Null()
 	}
-	if value := res.Get(prefix + "automate-tester.username"); value.Exists() && !data.AutomateTesterUsername.IsNull() {
+	if value := res.Get(prefix+"automate-tester.username"); value.Exists() && !data.AutomateTesterUsername.IsNull() {
 		data.AutomateTesterUsername = types.StringValue(value.String())
 	} else {
 		data.AutomateTesterUsername = types.StringNull()
 	}
-	if value := res.Get(prefix + "automate-tester.ignore-acct-port"); !data.AutomateTesterIgnoreAcctPort.IsNull() {
+	if value := res.Get(prefix+"automate-tester.ignore-acct-port"); !data.AutomateTesterIgnoreAcctPort.IsNull() {
 		if value.Exists() {
 			data.AutomateTesterIgnoreAcctPort = types.BoolValue(true)
 		} else {
@@ -318,7 +318,7 @@ func (data *Radius) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.AutomateTesterIgnoreAcctPort = types.BoolNull()
 	}
-	if value := res.Get(prefix + "automate-tester.ignore-auth-port"); !data.AutomateTesterIgnoreAuthPort.IsNull() {
+	if value := res.Get(prefix+"automate-tester.ignore-auth-port"); !data.AutomateTesterIgnoreAuthPort.IsNull() {
 		if value.Exists() {
 			data.AutomateTesterIgnoreAuthPort = types.BoolValue(true)
 		} else {
@@ -327,7 +327,7 @@ func (data *Radius) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.AutomateTesterIgnoreAuthPort = types.BoolNull()
 	}
-	if value := res.Get(prefix + "automate-tester.probe-on-config"); !data.AutomateTesterProbeOnConfig.IsNull() {
+	if value := res.Get(prefix+"automate-tester.probe-on-config"); !data.AutomateTesterProbeOnConfig.IsNull() {
 		if value.Exists() {
 			data.AutomateTesterProbeOnConfig = types.BoolValue(true)
 		} else {
@@ -336,7 +336,7 @@ func (data *Radius) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.AutomateTesterProbeOnConfig = types.BoolNull()
 	}
-	if value := res.Get(prefix + "automate-tester.idle-time-config"); value.Exists() && !data.AutomateTesterIdleTime.IsNull() {
+	if value := res.Get(prefix+"automate-tester.idle-time-config"); value.Exists() && !data.AutomateTesterIdleTime.IsNull() {
 		data.AutomateTesterIdleTime = types.Int64Value(value.Int())
 	} else {
 		data.AutomateTesterIdleTime = types.Int64Null()
@@ -348,42 +348,42 @@ func (data *Radius) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *Radius) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/ipv4"); value.Exists() && !data.Ipv4Address.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/ipv4"); value.Exists() && !data.Ipv4Address.IsNull() {
 		data.Ipv4Address = types.StringValue(value.String())
 	} else {
 		data.Ipv4Address = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/auth-port"); value.Exists() && !data.AuthenticationPort.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/auth-port"); value.Exists() && !data.AuthenticationPort.IsNull() {
 		data.AuthenticationPort = types.Int64Value(value.Int())
 	} else {
 		data.AuthenticationPort = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/acct-port"); value.Exists() && !data.AccountingPort.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/acct-port"); value.Exists() && !data.AccountingPort.IsNull() {
 		data.AccountingPort = types.Int64Value(value.Int())
 	} else {
 		data.AccountingPort = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timeout"); value.Exists() && !data.Timeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timeout"); value.Exists() && !data.Timeout.IsNull() {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/retransmit"); value.Exists() && !data.Retransmit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/retransmit"); value.Exists() && !data.Retransmit.IsNull() {
 		data.Retransmit = types.Int64Value(value.Int())
 	} else {
 		data.Retransmit = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/username"); value.Exists() && !data.AutomateTesterUsername.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/username"); value.Exists() && !data.AutomateTesterUsername.IsNull() {
 		data.AutomateTesterUsername = types.StringValue(value.String())
 	} else {
 		data.AutomateTesterUsername = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/ignore-acct-port"); !data.AutomateTesterIgnoreAcctPort.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/ignore-acct-port"); !data.AutomateTesterIgnoreAcctPort.IsNull() {
 		if value.Exists() {
 			data.AutomateTesterIgnoreAcctPort = types.BoolValue(true)
 		} else {
@@ -392,7 +392,7 @@ func (data *Radius) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.AutomateTesterIgnoreAcctPort = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/ignore-auth-port"); !data.AutomateTesterIgnoreAuthPort.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/ignore-auth-port"); !data.AutomateTesterIgnoreAuthPort.IsNull() {
 		if value.Exists() {
 			data.AutomateTesterIgnoreAuthPort = types.BoolValue(true)
 		} else {
@@ -401,7 +401,7 @@ func (data *Radius) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.AutomateTesterIgnoreAuthPort = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/probe-on-config"); !data.AutomateTesterProbeOnConfig.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/probe-on-config"); !data.AutomateTesterProbeOnConfig.IsNull() {
 		if value.Exists() {
 			data.AutomateTesterProbeOnConfig = types.BoolValue(true)
 		} else {
@@ -410,7 +410,7 @@ func (data *Radius) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.AutomateTesterProbeOnConfig = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/idle-time-config"); value.Exists() && !data.AutomateTesterIdleTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/idle-time-config"); value.Exists() && !data.AutomateTesterIdleTime.IsNull() {
 		data.AutomateTesterIdleTime = types.Int64Value(value.Int())
 	} else {
 		data.AutomateTesterIdleTime = types.Int64Null()
@@ -426,52 +426,52 @@ func (data *Radius) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "address.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"address.ipv4"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "address.auth-port"); value.Exists() {
+	if value := res.Get(prefix+"address.auth-port"); value.Exists() {
 		data.AuthenticationPort = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "address.acct-port"); value.Exists() {
+	if value := res.Get(prefix+"address.acct-port"); value.Exists() {
 		data.AccountingPort = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "timeout"); value.Exists() {
+	if value := res.Get(prefix+"timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "retransmit"); value.Exists() {
+	if value := res.Get(prefix+"retransmit"); value.Exists() {
 		data.Retransmit = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "key.key"); value.Exists() {
+	if value := res.Get(prefix+"key.key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"key.encryption"); value.Exists() {
 		data.KeyEncryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "automate-tester.username"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.username"); value.Exists() {
 		data.AutomateTesterUsername = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "automate-tester.ignore-acct-port"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.ignore-acct-port"); value.Exists() {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "automate-tester.ignore-auth-port"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.ignore-auth-port"); value.Exists() {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "automate-tester.probe-on-config"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.probe-on-config"); value.Exists() {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(true)
 	} else {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "automate-tester.idle-time-config"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.idle-time-config"); value.Exists() {
 		data.AutomateTesterIdleTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "pac.key.key"); value.Exists() {
+	if value := res.Get(prefix+"pac.key.key"); value.Exists() {
 		data.PacKey = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "pac.key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"pac.key.encryption"); value.Exists() {
 		data.PacKeyEncryption = types.StringValue(value.String())
 	}
 }
@@ -485,52 +485,52 @@ func (data *RadiusData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "address.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"address.ipv4"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "address.auth-port"); value.Exists() {
+	if value := res.Get(prefix+"address.auth-port"); value.Exists() {
 		data.AuthenticationPort = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "address.acct-port"); value.Exists() {
+	if value := res.Get(prefix+"address.acct-port"); value.Exists() {
 		data.AccountingPort = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "timeout"); value.Exists() {
+	if value := res.Get(prefix+"timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "retransmit"); value.Exists() {
+	if value := res.Get(prefix+"retransmit"); value.Exists() {
 		data.Retransmit = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "key.key"); value.Exists() {
+	if value := res.Get(prefix+"key.key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"key.encryption"); value.Exists() {
 		data.KeyEncryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "automate-tester.username"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.username"); value.Exists() {
 		data.AutomateTesterUsername = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "automate-tester.ignore-acct-port"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.ignore-acct-port"); value.Exists() {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "automate-tester.ignore-auth-port"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.ignore-auth-port"); value.Exists() {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "automate-tester.probe-on-config"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.probe-on-config"); value.Exists() {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(true)
 	} else {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "automate-tester.idle-time-config"); value.Exists() {
+	if value := res.Get(prefix+"automate-tester.idle-time-config"); value.Exists() {
 		data.AutomateTesterIdleTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "pac.key.key"); value.Exists() {
+	if value := res.Get(prefix+"pac.key.key"); value.Exists() {
 		data.PacKey = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "pac.key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"pac.key.encryption"); value.Exists() {
 		data.PacKeyEncryption = types.StringValue(value.String())
 	}
 }
@@ -540,52 +540,52 @@ func (data *RadiusData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *Radius) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/ipv4"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/auth-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/auth-port"); value.Exists() {
 		data.AuthenticationPort = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/acct-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/acct-port"); value.Exists() {
 		data.AccountingPort = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/retransmit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/retransmit"); value.Exists() {
 		data.Retransmit = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/encryption"); value.Exists() {
 		data.KeyEncryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/username"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/username"); value.Exists() {
 		data.AutomateTesterUsername = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/ignore-acct-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/ignore-acct-port"); value.Exists() {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/ignore-auth-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/ignore-auth-port"); value.Exists() {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/probe-on-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/probe-on-config"); value.Exists() {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(true)
 	} else {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/idle-time-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/idle-time-config"); value.Exists() {
 		data.AutomateTesterIdleTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/pac/key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/pac/key/key"); value.Exists() {
 		data.PacKey = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/pac/key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/pac/key/encryption"); value.Exists() {
 		data.PacKeyEncryption = types.StringValue(value.String())
 	}
 }
@@ -595,52 +595,52 @@ func (data *Radius) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *RadiusData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/ipv4"); value.Exists() {
 		data.Ipv4Address = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/auth-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/auth-port"); value.Exists() {
 		data.AuthenticationPort = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/acct-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/acct-port"); value.Exists() {
 		data.AccountingPort = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/retransmit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/retransmit"); value.Exists() {
 		data.Retransmit = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/encryption"); value.Exists() {
 		data.KeyEncryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/username"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/username"); value.Exists() {
 		data.AutomateTesterUsername = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/ignore-acct-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/ignore-acct-port"); value.Exists() {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAcctPort = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/ignore-auth-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/ignore-auth-port"); value.Exists() {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(true)
 	} else {
 		data.AutomateTesterIgnoreAuthPort = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/probe-on-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/probe-on-config"); value.Exists() {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(true)
 	} else {
 		data.AutomateTesterProbeOnConfig = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/automate-tester/idle-time-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/automate-tester/idle-time-config"); value.Exists() {
 		data.AutomateTesterIdleTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/pac/key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/pac/key/key"); value.Exists() {
 		data.PacKey = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/pac/key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/pac/key/encryption"); value.Exists() {
 		data.PacKeyEncryption = types.StringValue(value.String())
 	}
 }

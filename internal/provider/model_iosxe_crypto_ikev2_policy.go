@@ -23,47 +23,47 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type CryptoIKEv2Policy struct {
-	Device              types.String                 `tfsdk:"device"`
-	Id                  types.String                 `tfsdk:"id"`
-	Name                types.String                 `tfsdk:"name"`
-	MatchInboundOnly    types.Bool                   `tfsdk:"match_inbound_only"`
-	MatchAddressLocalIp types.List                   `tfsdk:"match_address_local_ip"`
-	MatchFvrf           types.String                 `tfsdk:"match_fvrf"`
-	MatchFvrfAny        types.Bool                   `tfsdk:"match_fvrf_any"`
-	Proposals           []CryptoIKEv2PolicyProposals `tfsdk:"proposals"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	MatchInboundOnly types.Bool `tfsdk:"match_inbound_only"`
+	MatchAddressLocalIp types.List `tfsdk:"match_address_local_ip"`
+	MatchFvrf types.String `tfsdk:"match_fvrf"`
+	MatchFvrfAny types.Bool `tfsdk:"match_fvrf_any"`
+	Proposals []CryptoIKEv2PolicyProposals `tfsdk:"proposals"`
 }
 type CryptoIKEv2PolicyProposals struct {
 	Proposals types.String `tfsdk:"proposals"`
 }
 
 type CryptoIKEv2PolicyData struct {
-	Device              types.String                     `tfsdk:"device"`
-	Id                  types.String                     `tfsdk:"id"`
-	Name                types.String                     `tfsdk:"name"`
-	MatchInboundOnly    types.Bool                       `tfsdk:"match_inbound_only"`
-	MatchAddressLocalIp types.List                       `tfsdk:"match_address_local_ip"`
-	MatchFvrf           types.String                     `tfsdk:"match_fvrf"`
-	MatchFvrfAny        types.Bool                       `tfsdk:"match_fvrf_any"`
-	Proposals           []CryptoIKEv2PolicyProposalsData `tfsdk:"proposals"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	MatchInboundOnly types.Bool `tfsdk:"match_inbound_only"`
+	MatchAddressLocalIp types.List `tfsdk:"match_address_local_ip"`
+	MatchFvrf types.String `tfsdk:"match_fvrf"`
+	MatchFvrfAny types.Bool `tfsdk:"match_fvrf_any"`
+	Proposals []CryptoIKEv2PolicyProposalsData `tfsdk:"proposals"`
 }
 type CryptoIKEv2PolicyProposalsData struct {
 	Proposals types.String `tfsdk:"proposals"`
@@ -150,30 +150,30 @@ func (data CryptoIKEv2Policy) toBody(ctx context.Context, config CryptoIKEv2Poli
 func (data CryptoIKEv2Policy) toBodyXML(ctx context.Context, config CryptoIKEv2Policy) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.MatchInboundOnly.IsNull() && !data.MatchInboundOnly.IsUnknown() {
 		if data.MatchInboundOnly.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/inbound-only", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/inbound-only", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/inbound-only")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/inbound-only")
 		}
 	}
 	if !data.MatchAddressLocalIp.IsNull() && !data.MatchAddressLocalIp.IsUnknown() {
 		var values []string
 		data.MatchAddressLocalIp.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/address/local-ip", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/address/local-ip", v)
 		}
 	}
 	if !data.MatchFvrf.IsNull() && !data.MatchFvrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/match/fvrf/name", data.MatchFvrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/match/fvrf/name", data.MatchFvrf.ValueString())
 	}
 	if !data.MatchFvrfAny.IsNull() && !data.MatchFvrfAny.IsUnknown() {
 		if data.MatchFvrfAny.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/fvrf/any", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/fvrf/any", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/fvrf/any")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/fvrf/any")
 		}
 	}
 	if len(data.Proposals) > 0 {
@@ -201,12 +201,12 @@ func (data *CryptoIKEv2Policy) updateFromBody(ctx context.Context, res gjson.Res
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.inbound-only"); !data.MatchInboundOnly.IsNull() {
+	if value := res.Get(prefix+"match.inbound-only"); !data.MatchInboundOnly.IsNull() {
 		if value.Exists() {
 			data.MatchInboundOnly = types.BoolValue(true)
 		} else {
@@ -215,17 +215,17 @@ func (data *CryptoIKEv2Policy) updateFromBody(ctx context.Context, res gjson.Res
 	} else {
 		data.MatchInboundOnly = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.address.local-ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
+	if value := res.Get(prefix+"match.address.local-ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
 		data.MatchAddressLocalIp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAddressLocalIp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.fvrf.name"); value.Exists() && !data.MatchFvrf.IsNull() {
+	if value := res.Get(prefix+"match.fvrf.name"); value.Exists() && !data.MatchFvrf.IsNull() {
 		data.MatchFvrf = types.StringValue(value.String())
 	} else {
 		data.MatchFvrf = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.fvrf.any"); !data.MatchFvrfAny.IsNull() {
+	if value := res.Get(prefix+"match.fvrf.any"); !data.MatchFvrfAny.IsNull() {
 		if value.Exists() {
 			data.MatchFvrfAny = types.BoolValue(true)
 		} else {
@@ -235,11 +235,11 @@ func (data *CryptoIKEv2Policy) updateFromBody(ctx context.Context, res gjson.Res
 		data.MatchFvrfAny = types.BoolNull()
 	}
 	for i := range data.Proposals {
-		keys := [...]string{"proposals"}
-		keyValues := [...]string{data.Proposals[i].Proposals.ValueString()}
+		keys := [...]string{ "proposals",  }
+		keyValues := [...]string{ data.Proposals[i].Proposals.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "proposal").ForEach(
+		res.Get(prefix+"proposal").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -270,12 +270,12 @@ func (data *CryptoIKEv2Policy) updateFromBody(ctx context.Context, res gjson.Res
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *CryptoIKEv2Policy) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/inbound-only"); !data.MatchInboundOnly.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/inbound-only"); !data.MatchInboundOnly.IsNull() {
 		if value.Exists() {
 			data.MatchInboundOnly = types.BoolValue(true)
 		} else {
@@ -284,17 +284,17 @@ func (data *CryptoIKEv2Policy) updateFromBodyXML(ctx context.Context, res xmldot
 	} else {
 		data.MatchInboundOnly = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local-ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local-ip"); value.Exists() && !data.MatchAddressLocalIp.IsNull() {
 		data.MatchAddressLocalIp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAddressLocalIp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/name"); value.Exists() && !data.MatchFvrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/name"); value.Exists() && !data.MatchFvrf.IsNull() {
 		data.MatchFvrf = types.StringValue(value.String())
 	} else {
 		data.MatchFvrf = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/any"); !data.MatchFvrfAny.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/any"); !data.MatchFvrfAny.IsNull() {
 		if value.Exists() {
 			data.MatchFvrfAny = types.BoolValue(true)
 		} else {
@@ -304,11 +304,11 @@ func (data *CryptoIKEv2Policy) updateFromBodyXML(ctx context.Context, res xmldot
 		data.MatchFvrfAny = types.BoolNull()
 	}
 	for i := range data.Proposals {
-		keys := [...]string{"proposals"}
-		keyValues := [...]string{data.Proposals[i].Proposals.ValueString()}
+		keys := [...]string{ "proposals",  }
+		keyValues := [...]string{ data.Proposals[i].Proposals.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/proposal").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/proposal").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -343,25 +343,25 @@ func (data *CryptoIKEv2Policy) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "match.inbound-only"); value.Exists() {
+	if value := res.Get(prefix+"match.inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.address.local-ip"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local-ip"); value.Exists() {
 		data.MatchAddressLocalIp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAddressLocalIp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.fvrf.name"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.fvrf.any"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "proposal"); value.Exists() {
+	if value := res.Get(prefix+"proposal"); value.Exists() {
 		data.Proposals = make([]CryptoIKEv2PolicyProposals, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2PolicyProposals{}
@@ -383,25 +383,25 @@ func (data *CryptoIKEv2PolicyData) fromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "match.inbound-only"); value.Exists() {
+	if value := res.Get(prefix+"match.inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.address.local-ip"); value.Exists() {
+	if value := res.Get(prefix+"match.address.local-ip"); value.Exists() {
 		data.MatchAddressLocalIp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAddressLocalIp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.fvrf.name"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.fvrf.any"); value.Exists() {
+	if value := res.Get(prefix+"match.fvrf.any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "proposal"); value.Exists() {
+	if value := res.Get(prefix+"proposal"); value.Exists() {
 		data.Proposals = make([]CryptoIKEv2PolicyProposalsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2PolicyProposalsData{}
@@ -419,25 +419,25 @@ func (data *CryptoIKEv2PolicyData) fromBody(ctx context.Context, res gjson.Resul
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *CryptoIKEv2Policy) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/inbound-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local-ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local-ip"); value.Exists() {
 		data.MatchAddressLocalIp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAddressLocalIp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/any"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/proposal"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/proposal"); value.Exists() {
 		data.Proposals = make([]CryptoIKEv2PolicyProposals, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2PolicyProposals{}
@@ -455,25 +455,25 @@ func (data *CryptoIKEv2Policy) fromBodyXML(ctx context.Context, res xmldot.Resul
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CryptoIKEv2PolicyData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/inbound-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/inbound-only"); value.Exists() {
 		data.MatchInboundOnly = types.BoolValue(true)
 	} else {
 		data.MatchInboundOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/address/local-ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/address/local-ip"); value.Exists() {
 		data.MatchAddressLocalIp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAddressLocalIp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/name"); value.Exists() {
 		data.MatchFvrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/fvrf/any"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/fvrf/any"); value.Exists() {
 		data.MatchFvrfAny = types.BoolValue(true)
 	} else {
 		data.MatchFvrfAny = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/proposal"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/proposal"); value.Exists() {
 		data.Proposals = make([]CryptoIKEv2PolicyProposalsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2PolicyProposalsData{}
@@ -493,8 +493,8 @@ func (data *CryptoIKEv2PolicyData) fromBodyXML(ctx context.Context, res xmldot.R
 func (data *CryptoIKEv2Policy) getDeletedItems(ctx context.Context, state CryptoIKEv2Policy) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Proposals {
-		stateKeyValues := [...]string{state.Proposals[i].Proposals.ValueString()}
-
+		stateKeyValues := [...]string{ state.Proposals[i].Proposals.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Proposals[i].Proposals.ValueString()).IsZero() {
 			emptyKeys = false
@@ -558,13 +558,13 @@ func (data *CryptoIKEv2Policy) getDeletedItems(ctx context.Context, state Crypto
 func (data *CryptoIKEv2Policy) addDeletedItemsXML(ctx context.Context, state CryptoIKEv2Policy, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Proposals {
-		stateKeys := [...]string{"proposals"}
-		stateKeyValues := [...]string{state.Proposals[i].Proposals.ValueString()}
+		stateKeys := [...]string{ "proposals",  }
+		stateKeyValues := [...]string{ state.Proposals[i].Proposals.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Proposals[i].Proposals.ValueString()).IsZero() {
 			emptyKeys = false
@@ -632,7 +632,8 @@ func (data *CryptoIKEv2Policy) addDeletedItemsXML(ctx context.Context, state Cry
 
 func (data *CryptoIKEv2Policy) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	if !data.MatchFvrfAny.IsNull() && !data.MatchFvrfAny.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/match/fvrf/any", data.getPath()))
 	}
@@ -650,7 +651,7 @@ func (data *CryptoIKEv2Policy) getEmptyLeafsDelete(ctx context.Context) []string
 func (data *CryptoIKEv2Policy) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Proposals {
-		keyValues := [...]string{data.Proposals[i].Proposals.ValueString()}
+		keyValues := [...]string{ data.Proposals[i].Proposals.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/proposal=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -677,8 +678,8 @@ func (data *CryptoIKEv2Policy) getDeletePaths(ctx context.Context) []string {
 func (data *CryptoIKEv2Policy) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Proposals {
-		keys := [...]string{"proposals"}
-		keyValues := [...]string{data.Proposals[i].Proposals.ValueString()}
+		keys := [...]string{ "proposals",  }
+		keyValues := [...]string{ data.Proposals[i].Proposals.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

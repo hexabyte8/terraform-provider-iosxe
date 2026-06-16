@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeParameterMap(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_parameter_map.test", "icmp_idle_time", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_parameter_map.test", "sessions_maximum", "10000"))
@@ -46,7 +45,7 @@ func TestAccDataSourceIosxeParameterMap(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeParameterMapConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,7 +67,7 @@ func testAccDataSourceIosxeParameterMapConfig() string {
 	config += `	tcp_idle_time = 3600` + "\n"
 	config += `	tcp_max_incomplete_host = 100` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_parameter_map" "test" {
 			name = "PM_INSPECT1"

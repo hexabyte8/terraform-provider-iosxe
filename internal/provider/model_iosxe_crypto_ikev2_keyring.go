@@ -23,82 +23,82 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type CryptoIKEv2Keyring struct {
-	Device types.String              `tfsdk:"device"`
-	Id     types.String              `tfsdk:"id"`
-	Name   types.String              `tfsdk:"name"`
-	Peers  []CryptoIKEv2KeyringPeers `tfsdk:"peers"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Peers []CryptoIKEv2KeyringPeers `tfsdk:"peers"`
 }
 type CryptoIKEv2KeyringPeers struct {
-	Name                         types.String `tfsdk:"name"`
-	Description                  types.String `tfsdk:"description"`
-	Hostname                     types.String `tfsdk:"hostname"`
-	Ipv4Address                  types.String `tfsdk:"ipv4_address"`
-	Ipv4Mask                     types.String `tfsdk:"ipv4_mask"`
-	Ipv6Prefix                   types.String `tfsdk:"ipv6_prefix"`
-	IdentityKeyId                types.String `tfsdk:"identity_key_id"`
-	IdentityAddress              types.String `tfsdk:"identity_address"`
-	IdentityEmailName            types.String `tfsdk:"identity_email_name"`
-	IdentityEmailDomain          types.String `tfsdk:"identity_email_domain"`
-	IdentityFqdnName             types.String `tfsdk:"identity_fqdn_name"`
-	IdentityFqdnDomain           types.String `tfsdk:"identity_fqdn_domain"`
-	PreSharedKeyLocalEncryption  types.String `tfsdk:"pre_shared_key_local_encryption"`
-	PreSharedKeyLocal            types.String `tfsdk:"pre_shared_key_local"`
-	PreSharedKeyLocalWO          types.String `tfsdk:"pre_shared_key_local_wo"`
-	PreSharedKeyLocalWOVersion   types.Int64  `tfsdk:"pre_shared_key_local_wo_version"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Hostname types.String `tfsdk:"hostname"`
+	Ipv4Address types.String `tfsdk:"ipv4_address"`
+	Ipv4Mask types.String `tfsdk:"ipv4_mask"`
+	Ipv6Prefix types.String `tfsdk:"ipv6_prefix"`
+	IdentityKeyId types.String `tfsdk:"identity_key_id"`
+	IdentityAddress types.String `tfsdk:"identity_address"`
+	IdentityEmailName types.String `tfsdk:"identity_email_name"`
+	IdentityEmailDomain types.String `tfsdk:"identity_email_domain"`
+	IdentityFqdnName types.String `tfsdk:"identity_fqdn_name"`
+	IdentityFqdnDomain types.String `tfsdk:"identity_fqdn_domain"`
+	PreSharedKeyLocalEncryption types.String `tfsdk:"pre_shared_key_local_encryption"`
+	PreSharedKeyLocal types.String `tfsdk:"pre_shared_key_local"`
+	PreSharedKeyLocalWO types.String `tfsdk:"pre_shared_key_local_wo"`
+	PreSharedKeyLocalWOVersion types.Int64 `tfsdk:"pre_shared_key_local_wo_version"`
 	PreSharedKeyRemoteEncryption types.String `tfsdk:"pre_shared_key_remote_encryption"`
-	PreSharedKeyRemote           types.String `tfsdk:"pre_shared_key_remote"`
-	PreSharedKeyRemoteWO         types.String `tfsdk:"pre_shared_key_remote_wo"`
-	PreSharedKeyRemoteWOVersion  types.Int64  `tfsdk:"pre_shared_key_remote_wo_version"`
-	PreSharedKeyEncryption       types.String `tfsdk:"pre_shared_key_encryption"`
-	PreSharedKey                 types.String `tfsdk:"pre_shared_key"`
-	PreSharedKeyWO               types.String `tfsdk:"pre_shared_key_wo"`
-	PreSharedKeyWOVersion        types.Int64  `tfsdk:"pre_shared_key_wo_version"`
+	PreSharedKeyRemote types.String `tfsdk:"pre_shared_key_remote"`
+	PreSharedKeyRemoteWO types.String `tfsdk:"pre_shared_key_remote_wo"`
+	PreSharedKeyRemoteWOVersion types.Int64 `tfsdk:"pre_shared_key_remote_wo_version"`
+	PreSharedKeyEncryption types.String `tfsdk:"pre_shared_key_encryption"`
+	PreSharedKey types.String `tfsdk:"pre_shared_key"`
+	PreSharedKeyWO types.String `tfsdk:"pre_shared_key_wo"`
+	PreSharedKeyWOVersion types.Int64 `tfsdk:"pre_shared_key_wo_version"`
 }
 
 type CryptoIKEv2KeyringData struct {
-	Device types.String                  `tfsdk:"device"`
-	Id     types.String                  `tfsdk:"id"`
-	Name   types.String                  `tfsdk:"name"`
-	Peers  []CryptoIKEv2KeyringPeersData `tfsdk:"peers"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Peers []CryptoIKEv2KeyringPeersData `tfsdk:"peers"`
 }
 type CryptoIKEv2KeyringPeersData struct {
-	Name                         types.String `tfsdk:"name"`
-	Description                  types.String `tfsdk:"description"`
-	Hostname                     types.String `tfsdk:"hostname"`
-	Ipv4Address                  types.String `tfsdk:"ipv4_address"`
-	Ipv4Mask                     types.String `tfsdk:"ipv4_mask"`
-	Ipv6Prefix                   types.String `tfsdk:"ipv6_prefix"`
-	IdentityKeyId                types.String `tfsdk:"identity_key_id"`
-	IdentityAddress              types.String `tfsdk:"identity_address"`
-	IdentityEmailName            types.String `tfsdk:"identity_email_name"`
-	IdentityEmailDomain          types.String `tfsdk:"identity_email_domain"`
-	IdentityFqdnName             types.String `tfsdk:"identity_fqdn_name"`
-	IdentityFqdnDomain           types.String `tfsdk:"identity_fqdn_domain"`
-	PreSharedKeyLocalEncryption  types.String `tfsdk:"pre_shared_key_local_encryption"`
-	PreSharedKeyLocal            types.String `tfsdk:"pre_shared_key_local"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Hostname types.String `tfsdk:"hostname"`
+	Ipv4Address types.String `tfsdk:"ipv4_address"`
+	Ipv4Mask types.String `tfsdk:"ipv4_mask"`
+	Ipv6Prefix types.String `tfsdk:"ipv6_prefix"`
+	IdentityKeyId types.String `tfsdk:"identity_key_id"`
+	IdentityAddress types.String `tfsdk:"identity_address"`
+	IdentityEmailName types.String `tfsdk:"identity_email_name"`
+	IdentityEmailDomain types.String `tfsdk:"identity_email_domain"`
+	IdentityFqdnName types.String `tfsdk:"identity_fqdn_name"`
+	IdentityFqdnDomain types.String `tfsdk:"identity_fqdn_domain"`
+	PreSharedKeyLocalEncryption types.String `tfsdk:"pre_shared_key_local_encryption"`
+	PreSharedKeyLocal types.String `tfsdk:"pre_shared_key_local"`
 	PreSharedKeyRemoteEncryption types.String `tfsdk:"pre_shared_key_remote_encryption"`
-	PreSharedKeyRemote           types.String `tfsdk:"pre_shared_key_remote"`
-	PreSharedKeyEncryption       types.String `tfsdk:"pre_shared_key_encryption"`
-	PreSharedKey                 types.String `tfsdk:"pre_shared_key"`
+	PreSharedKeyRemote types.String `tfsdk:"pre_shared_key_remote"`
+	PreSharedKeyEncryption types.String `tfsdk:"pre_shared_key_encryption"`
+	PreSharedKey types.String `tfsdk:"pre_shared_key"`
 }
 
 // End of section. //template:end types
@@ -235,7 +235,7 @@ func (data CryptoIKEv2Keyring) toBody(ctx context.Context, config CryptoIKEv2Key
 func (data CryptoIKEv2Keyring) toBodyXML(ctx context.Context, config CryptoIKEv2Keyring) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if len(data.Peers) > 0 {
 		for _, item := range data.Peers {
@@ -333,17 +333,17 @@ func (data *CryptoIKEv2Keyring) updateFromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Peers {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Peers[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Peers[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "peer").ForEach(
+		res.Get(prefix+"peer").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -429,17 +429,17 @@ func (data *CryptoIKEv2Keyring) updateFromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *CryptoIKEv2Keyring) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Peers {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Peers[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Peers[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -529,7 +529,7 @@ func (data *CryptoIKEv2Keyring) fromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "peer"); value.Exists() {
+	if value := res.Get(prefix+"peer"); value.Exists() {
 		data.Peers = make([]CryptoIKEv2KeyringPeers, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2KeyringPeers{}
@@ -602,7 +602,7 @@ func (data *CryptoIKEv2KeyringData) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "peer"); value.Exists() {
+	if value := res.Get(prefix+"peer"); value.Exists() {
 		data.Peers = make([]CryptoIKEv2KeyringPeersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoIKEv2KeyringPeersData{}
@@ -671,7 +671,7 @@ func (data *CryptoIKEv2KeyringData) fromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *CryptoIKEv2Keyring) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer"); value.Exists() {
 		data.Peers = make([]CryptoIKEv2KeyringPeers, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2KeyringPeers{}
@@ -740,7 +740,7 @@ func (data *CryptoIKEv2Keyring) fromBodyXML(ctx context.Context, res xmldot.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CryptoIKEv2KeyringData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer"); value.Exists() {
 		data.Peers = make([]CryptoIKEv2KeyringPeersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoIKEv2KeyringPeersData{}
@@ -811,8 +811,8 @@ func (data *CryptoIKEv2KeyringData) fromBodyXML(ctx context.Context, res xmldot.
 func (data *CryptoIKEv2Keyring) getDeletedItems(ctx context.Context, state CryptoIKEv2Keyring) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Peers {
-		stateKeyValues := [...]string{state.Peers[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Peers[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Peers[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -897,13 +897,13 @@ func (data *CryptoIKEv2Keyring) getDeletedItems(ctx context.Context, state Crypt
 func (data *CryptoIKEv2Keyring) addDeletedItemsXML(ctx context.Context, state CryptoIKEv2Keyring, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Peers {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Peers[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Peers[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Peers[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -988,6 +988,8 @@ func (data *CryptoIKEv2Keyring) addDeletedItemsXML(ctx context.Context, state Cr
 
 func (data *CryptoIKEv2Keyring) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -999,7 +1001,7 @@ func (data *CryptoIKEv2Keyring) getEmptyLeafsDelete(ctx context.Context) []strin
 func (data *CryptoIKEv2Keyring) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Peers {
-		keyValues := [...]string{data.Peers[i].Name.ValueString()}
+		keyValues := [...]string{ data.Peers[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/peer=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1014,8 +1016,8 @@ func (data *CryptoIKEv2Keyring) getDeletePaths(ctx context.Context) []string {
 func (data *CryptoIKEv2Keyring) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Peers {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Peers[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Peers[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

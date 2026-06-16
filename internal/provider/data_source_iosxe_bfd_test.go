@@ -71,7 +71,7 @@ func TestAccDataSourceIosxeBFD(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeBFDConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -93,51 +93,51 @@ func testAccDataSourceIosxeBFDConfig() string {
 	config += `		src_vrf = "src_vrf1"` + "\n"
 	config += `		src_ip = "11.22.33.44/12"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_without_vrfs = [{` + "\n"
 	config += `		dest_ip = "1.2.3.4/4"` + "\n"
 	config += `		src_ip = "11.22.33.44/12"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_with_src_vrfs = [{` + "\n"
 	config += `		dest_ip = "1.2.3.4/4"` + "\n"
 	config += `		src_vrf = "src_vrf1"` + "\n"
 	config += `		src_ip = "11.22.33.44/12"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_with_dst_vrfs = [{` + "\n"
 	config += `		dst_vrf = "dest_vrf1"` + "\n"
 	config += `		dest_ip = "1.2.3.4/4"` + "\n"
 	config += `		src_ip = "11.22.33.44/12"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_with_both_vrfs = [{` + "\n"
 	config += `		dst_vrf = "dst_vrf1"` + "\n"
 	config += `		dest_ipv6 = "2001:DB8:0:1::/64"` + "\n"
 	config += `		src_vrf = "src_vrf1"` + "\n"
 	config += `		src_ipv6 = "2001:DB8:0:2::/64"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_without_vrfs = [{` + "\n"
 	config += `		dest_ipv6 = "2001:DB8:0:1::/64"` + "\n"
 	config += `		src_ipv6 = "2001:DB8:0:2::/64"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_with_src_vrfs = [{` + "\n"
 	config += `		dest_ipv6 = "2001:DB8:0:1::/64"` + "\n"
 	config += `		src_vrf = "src_vrf1"` + "\n"
 	config += `		src_ipv6 = "2001:DB8:0:2::/64"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_with_dst_vrfs = [{` + "\n"
 	config += `		dst_vrf = "dst_vrf1"` + "\n"
 	config += `		dest_ipv6 = "2001:DB8:0:1::/64"` + "\n"
 	config += `		src_ipv6 = "2001:DB8:0:2::/64"` + "\n"
 	config += `		template_name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	slow_timers = 1000` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bfd" "test" {
 			depends_on = [iosxe_bfd.test]

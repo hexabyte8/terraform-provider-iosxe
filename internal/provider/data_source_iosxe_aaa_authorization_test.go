@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeAAAAuthorization(t *testing.T) {
 	if os.Getenv("AAA") == "" {
-		t.Skip("skipping test, set environment variable AAA")
-	}
+        t.Skip("skipping test, set environment variable AAA")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_aaa_authorization.test", "execs.0.name", "EXEC1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_aaa_authorization.test", "execs.0.a1_group", "GROUP1"))
@@ -52,7 +51,7 @@ func TestAccDataSourceIosxeAAAAuthorization(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeAAAAuthorizationConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -74,16 +73,16 @@ func testAccDataSourceIosxeAAAAuthorizationConfig() string {
 	config += `		a2_group = "GROUP2"` + "\n"
 	config += `		a3_group = "GROUP3"` + "\n"
 	config += `		a4_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	networks = [{` + "\n"
 	config += `		id = "NET1"` + "\n"
 	config += `		a1_group = "RGROUP1"` + "\n"
 	config += `		a2_group = "RGROUP2"` + "\n"
 	config += `		a3_group = "RGROUP3"` + "\n"
 	config += `		a4_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_aaa_authorization" "test" {
 			depends_on = [iosxe_aaa_authorization.test]

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -74,19 +72,19 @@ func TestAccIosxeLogging(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeLoggingPrerequisitesConfig + testAccIosxeLoggingConfig_minimum(),
+				Config: testAccIosxeLoggingPrerequisitesConfig+testAccIosxeLoggingConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeLoggingPrerequisitesConfig + testAccIosxeLoggingConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeLoggingPrerequisitesConfig+testAccIosxeLoggingConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_logging.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeLoggingImportStateIdFunc("iosxe_logging.test"),
-				ImportStateVerifyIgnore: []string{"logging_count", "persistent_immediate", "persistent_notify", "persistent_protected"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_logging.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeLoggingImportStateIdFunc("iosxe_logging.test"),
+				ImportStateVerifyIgnore: []string{ "logging_count","persistent_immediate","persistent_notify","persistent_protected", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -99,7 +97,7 @@ func TestAccIosxeLogging(t *testing.T) {
 func iosxeLoggingImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 
@@ -127,7 +125,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

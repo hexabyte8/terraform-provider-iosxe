@@ -53,7 +53,7 @@ func TestAccDataSourceIosxeClock(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeClockConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -85,7 +85,7 @@ func testAccDataSourceIosxeClockConfig() string {
 	config += `	timezone_offset_hours = 1` + "\n"
 	config += `	timezone_offset_minutes = 0` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_clock" "test" {
 			depends_on = [iosxe_clock.test]

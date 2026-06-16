@@ -23,44 +23,44 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type CommunityListExpanded struct {
-	Device  types.String                   `tfsdk:"device"`
-	Id      types.String                   `tfsdk:"id"`
-	Name    types.String                   `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []CommunityListExpandedEntries `tfsdk:"entries"`
 }
 type CommunityListExpandedEntries struct {
 	Action types.String `tfsdk:"action"`
-	Regex  types.String `tfsdk:"regex"`
+	Regex types.String `tfsdk:"regex"`
 }
 
 type CommunityListExpandedData struct {
-	Device  types.String                       `tfsdk:"device"`
-	Id      types.String                       `tfsdk:"id"`
-	Name    types.String                       `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []CommunityListExpandedEntriesData `tfsdk:"entries"`
 }
 type CommunityListExpandedEntriesData struct {
 	Action types.String `tfsdk:"action"`
-	Regex  types.String `tfsdk:"regex"`
+	Regex types.String `tfsdk:"regex"`
 }
 
 // End of section. //template:end types
@@ -129,7 +129,7 @@ func (data CommunityListExpanded) toBody(ctx context.Context, config CommunityLi
 func (data CommunityListExpanded) toBodyXML(ctx context.Context, config CommunityListExpanded) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if len(data.Entries) > 0 {
 		for _, item := range data.Entries {
@@ -159,17 +159,17 @@ func (data *CommunityListExpanded) updateFromBody(ctx context.Context, res gjson
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"action", "string"}
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keys := [...]string{ "action", "string",  }
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "extended-grouping.extended_grouping").ForEach(
+		res.Get(prefix+"extended-grouping.extended_grouping").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -205,17 +205,17 @@ func (data *CommunityListExpanded) updateFromBody(ctx context.Context, res gjson
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *CommunityListExpanded) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"action", "string"}
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keys := [...]string{ "action", "string",  }
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/extended-grouping/extended_grouping").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/extended-grouping/extended_grouping").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -255,7 +255,7 @@ func (data *CommunityListExpanded) fromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "extended-grouping.extended_grouping"); value.Exists() {
+	if value := res.Get(prefix+"extended-grouping.extended_grouping"); value.Exists() {
 		data.Entries = make([]CommunityListExpandedEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CommunityListExpandedEntries{}
@@ -280,7 +280,7 @@ func (data *CommunityListExpandedData) fromBody(ctx context.Context, res gjson.R
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "extended-grouping.extended_grouping"); value.Exists() {
+	if value := res.Get(prefix+"extended-grouping.extended_grouping"); value.Exists() {
 		data.Entries = make([]CommunityListExpandedEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CommunityListExpandedEntriesData{}
@@ -301,7 +301,7 @@ func (data *CommunityListExpandedData) fromBody(ctx context.Context, res gjson.R
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *CommunityListExpanded) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/extended-grouping/extended_grouping"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/extended-grouping/extended_grouping"); value.Exists() {
 		data.Entries = make([]CommunityListExpandedEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CommunityListExpandedEntries{}
@@ -322,7 +322,7 @@ func (data *CommunityListExpanded) fromBodyXML(ctx context.Context, res xmldot.R
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CommunityListExpandedData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/extended-grouping/extended_grouping"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/extended-grouping/extended_grouping"); value.Exists() {
 		data.Entries = make([]CommunityListExpandedEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CommunityListExpandedEntriesData{}
@@ -345,8 +345,8 @@ func (data *CommunityListExpandedData) fromBodyXML(ctx context.Context, res xmld
 func (data *CommunityListExpanded) getDeletedItems(ctx context.Context, state CommunityListExpanded) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Entries {
-		stateKeyValues := [...]string{state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString()}
-
+		stateKeyValues := [...]string{ state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Action.ValueString()).IsZero() {
 			emptyKeys = false
@@ -386,13 +386,13 @@ func (data *CommunityListExpanded) getDeletedItems(ctx context.Context, state Co
 func (data *CommunityListExpanded) addDeletedItemsXML(ctx context.Context, state CommunityListExpanded, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Entries {
-		stateKeys := [...]string{"action", "string"}
-		stateKeyValues := [...]string{state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString()}
+		stateKeys := [...]string{ "action", "string",  }
+		stateKeyValues := [...]string{ state.Entries[i].Action.ValueString(), state.Entries[i].Regex.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Action.ValueString()).IsZero() {
 			emptyKeys = false
@@ -432,6 +432,8 @@ func (data *CommunityListExpanded) addDeletedItemsXML(ctx context.Context, state
 
 func (data *CommunityListExpanded) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -443,7 +445,7 @@ func (data *CommunityListExpanded) getEmptyLeafsDelete(ctx context.Context) []st
 func (data *CommunityListExpanded) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Entries {
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/extended-grouping/extended_grouping=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -458,8 +460,8 @@ func (data *CommunityListExpanded) getDeletePaths(ctx context.Context) []string 
 func (data *CommunityListExpanded) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Entries {
-		keys := [...]string{"action", "string"}
-		keyValues := [...]string{data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString()}
+		keys := [...]string{ "action", "string",  }
+		keyValues := [...]string{ data.Entries[i].Action.ValueString(), data.Entries[i].Regex.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

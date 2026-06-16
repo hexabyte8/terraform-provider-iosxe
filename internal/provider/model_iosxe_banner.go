@@ -25,35 +25,35 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type Banner struct {
-	Device              types.String `tfsdk:"device"`
-	Id                  types.String `tfsdk:"id"`
-	DeleteMode          types.String `tfsdk:"delete_mode"`
-	ExecBanner          types.String `tfsdk:"exec_banner"`
-	LoginBanner         types.String `tfsdk:"login_banner"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	ExecBanner types.String `tfsdk:"exec_banner"`
+	LoginBanner types.String `tfsdk:"login_banner"`
 	PromptTimeoutBanner types.String `tfsdk:"prompt_timeout_banner"`
-	MotdBanner          types.String `tfsdk:"motd_banner"`
+	MotdBanner types.String `tfsdk:"motd_banner"`
 }
 
 type BannerData struct {
-	Device              types.String `tfsdk:"device"`
-	Id                  types.String `tfsdk:"id"`
-	ExecBanner          types.String `tfsdk:"exec_banner"`
-	LoginBanner         types.String `tfsdk:"login_banner"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	ExecBanner types.String `tfsdk:"exec_banner"`
+	LoginBanner types.String `tfsdk:"login_banner"`
 	PromptTimeoutBanner types.String `tfsdk:"prompt_timeout_banner"`
-	MotdBanner          types.String `tfsdk:"motd_banner"`
+	MotdBanner types.String `tfsdk:"motd_banner"`
 }
 
 // End of section. //template:end types
@@ -118,16 +118,16 @@ func (data Banner) toBody(ctx context.Context, config Banner) string {
 func (data Banner) toBodyXML(ctx context.Context, config Banner) string {
 	body := netconf.Body{}
 	if !data.ExecBanner.IsNull() && !data.ExecBanner.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/exec/banner", data.ExecBanner.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/exec/banner", data.ExecBanner.ValueString())
 	}
 	if !data.LoginBanner.IsNull() && !data.LoginBanner.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/login/banner", data.LoginBanner.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/login/banner", data.LoginBanner.ValueString())
 	}
 	if !data.PromptTimeoutBanner.IsNull() && !data.PromptTimeoutBanner.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prompt-timeout/banner", data.PromptTimeoutBanner.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prompt-timeout/banner", data.PromptTimeoutBanner.ValueString())
 	}
 	if !data.MotdBanner.IsNull() && !data.MotdBanner.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/motd/banner", data.MotdBanner.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/motd/banner", data.MotdBanner.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {

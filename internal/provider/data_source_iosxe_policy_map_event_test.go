@@ -65,8 +65,8 @@ func TestAccDataSourceIosxePolicyMapEvent(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxePolicyMapEventPrerequisitesConfig + testAccDataSourceIosxePolicyMapEventConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxePolicyMapEventPrerequisitesConfig+testAccDataSourceIosxePolicyMapEventConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -96,7 +96,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -136,10 +135,10 @@ func testAccDataSourceIosxePolicyMapEventConfig() string {
 	config += `			set_timer_name = "timer1"` + "\n"
 	config += `			set_timer_value = 3600` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_policy_map_event" "test" {
 			name = "dot1x_policy"

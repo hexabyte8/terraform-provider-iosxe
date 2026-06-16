@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeVLANAccessMap(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vlan_access_map.test", "name", "VAM1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_vlan_access_map.test", "sequence", "10"))
@@ -52,15 +50,15 @@ func TestAccIosxeVLANAccessMap(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeVLANAccessMapConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_vlan_access_map.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeVLANAccessMapImportStateIdFunc("iosxe_vlan_access_map.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_vlan_access_map.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeVLANAccessMapImportStateIdFunc("iosxe_vlan_access_map.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -76,7 +74,7 @@ func iosxeVLANAccessMapImportStateIdFunc(resourceName string) resource.ImportSta
 		Name := primary.Attributes["name"]
 		Sequence := primary.Attributes["sequence"]
 
-		return fmt.Sprintf("%s,%s", Name, Sequence), nil
+		return fmt.Sprintf("%s,%s", Name,Sequence), nil
 	}
 }
 

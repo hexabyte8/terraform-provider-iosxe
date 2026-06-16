@@ -43,7 +43,7 @@ func TestAccDataSourceIosxeAccessListStandard(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeAccessListStandardConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -65,9 +65,9 @@ func testAccDataSourceIosxeAccessListStandardConfig() string {
 	config += `		deny_prefix = "10.0.0.0"` + "\n"
 	config += `		deny_prefix_mask = "0.0.0.255"` + "\n"
 	config += `		deny_log = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_access_list_standard" "test" {
 			name = "SACL1"

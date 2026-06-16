@@ -23,12 +23,18 @@ package provider
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
 	"context"
-	"regexp"
 	"fmt"
+	"regexp"
+	{{- if hasId .Attributes}}
 	"net/url"
+	{{- end}}
+	{{- if needsStrconv .Attributes}}
 	"strconv"
+	{{- end}}
+	{{- if hasListOrSetAttr .Attributes}}
 	"reflect"
 	"strings"
+	{{- end}}
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"

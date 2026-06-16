@@ -57,8 +57,8 @@ func TestAccDataSourceIosxeVRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeVRFPrerequisitesConfig + testAccDataSourceIosxeVRFConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeVRFPrerequisitesConfig+testAccDataSourceIosxeVRFConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -85,7 +85,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -101,40 +100,40 @@ func testAccDataSourceIosxeVRFConfig() string {
 	config += `	vpn_id = "22:22"` + "\n"
 	config += `	ipv4_route_target_import = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_route_target_import_stitching = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_route_target_export = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_route_target_export_stitching = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_route_replicate = [{` + "\n"
 	config += `		name = "VRF1"` + "\n"
 	config += `		unicast_all = true` + "\n"
 	config += `		unicast_all_route_map = "RM1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_import_map = "IMPORT-MAP-1"` + "\n"
 	config += `	ipv4_export_map = "EXPORT-MAP-1"` + "\n"
 	config += `	ipv6_route_target_import = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_route_target_import_stitching = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_route_target_export = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_route_target_export_stitching = [{` + "\n"
 	config += `		value = "22:22"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_import_map = "IMPORT-MAP-1"` + "\n"
 	config += `	ipv6_export_map = "EXPORT-MAP-1"` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_vrf" "test" {
 			name = "VRF22"

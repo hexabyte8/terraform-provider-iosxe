@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -72,8 +71,8 @@ func TestAccDataSourceIosxeLogging(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeLoggingPrerequisitesConfig + testAccDataSourceIosxeLoggingConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeLoggingPrerequisitesConfig+testAccDataSourceIosxeLoggingConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -103,7 +102,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -130,21 +128,21 @@ func testAccDataSourceIosxeLoggingConfig() string {
 	config += `	source_interfaces_vrf = [{` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
 	config += `		interface_name = "Loopback200"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_hosts = [{` + "\n"
 	config += `		ipv4_host = "1.1.1.1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_vrf_hosts = [{` + "\n"
 	config += `		ipv4_host = "1.1.1.1"` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_hosts = [{` + "\n"
 	config += `		ipv6_host = "2001::1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_vrf_hosts = [{` + "\n"
 	config += `		ipv6_host = "2001::1"` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	if os.Getenv("IOSXE1715") != "" {
 		config += `	logging_count = true` + "\n"
 	}
@@ -156,7 +154,7 @@ func testAccDataSourceIosxeLoggingConfig() string {
 	config += `	rate_limit_all = 200` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_logging" "test" {
 			depends_on = [iosxe_logging.test]

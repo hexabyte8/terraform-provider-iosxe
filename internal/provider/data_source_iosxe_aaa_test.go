@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeAAA(t *testing.T) {
 	if os.Getenv("AAA") == "" {
-		t.Skip("skipping test, set environment variable AAA")
-	}
+        t.Skip("skipping test, set environment variable AAA")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_aaa.test", "new_model", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_aaa.test", "server_radius_dynamic_author", "true"))
@@ -53,8 +52,8 @@ func TestAccDataSourceIosxeAAA(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeAAAPrerequisitesConfig + testAccDataSourceIosxeAAAConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeAAAPrerequisitesConfig+testAccDataSourceIosxeAAAConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -75,7 +74,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -89,7 +87,7 @@ func testAccDataSourceIosxeAAAConfig() string {
 	config += `		ip = "11.1.1.1"` + "\n"
 	config += `		server_key_type = "0"` + "\n"
 	config += `		server_key = "abcd123"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	group_server_radius = [{` + "\n"
 	config += `		name = "T-Group"` + "\n"
 	config += `		deadtime = 5` + "\n"
@@ -97,7 +95,7 @@ func testAccDataSourceIosxeAAAConfig() string {
 	config += `			name = "TESTRADIUS"` + "\n"
 	config += `		}]` + "\n"
 	config += `		ip_radius_source_interface_loopback = 0` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	group_server_tacacsplus = [{` + "\n"
 	config += `		name = "tacacs-group"` + "\n"
 	config += `		server_names = [{` + "\n"
@@ -105,10 +103,10 @@ func testAccDataSourceIosxeAAAConfig() string {
 	config += `		}]` + "\n"
 	config += `		ip_tacacs_source_interface_loopback = 0` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_aaa" "test" {
 			depends_on = [iosxe_aaa.test]

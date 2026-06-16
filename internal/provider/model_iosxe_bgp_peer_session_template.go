@@ -23,49 +23,49 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPPeerSessionTemplate struct {
-	Device                        types.String `tfsdk:"device"`
-	Id                            types.String `tfsdk:"id"`
-	DeleteMode                    types.String `tfsdk:"delete_mode"`
-	Asn                           types.String `tfsdk:"asn"`
-	TemplateName                  types.String `tfsdk:"template_name"`
-	RemoteAs                      types.String `tfsdk:"remote_as"`
-	Description                   types.String `tfsdk:"description"`
-	DisableConnectedCheck         types.Bool   `tfsdk:"disable_connected_check"`
-	EbgpMultihop                  types.Bool   `tfsdk:"ebgp_multihop"`
-	EbgpMultihopMaxHop            types.Int64  `tfsdk:"ebgp_multihop_max_hop"`
-	UpdateSourceInterfaceLoopback types.Int64  `tfsdk:"update_source_interface_loopback"`
-	InheritPeerSession            types.String `tfsdk:"inherit_peer_session"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	TemplateName types.String `tfsdk:"template_name"`
+	RemoteAs types.String `tfsdk:"remote_as"`
+	Description types.String `tfsdk:"description"`
+	DisableConnectedCheck types.Bool `tfsdk:"disable_connected_check"`
+	EbgpMultihop types.Bool `tfsdk:"ebgp_multihop"`
+	EbgpMultihopMaxHop types.Int64 `tfsdk:"ebgp_multihop_max_hop"`
+	UpdateSourceInterfaceLoopback types.Int64 `tfsdk:"update_source_interface_loopback"`
+	InheritPeerSession types.String `tfsdk:"inherit_peer_session"`
 }
 
 type BGPPeerSessionTemplateData struct {
-	Device                        types.String `tfsdk:"device"`
-	Id                            types.String `tfsdk:"id"`
-	Asn                           types.String `tfsdk:"asn"`
-	TemplateName                  types.String `tfsdk:"template_name"`
-	RemoteAs                      types.String `tfsdk:"remote_as"`
-	Description                   types.String `tfsdk:"description"`
-	DisableConnectedCheck         types.Bool   `tfsdk:"disable_connected_check"`
-	EbgpMultihop                  types.Bool   `tfsdk:"ebgp_multihop"`
-	EbgpMultihopMaxHop            types.Int64  `tfsdk:"ebgp_multihop_max_hop"`
-	UpdateSourceInterfaceLoopback types.Int64  `tfsdk:"update_source_interface_loopback"`
-	InheritPeerSession            types.String `tfsdk:"inherit_peer_session"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	TemplateName types.String `tfsdk:"template_name"`
+	RemoteAs types.String `tfsdk:"remote_as"`
+	Description types.String `tfsdk:"description"`
+	DisableConnectedCheck types.Bool `tfsdk:"disable_connected_check"`
+	EbgpMultihop types.Bool `tfsdk:"ebgp_multihop"`
+	EbgpMultihopMaxHop types.Int64 `tfsdk:"ebgp_multihop_max_hop"`
+	UpdateSourceInterfaceLoopback types.Int64 `tfsdk:"update_source_interface_loopback"`
+	InheritPeerSession types.String `tfsdk:"inherit_peer_session"`
 }
 
 // End of section. //template:end types
@@ -148,36 +148,36 @@ func (data BGPPeerSessionTemplate) toBody(ctx context.Context, config BGPPeerSes
 func (data BGPPeerSessionTemplate) toBodyXML(ctx context.Context, config BGPPeerSessionTemplate) string {
 	body := netconf.Body{}
 	if !data.TemplateName.IsNull() && !data.TemplateName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.TemplateName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.TemplateName.ValueString())
 	}
 	if !data.RemoteAs.IsNull() && !data.RemoteAs.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/remote-as", data.RemoteAs.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/remote-as", data.RemoteAs.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.DisableConnectedCheck.IsNull() && !data.DisableConnectedCheck.IsUnknown() {
 		if data.DisableConnectedCheck.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/disable-connected-check", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/disable-connected-check", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/disable-connected-check")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/disable-connected-check")
 		}
 	}
 	if !data.EbgpMultihop.IsNull() && !data.EbgpMultihop.IsUnknown() {
 		if data.EbgpMultihop.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ebgp-multihop", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ebgp-multihop", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ebgp-multihop")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ebgp-multihop")
 		}
 	}
 	if !data.EbgpMultihopMaxHop.IsNull() && !data.EbgpMultihopMaxHop.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ebgp-multihop/max-hop", strconv.FormatInt(data.EbgpMultihopMaxHop.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ebgp-multihop/max-hop", strconv.FormatInt(data.EbgpMultihopMaxHop.ValueInt64(), 10))
 	}
 	if !data.UpdateSourceInterfaceLoopback.IsNull() && !data.UpdateSourceInterfaceLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/update-source/interface/Loopback", strconv.FormatInt(data.UpdateSourceInterfaceLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/update-source/interface/Loopback", strconv.FormatInt(data.UpdateSourceInterfaceLoopback.ValueInt64(), 10))
 	}
 	if !data.InheritPeerSession.IsNull() && !data.InheritPeerSession.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inherit/peer-session", data.InheritPeerSession.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inherit/peer-session", data.InheritPeerSession.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -195,22 +195,22 @@ func (data *BGPPeerSessionTemplate) updateFromBody(ctx context.Context, res gjso
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.TemplateName.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.TemplateName.IsNull() {
 		data.TemplateName = types.StringValue(value.String())
 	} else {
 		data.TemplateName = types.StringNull()
 	}
-	if value := res.Get(prefix + "remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
+	if value := res.Get(prefix+"remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
 		data.RemoteAs = types.StringValue(value.String())
 	} else {
 		data.RemoteAs = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
+	if value := res.Get(prefix+"disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
 		if value.Exists() {
 			data.DisableConnectedCheck = types.BoolValue(true)
 		} else {
@@ -219,7 +219,7 @@ func (data *BGPPeerSessionTemplate) updateFromBody(ctx context.Context, res gjso
 	} else {
 		data.DisableConnectedCheck = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ebgp-multihop"); !data.EbgpMultihop.IsNull() {
+	if value := res.Get(prefix+"ebgp-multihop"); !data.EbgpMultihop.IsNull() {
 		if value.Exists() {
 			data.EbgpMultihop = types.BoolValue(true)
 		} else {
@@ -228,17 +228,17 @@ func (data *BGPPeerSessionTemplate) updateFromBody(ctx context.Context, res gjso
 	} else {
 		data.EbgpMultihop = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ebgp-multihop.max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
+	if value := res.Get(prefix+"ebgp-multihop.max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	} else {
 		data.EbgpMultihopMaxHop = types.Int64Null()
 	}
-	if value := res.Get(prefix + "update-source.interface.Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
+	if value := res.Get(prefix+"update-source.interface.Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.UpdateSourceInterfaceLoopback = types.Int64Null()
 	}
-	if value := res.Get(prefix + "inherit.peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
+	if value := res.Get(prefix+"inherit.peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	} else {
 		data.InheritPeerSession = types.StringNull()
@@ -250,22 +250,22 @@ func (data *BGPPeerSessionTemplate) updateFromBody(ctx context.Context, res gjso
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPPeerSessionTemplate) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.TemplateName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.TemplateName.IsNull() {
 		data.TemplateName = types.StringValue(value.String())
 	} else {
 		data.TemplateName = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
 		data.RemoteAs = types.StringValue(value.String())
 	} else {
 		data.RemoteAs = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
 		if value.Exists() {
 			data.DisableConnectedCheck = types.BoolValue(true)
 		} else {
@@ -274,7 +274,7 @@ func (data *BGPPeerSessionTemplate) updateFromBodyXML(ctx context.Context, res x
 	} else {
 		data.DisableConnectedCheck = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop"); !data.EbgpMultihop.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop"); !data.EbgpMultihop.IsNull() {
 		if value.Exists() {
 			data.EbgpMultihop = types.BoolValue(true)
 		} else {
@@ -283,17 +283,17 @@ func (data *BGPPeerSessionTemplate) updateFromBodyXML(ctx context.Context, res x
 	} else {
 		data.EbgpMultihop = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop/max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop/max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	} else {
 		data.EbgpMultihopMaxHop = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/update-source/interface/Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/update-source/interface/Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.UpdateSourceInterfaceLoopback = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	} else {
 		data.InheritPeerSession = types.StringNull()
@@ -309,29 +309,29 @@ func (data *BGPPeerSessionTemplate) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "remote-as"); value.Exists() {
+	if value := res.Get(prefix+"remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "disable-connected-check"); value.Exists() {
+	if value := res.Get(prefix+"disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ebgp-multihop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ebgp-multihop.max-hop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop.max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "update-source.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"update-source.interface.Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inherit.peer-session"); value.Exists() {
+	if value := res.Get(prefix+"inherit.peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }
@@ -345,29 +345,29 @@ func (data *BGPPeerSessionTemplateData) fromBody(ctx context.Context, res gjson.
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "remote-as"); value.Exists() {
+	if value := res.Get(prefix+"remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "disable-connected-check"); value.Exists() {
+	if value := res.Get(prefix+"disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ebgp-multihop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ebgp-multihop.max-hop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop.max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "update-source.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"update-source.interface.Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inherit.peer-session"); value.Exists() {
+	if value := res.Get(prefix+"inherit.peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }
@@ -377,29 +377,29 @@ func (data *BGPPeerSessionTemplateData) fromBody(ctx context.Context, res gjson.
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPPeerSessionTemplate) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/remote-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/disable-connected-check"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop/max-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop/max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/update-source/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/update-source/interface/Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-session"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }
@@ -409,29 +409,29 @@ func (data *BGPPeerSessionTemplate) fromBodyXML(ctx context.Context, res xmldot.
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPPeerSessionTemplateData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/remote-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/disable-connected-check"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop/max-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop/max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/update-source/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/update-source/interface/Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-session"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }

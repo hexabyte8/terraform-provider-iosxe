@@ -42,8 +42,8 @@ func TestAccDataSourceIosxeFlowMonitor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeFlowMonitorPrerequisitesConfig + testAccDataSourceIosxeFlowMonitorConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeFlowMonitorPrerequisitesConfig+testAccDataSourceIosxeFlowMonitorConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,7 +68,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -80,13 +79,13 @@ func testAccDataSourceIosxeFlowMonitorConfig() string {
 	config += `	description = "My monitor"` + "\n"
 	config += `	exporters = [{` + "\n"
 	config += `		name = "EXPORTER1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	cache_timeout_active = 60` + "\n"
 	config += `	cache_timeout_inactive = 10` + "\n"
 	config += `	record = "FNF1"` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_flow_monitor" "test" {
 			name = "MON1"

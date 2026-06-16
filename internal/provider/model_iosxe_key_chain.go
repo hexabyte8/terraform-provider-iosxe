@@ -23,132 +23,132 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type KeyChain struct {
-	Device types.String   `tfsdk:"device"`
-	Id     types.String   `tfsdk:"id"`
-	Name   types.String   `tfsdk:"name"`
-	Macsec types.Bool     `tfsdk:"macsec"`
-	Tcp    types.Bool     `tfsdk:"tcp"`
-	Keys   []KeyChainKeys `tfsdk:"keys"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Macsec types.Bool `tfsdk:"macsec"`
+	Tcp types.Bool `tfsdk:"tcp"`
+	Keys []KeyChainKeys `tfsdk:"keys"`
 }
 type KeyChainKeys struct {
-	Id                           types.String `tfsdk:"id"`
-	CryptographicAlgorithm       types.String `tfsdk:"cryptographic_algorithm"`
-	CryptographicAlgorithmTcp    types.String `tfsdk:"cryptographic_algorithm_tcp"`
+	Id types.String `tfsdk:"id"`
+	CryptographicAlgorithm types.String `tfsdk:"cryptographic_algorithm"`
+	CryptographicAlgorithmTcp types.String `tfsdk:"cryptographic_algorithm_tcp"`
 	CryptographicAlgorithmMacsec types.String `tfsdk:"cryptographic_algorithm_macsec"`
-	KeyStringEncryption          types.String `tfsdk:"key_string_encryption"`
-	KeyStringKey                 types.String `tfsdk:"key_string_key"`
-	KeyStringKeyWO               types.String `tfsdk:"key_string_key_wo"`
-	KeyStringKeyWOVersion        types.Int64  `tfsdk:"key_string_key_wo_version"`
-	AcceptLifetimeLocal          types.Bool   `tfsdk:"accept_lifetime_local"`
-	AcceptLifetimeStartTime      types.String `tfsdk:"accept_lifetime_start_time"`
-	AcceptLifetimeStartMonth     types.String `tfsdk:"accept_lifetime_start_month"`
-	AcceptLifetimeStartDay       types.Int64  `tfsdk:"accept_lifetime_start_day"`
-	AcceptLifetimeStartYear      types.Int64  `tfsdk:"accept_lifetime_start_year"`
-	AcceptLifetimeDuration       types.Int64  `tfsdk:"accept_lifetime_duration"`
-	AcceptLifetimeInfinite       types.Bool   `tfsdk:"accept_lifetime_infinite"`
-	AcceptLifetimeEndTime        types.String `tfsdk:"accept_lifetime_end_time"`
-	AcceptLifetimeEndMonth       types.String `tfsdk:"accept_lifetime_end_month"`
-	AcceptLifetimeEndDay         types.Int64  `tfsdk:"accept_lifetime_end_day"`
-	AcceptLifetimeEndYear        types.Int64  `tfsdk:"accept_lifetime_end_year"`
-	SendLifetimeLocal            types.Bool   `tfsdk:"send_lifetime_local"`
-	SendLifetimeStartTime        types.String `tfsdk:"send_lifetime_start_time"`
-	SendLifetimeStartMonth       types.String `tfsdk:"send_lifetime_start_month"`
-	SendLifetimeStartDay         types.Int64  `tfsdk:"send_lifetime_start_day"`
-	SendLifetimeStartYear        types.Int64  `tfsdk:"send_lifetime_start_year"`
-	SendLifetimeDuration         types.Int64  `tfsdk:"send_lifetime_duration"`
-	SendLifetimeInfinite         types.Bool   `tfsdk:"send_lifetime_infinite"`
-	SendLifetimeEndTime          types.String `tfsdk:"send_lifetime_end_time"`
-	SendLifetimeEndMonth         types.String `tfsdk:"send_lifetime_end_month"`
-	SendLifetimeEndDay           types.Int64  `tfsdk:"send_lifetime_end_day"`
-	SendLifetimeEndYear          types.Int64  `tfsdk:"send_lifetime_end_year"`
-	MacsecLifetimeLocal          types.Bool   `tfsdk:"macsec_lifetime_local"`
-	MacsecLifetimeStartTime      types.String `tfsdk:"macsec_lifetime_start_time"`
-	MacsecLifetimeStartMonth     types.String `tfsdk:"macsec_lifetime_start_month"`
-	MacsecLifetimeStartDay       types.Int64  `tfsdk:"macsec_lifetime_start_day"`
-	MacsecLifetimeStartYear      types.Int64  `tfsdk:"macsec_lifetime_start_year"`
-	MacsecLifetimeDuration       types.Int64  `tfsdk:"macsec_lifetime_duration"`
-	MacsecLifetimeInfinite       types.Bool   `tfsdk:"macsec_lifetime_infinite"`
-	MacsecLifetimeEndTime        types.String `tfsdk:"macsec_lifetime_end_time"`
-	MacsecLifetimeEndMonth       types.String `tfsdk:"macsec_lifetime_end_month"`
-	MacsecLifetimeEndDay         types.Int64  `tfsdk:"macsec_lifetime_end_day"`
-	MacsecLifetimeEndYear        types.Int64  `tfsdk:"macsec_lifetime_end_year"`
-	SendId                       types.Int64  `tfsdk:"send_id"`
-	RecvId                       types.Int64  `tfsdk:"recv_id"`
-	IncludeTcpOptions            types.Bool   `tfsdk:"include_tcp_options"`
-	AcceptAoMismatch             types.Bool   `tfsdk:"accept_ao_mismatch"`
+	KeyStringEncryption types.String `tfsdk:"key_string_encryption"`
+	KeyStringKey types.String `tfsdk:"key_string_key"`
+	KeyStringKeyWO types.String `tfsdk:"key_string_key_wo"`
+	KeyStringKeyWOVersion types.Int64 `tfsdk:"key_string_key_wo_version"`
+	AcceptLifetimeLocal types.Bool `tfsdk:"accept_lifetime_local"`
+	AcceptLifetimeStartTime types.String `tfsdk:"accept_lifetime_start_time"`
+	AcceptLifetimeStartMonth types.String `tfsdk:"accept_lifetime_start_month"`
+	AcceptLifetimeStartDay types.Int64 `tfsdk:"accept_lifetime_start_day"`
+	AcceptLifetimeStartYear types.Int64 `tfsdk:"accept_lifetime_start_year"`
+	AcceptLifetimeDuration types.Int64 `tfsdk:"accept_lifetime_duration"`
+	AcceptLifetimeInfinite types.Bool `tfsdk:"accept_lifetime_infinite"`
+	AcceptLifetimeEndTime types.String `tfsdk:"accept_lifetime_end_time"`
+	AcceptLifetimeEndMonth types.String `tfsdk:"accept_lifetime_end_month"`
+	AcceptLifetimeEndDay types.Int64 `tfsdk:"accept_lifetime_end_day"`
+	AcceptLifetimeEndYear types.Int64 `tfsdk:"accept_lifetime_end_year"`
+	SendLifetimeLocal types.Bool `tfsdk:"send_lifetime_local"`
+	SendLifetimeStartTime types.String `tfsdk:"send_lifetime_start_time"`
+	SendLifetimeStartMonth types.String `tfsdk:"send_lifetime_start_month"`
+	SendLifetimeStartDay types.Int64 `tfsdk:"send_lifetime_start_day"`
+	SendLifetimeStartYear types.Int64 `tfsdk:"send_lifetime_start_year"`
+	SendLifetimeDuration types.Int64 `tfsdk:"send_lifetime_duration"`
+	SendLifetimeInfinite types.Bool `tfsdk:"send_lifetime_infinite"`
+	SendLifetimeEndTime types.String `tfsdk:"send_lifetime_end_time"`
+	SendLifetimeEndMonth types.String `tfsdk:"send_lifetime_end_month"`
+	SendLifetimeEndDay types.Int64 `tfsdk:"send_lifetime_end_day"`
+	SendLifetimeEndYear types.Int64 `tfsdk:"send_lifetime_end_year"`
+	MacsecLifetimeLocal types.Bool `tfsdk:"macsec_lifetime_local"`
+	MacsecLifetimeStartTime types.String `tfsdk:"macsec_lifetime_start_time"`
+	MacsecLifetimeStartMonth types.String `tfsdk:"macsec_lifetime_start_month"`
+	MacsecLifetimeStartDay types.Int64 `tfsdk:"macsec_lifetime_start_day"`
+	MacsecLifetimeStartYear types.Int64 `tfsdk:"macsec_lifetime_start_year"`
+	MacsecLifetimeDuration types.Int64 `tfsdk:"macsec_lifetime_duration"`
+	MacsecLifetimeInfinite types.Bool `tfsdk:"macsec_lifetime_infinite"`
+	MacsecLifetimeEndTime types.String `tfsdk:"macsec_lifetime_end_time"`
+	MacsecLifetimeEndMonth types.String `tfsdk:"macsec_lifetime_end_month"`
+	MacsecLifetimeEndDay types.Int64 `tfsdk:"macsec_lifetime_end_day"`
+	MacsecLifetimeEndYear types.Int64 `tfsdk:"macsec_lifetime_end_year"`
+	SendId types.Int64 `tfsdk:"send_id"`
+	RecvId types.Int64 `tfsdk:"recv_id"`
+	IncludeTcpOptions types.Bool `tfsdk:"include_tcp_options"`
+	AcceptAoMismatch types.Bool `tfsdk:"accept_ao_mismatch"`
 }
 
 type KeyChainData struct {
-	Device types.String       `tfsdk:"device"`
-	Id     types.String       `tfsdk:"id"`
-	Name   types.String       `tfsdk:"name"`
-	Macsec types.Bool         `tfsdk:"macsec"`
-	Tcp    types.Bool         `tfsdk:"tcp"`
-	Keys   []KeyChainKeysData `tfsdk:"keys"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Macsec types.Bool `tfsdk:"macsec"`
+	Tcp types.Bool `tfsdk:"tcp"`
+	Keys []KeyChainKeysData `tfsdk:"keys"`
 }
 type KeyChainKeysData struct {
-	Id                           types.String `tfsdk:"id"`
-	CryptographicAlgorithm       types.String `tfsdk:"cryptographic_algorithm"`
-	CryptographicAlgorithmTcp    types.String `tfsdk:"cryptographic_algorithm_tcp"`
+	Id types.String `tfsdk:"id"`
+	CryptographicAlgorithm types.String `tfsdk:"cryptographic_algorithm"`
+	CryptographicAlgorithmTcp types.String `tfsdk:"cryptographic_algorithm_tcp"`
 	CryptographicAlgorithmMacsec types.String `tfsdk:"cryptographic_algorithm_macsec"`
-	KeyStringEncryption          types.String `tfsdk:"key_string_encryption"`
-	KeyStringKey                 types.String `tfsdk:"key_string_key"`
-	AcceptLifetimeLocal          types.Bool   `tfsdk:"accept_lifetime_local"`
-	AcceptLifetimeStartTime      types.String `tfsdk:"accept_lifetime_start_time"`
-	AcceptLifetimeStartMonth     types.String `tfsdk:"accept_lifetime_start_month"`
-	AcceptLifetimeStartDay       types.Int64  `tfsdk:"accept_lifetime_start_day"`
-	AcceptLifetimeStartYear      types.Int64  `tfsdk:"accept_lifetime_start_year"`
-	AcceptLifetimeDuration       types.Int64  `tfsdk:"accept_lifetime_duration"`
-	AcceptLifetimeInfinite       types.Bool   `tfsdk:"accept_lifetime_infinite"`
-	AcceptLifetimeEndTime        types.String `tfsdk:"accept_lifetime_end_time"`
-	AcceptLifetimeEndMonth       types.String `tfsdk:"accept_lifetime_end_month"`
-	AcceptLifetimeEndDay         types.Int64  `tfsdk:"accept_lifetime_end_day"`
-	AcceptLifetimeEndYear        types.Int64  `tfsdk:"accept_lifetime_end_year"`
-	SendLifetimeLocal            types.Bool   `tfsdk:"send_lifetime_local"`
-	SendLifetimeStartTime        types.String `tfsdk:"send_lifetime_start_time"`
-	SendLifetimeStartMonth       types.String `tfsdk:"send_lifetime_start_month"`
-	SendLifetimeStartDay         types.Int64  `tfsdk:"send_lifetime_start_day"`
-	SendLifetimeStartYear        types.Int64  `tfsdk:"send_lifetime_start_year"`
-	SendLifetimeDuration         types.Int64  `tfsdk:"send_lifetime_duration"`
-	SendLifetimeInfinite         types.Bool   `tfsdk:"send_lifetime_infinite"`
-	SendLifetimeEndTime          types.String `tfsdk:"send_lifetime_end_time"`
-	SendLifetimeEndMonth         types.String `tfsdk:"send_lifetime_end_month"`
-	SendLifetimeEndDay           types.Int64  `tfsdk:"send_lifetime_end_day"`
-	SendLifetimeEndYear          types.Int64  `tfsdk:"send_lifetime_end_year"`
-	MacsecLifetimeLocal          types.Bool   `tfsdk:"macsec_lifetime_local"`
-	MacsecLifetimeStartTime      types.String `tfsdk:"macsec_lifetime_start_time"`
-	MacsecLifetimeStartMonth     types.String `tfsdk:"macsec_lifetime_start_month"`
-	MacsecLifetimeStartDay       types.Int64  `tfsdk:"macsec_lifetime_start_day"`
-	MacsecLifetimeStartYear      types.Int64  `tfsdk:"macsec_lifetime_start_year"`
-	MacsecLifetimeDuration       types.Int64  `tfsdk:"macsec_lifetime_duration"`
-	MacsecLifetimeInfinite       types.Bool   `tfsdk:"macsec_lifetime_infinite"`
-	MacsecLifetimeEndTime        types.String `tfsdk:"macsec_lifetime_end_time"`
-	MacsecLifetimeEndMonth       types.String `tfsdk:"macsec_lifetime_end_month"`
-	MacsecLifetimeEndDay         types.Int64  `tfsdk:"macsec_lifetime_end_day"`
-	MacsecLifetimeEndYear        types.Int64  `tfsdk:"macsec_lifetime_end_year"`
-	SendId                       types.Int64  `tfsdk:"send_id"`
-	RecvId                       types.Int64  `tfsdk:"recv_id"`
-	IncludeTcpOptions            types.Bool   `tfsdk:"include_tcp_options"`
-	AcceptAoMismatch             types.Bool   `tfsdk:"accept_ao_mismatch"`
+	KeyStringEncryption types.String `tfsdk:"key_string_encryption"`
+	KeyStringKey types.String `tfsdk:"key_string_key"`
+	AcceptLifetimeLocal types.Bool `tfsdk:"accept_lifetime_local"`
+	AcceptLifetimeStartTime types.String `tfsdk:"accept_lifetime_start_time"`
+	AcceptLifetimeStartMonth types.String `tfsdk:"accept_lifetime_start_month"`
+	AcceptLifetimeStartDay types.Int64 `tfsdk:"accept_lifetime_start_day"`
+	AcceptLifetimeStartYear types.Int64 `tfsdk:"accept_lifetime_start_year"`
+	AcceptLifetimeDuration types.Int64 `tfsdk:"accept_lifetime_duration"`
+	AcceptLifetimeInfinite types.Bool `tfsdk:"accept_lifetime_infinite"`
+	AcceptLifetimeEndTime types.String `tfsdk:"accept_lifetime_end_time"`
+	AcceptLifetimeEndMonth types.String `tfsdk:"accept_lifetime_end_month"`
+	AcceptLifetimeEndDay types.Int64 `tfsdk:"accept_lifetime_end_day"`
+	AcceptLifetimeEndYear types.Int64 `tfsdk:"accept_lifetime_end_year"`
+	SendLifetimeLocal types.Bool `tfsdk:"send_lifetime_local"`
+	SendLifetimeStartTime types.String `tfsdk:"send_lifetime_start_time"`
+	SendLifetimeStartMonth types.String `tfsdk:"send_lifetime_start_month"`
+	SendLifetimeStartDay types.Int64 `tfsdk:"send_lifetime_start_day"`
+	SendLifetimeStartYear types.Int64 `tfsdk:"send_lifetime_start_year"`
+	SendLifetimeDuration types.Int64 `tfsdk:"send_lifetime_duration"`
+	SendLifetimeInfinite types.Bool `tfsdk:"send_lifetime_infinite"`
+	SendLifetimeEndTime types.String `tfsdk:"send_lifetime_end_time"`
+	SendLifetimeEndMonth types.String `tfsdk:"send_lifetime_end_month"`
+	SendLifetimeEndDay types.Int64 `tfsdk:"send_lifetime_end_day"`
+	SendLifetimeEndYear types.Int64 `tfsdk:"send_lifetime_end_year"`
+	MacsecLifetimeLocal types.Bool `tfsdk:"macsec_lifetime_local"`
+	MacsecLifetimeStartTime types.String `tfsdk:"macsec_lifetime_start_time"`
+	MacsecLifetimeStartMonth types.String `tfsdk:"macsec_lifetime_start_month"`
+	MacsecLifetimeStartDay types.Int64 `tfsdk:"macsec_lifetime_start_day"`
+	MacsecLifetimeStartYear types.Int64 `tfsdk:"macsec_lifetime_start_year"`
+	MacsecLifetimeDuration types.Int64 `tfsdk:"macsec_lifetime_duration"`
+	MacsecLifetimeInfinite types.Bool `tfsdk:"macsec_lifetime_infinite"`
+	MacsecLifetimeEndTime types.String `tfsdk:"macsec_lifetime_end_time"`
+	MacsecLifetimeEndMonth types.String `tfsdk:"macsec_lifetime_end_month"`
+	MacsecLifetimeEndDay types.Int64 `tfsdk:"macsec_lifetime_end_day"`
+	MacsecLifetimeEndYear types.Int64 `tfsdk:"macsec_lifetime_end_year"`
+	SendId types.Int64 `tfsdk:"send_id"`
+	RecvId types.Int64 `tfsdk:"recv_id"`
+	IncludeTcpOptions types.Bool `tfsdk:"include_tcp_options"`
+	AcceptAoMismatch types.Bool `tfsdk:"accept_ao_mismatch"`
 }
 
 // End of section. //template:end types
@@ -374,20 +374,20 @@ func (data KeyChain) toBody(ctx context.Context, config KeyChain) string {
 func (data KeyChain) toBodyXML(ctx context.Context, config KeyChain) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Macsec.IsNull() && !data.Macsec.IsUnknown() {
 		if data.Macsec.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/macsec", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/macsec", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/macsec")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/macsec")
 		}
 	}
 	if !data.Tcp.IsNull() && !data.Tcp.IsUnknown() {
 		if data.Tcp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/tcp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/tcp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/tcp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/tcp")
 		}
 	}
 	if len(data.Keys) > 0 {
@@ -577,12 +577,12 @@ func (data *KeyChain) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "macsec"); !data.Macsec.IsNull() {
+	if value := res.Get(prefix+"macsec"); !data.Macsec.IsNull() {
 		if value.Exists() {
 			data.Macsec = types.BoolValue(true)
 		} else {
@@ -591,7 +591,7 @@ func (data *KeyChain) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Macsec = types.BoolNull()
 	}
-	if value := res.Get(prefix + "tcp"); !data.Tcp.IsNull() {
+	if value := res.Get(prefix+"tcp"); !data.Tcp.IsNull() {
 		if value.Exists() {
 			data.Tcp = types.BoolValue(true)
 		} else {
@@ -601,11 +601,11 @@ func (data *KeyChain) updateFromBody(ctx context.Context, res gjson.Result) {
 		data.Tcp = types.BoolNull()
 	}
 	for i := range data.Keys {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Keys[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Keys[i].Id.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "key").ForEach(
+		res.Get(prefix+"key").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -864,12 +864,12 @@ func (data *KeyChain) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *KeyChain) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/macsec"); !data.Macsec.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/macsec"); !data.Macsec.IsNull() {
 		if value.Exists() {
 			data.Macsec = types.BoolValue(true)
 		} else {
@@ -878,7 +878,7 @@ func (data *KeyChain) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.Macsec = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tcp"); !data.Tcp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tcp"); !data.Tcp.IsNull() {
 		if value.Exists() {
 			data.Tcp = types.BoolValue(true)
 		} else {
@@ -888,11 +888,11 @@ func (data *KeyChain) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 		data.Tcp = types.BoolNull()
 	}
 	for i := range data.Keys {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Keys[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Keys[i].Id.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/key").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/key").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1155,17 +1155,17 @@ func (data *KeyChain) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "macsec"); value.Exists() {
+	if value := res.Get(prefix+"macsec"); value.Exists() {
 		data.Macsec = types.BoolValue(true)
 	} else {
 		data.Macsec = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tcp"); value.Exists() {
+	if value := res.Get(prefix+"tcp"); value.Exists() {
 		data.Tcp = types.BoolValue(true)
 	} else {
 		data.Tcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "key"); value.Exists() {
+	if value := res.Get(prefix+"key"); value.Exists() {
 		data.Keys = make([]KeyChainKeys, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := KeyChainKeys{}
@@ -1329,17 +1329,17 @@ func (data *KeyChainData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "macsec"); value.Exists() {
+	if value := res.Get(prefix+"macsec"); value.Exists() {
 		data.Macsec = types.BoolValue(true)
 	} else {
 		data.Macsec = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tcp"); value.Exists() {
+	if value := res.Get(prefix+"tcp"); value.Exists() {
 		data.Tcp = types.BoolValue(true)
 	} else {
 		data.Tcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "key"); value.Exists() {
+	if value := res.Get(prefix+"key"); value.Exists() {
 		data.Keys = make([]KeyChainKeysData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := KeyChainKeysData{}
@@ -1499,17 +1499,17 @@ func (data *KeyChainData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *KeyChain) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/macsec"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/macsec"); value.Exists() {
 		data.Macsec = types.BoolValue(true)
 	} else {
 		data.Macsec = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tcp"); value.Exists() {
 		data.Tcp = types.BoolValue(true)
 	} else {
 		data.Tcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key"); value.Exists() {
 		data.Keys = make([]KeyChainKeys, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := KeyChainKeys{}
@@ -1669,17 +1669,17 @@ func (data *KeyChain) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *KeyChainData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/macsec"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/macsec"); value.Exists() {
 		data.Macsec = types.BoolValue(true)
 	} else {
 		data.Macsec = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tcp"); value.Exists() {
 		data.Tcp = types.BoolValue(true)
 	} else {
 		data.Tcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key"); value.Exists() {
 		data.Keys = make([]KeyChainKeysData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := KeyChainKeysData{}
@@ -1841,8 +1841,8 @@ func (data *KeyChainData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *KeyChain) getDeletedItems(ctx context.Context, state KeyChain) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Keys {
-		stateKeyValues := [...]string{state.Keys[i].Id.ValueString()}
-
+		stateKeyValues := [...]string{ state.Keys[i].Id.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Keys[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2008,13 +2008,13 @@ func (data *KeyChain) getDeletedItems(ctx context.Context, state KeyChain) []str
 func (data *KeyChain) addDeletedItemsXML(ctx context.Context, state KeyChain, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Keys {
-		stateKeys := [...]string{"id"}
-		stateKeyValues := [...]string{state.Keys[i].Id.ValueString()}
+		stateKeys := [...]string{ "id",  }
+		stateKeyValues := [...]string{ state.Keys[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Keys[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2180,9 +2180,10 @@ func (data *KeyChain) addDeletedItemsXML(ctx context.Context, state KeyChain, bo
 
 func (data *KeyChain) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Keys {
-		keyValues := [...]string{data.Keys[i].Id.ValueString()}
+		keyValues := [...]string{ data.Keys[i].Id.ValueString(),  }
 		if !data.Keys[i].MacsecLifetimeInfinite.IsNull() && !data.Keys[i].MacsecLifetimeInfinite.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/key=%v/macsec-lifetime/lifetime/lifetime-group-v1/infinite", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -2219,7 +2220,7 @@ func (data *KeyChain) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *KeyChain) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Keys {
-		keyValues := [...]string{data.Keys[i].Id.ValueString()}
+		keyValues := [...]string{ data.Keys[i].Id.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/key=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2240,8 +2241,8 @@ func (data *KeyChain) getDeletePaths(ctx context.Context) []string {
 func (data *KeyChain) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Keys {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Keys[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Keys[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

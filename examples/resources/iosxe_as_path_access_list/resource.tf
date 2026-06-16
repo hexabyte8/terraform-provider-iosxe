@@ -3,7 +3,7 @@ resource "iosxe_as_path_access_list" "example" {
   entries = [
     {
       action = "permit"
-      regex  = "^100$"
+      regex = "^100$"
     }
   ]
 }

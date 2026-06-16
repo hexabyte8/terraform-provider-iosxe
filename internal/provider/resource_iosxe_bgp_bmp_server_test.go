@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -48,16 +47,16 @@ func TestAccIosxeBGPBMPServer(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPBMPServerPrerequisitesConfig + testAccIosxeBGPBMPServerConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPBMPServerPrerequisitesConfig+testAccIosxeBGPBMPServerConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_bmp_server.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPBMPServerImportStateIdFunc("iosxe_bgp_bmp_server.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_bmp_server.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPBMPServerImportStateIdFunc("iosxe_bgp_bmp_server.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -73,7 +72,7 @@ func iosxeBGPBMPServerImportStateIdFunc(resourceName string) resource.ImportStat
 		Asn := primary.Attributes["asn"]
 		ServerId := primary.Attributes["server_id"]
 
-		return fmt.Sprintf("%s,%s", Asn, ServerId), nil
+		return fmt.Sprintf("%s,%s", Asn,ServerId), nil
 	}
 }
 
@@ -106,7 +105,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

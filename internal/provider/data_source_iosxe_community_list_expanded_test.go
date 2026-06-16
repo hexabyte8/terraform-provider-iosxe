@@ -40,7 +40,7 @@ func TestAccDataSourceIosxeCommunityListExpanded(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCommunityListExpandedConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -59,9 +59,9 @@ func testAccDataSourceIosxeCommunityListExpandedConfig() string {
 	config += `	entries = [{` + "\n"
 	config += `		action = "permit"` + "\n"
 	config += `		regex = "65000:500"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_community_list_expanded" "test" {
 			name = "CLE1"

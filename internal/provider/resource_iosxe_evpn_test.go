@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeEVPN(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_evpn.test", "replication_type_ingress", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_evpn.test", "replication_type_static", "true"))
@@ -61,15 +59,15 @@ func TestAccIosxeEVPN(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeEVPNConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_evpn.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeEVPNImportStateIdFunc("iosxe_evpn.test"),
-				ImportStateVerifyIgnore: []string{"anycast_gateway_mac_auto"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_evpn.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeEVPNImportStateIdFunc("iosxe_evpn.test"),
+				ImportStateVerifyIgnore: []string{ "anycast_gateway_mac_auto", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -82,7 +80,7 @@ func TestAccIosxeEVPN(t *testing.T) {
 func iosxeEVPNImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

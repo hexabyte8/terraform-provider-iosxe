@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfaceTunnel(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "name", "90"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "description", "My Interface Description"))
@@ -82,8 +80,8 @@ func TestAccIosxeInterfaceTunnel(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "ip_igmp_version", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "ip_tcp_adjust_mss", "1400"))
 	if os.Getenv("C8000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "ip_flow_monitors.0.name", "MON1"))
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "ip_flow_monitors.0.direction", "input"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "ip_flow_monitors.0.name", "MON1"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "ip_flow_monitors.0.direction", "input"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "bandwidth", "1000000"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_tunnel.test", "tunnel_bandwidth_transmit", "1000"))
@@ -93,19 +91,19 @@ func TestAccIosxeInterfaceTunnel(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfaceTunnelPrerequisitesConfig + testAccIosxeInterfaceTunnelConfig_minimum(),
+				Config: testAccIosxeInterfaceTunnelPrerequisitesConfig+testAccIosxeInterfaceTunnelConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfaceTunnelPrerequisitesConfig + testAccIosxeInterfaceTunnelConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfaceTunnelPrerequisitesConfig+testAccIosxeInterfaceTunnelConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_tunnel.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceTunnelImportStateIdFunc("iosxe_interface_tunnel.test"),
-				ImportStateVerifyIgnore: []string{"ipv6_address_autoconfig_default", "ipv4_address_dhcp", "tunnel_mode_ipsec_ipv4", "ip_nat_inside", "ip_nat_outside"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_tunnel.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceTunnelImportStateIdFunc("iosxe_interface_tunnel.test"),
+				ImportStateVerifyIgnore: []string{ "ipv6_address_autoconfig_default","ipv4_address_dhcp","tunnel_mode_ipsec_ipv4","ip_nat_inside","ip_nat_outside", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -157,7 +155,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -226,10 +223,10 @@ func testAccIosxeInterfaceTunnelConfig_all() string {
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	ip_tcp_adjust_mss = 1400` + "\n"
 	if os.Getenv("C8000V") != "" {
-		config += `	ip_flow_monitors = [{` + "\n"
-		config += `		name = "MON1"` + "\n"
-		config += `		direction = "input"` + "\n"
-		config += `	}]` + "\n"
+	config += `	ip_flow_monitors = [{` + "\n"
+	config += `		name = "MON1"` + "\n"
+	config += `		direction = "input"` + "\n"
+	config += `	}]` + "\n"
 	}
 	config += `	bandwidth = 1000000` + "\n"
 	config += `	tunnel_bandwidth_transmit = 1000` + "\n"

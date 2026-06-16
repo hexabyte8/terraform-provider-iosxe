@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeIPv6LocalPool(t *testing.T) {
 	if os.Getenv("ISR") == "" {
-		t.Skip("skipping test, set environment variable ISR")
-	}
+        t.Skip("skipping test, set environment variable ISR")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_ipv6_local_pool.test", "name", "DHCPv6-PD"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_ipv6_local_pool.test", "start_address", "2001:db8::/48"))
@@ -50,15 +48,15 @@ func TestAccIosxeIPv6LocalPool(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeIPv6LocalPoolConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_ipv6_local_pool.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeIPv6LocalPoolImportStateIdFunc("iosxe_ipv6_local_pool.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_ipv6_local_pool.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeIPv6LocalPoolImportStateIdFunc("iosxe_ipv6_local_pool.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

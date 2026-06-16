@@ -43,7 +43,7 @@ func TestAccDataSourceIosxeTACACSServer(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeTACACSServerConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -67,7 +67,7 @@ func testAccDataSourceIosxeTACACSServerConfig() string {
 	config += `	key = "123"` + "\n"
 	config += `	attribute_allow_unknown = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_tacacs_server" "test" {
 			depends_on = [iosxe_tacacs_server.test]

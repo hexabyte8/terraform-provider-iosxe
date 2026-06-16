@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -47,15 +46,15 @@ func TestAccIosxeCryptoIPSecTransformSet(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeCryptoIPSecTransformSetConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_crypto_ipsec_transform_set.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeCryptoIPSecTransformSetImportStateIdFunc("iosxe_crypto_ipsec_transform_set.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_crypto_ipsec_transform_set.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeCryptoIPSecTransformSetImportStateIdFunc("iosxe_crypto_ipsec_transform_set.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

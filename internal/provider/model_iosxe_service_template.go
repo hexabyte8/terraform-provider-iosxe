@@ -23,50 +23,50 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ServiceTemplate struct {
-	Device                  types.String                        `tfsdk:"device"`
-	Id                      types.String                        `tfsdk:"id"`
-	Name                    types.String                        `tfsdk:"name"`
-	AccessGroups            []ServiceTemplateAccessGroups       `tfsdk:"access_groups"`
-	InactivityTimer         types.Int64                         `tfsdk:"inactivity_timer"`
-	InactivityTimerProbe    types.Bool                          `tfsdk:"inactivity_timer_probe"`
-	Vlan                    types.Int64                         `tfsdk:"vlan"`
-	VoiceVlan               types.Bool                          `tfsdk:"voice_vlan"`
-	LinksecPolicy           types.String                        `tfsdk:"linksec_policy"`
-	Sgt                     types.Int64                         `tfsdk:"sgt"`
-	AbsoluteTimer           types.Int64                         `tfsdk:"absolute_timer"`
-	Description             types.String                        `tfsdk:"description"`
-	InterfaceTemplates      []ServiceTemplateInterfaceTemplates `tfsdk:"interface_templates"`
-	TunnelCapwapName        types.String                        `tfsdk:"tunnel_capwap_name"`
-	Vnid                    types.String                        `tfsdk:"vnid"`
-	RedirectAppendClientMac types.String                        `tfsdk:"redirect_append_client_mac"`
-	RedirectAppendSwitchMac types.String                        `tfsdk:"redirect_append_switch_mac"`
-	RedirectUrl             types.String                        `tfsdk:"redirect_url"`
-	RedirectUrlMatchAcl     types.String                        `tfsdk:"redirect_url_match_acl"`
-	RedirectUrlMatchAction  types.String                        `tfsdk:"redirect_url_match_action"`
-	DnsAclPreauth           types.String                        `tfsdk:"dns_acl_preauth"`
-	ServicePolicyQosInput   types.String                        `tfsdk:"service_policy_qos_input"`
-	ServicePolicyQosOutput  types.String                        `tfsdk:"service_policy_qos_output"`
-	Tags                    []ServiceTemplateTags               `tfsdk:"tags"`
-	MdnsServicePolicy       types.String                        `tfsdk:"mdns_service_policy"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	AccessGroups []ServiceTemplateAccessGroups `tfsdk:"access_groups"`
+	InactivityTimer types.Int64 `tfsdk:"inactivity_timer"`
+	InactivityTimerProbe types.Bool `tfsdk:"inactivity_timer_probe"`
+	Vlan types.Int64 `tfsdk:"vlan"`
+	VoiceVlan types.Bool `tfsdk:"voice_vlan"`
+	LinksecPolicy types.String `tfsdk:"linksec_policy"`
+	Sgt types.Int64 `tfsdk:"sgt"`
+	AbsoluteTimer types.Int64 `tfsdk:"absolute_timer"`
+	Description types.String `tfsdk:"description"`
+	InterfaceTemplates []ServiceTemplateInterfaceTemplates `tfsdk:"interface_templates"`
+	TunnelCapwapName types.String `tfsdk:"tunnel_capwap_name"`
+	Vnid types.String `tfsdk:"vnid"`
+	RedirectAppendClientMac types.String `tfsdk:"redirect_append_client_mac"`
+	RedirectAppendSwitchMac types.String `tfsdk:"redirect_append_switch_mac"`
+	RedirectUrl types.String `tfsdk:"redirect_url"`
+	RedirectUrlMatchAcl types.String `tfsdk:"redirect_url_match_acl"`
+	RedirectUrlMatchAction types.String `tfsdk:"redirect_url_match_action"`
+	DnsAclPreauth types.String `tfsdk:"dns_acl_preauth"`
+	ServicePolicyQosInput types.String `tfsdk:"service_policy_qos_input"`
+	ServicePolicyQosOutput types.String `tfsdk:"service_policy_qos_output"`
+	Tags []ServiceTemplateTags `tfsdk:"tags"`
+	MdnsServicePolicy types.String `tfsdk:"mdns_service_policy"`
 }
 type ServiceTemplateAccessGroups struct {
 	Name types.String `tfsdk:"name"`
@@ -79,31 +79,31 @@ type ServiceTemplateTags struct {
 }
 
 type ServiceTemplateData struct {
-	Device                  types.String                            `tfsdk:"device"`
-	Id                      types.String                            `tfsdk:"id"`
-	Name                    types.String                            `tfsdk:"name"`
-	AccessGroups            []ServiceTemplateAccessGroupsData       `tfsdk:"access_groups"`
-	InactivityTimer         types.Int64                             `tfsdk:"inactivity_timer"`
-	InactivityTimerProbe    types.Bool                              `tfsdk:"inactivity_timer_probe"`
-	Vlan                    types.Int64                             `tfsdk:"vlan"`
-	VoiceVlan               types.Bool                              `tfsdk:"voice_vlan"`
-	LinksecPolicy           types.String                            `tfsdk:"linksec_policy"`
-	Sgt                     types.Int64                             `tfsdk:"sgt"`
-	AbsoluteTimer           types.Int64                             `tfsdk:"absolute_timer"`
-	Description             types.String                            `tfsdk:"description"`
-	InterfaceTemplates      []ServiceTemplateInterfaceTemplatesData `tfsdk:"interface_templates"`
-	TunnelCapwapName        types.String                            `tfsdk:"tunnel_capwap_name"`
-	Vnid                    types.String                            `tfsdk:"vnid"`
-	RedirectAppendClientMac types.String                            `tfsdk:"redirect_append_client_mac"`
-	RedirectAppendSwitchMac types.String                            `tfsdk:"redirect_append_switch_mac"`
-	RedirectUrl             types.String                            `tfsdk:"redirect_url"`
-	RedirectUrlMatchAcl     types.String                            `tfsdk:"redirect_url_match_acl"`
-	RedirectUrlMatchAction  types.String                            `tfsdk:"redirect_url_match_action"`
-	DnsAclPreauth           types.String                            `tfsdk:"dns_acl_preauth"`
-	ServicePolicyQosInput   types.String                            `tfsdk:"service_policy_qos_input"`
-	ServicePolicyQosOutput  types.String                            `tfsdk:"service_policy_qos_output"`
-	Tags                    []ServiceTemplateTagsData               `tfsdk:"tags"`
-	MdnsServicePolicy       types.String                            `tfsdk:"mdns_service_policy"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	AccessGroups []ServiceTemplateAccessGroupsData `tfsdk:"access_groups"`
+	InactivityTimer types.Int64 `tfsdk:"inactivity_timer"`
+	InactivityTimerProbe types.Bool `tfsdk:"inactivity_timer_probe"`
+	Vlan types.Int64 `tfsdk:"vlan"`
+	VoiceVlan types.Bool `tfsdk:"voice_vlan"`
+	LinksecPolicy types.String `tfsdk:"linksec_policy"`
+	Sgt types.Int64 `tfsdk:"sgt"`
+	AbsoluteTimer types.Int64 `tfsdk:"absolute_timer"`
+	Description types.String `tfsdk:"description"`
+	InterfaceTemplates []ServiceTemplateInterfaceTemplatesData `tfsdk:"interface_templates"`
+	TunnelCapwapName types.String `tfsdk:"tunnel_capwap_name"`
+	Vnid types.String `tfsdk:"vnid"`
+	RedirectAppendClientMac types.String `tfsdk:"redirect_append_client_mac"`
+	RedirectAppendSwitchMac types.String `tfsdk:"redirect_append_switch_mac"`
+	RedirectUrl types.String `tfsdk:"redirect_url"`
+	RedirectUrlMatchAcl types.String `tfsdk:"redirect_url_match_acl"`
+	RedirectUrlMatchAction types.String `tfsdk:"redirect_url_match_action"`
+	DnsAclPreauth types.String `tfsdk:"dns_acl_preauth"`
+	ServicePolicyQosInput types.String `tfsdk:"service_policy_qos_input"`
+	ServicePolicyQosOutput types.String `tfsdk:"service_policy_qos_output"`
+	Tags []ServiceTemplateTagsData `tfsdk:"tags"`
+	MdnsServicePolicy types.String `tfsdk:"mdns_service_policy"`
 }
 type ServiceTemplateAccessGroupsData struct {
 	Name types.String `tfsdk:"name"`
@@ -255,7 +255,7 @@ func (data ServiceTemplate) toBody(ctx context.Context, config ServiceTemplate) 
 func (data ServiceTemplate) toBodyXML(ctx context.Context, config ServiceTemplate) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/word", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/word", data.Name.ValueString())
 	}
 	if len(data.AccessGroups) > 0 {
 		for _, item := range data.AccessGroups {
@@ -267,36 +267,36 @@ func (data ServiceTemplate) toBodyXML(ctx context.Context, config ServiceTemplat
 		}
 	}
 	if !data.InactivityTimer.IsNull() && !data.InactivityTimer.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inactivity-timer/value", strconv.FormatInt(data.InactivityTimer.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inactivity-timer/value", strconv.FormatInt(data.InactivityTimer.ValueInt64(), 10))
 	}
 	if !data.InactivityTimerProbe.IsNull() && !data.InactivityTimerProbe.IsUnknown() {
 		if data.InactivityTimerProbe.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/inactivity-timer/probe", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/inactivity-timer/probe", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/inactivity-timer/probe")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/inactivity-timer/probe")
 		}
 	}
 	if !data.Vlan.IsNull() && !data.Vlan.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/vlan", strconv.FormatInt(data.Vlan.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/vlan", strconv.FormatInt(data.Vlan.ValueInt64(), 10))
 	}
 	if !data.VoiceVlan.IsNull() && !data.VoiceVlan.IsUnknown() {
 		if data.VoiceVlan.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/voice/vlan", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/voice/vlan", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/voice/vlan")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/voice/vlan")
 		}
 	}
 	if !data.LinksecPolicy.IsNull() && !data.LinksecPolicy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/linksec/policy", data.LinksecPolicy.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/linksec/policy", data.LinksecPolicy.ValueString())
 	}
 	if !data.Sgt.IsNull() && !data.Sgt.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/sgt", strconv.FormatInt(data.Sgt.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/sgt", strconv.FormatInt(data.Sgt.ValueInt64(), 10))
 	}
 	if !data.AbsoluteTimer.IsNull() && !data.AbsoluteTimer.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/absolute-timer", strconv.FormatInt(data.AbsoluteTimer.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/absolute-timer", strconv.FormatInt(data.AbsoluteTimer.ValueInt64(), 10))
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if len(data.InterfaceTemplates) > 0 {
 		for _, item := range data.InterfaceTemplates {
@@ -308,34 +308,34 @@ func (data ServiceTemplate) toBodyXML(ctx context.Context, config ServiceTemplat
 		}
 	}
 	if !data.TunnelCapwapName.IsNull() && !data.TunnelCapwapName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/tunnel/type/capwap/name", data.TunnelCapwapName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/tunnel/type/capwap/name", data.TunnelCapwapName.ValueString())
 	}
 	if !data.Vnid.IsNull() && !data.Vnid.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/vnid", data.Vnid.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/vnid", data.Vnid.ValueString())
 	}
 	if !data.RedirectAppendClientMac.IsNull() && !data.RedirectAppendClientMac.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/redirect/append/client-mac", data.RedirectAppendClientMac.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/redirect/append/client-mac", data.RedirectAppendClientMac.ValueString())
 	}
 	if !data.RedirectAppendSwitchMac.IsNull() && !data.RedirectAppendSwitchMac.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/redirect/append/switch-mac", data.RedirectAppendSwitchMac.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/redirect/append/switch-mac", data.RedirectAppendSwitchMac.ValueString())
 	}
 	if !data.RedirectUrl.IsNull() && !data.RedirectUrl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/redirect/url/url_name", data.RedirectUrl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/redirect/url/url_name", data.RedirectUrl.ValueString())
 	}
 	if !data.RedirectUrlMatchAcl.IsNull() && !data.RedirectUrlMatchAcl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/redirect/url/match/acl_name", data.RedirectUrlMatchAcl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/redirect/url/match/acl_name", data.RedirectUrlMatchAcl.ValueString())
 	}
 	if !data.RedirectUrlMatchAction.IsNull() && !data.RedirectUrlMatchAction.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/redirect/url/match/action", data.RedirectUrlMatchAction.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/redirect/url/match/action", data.RedirectUrlMatchAction.ValueString())
 	}
 	if !data.DnsAclPreauth.IsNull() && !data.DnsAclPreauth.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/dns-acl/preauth", data.DnsAclPreauth.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/dns-acl/preauth", data.DnsAclPreauth.ValueString())
 	}
 	if !data.ServicePolicyQosInput.IsNull() && !data.ServicePolicyQosInput.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/service-policy/qos/input", data.ServicePolicyQosInput.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/service-policy/qos/input", data.ServicePolicyQosInput.ValueString())
 	}
 	if !data.ServicePolicyQosOutput.IsNull() && !data.ServicePolicyQosOutput.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/service-policy/qos/output", data.ServicePolicyQosOutput.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/service-policy/qos/output", data.ServicePolicyQosOutput.ValueString())
 	}
 	if len(data.Tags) > 0 {
 		for _, item := range data.Tags {
@@ -347,7 +347,7 @@ func (data ServiceTemplate) toBodyXML(ctx context.Context, config ServiceTemplat
 		}
 	}
 	if !data.MdnsServicePolicy.IsNull() && !data.MdnsServicePolicy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/mdns-service-policy", data.MdnsServicePolicy.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/mdns-service-policy", data.MdnsServicePolicy.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -365,17 +365,17 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "word"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"word"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.AccessGroups {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.AccessGroups[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.AccessGroups[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "access-group-config").ForEach(
+		res.Get(prefix+"access-group-config").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -399,12 +399,12 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 			data.AccessGroups[i].Name = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "inactivity-timer.value"); value.Exists() && !data.InactivityTimer.IsNull() {
+	if value := res.Get(prefix+"inactivity-timer.value"); value.Exists() && !data.InactivityTimer.IsNull() {
 		data.InactivityTimer = types.Int64Value(value.Int())
 	} else {
 		data.InactivityTimer = types.Int64Null()
 	}
-	if value := res.Get(prefix + "inactivity-timer.probe"); !data.InactivityTimerProbe.IsNull() {
+	if value := res.Get(prefix+"inactivity-timer.probe"); !data.InactivityTimerProbe.IsNull() {
 		if value.Exists() {
 			data.InactivityTimerProbe = types.BoolValue(true)
 		} else {
@@ -413,12 +413,12 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 	} else {
 		data.InactivityTimerProbe = types.BoolNull()
 	}
-	if value := res.Get(prefix + "vlan"); value.Exists() && !data.Vlan.IsNull() {
+	if value := res.Get(prefix+"vlan"); value.Exists() && !data.Vlan.IsNull() {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
 	}
-	if value := res.Get(prefix + "voice.vlan"); !data.VoiceVlan.IsNull() {
+	if value := res.Get(prefix+"voice.vlan"); !data.VoiceVlan.IsNull() {
 		if value.Exists() {
 			data.VoiceVlan = types.BoolValue(true)
 		} else {
@@ -427,32 +427,32 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 	} else {
 		data.VoiceVlan = types.BoolNull()
 	}
-	if value := res.Get(prefix + "linksec.policy"); value.Exists() && !data.LinksecPolicy.IsNull() {
+	if value := res.Get(prefix+"linksec.policy"); value.Exists() && !data.LinksecPolicy.IsNull() {
 		data.LinksecPolicy = types.StringValue(value.String())
 	} else {
 		data.LinksecPolicy = types.StringNull()
 	}
-	if value := res.Get(prefix + "sgt"); value.Exists() && !data.Sgt.IsNull() {
+	if value := res.Get(prefix+"sgt"); value.Exists() && !data.Sgt.IsNull() {
 		data.Sgt = types.Int64Value(value.Int())
 	} else {
 		data.Sgt = types.Int64Null()
 	}
-	if value := res.Get(prefix + "absolute-timer"); value.Exists() && !data.AbsoluteTimer.IsNull() {
+	if value := res.Get(prefix+"absolute-timer"); value.Exists() && !data.AbsoluteTimer.IsNull() {
 		data.AbsoluteTimer = types.Int64Value(value.Int())
 	} else {
 		data.AbsoluteTimer = types.Int64Null()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
 	for i := range data.InterfaceTemplates {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.InterfaceTemplates[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.InterfaceTemplates[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "interface-template").ForEach(
+		res.Get(prefix+"interface-template").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -476,62 +476,62 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 			data.InterfaceTemplates[i].Name = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "tunnel.type.capwap.name"); value.Exists() && !data.TunnelCapwapName.IsNull() {
+	if value := res.Get(prefix+"tunnel.type.capwap.name"); value.Exists() && !data.TunnelCapwapName.IsNull() {
 		data.TunnelCapwapName = types.StringValue(value.String())
 	} else {
 		data.TunnelCapwapName = types.StringNull()
 	}
-	if value := res.Get(prefix + "vnid"); value.Exists() && !data.Vnid.IsNull() {
+	if value := res.Get(prefix+"vnid"); value.Exists() && !data.Vnid.IsNull() {
 		data.Vnid = types.StringValue(value.String())
 	} else {
 		data.Vnid = types.StringNull()
 	}
-	if value := res.Get(prefix + "redirect.append.client-mac"); value.Exists() && !data.RedirectAppendClientMac.IsNull() {
+	if value := res.Get(prefix+"redirect.append.client-mac"); value.Exists() && !data.RedirectAppendClientMac.IsNull() {
 		data.RedirectAppendClientMac = types.StringValue(value.String())
 	} else {
 		data.RedirectAppendClientMac = types.StringNull()
 	}
-	if value := res.Get(prefix + "redirect.append.switch-mac"); value.Exists() && !data.RedirectAppendSwitchMac.IsNull() {
+	if value := res.Get(prefix+"redirect.append.switch-mac"); value.Exists() && !data.RedirectAppendSwitchMac.IsNull() {
 		data.RedirectAppendSwitchMac = types.StringValue(value.String())
 	} else {
 		data.RedirectAppendSwitchMac = types.StringNull()
 	}
-	if value := res.Get(prefix + "redirect.url.url_name"); value.Exists() && !data.RedirectUrl.IsNull() {
+	if value := res.Get(prefix+"redirect.url.url_name"); value.Exists() && !data.RedirectUrl.IsNull() {
 		data.RedirectUrl = types.StringValue(value.String())
 	} else {
 		data.RedirectUrl = types.StringNull()
 	}
-	if value := res.Get(prefix + "redirect.url.match.acl_name"); value.Exists() && !data.RedirectUrlMatchAcl.IsNull() {
+	if value := res.Get(prefix+"redirect.url.match.acl_name"); value.Exists() && !data.RedirectUrlMatchAcl.IsNull() {
 		data.RedirectUrlMatchAcl = types.StringValue(value.String())
 	} else {
 		data.RedirectUrlMatchAcl = types.StringNull()
 	}
-	if value := res.Get(prefix + "redirect.url.match.action"); value.Exists() && !data.RedirectUrlMatchAction.IsNull() {
+	if value := res.Get(prefix+"redirect.url.match.action"); value.Exists() && !data.RedirectUrlMatchAction.IsNull() {
 		data.RedirectUrlMatchAction = types.StringValue(value.String())
 	} else {
 		data.RedirectUrlMatchAction = types.StringNull()
 	}
-	if value := res.Get(prefix + "dns-acl.preauth"); value.Exists() && !data.DnsAclPreauth.IsNull() {
+	if value := res.Get(prefix+"dns-acl.preauth"); value.Exists() && !data.DnsAclPreauth.IsNull() {
 		data.DnsAclPreauth = types.StringValue(value.String())
 	} else {
 		data.DnsAclPreauth = types.StringNull()
 	}
-	if value := res.Get(prefix + "service-policy.qos.input"); value.Exists() && !data.ServicePolicyQosInput.IsNull() {
+	if value := res.Get(prefix+"service-policy.qos.input"); value.Exists() && !data.ServicePolicyQosInput.IsNull() {
 		data.ServicePolicyQosInput = types.StringValue(value.String())
 	} else {
 		data.ServicePolicyQosInput = types.StringNull()
 	}
-	if value := res.Get(prefix + "service-policy.qos.output"); value.Exists() && !data.ServicePolicyQosOutput.IsNull() {
+	if value := res.Get(prefix+"service-policy.qos.output"); value.Exists() && !data.ServicePolicyQosOutput.IsNull() {
 		data.ServicePolicyQosOutput = types.StringValue(value.String())
 	} else {
 		data.ServicePolicyQosOutput = types.StringNull()
 	}
 	for i := range data.Tags {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Tags[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Tags[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "tag-config").ForEach(
+		res.Get(prefix+"tag-config").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -555,7 +555,7 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 			data.Tags[i].Name = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "mdns-service-policy"); value.Exists() && !data.MdnsServicePolicy.IsNull() {
+	if value := res.Get(prefix+"mdns-service-policy"); value.Exists() && !data.MdnsServicePolicy.IsNull() {
 		data.MdnsServicePolicy = types.StringValue(value.String())
 	} else {
 		data.MdnsServicePolicy = types.StringNull()
@@ -567,17 +567,17 @@ func (data *ServiceTemplate) updateFromBody(ctx context.Context, res gjson.Resul
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ServiceTemplate) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/word"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/word"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.AccessGroups {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.AccessGroups[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.AccessGroups[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-group-config").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-group-config").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -601,12 +601,12 @@ func (data *ServiceTemplate) updateFromBodyXML(ctx context.Context, res xmldot.R
 			data.AccessGroups[i].Name = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inactivity-timer/value"); value.Exists() && !data.InactivityTimer.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inactivity-timer/value"); value.Exists() && !data.InactivityTimer.IsNull() {
 		data.InactivityTimer = types.Int64Value(value.Int())
 	} else {
 		data.InactivityTimer = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inactivity-timer/probe"); !data.InactivityTimerProbe.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inactivity-timer/probe"); !data.InactivityTimerProbe.IsNull() {
 		if value.Exists() {
 			data.InactivityTimerProbe = types.BoolValue(true)
 		} else {
@@ -615,12 +615,12 @@ func (data *ServiceTemplate) updateFromBodyXML(ctx context.Context, res xmldot.R
 	} else {
 		data.InactivityTimerProbe = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan"); value.Exists() && !data.Vlan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan"); value.Exists() && !data.Vlan.IsNull() {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/voice/vlan"); !data.VoiceVlan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/voice/vlan"); !data.VoiceVlan.IsNull() {
 		if value.Exists() {
 			data.VoiceVlan = types.BoolValue(true)
 		} else {
@@ -629,32 +629,32 @@ func (data *ServiceTemplate) updateFromBodyXML(ctx context.Context, res xmldot.R
 	} else {
 		data.VoiceVlan = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/linksec/policy"); value.Exists() && !data.LinksecPolicy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/linksec/policy"); value.Exists() && !data.LinksecPolicy.IsNull() {
 		data.LinksecPolicy = types.StringValue(value.String())
 	} else {
 		data.LinksecPolicy = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/sgt"); value.Exists() && !data.Sgt.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/sgt"); value.Exists() && !data.Sgt.IsNull() {
 		data.Sgt = types.Int64Value(value.Int())
 	} else {
 		data.Sgt = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/absolute-timer"); value.Exists() && !data.AbsoluteTimer.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/absolute-timer"); value.Exists() && !data.AbsoluteTimer.IsNull() {
 		data.AbsoluteTimer = types.Int64Value(value.Int())
 	} else {
 		data.AbsoluteTimer = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
 	for i := range data.InterfaceTemplates {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.InterfaceTemplates[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.InterfaceTemplates[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/interface-template").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/interface-template").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -678,62 +678,62 @@ func (data *ServiceTemplate) updateFromBodyXML(ctx context.Context, res xmldot.R
 			data.InterfaceTemplates[i].Name = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tunnel/type/capwap/name"); value.Exists() && !data.TunnelCapwapName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tunnel/type/capwap/name"); value.Exists() && !data.TunnelCapwapName.IsNull() {
 		data.TunnelCapwapName = types.StringValue(value.String())
 	} else {
 		data.TunnelCapwapName = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vnid"); value.Exists() && !data.Vnid.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vnid"); value.Exists() && !data.Vnid.IsNull() {
 		data.Vnid = types.StringValue(value.String())
 	} else {
 		data.Vnid = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/append/client-mac"); value.Exists() && !data.RedirectAppendClientMac.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/append/client-mac"); value.Exists() && !data.RedirectAppendClientMac.IsNull() {
 		data.RedirectAppendClientMac = types.StringValue(value.String())
 	} else {
 		data.RedirectAppendClientMac = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/append/switch-mac"); value.Exists() && !data.RedirectAppendSwitchMac.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/append/switch-mac"); value.Exists() && !data.RedirectAppendSwitchMac.IsNull() {
 		data.RedirectAppendSwitchMac = types.StringValue(value.String())
 	} else {
 		data.RedirectAppendSwitchMac = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/url_name"); value.Exists() && !data.RedirectUrl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/url_name"); value.Exists() && !data.RedirectUrl.IsNull() {
 		data.RedirectUrl = types.StringValue(value.String())
 	} else {
 		data.RedirectUrl = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/match/acl_name"); value.Exists() && !data.RedirectUrlMatchAcl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/match/acl_name"); value.Exists() && !data.RedirectUrlMatchAcl.IsNull() {
 		data.RedirectUrlMatchAcl = types.StringValue(value.String())
 	} else {
 		data.RedirectUrlMatchAcl = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/match/action"); value.Exists() && !data.RedirectUrlMatchAction.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/match/action"); value.Exists() && !data.RedirectUrlMatchAction.IsNull() {
 		data.RedirectUrlMatchAction = types.StringValue(value.String())
 	} else {
 		data.RedirectUrlMatchAction = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-acl/preauth"); value.Exists() && !data.DnsAclPreauth.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-acl/preauth"); value.Exists() && !data.DnsAclPreauth.IsNull() {
 		data.DnsAclPreauth = types.StringValue(value.String())
 	} else {
 		data.DnsAclPreauth = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/qos/input"); value.Exists() && !data.ServicePolicyQosInput.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/qos/input"); value.Exists() && !data.ServicePolicyQosInput.IsNull() {
 		data.ServicePolicyQosInput = types.StringValue(value.String())
 	} else {
 		data.ServicePolicyQosInput = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/qos/output"); value.Exists() && !data.ServicePolicyQosOutput.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/qos/output"); value.Exists() && !data.ServicePolicyQosOutput.IsNull() {
 		data.ServicePolicyQosOutput = types.StringValue(value.String())
 	} else {
 		data.ServicePolicyQosOutput = types.StringNull()
 	}
 	for i := range data.Tags {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Tags[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Tags[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/tag-config").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/tag-config").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -757,7 +757,7 @@ func (data *ServiceTemplate) updateFromBodyXML(ctx context.Context, res xmldot.R
 			data.Tags[i].Name = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mdns-service-policy"); value.Exists() && !data.MdnsServicePolicy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mdns-service-policy"); value.Exists() && !data.MdnsServicePolicy.IsNull() {
 		data.MdnsServicePolicy = types.StringValue(value.String())
 	} else {
 		data.MdnsServicePolicy = types.StringNull()
@@ -773,7 +773,7 @@ func (data *ServiceTemplate) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-group-config"); value.Exists() {
+	if value := res.Get(prefix+"access-group-config"); value.Exists() {
 		data.AccessGroups = make([]ServiceTemplateAccessGroups, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ServiceTemplateAccessGroups{}
@@ -784,35 +784,35 @@ func (data *ServiceTemplate) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inactivity-timer.value"); value.Exists() {
+	if value := res.Get(prefix+"inactivity-timer.value"); value.Exists() {
 		data.InactivityTimer = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inactivity-timer.probe"); value.Exists() {
+	if value := res.Get(prefix+"inactivity-timer.probe"); value.Exists() {
 		data.InactivityTimerProbe = types.BoolValue(true)
 	} else {
 		data.InactivityTimerProbe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "vlan"); value.Exists() {
+	if value := res.Get(prefix+"vlan"); value.Exists() {
 		data.Vlan = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "voice.vlan"); value.Exists() {
+	if value := res.Get(prefix+"voice.vlan"); value.Exists() {
 		data.VoiceVlan = types.BoolValue(true)
 	} else {
 		data.VoiceVlan = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "linksec.policy"); value.Exists() {
+	if value := res.Get(prefix+"linksec.policy"); value.Exists() {
 		data.LinksecPolicy = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "sgt"); value.Exists() {
+	if value := res.Get(prefix+"sgt"); value.Exists() {
 		data.Sgt = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "absolute-timer"); value.Exists() {
+	if value := res.Get(prefix+"absolute-timer"); value.Exists() {
 		data.AbsoluteTimer = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "interface-template"); value.Exists() {
+	if value := res.Get(prefix+"interface-template"); value.Exists() {
 		data.InterfaceTemplates = make([]ServiceTemplateInterfaceTemplates, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ServiceTemplateInterfaceTemplates{}
@@ -823,37 +823,37 @@ func (data *ServiceTemplate) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "tunnel.type.capwap.name"); value.Exists() {
+	if value := res.Get(prefix+"tunnel.type.capwap.name"); value.Exists() {
 		data.TunnelCapwapName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "vnid"); value.Exists() {
+	if value := res.Get(prefix+"vnid"); value.Exists() {
 		data.Vnid = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.append.client-mac"); value.Exists() {
+	if value := res.Get(prefix+"redirect.append.client-mac"); value.Exists() {
 		data.RedirectAppendClientMac = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.append.switch-mac"); value.Exists() {
+	if value := res.Get(prefix+"redirect.append.switch-mac"); value.Exists() {
 		data.RedirectAppendSwitchMac = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.url.url_name"); value.Exists() {
+	if value := res.Get(prefix+"redirect.url.url_name"); value.Exists() {
 		data.RedirectUrl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.url.match.acl_name"); value.Exists() {
+	if value := res.Get(prefix+"redirect.url.match.acl_name"); value.Exists() {
 		data.RedirectUrlMatchAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.url.match.action"); value.Exists() {
+	if value := res.Get(prefix+"redirect.url.match.action"); value.Exists() {
 		data.RedirectUrlMatchAction = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "dns-acl.preauth"); value.Exists() {
+	if value := res.Get(prefix+"dns-acl.preauth"); value.Exists() {
 		data.DnsAclPreauth = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "service-policy.qos.input"); value.Exists() {
+	if value := res.Get(prefix+"service-policy.qos.input"); value.Exists() {
 		data.ServicePolicyQosInput = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "service-policy.qos.output"); value.Exists() {
+	if value := res.Get(prefix+"service-policy.qos.output"); value.Exists() {
 		data.ServicePolicyQosOutput = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "tag-config"); value.Exists() {
+	if value := res.Get(prefix+"tag-config"); value.Exists() {
 		data.Tags = make([]ServiceTemplateTags, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ServiceTemplateTags{}
@@ -864,7 +864,7 @@ func (data *ServiceTemplate) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "mdns-service-policy"); value.Exists() {
+	if value := res.Get(prefix+"mdns-service-policy"); value.Exists() {
 		data.MdnsServicePolicy = types.StringValue(value.String())
 	}
 }
@@ -878,7 +878,7 @@ func (data *ServiceTemplateData) fromBody(ctx context.Context, res gjson.Result)
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-group-config"); value.Exists() {
+	if value := res.Get(prefix+"access-group-config"); value.Exists() {
 		data.AccessGroups = make([]ServiceTemplateAccessGroupsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ServiceTemplateAccessGroupsData{}
@@ -889,35 +889,35 @@ func (data *ServiceTemplateData) fromBody(ctx context.Context, res gjson.Result)
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inactivity-timer.value"); value.Exists() {
+	if value := res.Get(prefix+"inactivity-timer.value"); value.Exists() {
 		data.InactivityTimer = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inactivity-timer.probe"); value.Exists() {
+	if value := res.Get(prefix+"inactivity-timer.probe"); value.Exists() {
 		data.InactivityTimerProbe = types.BoolValue(true)
 	} else {
 		data.InactivityTimerProbe = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "vlan"); value.Exists() {
+	if value := res.Get(prefix+"vlan"); value.Exists() {
 		data.Vlan = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "voice.vlan"); value.Exists() {
+	if value := res.Get(prefix+"voice.vlan"); value.Exists() {
 		data.VoiceVlan = types.BoolValue(true)
 	} else {
 		data.VoiceVlan = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "linksec.policy"); value.Exists() {
+	if value := res.Get(prefix+"linksec.policy"); value.Exists() {
 		data.LinksecPolicy = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "sgt"); value.Exists() {
+	if value := res.Get(prefix+"sgt"); value.Exists() {
 		data.Sgt = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "absolute-timer"); value.Exists() {
+	if value := res.Get(prefix+"absolute-timer"); value.Exists() {
 		data.AbsoluteTimer = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "interface-template"); value.Exists() {
+	if value := res.Get(prefix+"interface-template"); value.Exists() {
 		data.InterfaceTemplates = make([]ServiceTemplateInterfaceTemplatesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ServiceTemplateInterfaceTemplatesData{}
@@ -928,37 +928,37 @@ func (data *ServiceTemplateData) fromBody(ctx context.Context, res gjson.Result)
 			return true
 		})
 	}
-	if value := res.Get(prefix + "tunnel.type.capwap.name"); value.Exists() {
+	if value := res.Get(prefix+"tunnel.type.capwap.name"); value.Exists() {
 		data.TunnelCapwapName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "vnid"); value.Exists() {
+	if value := res.Get(prefix+"vnid"); value.Exists() {
 		data.Vnid = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.append.client-mac"); value.Exists() {
+	if value := res.Get(prefix+"redirect.append.client-mac"); value.Exists() {
 		data.RedirectAppendClientMac = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.append.switch-mac"); value.Exists() {
+	if value := res.Get(prefix+"redirect.append.switch-mac"); value.Exists() {
 		data.RedirectAppendSwitchMac = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.url.url_name"); value.Exists() {
+	if value := res.Get(prefix+"redirect.url.url_name"); value.Exists() {
 		data.RedirectUrl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.url.match.acl_name"); value.Exists() {
+	if value := res.Get(prefix+"redirect.url.match.acl_name"); value.Exists() {
 		data.RedirectUrlMatchAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "redirect.url.match.action"); value.Exists() {
+	if value := res.Get(prefix+"redirect.url.match.action"); value.Exists() {
 		data.RedirectUrlMatchAction = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "dns-acl.preauth"); value.Exists() {
+	if value := res.Get(prefix+"dns-acl.preauth"); value.Exists() {
 		data.DnsAclPreauth = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "service-policy.qos.input"); value.Exists() {
+	if value := res.Get(prefix+"service-policy.qos.input"); value.Exists() {
 		data.ServicePolicyQosInput = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "service-policy.qos.output"); value.Exists() {
+	if value := res.Get(prefix+"service-policy.qos.output"); value.Exists() {
 		data.ServicePolicyQosOutput = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "tag-config"); value.Exists() {
+	if value := res.Get(prefix+"tag-config"); value.Exists() {
 		data.Tags = make([]ServiceTemplateTagsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ServiceTemplateTagsData{}
@@ -969,7 +969,7 @@ func (data *ServiceTemplateData) fromBody(ctx context.Context, res gjson.Result)
 			return true
 		})
 	}
-	if value := res.Get(prefix + "mdns-service-policy"); value.Exists() {
+	if value := res.Get(prefix+"mdns-service-policy"); value.Exists() {
 		data.MdnsServicePolicy = types.StringValue(value.String())
 	}
 }
@@ -979,7 +979,7 @@ func (data *ServiceTemplateData) fromBody(ctx context.Context, res gjson.Result)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ServiceTemplate) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-group-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-group-config"); value.Exists() {
 		data.AccessGroups = make([]ServiceTemplateAccessGroups, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ServiceTemplateAccessGroups{}
@@ -990,35 +990,35 @@ func (data *ServiceTemplate) fromBodyXML(ctx context.Context, res xmldot.Result)
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inactivity-timer/value"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inactivity-timer/value"); value.Exists() {
 		data.InactivityTimer = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inactivity-timer/probe"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inactivity-timer/probe"); value.Exists() {
 		data.InactivityTimerProbe = types.BoolValue(true)
 	} else {
 		data.InactivityTimerProbe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan"); value.Exists() {
 		data.Vlan = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/voice/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/voice/vlan"); value.Exists() {
 		data.VoiceVlan = types.BoolValue(true)
 	} else {
 		data.VoiceVlan = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/linksec/policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/linksec/policy"); value.Exists() {
 		data.LinksecPolicy = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/sgt"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/sgt"); value.Exists() {
 		data.Sgt = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/absolute-timer"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/absolute-timer"); value.Exists() {
 		data.AbsoluteTimer = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interface-template"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interface-template"); value.Exists() {
 		data.InterfaceTemplates = make([]ServiceTemplateInterfaceTemplates, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ServiceTemplateInterfaceTemplates{}
@@ -1029,37 +1029,37 @@ func (data *ServiceTemplate) fromBodyXML(ctx context.Context, res xmldot.Result)
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tunnel/type/capwap/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tunnel/type/capwap/name"); value.Exists() {
 		data.TunnelCapwapName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vnid"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vnid"); value.Exists() {
 		data.Vnid = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/append/client-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/append/client-mac"); value.Exists() {
 		data.RedirectAppendClientMac = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/append/switch-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/append/switch-mac"); value.Exists() {
 		data.RedirectAppendSwitchMac = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/url_name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/url_name"); value.Exists() {
 		data.RedirectUrl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/match/acl_name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/match/acl_name"); value.Exists() {
 		data.RedirectUrlMatchAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/match/action"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/match/action"); value.Exists() {
 		data.RedirectUrlMatchAction = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-acl/preauth"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-acl/preauth"); value.Exists() {
 		data.DnsAclPreauth = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/qos/input"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/qos/input"); value.Exists() {
 		data.ServicePolicyQosInput = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/qos/output"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/qos/output"); value.Exists() {
 		data.ServicePolicyQosOutput = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tag-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tag-config"); value.Exists() {
 		data.Tags = make([]ServiceTemplateTags, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ServiceTemplateTags{}
@@ -1070,7 +1070,7 @@ func (data *ServiceTemplate) fromBodyXML(ctx context.Context, res xmldot.Result)
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mdns-service-policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mdns-service-policy"); value.Exists() {
 		data.MdnsServicePolicy = types.StringValue(value.String())
 	}
 }
@@ -1080,7 +1080,7 @@ func (data *ServiceTemplate) fromBodyXML(ctx context.Context, res xmldot.Result)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ServiceTemplateData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-group-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-group-config"); value.Exists() {
 		data.AccessGroups = make([]ServiceTemplateAccessGroupsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ServiceTemplateAccessGroupsData{}
@@ -1091,35 +1091,35 @@ func (data *ServiceTemplateData) fromBodyXML(ctx context.Context, res xmldot.Res
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inactivity-timer/value"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inactivity-timer/value"); value.Exists() {
 		data.InactivityTimer = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inactivity-timer/probe"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inactivity-timer/probe"); value.Exists() {
 		data.InactivityTimerProbe = types.BoolValue(true)
 	} else {
 		data.InactivityTimerProbe = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vlan"); value.Exists() {
 		data.Vlan = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/voice/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/voice/vlan"); value.Exists() {
 		data.VoiceVlan = types.BoolValue(true)
 	} else {
 		data.VoiceVlan = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/linksec/policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/linksec/policy"); value.Exists() {
 		data.LinksecPolicy = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/sgt"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/sgt"); value.Exists() {
 		data.Sgt = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/absolute-timer"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/absolute-timer"); value.Exists() {
 		data.AbsoluteTimer = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/interface-template"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/interface-template"); value.Exists() {
 		data.InterfaceTemplates = make([]ServiceTemplateInterfaceTemplatesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ServiceTemplateInterfaceTemplatesData{}
@@ -1130,37 +1130,37 @@ func (data *ServiceTemplateData) fromBodyXML(ctx context.Context, res xmldot.Res
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tunnel/type/capwap/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tunnel/type/capwap/name"); value.Exists() {
 		data.TunnelCapwapName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vnid"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vnid"); value.Exists() {
 		data.Vnid = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/append/client-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/append/client-mac"); value.Exists() {
 		data.RedirectAppendClientMac = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/append/switch-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/append/switch-mac"); value.Exists() {
 		data.RedirectAppendSwitchMac = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/url_name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/url_name"); value.Exists() {
 		data.RedirectUrl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/match/acl_name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/match/acl_name"); value.Exists() {
 		data.RedirectUrlMatchAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/redirect/url/match/action"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/redirect/url/match/action"); value.Exists() {
 		data.RedirectUrlMatchAction = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-acl/preauth"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-acl/preauth"); value.Exists() {
 		data.DnsAclPreauth = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/qos/input"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/qos/input"); value.Exists() {
 		data.ServicePolicyQosInput = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/service-policy/qos/output"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/service-policy/qos/output"); value.Exists() {
 		data.ServicePolicyQosOutput = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tag-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tag-config"); value.Exists() {
 		data.Tags = make([]ServiceTemplateTagsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ServiceTemplateTagsData{}
@@ -1171,7 +1171,7 @@ func (data *ServiceTemplateData) fromBodyXML(ctx context.Context, res xmldot.Res
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mdns-service-policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mdns-service-policy"); value.Exists() {
 		data.MdnsServicePolicy = types.StringValue(value.String())
 	}
 }
@@ -1186,8 +1186,8 @@ func (data *ServiceTemplate) getDeletedItems(ctx context.Context, state ServiceT
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/mdns-service-policy", state.getPath()))
 	}
 	for i := range state.Tags {
-		stateKeyValues := [...]string{state.Tags[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Tags[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Tags[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1241,8 +1241,8 @@ func (data *ServiceTemplate) getDeletedItems(ctx context.Context, state ServiceT
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/tunnel/type/capwap/name", state.getPath()))
 	}
 	for i := range state.InterfaceTemplates {
-		stateKeyValues := [...]string{state.InterfaceTemplates[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.InterfaceTemplates[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InterfaceTemplates[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1290,8 +1290,8 @@ func (data *ServiceTemplate) getDeletedItems(ctx context.Context, state ServiceT
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/inactivity-timer/value", state.getPath()))
 	}
 	for i := range state.AccessGroups {
-		stateKeyValues := [...]string{state.AccessGroups[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.AccessGroups[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.AccessGroups[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1328,13 +1328,13 @@ func (data *ServiceTemplate) addDeletedItemsXML(ctx context.Context, state Servi
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/mdns-service-policy")
 	}
 	for i := range state.Tags {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Tags[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Tags[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Tags[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1388,13 +1388,13 @@ func (data *ServiceTemplate) addDeletedItemsXML(ctx context.Context, state Servi
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/tunnel/type/capwap/name")
 	}
 	for i := range state.InterfaceTemplates {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.InterfaceTemplates[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.InterfaceTemplates[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InterfaceTemplates[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1442,13 +1442,13 @@ func (data *ServiceTemplate) addDeletedItemsXML(ctx context.Context, state Servi
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/inactivity-timer/value")
 	}
 	for i := range state.AccessGroups {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.AccessGroups[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.AccessGroups[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.AccessGroups[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1482,13 +1482,18 @@ func (data *ServiceTemplate) addDeletedItemsXML(ctx context.Context, state Servi
 
 func (data *ServiceTemplate) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
+	
+	
 	if !data.VoiceVlan.IsNull() && !data.VoiceVlan.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/voice/vlan", data.getPath()))
 	}
 	if !data.InactivityTimerProbe.IsNull() && !data.InactivityTimerProbe.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/inactivity-timer/probe", data.getPath()))
 	}
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -1503,7 +1508,7 @@ func (data *ServiceTemplate) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/mdns-service-policy", data.getPath()))
 	}
 	for i := range data.Tags {
-		keyValues := [...]string{data.Tags[i].Name.ValueString()}
+		keyValues := [...]string{ data.Tags[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/tag-config=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1538,7 +1543,7 @@ func (data *ServiceTemplate) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/tunnel/type/capwap/name", data.getPath()))
 	}
 	for i := range data.InterfaceTemplates {
-		keyValues := [...]string{data.InterfaceTemplates[i].Name.ValueString()}
+		keyValues := [...]string{ data.InterfaceTemplates[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/interface-template=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1567,7 +1572,7 @@ func (data *ServiceTemplate) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/inactivity-timer/value", data.getPath()))
 	}
 	for i := range data.AccessGroups {
-		keyValues := [...]string{data.AccessGroups[i].Name.ValueString()}
+		keyValues := [...]string{ data.AccessGroups[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/access-group-config=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1585,8 +1590,8 @@ func (data *ServiceTemplate) addDeletePathsXML(ctx context.Context, body string)
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/mdns-service-policy")
 	}
 	for i := range data.Tags {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Tags[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Tags[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1625,8 +1630,8 @@ func (data *ServiceTemplate) addDeletePathsXML(ctx context.Context, body string)
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/tunnel/type/capwap/name")
 	}
 	for i := range data.InterfaceTemplates {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.InterfaceTemplates[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.InterfaceTemplates[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1659,8 +1664,8 @@ func (data *ServiceTemplate) addDeletePathsXML(ctx context.Context, body string)
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/inactivity-timer/value")
 	}
 	for i := range data.AccessGroups {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.AccessGroups[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.AccessGroups[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

@@ -23,96 +23,96 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type MSDP struct {
-	Device       types.String    `tfsdk:"device"`
-	Id           types.String    `tfsdk:"id"`
-	DeleteMode   types.String    `tfsdk:"delete_mode"`
-	OriginatorId types.String    `tfsdk:"originator_id"`
-	Peers        []MSDPPeers     `tfsdk:"peers"`
-	Passwords    []MSDPPasswords `tfsdk:"passwords"`
-	Vrfs         []MSDPVrfs      `tfsdk:"vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	OriginatorId types.String `tfsdk:"originator_id"`
+	Peers []MSDPPeers `tfsdk:"peers"`
+	Passwords []MSDPPasswords `tfsdk:"passwords"`
+	Vrfs []MSDPVrfs `tfsdk:"vrfs"`
 }
 type MSDPPeers struct {
-	Addr                  types.String `tfsdk:"addr"`
-	RemoteAs              types.Int64  `tfsdk:"remote_as"`
-	ConnectSourceLoopback types.Int64  `tfsdk:"connect_source_loopback"`
+	Addr types.String `tfsdk:"addr"`
+	RemoteAs types.Int64 `tfsdk:"remote_as"`
+	ConnectSourceLoopback types.Int64 `tfsdk:"connect_source_loopback"`
 }
 type MSDPPasswords struct {
-	Addr              types.String `tfsdk:"addr"`
-	Encryption        types.Int64  `tfsdk:"encryption"`
-	Password          types.String `tfsdk:"password"`
-	PasswordWO        types.String `tfsdk:"password_wo"`
-	PasswordWOVersion types.Int64  `tfsdk:"password_wo_version"`
+	Addr types.String `tfsdk:"addr"`
+	Encryption types.Int64 `tfsdk:"encryption"`
+	Password types.String `tfsdk:"password"`
+	PasswordWO types.String `tfsdk:"password_wo"`
+	PasswordWOVersion types.Int64 `tfsdk:"password_wo_version"`
 }
 type MSDPVrfs struct {
-	Vrf          types.String        `tfsdk:"vrf"`
-	OriginatorId types.String        `tfsdk:"originator_id"`
-	Peers        []MSDPVrfsPeers     `tfsdk:"peers"`
-	Passwords    []MSDPVrfsPasswords `tfsdk:"passwords"`
+	Vrf types.String `tfsdk:"vrf"`
+	OriginatorId types.String `tfsdk:"originator_id"`
+	Peers []MSDPVrfsPeers `tfsdk:"peers"`
+	Passwords []MSDPVrfsPasswords `tfsdk:"passwords"`
 }
 type MSDPVrfsPeers struct {
-	Addr                  types.String `tfsdk:"addr"`
-	RemoteAs              types.Int64  `tfsdk:"remote_as"`
-	ConnectSourceLoopback types.Int64  `tfsdk:"connect_source_loopback"`
+	Addr types.String `tfsdk:"addr"`
+	RemoteAs types.Int64 `tfsdk:"remote_as"`
+	ConnectSourceLoopback types.Int64 `tfsdk:"connect_source_loopback"`
 }
 type MSDPVrfsPasswords struct {
-	Addr              types.String `tfsdk:"addr"`
-	Encryption        types.Int64  `tfsdk:"encryption"`
-	Password          types.String `tfsdk:"password"`
-	PasswordWO        types.String `tfsdk:"password_wo"`
-	PasswordWOVersion types.Int64  `tfsdk:"password_wo_version"`
+	Addr types.String `tfsdk:"addr"`
+	Encryption types.Int64 `tfsdk:"encryption"`
+	Password types.String `tfsdk:"password"`
+	PasswordWO types.String `tfsdk:"password_wo"`
+	PasswordWOVersion types.Int64 `tfsdk:"password_wo_version"`
 }
 
 type MSDPData struct {
-	Device       types.String        `tfsdk:"device"`
-	Id           types.String        `tfsdk:"id"`
-	OriginatorId types.String        `tfsdk:"originator_id"`
-	Peers        []MSDPPeersData     `tfsdk:"peers"`
-	Passwords    []MSDPPasswordsData `tfsdk:"passwords"`
-	Vrfs         []MSDPVrfsData      `tfsdk:"vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	OriginatorId types.String `tfsdk:"originator_id"`
+	Peers []MSDPPeersData `tfsdk:"peers"`
+	Passwords []MSDPPasswordsData `tfsdk:"passwords"`
+	Vrfs []MSDPVrfsData `tfsdk:"vrfs"`
 }
 type MSDPPeersData struct {
-	Addr                  types.String `tfsdk:"addr"`
-	RemoteAs              types.Int64  `tfsdk:"remote_as"`
-	ConnectSourceLoopback types.Int64  `tfsdk:"connect_source_loopback"`
+	Addr types.String `tfsdk:"addr"`
+	RemoteAs types.Int64 `tfsdk:"remote_as"`
+	ConnectSourceLoopback types.Int64 `tfsdk:"connect_source_loopback"`
 }
 type MSDPPasswordsData struct {
-	Addr       types.String `tfsdk:"addr"`
-	Encryption types.Int64  `tfsdk:"encryption"`
-	Password   types.String `tfsdk:"password"`
+	Addr types.String `tfsdk:"addr"`
+	Encryption types.Int64 `tfsdk:"encryption"`
+	Password types.String `tfsdk:"password"`
 }
 type MSDPVrfsData struct {
-	Vrf          types.String            `tfsdk:"vrf"`
-	OriginatorId types.String            `tfsdk:"originator_id"`
-	Peers        []MSDPVrfsPeersData     `tfsdk:"peers"`
-	Passwords    []MSDPVrfsPasswordsData `tfsdk:"passwords"`
+	Vrf types.String `tfsdk:"vrf"`
+	OriginatorId types.String `tfsdk:"originator_id"`
+	Peers []MSDPVrfsPeersData `tfsdk:"peers"`
+	Passwords []MSDPVrfsPasswordsData `tfsdk:"passwords"`
 }
 type MSDPVrfsPeersData struct {
-	Addr                  types.String `tfsdk:"addr"`
-	RemoteAs              types.Int64  `tfsdk:"remote_as"`
-	ConnectSourceLoopback types.Int64  `tfsdk:"connect_source_loopback"`
+	Addr types.String `tfsdk:"addr"`
+	RemoteAs types.Int64 `tfsdk:"remote_as"`
+	ConnectSourceLoopback types.Int64 `tfsdk:"connect_source_loopback"`
 }
 type MSDPVrfsPasswordsData struct {
-	Addr       types.String `tfsdk:"addr"`
-	Encryption types.Int64  `tfsdk:"encryption"`
-	Password   types.String `tfsdk:"password"`
+	Addr types.String `tfsdk:"addr"`
+	Encryption types.Int64 `tfsdk:"encryption"`
+	Password types.String `tfsdk:"password"`
 }
 
 // End of section. //template:end types
@@ -267,7 +267,7 @@ func (data MSDP) toBody(ctx context.Context, config MSDP) string {
 func (data MSDP) toBodyXML(ctx context.Context, config MSDP) string {
 	body := netconf.Body{}
 	if !data.OriginatorId.IsNull() && !data.OriginatorId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/originator-id", data.OriginatorId.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/originator-id", data.OriginatorId.ValueString())
 	}
 	if len(data.Peers) > 0 {
 		for _, item := range data.Peers {
@@ -389,17 +389,17 @@ func (data *MSDP) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "originator-id"); value.Exists() && !data.OriginatorId.IsNull() {
+	if value := res.Get(prefix+"originator-id"); value.Exists() && !data.OriginatorId.IsNull() {
 		data.OriginatorId = types.StringValue(value.String())
 	} else {
 		data.OriginatorId = types.StringNull()
 	}
 	for i := range data.Peers {
-		keys := [...]string{"addr"}
-		keyValues := [...]string{data.Peers[i].Addr.ValueString()}
+		keys := [...]string{ "addr",  }
+		keyValues := [...]string{ data.Peers[i].Addr.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "peer").ForEach(
+		res.Get(prefix+"peer").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -434,11 +434,11 @@ func (data *MSDP) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Passwords {
-		keys := [...]string{"addr"}
-		keyValues := [...]string{data.Passwords[i].Addr.ValueString()}
+		keys := [...]string{ "addr",  }
+		keyValues := [...]string{ data.Passwords[i].Addr.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "password.peer-list").ForEach(
+		res.Get(prefix+"password.peer-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -463,11 +463,11 @@ func (data *MSDP) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "vrf").ForEach(
+		res.Get(prefix+"vrf").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -496,8 +496,8 @@ func (data *MSDP) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Vrfs[i].OriginatorId = types.StringNull()
 		}
 		for ci := range data.Vrfs[i].Peers {
-			keys := [...]string{"addr"}
-			keyValues := [...]string{data.Vrfs[i].Peers[ci].Addr.ValueString()}
+			keys := [...]string{ "addr",  }
+			keyValues := [...]string{ data.Vrfs[i].Peers[ci].Addr.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("peer").ForEach(
@@ -535,8 +535,8 @@ func (data *MSDP) updateFromBody(ctx context.Context, res gjson.Result) {
 			}
 		}
 		for ci := range data.Vrfs[i].Passwords {
-			keys := [...]string{"addr"}
-			keyValues := [...]string{data.Vrfs[i].Passwords[ci].Addr.ValueString()}
+			keys := [...]string{ "addr",  }
+			keyValues := [...]string{ data.Vrfs[i].Passwords[ci].Addr.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("password.peer-list").ForEach(
@@ -571,17 +571,17 @@ func (data *MSDP) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *MSDP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/originator-id"); value.Exists() && !data.OriginatorId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/originator-id"); value.Exists() && !data.OriginatorId.IsNull() {
 		data.OriginatorId = types.StringValue(value.String())
 	} else {
 		data.OriginatorId = types.StringNull()
 	}
 	for i := range data.Peers {
-		keys := [...]string{"addr"}
-		keyValues := [...]string{data.Peers[i].Addr.ValueString()}
+		keys := [...]string{ "addr",  }
+		keyValues := [...]string{ data.Peers[i].Addr.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -616,11 +616,11 @@ func (data *MSDP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Passwords {
-		keys := [...]string{"addr"}
-		keyValues := [...]string{data.Passwords[i].Addr.ValueString()}
+		keys := [...]string{ "addr",  }
+		keyValues := [...]string{ data.Passwords[i].Addr.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/peer-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/peer-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -645,11 +645,11 @@ func (data *MSDP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -678,8 +678,8 @@ func (data *MSDP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.Vrfs[i].OriginatorId = types.StringNull()
 		}
 		for ci := range data.Vrfs[i].Peers {
-			keys := [...]string{"addr"}
-			keyValues := [...]string{data.Vrfs[i].Peers[ci].Addr.ValueString()}
+			keys := [...]string{ "addr",  }
+			keyValues := [...]string{ data.Vrfs[i].Peers[ci].Addr.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "peer").ForEach(
@@ -717,8 +717,8 @@ func (data *MSDP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			}
 		}
 		for ci := range data.Vrfs[i].Passwords {
-			keys := [...]string{"addr"}
-			keyValues := [...]string{data.Vrfs[i].Passwords[ci].Addr.ValueString()}
+			keys := [...]string{ "addr",  }
+			keyValues := [...]string{ data.Vrfs[i].Passwords[ci].Addr.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "password/peer-list").ForEach(
@@ -757,10 +757,10 @@ func (data *MSDP) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "originator-id"); value.Exists() {
+	if value := res.Get(prefix+"originator-id"); value.Exists() {
 		data.OriginatorId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "peer"); value.Exists() {
+	if value := res.Get(prefix+"peer"); value.Exists() {
 		data.Peers = make([]MSDPPeers, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MSDPPeers{}
@@ -777,7 +777,7 @@ func (data *MSDP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "password.peer-list"); value.Exists() {
+	if value := res.Get(prefix+"password.peer-list"); value.Exists() {
 		data.Passwords = make([]MSDPPasswords, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MSDPPasswords{}
@@ -794,7 +794,7 @@ func (data *MSDP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrfs = make([]MSDPVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MSDPVrfs{}
@@ -853,10 +853,10 @@ func (data *MSDPData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "originator-id"); value.Exists() {
+	if value := res.Get(prefix+"originator-id"); value.Exists() {
 		data.OriginatorId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "peer"); value.Exists() {
+	if value := res.Get(prefix+"peer"); value.Exists() {
 		data.Peers = make([]MSDPPeersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MSDPPeersData{}
@@ -873,7 +873,7 @@ func (data *MSDPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "password.peer-list"); value.Exists() {
+	if value := res.Get(prefix+"password.peer-list"); value.Exists() {
 		data.Passwords = make([]MSDPPasswordsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MSDPPasswordsData{}
@@ -890,7 +890,7 @@ func (data *MSDPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrfs = make([]MSDPVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MSDPVrfsData{}
@@ -945,10 +945,10 @@ func (data *MSDPData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *MSDP) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/originator-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/originator-id"); value.Exists() {
 		data.OriginatorId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer"); value.Exists() {
 		data.Peers = make([]MSDPPeers, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MSDPPeers{}
@@ -965,7 +965,7 @@ func (data *MSDP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/peer-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/peer-list"); value.Exists() {
 		data.Passwords = make([]MSDPPasswords, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MSDPPasswords{}
@@ -982,7 +982,7 @@ func (data *MSDP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrfs = make([]MSDPVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MSDPVrfs{}
@@ -1037,10 +1037,10 @@ func (data *MSDP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *MSDPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/originator-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/originator-id"); value.Exists() {
 		data.OriginatorId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer"); value.Exists() {
 		data.Peers = make([]MSDPPeersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MSDPPeersData{}
@@ -1057,7 +1057,7 @@ func (data *MSDPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/peer-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/peer-list"); value.Exists() {
 		data.Passwords = make([]MSDPPasswordsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MSDPPasswordsData{}
@@ -1074,7 +1074,7 @@ func (data *MSDPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrfs = make([]MSDPVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MSDPVrfsData{}
@@ -1131,8 +1131,8 @@ func (data *MSDPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *MSDP) getDeletedItems(ctx context.Context, state MSDP) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Vrfs {
-		stateKeyValues := [...]string{state.Vrfs[i].Vrf.ValueString()}
-
+		stateKeyValues := [...]string{ state.Vrfs[i].Vrf.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vrfs[i].Vrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1149,8 +1149,8 @@ func (data *MSDP) getDeletedItems(ctx context.Context, state MSDP) []string {
 			}
 			if found {
 				for ci := range state.Vrfs[i].Passwords {
-					cstateKeyValues := [...]string{state.Vrfs[i].Passwords[ci].Addr.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Vrfs[i].Passwords[ci].Addr.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Vrfs[i].Passwords[ci].Addr.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1180,8 +1180,8 @@ func (data *MSDP) getDeletedItems(ctx context.Context, state MSDP) []string {
 					}
 				}
 				for ci := range state.Vrfs[i].Peers {
-					cstateKeyValues := [...]string{state.Vrfs[i].Peers[ci].Addr.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Vrfs[i].Peers[ci].Addr.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Vrfs[i].Peers[ci].Addr.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1221,8 +1221,8 @@ func (data *MSDP) getDeletedItems(ctx context.Context, state MSDP) []string {
 		}
 	}
 	for i := range state.Passwords {
-		stateKeyValues := [...]string{state.Passwords[i].Addr.ValueString()}
-
+		stateKeyValues := [...]string{ state.Passwords[i].Addr.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Passwords[i].Addr.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1252,8 +1252,8 @@ func (data *MSDP) getDeletedItems(ctx context.Context, state MSDP) []string {
 		}
 	}
 	for i := range state.Peers {
-		stateKeyValues := [...]string{state.Peers[i].Addr.ValueString()}
-
+		stateKeyValues := [...]string{ state.Peers[i].Addr.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Peers[i].Addr.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1296,13 +1296,13 @@ func (data *MSDP) getDeletedItems(ctx context.Context, state MSDP) []string {
 func (data *MSDP) addDeletedItemsXML(ctx context.Context, state MSDP, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Vrfs {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Vrfs[i].Vrf.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Vrfs[i].Vrf.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vrfs[i].Vrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1319,8 +1319,8 @@ func (data *MSDP) addDeletedItemsXML(ctx context.Context, state MSDP, body strin
 			}
 			if found {
 				for ci := range state.Vrfs[i].Passwords {
-					cstateKeys := [...]string{"addr"}
-					cstateKeyValues := [...]string{state.Vrfs[i].Passwords[ci].Addr.ValueString()}
+					cstateKeys := [...]string{ "addr",  }
+					cstateKeyValues := [...]string{ state.Vrfs[i].Passwords[ci].Addr.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1355,8 +1355,8 @@ func (data *MSDP) addDeletedItemsXML(ctx context.Context, state MSDP, body strin
 					}
 				}
 				for ci := range state.Vrfs[i].Peers {
-					cstateKeys := [...]string{"addr"}
-					cstateKeyValues := [...]string{state.Vrfs[i].Peers[ci].Addr.ValueString()}
+					cstateKeys := [...]string{ "addr",  }
+					cstateKeyValues := [...]string{ state.Vrfs[i].Peers[ci].Addr.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1401,13 +1401,13 @@ func (data *MSDP) addDeletedItemsXML(ctx context.Context, state MSDP, body strin
 		}
 	}
 	for i := range state.Passwords {
-		stateKeys := [...]string{"addr"}
-		stateKeyValues := [...]string{state.Passwords[i].Addr.ValueString()}
+		stateKeys := [...]string{ "addr",  }
+		stateKeyValues := [...]string{ state.Passwords[i].Addr.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Passwords[i].Addr.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1437,13 +1437,13 @@ func (data *MSDP) addDeletedItemsXML(ctx context.Context, state MSDP, body strin
 		}
 	}
 	for i := range state.Peers {
-		stateKeys := [...]string{"addr"}
-		stateKeyValues := [...]string{state.Peers[i].Addr.ValueString()}
+		stateKeys := [...]string{ "addr",  }
+		stateKeyValues := [...]string{ state.Peers[i].Addr.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Peers[i].Addr.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1486,6 +1486,12 @@ func (data *MSDP) addDeletedItemsXML(ctx context.Context, state MSDP, body strin
 
 func (data *MSDP) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
+	
+	
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -1497,17 +1503,17 @@ func (data *MSDP) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *MSDP) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Vrfs {
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/vrf=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Passwords {
-		keyValues := [...]string{data.Passwords[i].Addr.ValueString()}
+		keyValues := [...]string{ data.Passwords[i].Addr.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/password/peer-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Peers {
-		keyValues := [...]string{data.Peers[i].Addr.ValueString()}
+		keyValues := [...]string{ data.Peers[i].Addr.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/peer=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1525,8 +1531,8 @@ func (data *MSDP) getDeletePaths(ctx context.Context) []string {
 func (data *MSDP) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1535,8 +1541,8 @@ func (data *MSDP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/vrf%v", predicates))
 	}
 	for i := range data.Passwords {
-		keys := [...]string{"addr"}
-		keyValues := [...]string{data.Passwords[i].Addr.ValueString()}
+		keys := [...]string{ "addr",  }
+		keyValues := [...]string{ data.Passwords[i].Addr.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1545,8 +1551,8 @@ func (data *MSDP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/password/peer-list%v", predicates))
 	}
 	for i := range data.Peers {
-		keys := [...]string{"addr"}
-		keyValues := [...]string{data.Peers[i].Addr.ValueString()}
+		keys := [...]string{ "addr",  }
+		keyValues := [...]string{ data.Peers[i].Addr.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

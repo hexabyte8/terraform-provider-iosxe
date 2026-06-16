@@ -1,4 +1,4 @@
 resource "iosxe_zone_security" "example" {
-  name        = "INSIDE"
+  name = "INSIDE"
   description = "Internal trusted network"
 }

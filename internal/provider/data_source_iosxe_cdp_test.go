@@ -48,7 +48,7 @@ func TestAccDataSourceIosxeCDP(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCDPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -74,9 +74,9 @@ func testAccDataSourceIosxeCDPConfig() string {
 	config += `		duplex = true` + "\n"
 	config += `		trust = true` + "\n"
 	config += `		version = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_cdp" "test" {
 			depends_on = [iosxe_cdp.test]

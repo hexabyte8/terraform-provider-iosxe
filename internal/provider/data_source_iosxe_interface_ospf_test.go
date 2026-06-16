@@ -51,8 +51,8 @@ func TestAccDataSourceIosxeInterfaceOSPF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfaceOSPFPrerequisitesConfig + testAccDataSourceIosxeInterfaceOSPFConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfaceOSPFPrerequisitesConfig+testAccDataSourceIosxeInterfaceOSPFConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -77,7 +77,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -102,18 +101,18 @@ func testAccDataSourceIosxeInterfaceOSPFConfig() string {
 	config += `		areas = [{` + "\n"
 	config += `			area_id = "0"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	multi_area_ids = [{` + "\n"
 	config += `		area_id = "10"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	message_digest_keys = [{` + "\n"
 	config += `		id = 1` + "\n"
 	config += `		md5_auth_key = "mykey"` + "\n"
 	config += `		md5_auth_type = 0` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_ospf" "test" {
 			type = "Loopback"

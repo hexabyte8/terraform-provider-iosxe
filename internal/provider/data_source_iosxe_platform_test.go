@@ -42,7 +42,7 @@ func TestAccDataSourceIosxePlatform(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxePlatformConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -62,7 +62,7 @@ func testAccDataSourceIosxePlatformConfig() string {
 	config += `	punt_keepalive_settings_transmit_interval = 15` + "\n"
 	config += `	punt_keepalive_settings_warning_count = 15` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_platform" "test" {
 			depends_on = [iosxe_platform.test]

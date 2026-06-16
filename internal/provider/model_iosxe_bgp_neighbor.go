@@ -23,97 +23,97 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPNeighbor struct {
-	Device                              types.String `tfsdk:"device"`
-	Id                                  types.String `tfsdk:"id"`
-	DeleteMode                          types.String `tfsdk:"delete_mode"`
-	Asn                                 types.String `tfsdk:"asn"`
-	Ip                                  types.String `tfsdk:"ip"`
-	RemoteAs                            types.String `tfsdk:"remote_as"`
-	Description                         types.String `tfsdk:"description"`
-	Shutdown                            types.Bool   `tfsdk:"shutdown"`
-	ClusterId                           types.String `tfsdk:"cluster_id"`
-	Version                             types.Int64  `tfsdk:"version"`
-	DisableConnectedCheck               types.Bool   `tfsdk:"disable_connected_check"`
-	FallOverDefaultEnable               types.Bool   `tfsdk:"fall_over_default_enable"`
-	FallOverDefaultRouteMap             types.String `tfsdk:"fall_over_default_route_map"`
-	FallOverBfd                         types.Bool   `tfsdk:"fall_over_bfd"`
-	FallOverBfdMultiHop                 types.Bool   `tfsdk:"fall_over_bfd_multi_hop"`
-	FallOverBfdSingleHop                types.Bool   `tfsdk:"fall_over_bfd_single_hop"`
-	FallOverBfdCheckControlPlaneFailure types.Bool   `tfsdk:"fall_over_bfd_check_control_plane_failure"`
-	FallOverBfdStrictMode               types.Bool   `tfsdk:"fall_over_bfd_strict_mode"`
-	FallOverMaximumMetricRouteMap       types.String `tfsdk:"fall_over_maximum_metric_route_map"`
-	LocalAs                             types.String `tfsdk:"local_as"`
-	LocalAsNoPrepend                    types.Bool   `tfsdk:"local_as_no_prepend"`
-	LocalAsReplaceAs                    types.Bool   `tfsdk:"local_as_replace_as"`
-	LocalAsDualAs                       types.Bool   `tfsdk:"local_as_dual_as"`
-	LogNeighborChanges                  types.Bool   `tfsdk:"log_neighbor_changes"`
-	PasswordType                        types.Int64  `tfsdk:"password_type"`
-	Password                            types.String `tfsdk:"password"`
-	PasswordWO                          types.String `tfsdk:"password_wo"`
-	PasswordWOVersion                   types.Int64  `tfsdk:"password_wo_version"`
-	PeerGroup                           types.String `tfsdk:"peer_group"`
-	TimersKeepaliveInterval             types.Int64  `tfsdk:"timers_keepalive_interval"`
-	TimersHoldtime                      types.Int64  `tfsdk:"timers_holdtime"`
-	TimersMinimumNeighborHold           types.Int64  `tfsdk:"timers_minimum_neighbor_hold"`
-	TtlSecurityHops                     types.Int64  `tfsdk:"ttl_security_hops"`
-	UpdateSourceInterfaceLoopback       types.Int64  `tfsdk:"update_source_interface_loopback"`
-	EbgpMultihop                        types.Bool   `tfsdk:"ebgp_multihop"`
-	EbgpMultihopMaxHop                  types.Int64  `tfsdk:"ebgp_multihop_max_hop"`
-	InheritPeerSession                  types.String `tfsdk:"inherit_peer_session"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	Ip types.String `tfsdk:"ip"`
+	RemoteAs types.String `tfsdk:"remote_as"`
+	Description types.String `tfsdk:"description"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	ClusterId types.String `tfsdk:"cluster_id"`
+	Version types.Int64 `tfsdk:"version"`
+	DisableConnectedCheck types.Bool `tfsdk:"disable_connected_check"`
+	FallOverDefaultEnable types.Bool `tfsdk:"fall_over_default_enable"`
+	FallOverDefaultRouteMap types.String `tfsdk:"fall_over_default_route_map"`
+	FallOverBfd types.Bool `tfsdk:"fall_over_bfd"`
+	FallOverBfdMultiHop types.Bool `tfsdk:"fall_over_bfd_multi_hop"`
+	FallOverBfdSingleHop types.Bool `tfsdk:"fall_over_bfd_single_hop"`
+	FallOverBfdCheckControlPlaneFailure types.Bool `tfsdk:"fall_over_bfd_check_control_plane_failure"`
+	FallOverBfdStrictMode types.Bool `tfsdk:"fall_over_bfd_strict_mode"`
+	FallOverMaximumMetricRouteMap types.String `tfsdk:"fall_over_maximum_metric_route_map"`
+	LocalAs types.String `tfsdk:"local_as"`
+	LocalAsNoPrepend types.Bool `tfsdk:"local_as_no_prepend"`
+	LocalAsReplaceAs types.Bool `tfsdk:"local_as_replace_as"`
+	LocalAsDualAs types.Bool `tfsdk:"local_as_dual_as"`
+	LogNeighborChanges types.Bool `tfsdk:"log_neighbor_changes"`
+	PasswordType types.Int64 `tfsdk:"password_type"`
+	Password types.String `tfsdk:"password"`
+	PasswordWO types.String `tfsdk:"password_wo"`
+	PasswordWOVersion types.Int64 `tfsdk:"password_wo_version"`
+	PeerGroup types.String `tfsdk:"peer_group"`
+	TimersKeepaliveInterval types.Int64 `tfsdk:"timers_keepalive_interval"`
+	TimersHoldtime types.Int64 `tfsdk:"timers_holdtime"`
+	TimersMinimumNeighborHold types.Int64 `tfsdk:"timers_minimum_neighbor_hold"`
+	TtlSecurityHops types.Int64 `tfsdk:"ttl_security_hops"`
+	UpdateSourceInterfaceLoopback types.Int64 `tfsdk:"update_source_interface_loopback"`
+	EbgpMultihop types.Bool `tfsdk:"ebgp_multihop"`
+	EbgpMultihopMaxHop types.Int64 `tfsdk:"ebgp_multihop_max_hop"`
+	InheritPeerSession types.String `tfsdk:"inherit_peer_session"`
 }
 
 type BGPNeighborData struct {
-	Device                              types.String `tfsdk:"device"`
-	Id                                  types.String `tfsdk:"id"`
-	Asn                                 types.String `tfsdk:"asn"`
-	Ip                                  types.String `tfsdk:"ip"`
-	RemoteAs                            types.String `tfsdk:"remote_as"`
-	Description                         types.String `tfsdk:"description"`
-	Shutdown                            types.Bool   `tfsdk:"shutdown"`
-	ClusterId                           types.String `tfsdk:"cluster_id"`
-	Version                             types.Int64  `tfsdk:"version"`
-	DisableConnectedCheck               types.Bool   `tfsdk:"disable_connected_check"`
-	FallOverDefaultEnable               types.Bool   `tfsdk:"fall_over_default_enable"`
-	FallOverDefaultRouteMap             types.String `tfsdk:"fall_over_default_route_map"`
-	FallOverBfd                         types.Bool   `tfsdk:"fall_over_bfd"`
-	FallOverBfdMultiHop                 types.Bool   `tfsdk:"fall_over_bfd_multi_hop"`
-	FallOverBfdSingleHop                types.Bool   `tfsdk:"fall_over_bfd_single_hop"`
-	FallOverBfdCheckControlPlaneFailure types.Bool   `tfsdk:"fall_over_bfd_check_control_plane_failure"`
-	FallOverBfdStrictMode               types.Bool   `tfsdk:"fall_over_bfd_strict_mode"`
-	FallOverMaximumMetricRouteMap       types.String `tfsdk:"fall_over_maximum_metric_route_map"`
-	LocalAs                             types.String `tfsdk:"local_as"`
-	LocalAsNoPrepend                    types.Bool   `tfsdk:"local_as_no_prepend"`
-	LocalAsReplaceAs                    types.Bool   `tfsdk:"local_as_replace_as"`
-	LocalAsDualAs                       types.Bool   `tfsdk:"local_as_dual_as"`
-	LogNeighborChanges                  types.Bool   `tfsdk:"log_neighbor_changes"`
-	PasswordType                        types.Int64  `tfsdk:"password_type"`
-	Password                            types.String `tfsdk:"password"`
-	PeerGroup                           types.String `tfsdk:"peer_group"`
-	TimersKeepaliveInterval             types.Int64  `tfsdk:"timers_keepalive_interval"`
-	TimersHoldtime                      types.Int64  `tfsdk:"timers_holdtime"`
-	TimersMinimumNeighborHold           types.Int64  `tfsdk:"timers_minimum_neighbor_hold"`
-	TtlSecurityHops                     types.Int64  `tfsdk:"ttl_security_hops"`
-	UpdateSourceInterfaceLoopback       types.Int64  `tfsdk:"update_source_interface_loopback"`
-	EbgpMultihop                        types.Bool   `tfsdk:"ebgp_multihop"`
-	EbgpMultihopMaxHop                  types.Int64  `tfsdk:"ebgp_multihop_max_hop"`
-	InheritPeerSession                  types.String `tfsdk:"inherit_peer_session"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	Ip types.String `tfsdk:"ip"`
+	RemoteAs types.String `tfsdk:"remote_as"`
+	Description types.String `tfsdk:"description"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	ClusterId types.String `tfsdk:"cluster_id"`
+	Version types.Int64 `tfsdk:"version"`
+	DisableConnectedCheck types.Bool `tfsdk:"disable_connected_check"`
+	FallOverDefaultEnable types.Bool `tfsdk:"fall_over_default_enable"`
+	FallOverDefaultRouteMap types.String `tfsdk:"fall_over_default_route_map"`
+	FallOverBfd types.Bool `tfsdk:"fall_over_bfd"`
+	FallOverBfdMultiHop types.Bool `tfsdk:"fall_over_bfd_multi_hop"`
+	FallOverBfdSingleHop types.Bool `tfsdk:"fall_over_bfd_single_hop"`
+	FallOverBfdCheckControlPlaneFailure types.Bool `tfsdk:"fall_over_bfd_check_control_plane_failure"`
+	FallOverBfdStrictMode types.Bool `tfsdk:"fall_over_bfd_strict_mode"`
+	FallOverMaximumMetricRouteMap types.String `tfsdk:"fall_over_maximum_metric_route_map"`
+	LocalAs types.String `tfsdk:"local_as"`
+	LocalAsNoPrepend types.Bool `tfsdk:"local_as_no_prepend"`
+	LocalAsReplaceAs types.Bool `tfsdk:"local_as_replace_as"`
+	LocalAsDualAs types.Bool `tfsdk:"local_as_dual_as"`
+	LogNeighborChanges types.Bool `tfsdk:"log_neighbor_changes"`
+	PasswordType types.Int64 `tfsdk:"password_type"`
+	Password types.String `tfsdk:"password"`
+	PeerGroup types.String `tfsdk:"peer_group"`
+	TimersKeepaliveInterval types.Int64 `tfsdk:"timers_keepalive_interval"`
+	TimersHoldtime types.Int64 `tfsdk:"timers_holdtime"`
+	TimersMinimumNeighborHold types.Int64 `tfsdk:"timers_minimum_neighbor_hold"`
+	TtlSecurityHops types.Int64 `tfsdk:"ttl_security_hops"`
+	UpdateSourceInterfaceLoopback types.Int64 `tfsdk:"update_source_interface_loopback"`
+	EbgpMultihop types.Bool `tfsdk:"ebgp_multihop"`
+	EbgpMultihopMaxHop types.Int64 `tfsdk:"ebgp_multihop_max_hop"`
+	InheritPeerSession types.String `tfsdk:"inherit_peer_session"`
 }
 
 // End of section. //template:end types
@@ -291,153 +291,153 @@ func (data BGPNeighbor) toBody(ctx context.Context, config BGPNeighbor) string {
 func (data BGPNeighbor) toBodyXML(ctx context.Context, config BGPNeighbor) string {
 	body := netconf.Body{}
 	if !data.Ip.IsNull() && !data.Ip.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Ip.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Ip.ValueString())
 	}
 	if !data.RemoteAs.IsNull() && !data.RemoteAs.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/remote-as", data.RemoteAs.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/remote-as", data.RemoteAs.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.Shutdown.IsNull() && !data.Shutdown.IsUnknown() {
 		if data.Shutdown.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/shutdown", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/shutdown", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/shutdown")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/shutdown")
 		}
 	}
 	if !data.ClusterId.IsNull() && !data.ClusterId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/cluster-id", data.ClusterId.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/cluster-id", data.ClusterId.ValueString())
 	}
 	if !data.Version.IsNull() && !data.Version.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/version", strconv.FormatInt(data.Version.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/version", strconv.FormatInt(data.Version.ValueInt64(), 10))
 	}
 	if !data.DisableConnectedCheck.IsNull() && !data.DisableConnectedCheck.IsUnknown() {
 		if data.DisableConnectedCheck.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/disable-connected-check", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/disable-connected-check", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/disable-connected-check")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/disable-connected-check")
 		}
 	}
 	if !data.FallOverDefaultEnable.IsNull() && !data.FallOverDefaultEnable.IsUnknown() {
 		if data.FallOverDefaultEnable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/default/enable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/default/enable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/fall-over/default/enable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/fall-over/default/enable")
 		}
 	}
 	if !data.FallOverDefaultRouteMap.IsNull() && !data.FallOverDefaultRouteMap.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/default/route-map", data.FallOverDefaultRouteMap.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/default/route-map", data.FallOverDefaultRouteMap.ValueString())
 	}
 	if !data.FallOverBfd.IsNull() && !data.FallOverBfd.IsUnknown() {
 		if data.FallOverBfd.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/bfd", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/bfd", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/fall-over/bfd")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/fall-over/bfd")
 		}
 	}
 	if !data.FallOverBfdMultiHop.IsNull() && !data.FallOverBfdMultiHop.IsUnknown() {
 		if data.FallOverBfdMultiHop.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/bfd/multi-hop", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/bfd/multi-hop", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/fall-over/bfd/multi-hop")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/fall-over/bfd/multi-hop")
 		}
 	}
 	if !data.FallOverBfdSingleHop.IsNull() && !data.FallOverBfdSingleHop.IsUnknown() {
 		if data.FallOverBfdSingleHop.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/bfd/single-hop", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/bfd/single-hop", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/fall-over/bfd/single-hop")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/fall-over/bfd/single-hop")
 		}
 	}
 	if !data.FallOverBfdCheckControlPlaneFailure.IsNull() && !data.FallOverBfdCheckControlPlaneFailure.IsUnknown() {
 		if data.FallOverBfdCheckControlPlaneFailure.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/bfd/check-control-plane-failure", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/bfd/check-control-plane-failure", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/fall-over/bfd/check-control-plane-failure")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/fall-over/bfd/check-control-plane-failure")
 		}
 	}
 	if !data.FallOverBfdStrictMode.IsNull() && !data.FallOverBfdStrictMode.IsUnknown() {
 		if data.FallOverBfdStrictMode.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/bfd/strict-mode", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/bfd/strict-mode", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/fall-over/bfd/strict-mode")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/fall-over/bfd/strict-mode")
 		}
 	}
 	if !data.FallOverMaximumMetricRouteMap.IsNull() && !data.FallOverMaximumMetricRouteMap.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/fall-over/maximum-metric/route-map", data.FallOverMaximumMetricRouteMap.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/fall-over/maximum-metric/route-map", data.FallOverMaximumMetricRouteMap.ValueString())
 	}
 	if !data.LocalAs.IsNull() && !data.LocalAs.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/local-as/as-no", data.LocalAs.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/local-as/as-no", data.LocalAs.ValueString())
 	}
 	if !data.LocalAsNoPrepend.IsNull() && !data.LocalAsNoPrepend.IsUnknown() {
 		if data.LocalAsNoPrepend.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/local-as/no-prepend", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/local-as/no-prepend", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/local-as/no-prepend")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/local-as/no-prepend")
 		}
 	}
 	if !data.LocalAsReplaceAs.IsNull() && !data.LocalAsReplaceAs.IsUnknown() {
 		if data.LocalAsReplaceAs.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/local-as/replace-as", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/local-as/replace-as", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/local-as/replace-as")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/local-as/replace-as")
 		}
 	}
 	if !data.LocalAsDualAs.IsNull() && !data.LocalAsDualAs.IsUnknown() {
 		if data.LocalAsDualAs.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/local-as/dual-as", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/local-as/dual-as", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/local-as/dual-as")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/local-as/dual-as")
 		}
 	}
 	if !data.LogNeighborChanges.IsNull() && !data.LogNeighborChanges.IsUnknown() {
 		if data.LogNeighborChanges.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/log-neighbor-changes", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/log-neighbor-changes", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/log-neighbor-changes")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/log-neighbor-changes")
 		}
 	}
 	if !data.PasswordType.IsNull() && !data.PasswordType.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/password/enctype", strconv.FormatInt(data.PasswordType.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/password/enctype", strconv.FormatInt(data.PasswordType.ValueInt64(), 10))
 	}
 	if !data.Password.IsNull() && !data.Password.IsUnknown() {
 		if !config.PasswordWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/password/text", config.PasswordWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/password/text", config.PasswordWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/password/text", data.Password.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/password/text", data.Password.ValueString())
 		}
 	}
 	if !data.PeerGroup.IsNull() && !data.PeerGroup.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/peer-group/peer-group-name", data.PeerGroup.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/peer-group/peer-group-name", data.PeerGroup.ValueString())
 	}
 	if !data.TimersKeepaliveInterval.IsNull() && !data.TimersKeepaliveInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/timers/keepalive-interval", strconv.FormatInt(data.TimersKeepaliveInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/timers/keepalive-interval", strconv.FormatInt(data.TimersKeepaliveInterval.ValueInt64(), 10))
 	}
 	if !data.TimersHoldtime.IsNull() && !data.TimersHoldtime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/timers/holdtime", strconv.FormatInt(data.TimersHoldtime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/timers/holdtime", strconv.FormatInt(data.TimersHoldtime.ValueInt64(), 10))
 	}
 	if !data.TimersMinimumNeighborHold.IsNull() && !data.TimersMinimumNeighborHold.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/timers/minimum-neighbor-hold", strconv.FormatInt(data.TimersMinimumNeighborHold.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/timers/minimum-neighbor-hold", strconv.FormatInt(data.TimersMinimumNeighborHold.ValueInt64(), 10))
 	}
 	if !data.TtlSecurityHops.IsNull() && !data.TtlSecurityHops.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ttl-security/hops", strconv.FormatInt(data.TtlSecurityHops.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ttl-security/hops", strconv.FormatInt(data.TtlSecurityHops.ValueInt64(), 10))
 	}
 	if !data.UpdateSourceInterfaceLoopback.IsNull() && !data.UpdateSourceInterfaceLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/update-source/interface/Loopback", strconv.FormatInt(data.UpdateSourceInterfaceLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/update-source/interface/Loopback", strconv.FormatInt(data.UpdateSourceInterfaceLoopback.ValueInt64(), 10))
 	}
 	if !data.EbgpMultihop.IsNull() && !data.EbgpMultihop.IsUnknown() {
 		if data.EbgpMultihop.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/ebgp-multihop", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/ebgp-multihop", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/ebgp-multihop")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/ebgp-multihop")
 		}
 	}
 	if !data.EbgpMultihopMaxHop.IsNull() && !data.EbgpMultihopMaxHop.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ebgp-multihop/max-hop", strconv.FormatInt(data.EbgpMultihopMaxHop.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ebgp-multihop/max-hop", strconv.FormatInt(data.EbgpMultihopMaxHop.ValueInt64(), 10))
 	}
 	if !data.InheritPeerSession.IsNull() && !data.InheritPeerSession.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inherit/peer-session", data.InheritPeerSession.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inherit/peer-session", data.InheritPeerSession.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -455,22 +455,22 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Ip.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Ip.IsNull() {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := res.Get(prefix + "remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
+	if value := res.Get(prefix+"remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
 		data.RemoteAs = types.StringValue(value.String())
 	} else {
 		data.RemoteAs = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "shutdown"); !data.Shutdown.IsNull() {
+	if value := res.Get(prefix+"shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(true)
 		} else {
@@ -479,17 +479,17 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := res.Get(prefix + "cluster-id"); value.Exists() && !data.ClusterId.IsNull() {
+	if value := res.Get(prefix+"cluster-id"); value.Exists() && !data.ClusterId.IsNull() {
 		data.ClusterId = types.StringValue(value.String())
 	} else {
 		data.ClusterId = types.StringNull()
 	}
-	if value := res.Get(prefix + "version"); value.Exists() && !data.Version.IsNull() {
+	if value := res.Get(prefix+"version"); value.Exists() && !data.Version.IsNull() {
 		data.Version = types.Int64Value(value.Int())
 	} else {
 		data.Version = types.Int64Null()
 	}
-	if value := res.Get(prefix + "disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
+	if value := res.Get(prefix+"disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
 		if value.Exists() {
 			data.DisableConnectedCheck = types.BoolValue(true)
 		} else {
@@ -498,7 +498,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DisableConnectedCheck = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.default.enable"); !data.FallOverDefaultEnable.IsNull() {
+	if value := res.Get(prefix+"fall-over.default.enable"); !data.FallOverDefaultEnable.IsNull() {
 		if value.Exists() {
 			data.FallOverDefaultEnable = types.BoolValue(true)
 		} else {
@@ -507,12 +507,12 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FallOverDefaultEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.default.route-map"); value.Exists() && !data.FallOverDefaultRouteMap.IsNull() {
+	if value := res.Get(prefix+"fall-over.default.route-map"); value.Exists() && !data.FallOverDefaultRouteMap.IsNull() {
 		data.FallOverDefaultRouteMap = types.StringValue(value.String())
 	} else {
 		data.FallOverDefaultRouteMap = types.StringNull()
 	}
-	if value := res.Get(prefix + "fall-over.bfd"); !data.FallOverBfd.IsNull() {
+	if value := res.Get(prefix+"fall-over.bfd"); !data.FallOverBfd.IsNull() {
 		if value.Exists() {
 			data.FallOverBfd = types.BoolValue(true)
 		} else {
@@ -521,7 +521,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FallOverBfd = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.bfd.multi-hop"); !data.FallOverBfdMultiHop.IsNull() {
+	if value := res.Get(prefix+"fall-over.bfd.multi-hop"); !data.FallOverBfdMultiHop.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdMultiHop = types.BoolValue(true)
 		} else {
@@ -530,7 +530,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FallOverBfdMultiHop = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.bfd.single-hop"); !data.FallOverBfdSingleHop.IsNull() {
+	if value := res.Get(prefix+"fall-over.bfd.single-hop"); !data.FallOverBfdSingleHop.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdSingleHop = types.BoolValue(true)
 		} else {
@@ -539,7 +539,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FallOverBfdSingleHop = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.bfd.check-control-plane-failure"); !data.FallOverBfdCheckControlPlaneFailure.IsNull() {
+	if value := res.Get(prefix+"fall-over.bfd.check-control-plane-failure"); !data.FallOverBfdCheckControlPlaneFailure.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(true)
 		} else {
@@ -548,7 +548,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.bfd.strict-mode"); !data.FallOverBfdStrictMode.IsNull() {
+	if value := res.Get(prefix+"fall-over.bfd.strict-mode"); !data.FallOverBfdStrictMode.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdStrictMode = types.BoolValue(true)
 		} else {
@@ -557,17 +557,17 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FallOverBfdStrictMode = types.BoolNull()
 	}
-	if value := res.Get(prefix + "fall-over.maximum-metric.route-map"); value.Exists() && !data.FallOverMaximumMetricRouteMap.IsNull() {
+	if value := res.Get(prefix+"fall-over.maximum-metric.route-map"); value.Exists() && !data.FallOverMaximumMetricRouteMap.IsNull() {
 		data.FallOverMaximumMetricRouteMap = types.StringValue(value.String())
 	} else {
 		data.FallOverMaximumMetricRouteMap = types.StringNull()
 	}
-	if value := res.Get(prefix + "local-as.as-no"); value.Exists() && !data.LocalAs.IsNull() {
+	if value := res.Get(prefix+"local-as.as-no"); value.Exists() && !data.LocalAs.IsNull() {
 		data.LocalAs = types.StringValue(value.String())
 	} else {
 		data.LocalAs = types.StringNull()
 	}
-	if value := res.Get(prefix + "local-as.no-prepend"); !data.LocalAsNoPrepend.IsNull() {
+	if value := res.Get(prefix+"local-as.no-prepend"); !data.LocalAsNoPrepend.IsNull() {
 		if value.Exists() {
 			data.LocalAsNoPrepend = types.BoolValue(true)
 		} else {
@@ -576,7 +576,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LocalAsNoPrepend = types.BoolNull()
 	}
-	if value := res.Get(prefix + "local-as.replace-as"); !data.LocalAsReplaceAs.IsNull() {
+	if value := res.Get(prefix+"local-as.replace-as"); !data.LocalAsReplaceAs.IsNull() {
 		if value.Exists() {
 			data.LocalAsReplaceAs = types.BoolValue(true)
 		} else {
@@ -585,7 +585,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LocalAsReplaceAs = types.BoolNull()
 	}
-	if value := res.Get(prefix + "local-as.dual-as"); !data.LocalAsDualAs.IsNull() {
+	if value := res.Get(prefix+"local-as.dual-as"); !data.LocalAsDualAs.IsNull() {
 		if value.Exists() {
 			data.LocalAsDualAs = types.BoolValue(true)
 		} else {
@@ -594,7 +594,7 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LocalAsDualAs = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
+	if value := res.Get(prefix+"log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
 		if value.Exists() {
 			data.LogNeighborChanges = types.BoolValue(true)
 		} else {
@@ -603,37 +603,37 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "peer-group.peer-group-name"); value.Exists() && !data.PeerGroup.IsNull() {
+	if value := res.Get(prefix+"peer-group.peer-group-name"); value.Exists() && !data.PeerGroup.IsNull() {
 		data.PeerGroup = types.StringValue(value.String())
 	} else {
 		data.PeerGroup = types.StringNull()
 	}
-	if value := res.Get(prefix + "timers.keepalive-interval"); value.Exists() && !data.TimersKeepaliveInterval.IsNull() {
+	if value := res.Get(prefix+"timers.keepalive-interval"); value.Exists() && !data.TimersKeepaliveInterval.IsNull() {
 		data.TimersKeepaliveInterval = types.Int64Value(value.Int())
 	} else {
 		data.TimersKeepaliveInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "timers.holdtime"); value.Exists() && !data.TimersHoldtime.IsNull() {
+	if value := res.Get(prefix+"timers.holdtime"); value.Exists() && !data.TimersHoldtime.IsNull() {
 		data.TimersHoldtime = types.Int64Value(value.Int())
 	} else {
 		data.TimersHoldtime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "timers.minimum-neighbor-hold"); value.Exists() && !data.TimersMinimumNeighborHold.IsNull() {
+	if value := res.Get(prefix+"timers.minimum-neighbor-hold"); value.Exists() && !data.TimersMinimumNeighborHold.IsNull() {
 		data.TimersMinimumNeighborHold = types.Int64Value(value.Int())
 	} else {
 		data.TimersMinimumNeighborHold = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ttl-security.hops"); value.Exists() && !data.TtlSecurityHops.IsNull() {
+	if value := res.Get(prefix+"ttl-security.hops"); value.Exists() && !data.TtlSecurityHops.IsNull() {
 		data.TtlSecurityHops = types.Int64Value(value.Int())
 	} else {
 		data.TtlSecurityHops = types.Int64Null()
 	}
-	if value := res.Get(prefix + "update-source.interface.Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
+	if value := res.Get(prefix+"update-source.interface.Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.UpdateSourceInterfaceLoopback = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ebgp-multihop"); !data.EbgpMultihop.IsNull() {
+	if value := res.Get(prefix+"ebgp-multihop"); !data.EbgpMultihop.IsNull() {
 		if value.Exists() {
 			data.EbgpMultihop = types.BoolValue(true)
 		} else {
@@ -642,12 +642,12 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.EbgpMultihop = types.BoolNull()
 	}
-	if value := res.Get(prefix + "ebgp-multihop.max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
+	if value := res.Get(prefix+"ebgp-multihop.max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	} else {
 		data.EbgpMultihopMaxHop = types.Int64Null()
 	}
-	if value := res.Get(prefix + "inherit.peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
+	if value := res.Get(prefix+"inherit.peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	} else {
 		data.InheritPeerSession = types.StringNull()
@@ -659,22 +659,22 @@ func (data *BGPNeighbor) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Ip.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Ip.IsNull() {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/remote-as"); value.Exists() && !data.RemoteAs.IsNull() {
 		data.RemoteAs = types.StringValue(value.String())
 	} else {
 		data.RemoteAs = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); !data.Shutdown.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(true)
 		} else {
@@ -683,17 +683,17 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cluster-id"); value.Exists() && !data.ClusterId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cluster-id"); value.Exists() && !data.ClusterId.IsNull() {
 		data.ClusterId = types.StringValue(value.String())
 	} else {
 		data.ClusterId = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/version"); value.Exists() && !data.Version.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/version"); value.Exists() && !data.Version.IsNull() {
 		data.Version = types.Int64Value(value.Int())
 	} else {
 		data.Version = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/disable-connected-check"); !data.DisableConnectedCheck.IsNull() {
 		if value.Exists() {
 			data.DisableConnectedCheck = types.BoolValue(true)
 		} else {
@@ -702,7 +702,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.DisableConnectedCheck = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/default/enable"); !data.FallOverDefaultEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/default/enable"); !data.FallOverDefaultEnable.IsNull() {
 		if value.Exists() {
 			data.FallOverDefaultEnable = types.BoolValue(true)
 		} else {
@@ -711,12 +711,12 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.FallOverDefaultEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/default/route-map"); value.Exists() && !data.FallOverDefaultRouteMap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/default/route-map"); value.Exists() && !data.FallOverDefaultRouteMap.IsNull() {
 		data.FallOverDefaultRouteMap = types.StringValue(value.String())
 	} else {
 		data.FallOverDefaultRouteMap = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd"); !data.FallOverBfd.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd"); !data.FallOverBfd.IsNull() {
 		if value.Exists() {
 			data.FallOverBfd = types.BoolValue(true)
 		} else {
@@ -725,7 +725,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.FallOverBfd = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/multi-hop"); !data.FallOverBfdMultiHop.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/multi-hop"); !data.FallOverBfdMultiHop.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdMultiHop = types.BoolValue(true)
 		} else {
@@ -734,7 +734,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.FallOverBfdMultiHop = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/single-hop"); !data.FallOverBfdSingleHop.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/single-hop"); !data.FallOverBfdSingleHop.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdSingleHop = types.BoolValue(true)
 		} else {
@@ -743,7 +743,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.FallOverBfdSingleHop = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/check-control-plane-failure"); !data.FallOverBfdCheckControlPlaneFailure.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/check-control-plane-failure"); !data.FallOverBfdCheckControlPlaneFailure.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(true)
 		} else {
@@ -752,7 +752,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/strict-mode"); !data.FallOverBfdStrictMode.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/strict-mode"); !data.FallOverBfdStrictMode.IsNull() {
 		if value.Exists() {
 			data.FallOverBfdStrictMode = types.BoolValue(true)
 		} else {
@@ -761,17 +761,17 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.FallOverBfdStrictMode = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/maximum-metric/route-map"); value.Exists() && !data.FallOverMaximumMetricRouteMap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/maximum-metric/route-map"); value.Exists() && !data.FallOverMaximumMetricRouteMap.IsNull() {
 		data.FallOverMaximumMetricRouteMap = types.StringValue(value.String())
 	} else {
 		data.FallOverMaximumMetricRouteMap = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/as-no"); value.Exists() && !data.LocalAs.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/as-no"); value.Exists() && !data.LocalAs.IsNull() {
 		data.LocalAs = types.StringValue(value.String())
 	} else {
 		data.LocalAs = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/no-prepend"); !data.LocalAsNoPrepend.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/no-prepend"); !data.LocalAsNoPrepend.IsNull() {
 		if value.Exists() {
 			data.LocalAsNoPrepend = types.BoolValue(true)
 		} else {
@@ -780,7 +780,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.LocalAsNoPrepend = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/replace-as"); !data.LocalAsReplaceAs.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/replace-as"); !data.LocalAsReplaceAs.IsNull() {
 		if value.Exists() {
 			data.LocalAsReplaceAs = types.BoolValue(true)
 		} else {
@@ -789,7 +789,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.LocalAsReplaceAs = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/dual-as"); !data.LocalAsDualAs.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/dual-as"); !data.LocalAsDualAs.IsNull() {
 		if value.Exists() {
 			data.LocalAsDualAs = types.BoolValue(true)
 		} else {
@@ -798,7 +798,7 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.LocalAsDualAs = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-neighbor-changes"); !data.LogNeighborChanges.IsNull() {
 		if value.Exists() {
 			data.LogNeighborChanges = types.BoolValue(true)
 		} else {
@@ -807,37 +807,37 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.LogNeighborChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer-group/peer-group-name"); value.Exists() && !data.PeerGroup.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer-group/peer-group-name"); value.Exists() && !data.PeerGroup.IsNull() {
 		data.PeerGroup = types.StringValue(value.String())
 	} else {
 		data.PeerGroup = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/keepalive-interval"); value.Exists() && !data.TimersKeepaliveInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/keepalive-interval"); value.Exists() && !data.TimersKeepaliveInterval.IsNull() {
 		data.TimersKeepaliveInterval = types.Int64Value(value.Int())
 	} else {
 		data.TimersKeepaliveInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/holdtime"); value.Exists() && !data.TimersHoldtime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/holdtime"); value.Exists() && !data.TimersHoldtime.IsNull() {
 		data.TimersHoldtime = types.Int64Value(value.Int())
 	} else {
 		data.TimersHoldtime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/minimum-neighbor-hold"); value.Exists() && !data.TimersMinimumNeighborHold.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/minimum-neighbor-hold"); value.Exists() && !data.TimersMinimumNeighborHold.IsNull() {
 		data.TimersMinimumNeighborHold = types.Int64Value(value.Int())
 	} else {
 		data.TimersMinimumNeighborHold = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ttl-security/hops"); value.Exists() && !data.TtlSecurityHops.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ttl-security/hops"); value.Exists() && !data.TtlSecurityHops.IsNull() {
 		data.TtlSecurityHops = types.Int64Value(value.Int())
 	} else {
 		data.TtlSecurityHops = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/update-source/interface/Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/update-source/interface/Loopback"); value.Exists() && !data.UpdateSourceInterfaceLoopback.IsNull() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.UpdateSourceInterfaceLoopback = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop"); !data.EbgpMultihop.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop"); !data.EbgpMultihop.IsNull() {
 		if value.Exists() {
 			data.EbgpMultihop = types.BoolValue(true)
 		} else {
@@ -846,12 +846,12 @@ func (data *BGPNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 	} else {
 		data.EbgpMultihop = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop/max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop/max-hop"); value.Exists() && !data.EbgpMultihopMaxHop.IsNull() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	} else {
 		data.EbgpMultihopMaxHop = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-session"); value.Exists() && !data.InheritPeerSession.IsNull() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	} else {
 		data.InheritPeerSession = types.StringNull()
@@ -867,120 +867,120 @@ func (data *BGPNeighbor) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "remote-as"); value.Exists() {
+	if value := res.Get(prefix+"remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "cluster-id"); value.Exists() {
+	if value := res.Get(prefix+"cluster-id"); value.Exists() {
 		data.ClusterId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "version"); value.Exists() {
+	if value := res.Get(prefix+"version"); value.Exists() {
 		data.Version = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "disable-connected-check"); value.Exists() {
+	if value := res.Get(prefix+"disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.default.enable"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.default.enable"); value.Exists() {
 		data.FallOverDefaultEnable = types.BoolValue(true)
 	} else {
 		data.FallOverDefaultEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.default.route-map"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.default.route-map"); value.Exists() {
 		data.FallOverDefaultRouteMap = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "fall-over.bfd"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd"); value.Exists() {
 		data.FallOverBfd = types.BoolValue(true)
 	} else {
 		data.FallOverBfd = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.multi-hop"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.multi-hop"); value.Exists() {
 		data.FallOverBfdMultiHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdMultiHop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.single-hop"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.single-hop"); value.Exists() {
 		data.FallOverBfdSingleHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdSingleHop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.check-control-plane-failure"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.check-control-plane-failure"); value.Exists() {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(true)
 	} else {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.strict-mode"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.strict-mode"); value.Exists() {
 		data.FallOverBfdStrictMode = types.BoolValue(true)
 	} else {
 		data.FallOverBfdStrictMode = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.maximum-metric.route-map"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.maximum-metric.route-map"); value.Exists() {
 		data.FallOverMaximumMetricRouteMap = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "local-as.as-no"); value.Exists() {
+	if value := res.Get(prefix+"local-as.as-no"); value.Exists() {
 		data.LocalAs = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "local-as.no-prepend"); value.Exists() {
+	if value := res.Get(prefix+"local-as.no-prepend"); value.Exists() {
 		data.LocalAsNoPrepend = types.BoolValue(true)
 	} else {
 		data.LocalAsNoPrepend = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "local-as.replace-as"); value.Exists() {
+	if value := res.Get(prefix+"local-as.replace-as"); value.Exists() {
 		data.LocalAsReplaceAs = types.BoolValue(true)
 	} else {
 		data.LocalAsReplaceAs = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "local-as.dual-as"); value.Exists() {
+	if value := res.Get(prefix+"local-as.dual-as"); value.Exists() {
 		data.LocalAsDualAs = types.BoolValue(true)
 	} else {
 		data.LocalAsDualAs = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "log-neighbor-changes"); value.Exists() {
+	if value := res.Get(prefix+"log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(true)
 	} else {
 		data.LogNeighborChanges = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "password.enctype"); value.Exists() {
+	if value := res.Get(prefix+"password.enctype"); value.Exists() {
 		data.PasswordType = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "password.text"); value.Exists() {
+	if value := res.Get(prefix+"password.text"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "peer-group.peer-group-name"); value.Exists() {
+	if value := res.Get(prefix+"peer-group.peer-group-name"); value.Exists() {
 		data.PeerGroup = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "timers.keepalive-interval"); value.Exists() {
+	if value := res.Get(prefix+"timers.keepalive-interval"); value.Exists() {
 		data.TimersKeepaliveInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "timers.holdtime"); value.Exists() {
+	if value := res.Get(prefix+"timers.holdtime"); value.Exists() {
 		data.TimersHoldtime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "timers.minimum-neighbor-hold"); value.Exists() {
+	if value := res.Get(prefix+"timers.minimum-neighbor-hold"); value.Exists() {
 		data.TimersMinimumNeighborHold = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ttl-security.hops"); value.Exists() {
+	if value := res.Get(prefix+"ttl-security.hops"); value.Exists() {
 		data.TtlSecurityHops = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "update-source.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"update-source.interface.Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ebgp-multihop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ebgp-multihop.max-hop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop.max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inherit.peer-session"); value.Exists() {
+	if value := res.Get(prefix+"inherit.peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }
@@ -994,120 +994,120 @@ func (data *BGPNeighborData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "remote-as"); value.Exists() {
+	if value := res.Get(prefix+"remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "cluster-id"); value.Exists() {
+	if value := res.Get(prefix+"cluster-id"); value.Exists() {
 		data.ClusterId = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "version"); value.Exists() {
+	if value := res.Get(prefix+"version"); value.Exists() {
 		data.Version = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "disable-connected-check"); value.Exists() {
+	if value := res.Get(prefix+"disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.default.enable"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.default.enable"); value.Exists() {
 		data.FallOverDefaultEnable = types.BoolValue(true)
 	} else {
 		data.FallOverDefaultEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.default.route-map"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.default.route-map"); value.Exists() {
 		data.FallOverDefaultRouteMap = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "fall-over.bfd"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd"); value.Exists() {
 		data.FallOverBfd = types.BoolValue(true)
 	} else {
 		data.FallOverBfd = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.multi-hop"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.multi-hop"); value.Exists() {
 		data.FallOverBfdMultiHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdMultiHop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.single-hop"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.single-hop"); value.Exists() {
 		data.FallOverBfdSingleHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdSingleHop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.check-control-plane-failure"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.check-control-plane-failure"); value.Exists() {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(true)
 	} else {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.bfd.strict-mode"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.bfd.strict-mode"); value.Exists() {
 		data.FallOverBfdStrictMode = types.BoolValue(true)
 	} else {
 		data.FallOverBfdStrictMode = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "fall-over.maximum-metric.route-map"); value.Exists() {
+	if value := res.Get(prefix+"fall-over.maximum-metric.route-map"); value.Exists() {
 		data.FallOverMaximumMetricRouteMap = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "local-as.as-no"); value.Exists() {
+	if value := res.Get(prefix+"local-as.as-no"); value.Exists() {
 		data.LocalAs = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "local-as.no-prepend"); value.Exists() {
+	if value := res.Get(prefix+"local-as.no-prepend"); value.Exists() {
 		data.LocalAsNoPrepend = types.BoolValue(true)
 	} else {
 		data.LocalAsNoPrepend = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "local-as.replace-as"); value.Exists() {
+	if value := res.Get(prefix+"local-as.replace-as"); value.Exists() {
 		data.LocalAsReplaceAs = types.BoolValue(true)
 	} else {
 		data.LocalAsReplaceAs = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "local-as.dual-as"); value.Exists() {
+	if value := res.Get(prefix+"local-as.dual-as"); value.Exists() {
 		data.LocalAsDualAs = types.BoolValue(true)
 	} else {
 		data.LocalAsDualAs = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "log-neighbor-changes"); value.Exists() {
+	if value := res.Get(prefix+"log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(true)
 	} else {
 		data.LogNeighborChanges = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "password.enctype"); value.Exists() {
+	if value := res.Get(prefix+"password.enctype"); value.Exists() {
 		data.PasswordType = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "password.text"); value.Exists() {
+	if value := res.Get(prefix+"password.text"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "peer-group.peer-group-name"); value.Exists() {
+	if value := res.Get(prefix+"peer-group.peer-group-name"); value.Exists() {
 		data.PeerGroup = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "timers.keepalive-interval"); value.Exists() {
+	if value := res.Get(prefix+"timers.keepalive-interval"); value.Exists() {
 		data.TimersKeepaliveInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "timers.holdtime"); value.Exists() {
+	if value := res.Get(prefix+"timers.holdtime"); value.Exists() {
 		data.TimersHoldtime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "timers.minimum-neighbor-hold"); value.Exists() {
+	if value := res.Get(prefix+"timers.minimum-neighbor-hold"); value.Exists() {
 		data.TimersMinimumNeighborHold = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ttl-security.hops"); value.Exists() {
+	if value := res.Get(prefix+"ttl-security.hops"); value.Exists() {
 		data.TtlSecurityHops = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "update-source.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"update-source.interface.Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ebgp-multihop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "ebgp-multihop.max-hop"); value.Exists() {
+	if value := res.Get(prefix+"ebgp-multihop.max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inherit.peer-session"); value.Exists() {
+	if value := res.Get(prefix+"inherit.peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }
@@ -1117,120 +1117,120 @@ func (data *BGPNeighborData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPNeighbor) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/remote-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cluster-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cluster-id"); value.Exists() {
 		data.ClusterId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/version"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/version"); value.Exists() {
 		data.Version = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/disable-connected-check"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/default/enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/default/enable"); value.Exists() {
 		data.FallOverDefaultEnable = types.BoolValue(true)
 	} else {
 		data.FallOverDefaultEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/default/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/default/route-map"); value.Exists() {
 		data.FallOverDefaultRouteMap = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd"); value.Exists() {
 		data.FallOverBfd = types.BoolValue(true)
 	} else {
 		data.FallOverBfd = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/multi-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/multi-hop"); value.Exists() {
 		data.FallOverBfdMultiHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdMultiHop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/single-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/single-hop"); value.Exists() {
 		data.FallOverBfdSingleHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdSingleHop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/check-control-plane-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/check-control-plane-failure"); value.Exists() {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(true)
 	} else {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/strict-mode"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/strict-mode"); value.Exists() {
 		data.FallOverBfdStrictMode = types.BoolValue(true)
 	} else {
 		data.FallOverBfdStrictMode = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/maximum-metric/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/maximum-metric/route-map"); value.Exists() {
 		data.FallOverMaximumMetricRouteMap = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/as-no"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/as-no"); value.Exists() {
 		data.LocalAs = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/no-prepend"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/no-prepend"); value.Exists() {
 		data.LocalAsNoPrepend = types.BoolValue(true)
 	} else {
 		data.LocalAsNoPrepend = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/replace-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/replace-as"); value.Exists() {
 		data.LocalAsReplaceAs = types.BoolValue(true)
 	} else {
 		data.LocalAsReplaceAs = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/dual-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/dual-as"); value.Exists() {
 		data.LocalAsDualAs = types.BoolValue(true)
 	} else {
 		data.LocalAsDualAs = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-neighbor-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(true)
 	} else {
 		data.LogNeighborChanges = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/enctype"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/enctype"); value.Exists() {
 		data.PasswordType = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/text"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/text"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer-group/peer-group-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer-group/peer-group-name"); value.Exists() {
 		data.PeerGroup = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/keepalive-interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/keepalive-interval"); value.Exists() {
 		data.TimersKeepaliveInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/holdtime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/holdtime"); value.Exists() {
 		data.TimersHoldtime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/minimum-neighbor-hold"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/minimum-neighbor-hold"); value.Exists() {
 		data.TimersMinimumNeighborHold = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ttl-security/hops"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ttl-security/hops"); value.Exists() {
 		data.TtlSecurityHops = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/update-source/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/update-source/interface/Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop/max-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop/max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-session"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }
@@ -1240,120 +1240,120 @@ func (data *BGPNeighbor) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPNeighborData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/remote-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/remote-as"); value.Exists() {
 		data.RemoteAs = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cluster-id"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cluster-id"); value.Exists() {
 		data.ClusterId = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/version"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/version"); value.Exists() {
 		data.Version = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/disable-connected-check"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/disable-connected-check"); value.Exists() {
 		data.DisableConnectedCheck = types.BoolValue(true)
 	} else {
 		data.DisableConnectedCheck = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/default/enable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/default/enable"); value.Exists() {
 		data.FallOverDefaultEnable = types.BoolValue(true)
 	} else {
 		data.FallOverDefaultEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/default/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/default/route-map"); value.Exists() {
 		data.FallOverDefaultRouteMap = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd"); value.Exists() {
 		data.FallOverBfd = types.BoolValue(true)
 	} else {
 		data.FallOverBfd = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/multi-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/multi-hop"); value.Exists() {
 		data.FallOverBfdMultiHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdMultiHop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/single-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/single-hop"); value.Exists() {
 		data.FallOverBfdSingleHop = types.BoolValue(true)
 	} else {
 		data.FallOverBfdSingleHop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/check-control-plane-failure"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/check-control-plane-failure"); value.Exists() {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(true)
 	} else {
 		data.FallOverBfdCheckControlPlaneFailure = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/bfd/strict-mode"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/bfd/strict-mode"); value.Exists() {
 		data.FallOverBfdStrictMode = types.BoolValue(true)
 	} else {
 		data.FallOverBfdStrictMode = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fall-over/maximum-metric/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fall-over/maximum-metric/route-map"); value.Exists() {
 		data.FallOverMaximumMetricRouteMap = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/as-no"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/as-no"); value.Exists() {
 		data.LocalAs = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/no-prepend"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/no-prepend"); value.Exists() {
 		data.LocalAsNoPrepend = types.BoolValue(true)
 	} else {
 		data.LocalAsNoPrepend = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/replace-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/replace-as"); value.Exists() {
 		data.LocalAsReplaceAs = types.BoolValue(true)
 	} else {
 		data.LocalAsReplaceAs = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/local-as/dual-as"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/local-as/dual-as"); value.Exists() {
 		data.LocalAsDualAs = types.BoolValue(true)
 	} else {
 		data.LocalAsDualAs = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-neighbor-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-neighbor-changes"); value.Exists() {
 		data.LogNeighborChanges = types.BoolValue(true)
 	} else {
 		data.LogNeighborChanges = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/enctype"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/enctype"); value.Exists() {
 		data.PasswordType = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/password/text"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/password/text"); value.Exists() {
 		data.Password = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/peer-group/peer-group-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/peer-group/peer-group-name"); value.Exists() {
 		data.PeerGroup = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/keepalive-interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/keepalive-interval"); value.Exists() {
 		data.TimersKeepaliveInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/holdtime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/holdtime"); value.Exists() {
 		data.TimersHoldtime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timers/minimum-neighbor-hold"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timers/minimum-neighbor-hold"); value.Exists() {
 		data.TimersMinimumNeighborHold = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ttl-security/hops"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ttl-security/hops"); value.Exists() {
 		data.TtlSecurityHops = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/update-source/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/update-source/interface/Loopback"); value.Exists() {
 		data.UpdateSourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop"); value.Exists() {
 		data.EbgpMultihop = types.BoolValue(true)
 	} else {
 		data.EbgpMultihop = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ebgp-multihop/max-hop"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ebgp-multihop/max-hop"); value.Exists() {
 		data.EbgpMultihopMaxHop = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-session"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-session"); value.Exists() {
 		data.InheritPeerSession = types.StringValue(value.String())
 	}
 }

@@ -41,7 +41,7 @@ func TestAccDataSourceIosxeTACACS(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeTACACSConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -64,7 +64,7 @@ func testAccDataSourceIosxeTACACSConfig() string {
 	config += `	encryption = "0"` + "\n"
 	config += `	key = "123"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_tacacs" "test" {
 			name = "tacacs_10.10.15.13"

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -62,15 +61,15 @@ func TestAccIosxeAccessListExtended(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeAccessListExtendedConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_access_list_extended.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeAccessListExtendedImportStateIdFunc("iosxe_access_list_extended.test"),
-				ImportStateVerifyIgnore: []string{"entries.0.source_any", "entries.0.destination_any", "entries.0.established", "entries.0.fragments", "entries.0.log_input"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_access_list_extended.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeAccessListExtendedImportStateIdFunc("iosxe_access_list_extended.test"),
+				ImportStateVerifyIgnore: []string{ "entries.0.source_any","entries.0.destination_any","entries.0.established","entries.0.fragments","entries.0.log_input", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

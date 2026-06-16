@@ -23,33 +23,33 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPAddressFamilyVPNv6 struct {
-	Device     types.String `tfsdk:"device"`
-	Id         types.String `tfsdk:"id"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
 	DeleteMode types.String `tfsdk:"delete_mode"`
-	Asn        types.String `tfsdk:"asn"`
-	AfName     types.String `tfsdk:"af_name"`
+	Asn types.String `tfsdk:"asn"`
+	AfName types.String `tfsdk:"af_name"`
 }
 
 type BGPAddressFamilyVPNv6Data struct {
 	Device types.String `tfsdk:"device"`
 	Id     types.String `tfsdk:"id"`
-	Asn    types.String `tfsdk:"asn"`
+	Asn types.String `tfsdk:"asn"`
 	AfName types.String `tfsdk:"af_name"`
 }
 
@@ -108,7 +108,7 @@ func (data BGPAddressFamilyVPNv6) toBody(ctx context.Context, config BGPAddressF
 func (data BGPAddressFamilyVPNv6) toBodyXML(ctx context.Context, config BGPAddressFamilyVPNv6) string {
 	body := netconf.Body{}
 	if !data.AfName.IsNull() && !data.AfName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/af-name", data.AfName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/af-name", data.AfName.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -126,7 +126,7 @@ func (data *BGPAddressFamilyVPNv6) updateFromBody(ctx context.Context, res gjson
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "af-name"); value.Exists() && !data.AfName.IsNull() {
+	if value := res.Get(prefix+"af-name"); value.Exists() && !data.AfName.IsNull() {
 		data.AfName = types.StringValue(value.String())
 	} else {
 		data.AfName = types.StringNull()
@@ -138,7 +138,7 @@ func (data *BGPAddressFamilyVPNv6) updateFromBody(ctx context.Context, res gjson
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPAddressFamilyVPNv6) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/af-name"); value.Exists() && !data.AfName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/af-name"); value.Exists() && !data.AfName.IsNull() {
 		data.AfName = types.StringValue(value.String())
 	} else {
 		data.AfName = types.StringNull()

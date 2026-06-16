@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeEVPNInstance(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_replication_type_ingress", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_replication_type_static", "true"))
@@ -52,10 +51,10 @@ func TestAccDataSourceIosxeEVPNInstance(t *testing.T) {
 		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_route_target_export_legacy", "10:10"))
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_route_target_exports.0.route_target", "10:10"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_route_target_exports.0.route_target", "10:10"))
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_route_target_imports.0.route_target", "10:10"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_route_target_imports.0.route_target", "10:10"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_ip_local_learning_disable", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_instance.test", "vlan_based_ip_local_learning_enable", "true"))
@@ -68,7 +67,7 @@ func TestAccDataSourceIosxeEVPNInstance(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeEVPNInstanceConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -100,13 +99,13 @@ func testAccDataSourceIosxeEVPNInstanceConfig() string {
 		config += `	vlan_based_route_target_export_legacy = "10:10"` + "\n"
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		config += `	vlan_based_route_target_exports = [{` + "\n"
-		config += `		route_target = "10:10"` + "\n"
+	config += `	vlan_based_route_target_exports = [{` + "\n"
+	config += `		route_target = "10:10"` + "\n"
 		config += `	}]` + "\n"
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		config += `	vlan_based_route_target_imports = [{` + "\n"
-		config += `		route_target = "10:10"` + "\n"
+	config += `	vlan_based_route_target_imports = [{` + "\n"
+	config += `		route_target = "10:10"` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `	vlan_based_ip_local_learning_disable = false` + "\n"
@@ -115,7 +114,7 @@ func testAccDataSourceIosxeEVPNInstanceConfig() string {
 	config += `	vlan_based_re_originate_route_type5 = true` + "\n"
 	config += `	vlan_based_multicast_advertise = "enable"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_evpn_instance" "test" {
 			evpn_instance_num = 10

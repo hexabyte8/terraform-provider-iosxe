@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -68,19 +67,19 @@ func TestAccIosxePolicyMapEvent(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxePolicyMapEventPrerequisitesConfig + testAccIosxePolicyMapEventConfig_minimum(),
+				Config: testAccIosxePolicyMapEventPrerequisitesConfig+testAccIosxePolicyMapEventConfig_minimum(),
 			},
 			{
-				Config: testAccIosxePolicyMapEventPrerequisitesConfig + testAccIosxePolicyMapEventConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxePolicyMapEventPrerequisitesConfig+testAccIosxePolicyMapEventConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_policy_map_event.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxePolicyMapEventImportStateIdFunc("iosxe_policy_map_event.test"),
-				ImportStateVerifyIgnore: []string{"class_numbers.0.action_numbers.0.pause_reauthentication", "class_numbers.0.action_numbers.0.authorize", "class_numbers.0.action_numbers.0.activate_service_template_config_replace_all", "class_numbers.0.action_numbers.0.authenticate_using_aaa_config"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_policy_map_event.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxePolicyMapEventImportStateIdFunc("iosxe_policy_map_event.test"),
+				ImportStateVerifyIgnore: []string{ "class_numbers.0.action_numbers.0.pause_reauthentication","class_numbers.0.action_numbers.0.authorize","class_numbers.0.action_numbers.0.activate_service_template_config_replace_all","class_numbers.0.action_numbers.0.authenticate_using_aaa_config", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -96,7 +95,7 @@ func iosxePolicyMapEventImportStateIdFunc(resourceName string) resource.ImportSt
 		Name := primary.Attributes["name"]
 		EventType := primary.Attributes["event_type"]
 
-		return fmt.Sprintf("%s,%s", Name, EventType), nil
+		return fmt.Sprintf("%s,%s", Name,EventType), nil
 	}
 }
 
@@ -124,7 +123,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

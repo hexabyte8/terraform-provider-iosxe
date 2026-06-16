@@ -23,64 +23,64 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type AccessListStandard struct {
-	Device  types.String                `tfsdk:"device"`
-	Id      types.String                `tfsdk:"id"`
-	Name    types.String                `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []AccessListStandardEntries `tfsdk:"entries"`
 }
 type AccessListStandardEntries struct {
-	Sequence         types.Int64  `tfsdk:"sequence"`
-	Remark           types.String `tfsdk:"remark"`
-	DenyPrefix       types.String `tfsdk:"deny_prefix"`
-	DenyPrefixMask   types.String `tfsdk:"deny_prefix_mask"`
-	DenyAny          types.Bool   `tfsdk:"deny_any"`
-	DenyHost         types.String `tfsdk:"deny_host"`
-	DenyLog          types.Bool   `tfsdk:"deny_log"`
-	PermitPrefix     types.String `tfsdk:"permit_prefix"`
+	Sequence types.Int64 `tfsdk:"sequence"`
+	Remark types.String `tfsdk:"remark"`
+	DenyPrefix types.String `tfsdk:"deny_prefix"`
+	DenyPrefixMask types.String `tfsdk:"deny_prefix_mask"`
+	DenyAny types.Bool `tfsdk:"deny_any"`
+	DenyHost types.String `tfsdk:"deny_host"`
+	DenyLog types.Bool `tfsdk:"deny_log"`
+	PermitPrefix types.String `tfsdk:"permit_prefix"`
 	PermitPrefixMask types.String `tfsdk:"permit_prefix_mask"`
-	PermitAny        types.Bool   `tfsdk:"permit_any"`
-	PermitHost       types.String `tfsdk:"permit_host"`
-	PermitLog        types.Bool   `tfsdk:"permit_log"`
+	PermitAny types.Bool `tfsdk:"permit_any"`
+	PermitHost types.String `tfsdk:"permit_host"`
+	PermitLog types.Bool `tfsdk:"permit_log"`
 }
 
 type AccessListStandardData struct {
-	Device  types.String                    `tfsdk:"device"`
-	Id      types.String                    `tfsdk:"id"`
-	Name    types.String                    `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []AccessListStandardEntriesData `tfsdk:"entries"`
 }
 type AccessListStandardEntriesData struct {
-	Sequence         types.Int64  `tfsdk:"sequence"`
-	Remark           types.String `tfsdk:"remark"`
-	DenyPrefix       types.String `tfsdk:"deny_prefix"`
-	DenyPrefixMask   types.String `tfsdk:"deny_prefix_mask"`
-	DenyAny          types.Bool   `tfsdk:"deny_any"`
-	DenyHost         types.String `tfsdk:"deny_host"`
-	DenyLog          types.Bool   `tfsdk:"deny_log"`
-	PermitPrefix     types.String `tfsdk:"permit_prefix"`
+	Sequence types.Int64 `tfsdk:"sequence"`
+	Remark types.String `tfsdk:"remark"`
+	DenyPrefix types.String `tfsdk:"deny_prefix"`
+	DenyPrefixMask types.String `tfsdk:"deny_prefix_mask"`
+	DenyAny types.Bool `tfsdk:"deny_any"`
+	DenyHost types.String `tfsdk:"deny_host"`
+	DenyLog types.Bool `tfsdk:"deny_log"`
+	PermitPrefix types.String `tfsdk:"permit_prefix"`
 	PermitPrefixMask types.String `tfsdk:"permit_prefix_mask"`
-	PermitAny        types.Bool   `tfsdk:"permit_any"`
-	PermitHost       types.String `tfsdk:"permit_host"`
-	PermitLog        types.Bool   `tfsdk:"permit_log"`
+	PermitAny types.Bool `tfsdk:"permit_any"`
+	PermitHost types.String `tfsdk:"permit_host"`
+	PermitLog types.Bool `tfsdk:"permit_log"`
 }
 
 // End of section. //template:end types
@@ -187,7 +187,7 @@ func (data AccessListStandard) toBody(ctx context.Context, config AccessListStan
 func (data AccessListStandard) toBodyXML(ctx context.Context, config AccessListStandard) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if len(data.Entries) > 0 {
 		for _, item := range data.Entries {
@@ -263,17 +263,17 @@ func (data *AccessListStandard) updateFromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "access-list-seq-rule").ForEach(
+		res.Get(prefix+"access-list-seq-rule").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -375,17 +375,17 @@ func (data *AccessListStandard) updateFromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *AccessListStandard) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -491,7 +491,7 @@ func (data *AccessListStandard) fromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-list-seq-rule"); value.Exists() {
+	if value := res.Get(prefix+"access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListStandardEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AccessListStandardEntries{}
@@ -554,7 +554,7 @@ func (data *AccessListStandardData) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-list-seq-rule"); value.Exists() {
+	if value := res.Get(prefix+"access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListStandardEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AccessListStandardEntriesData{}
@@ -613,7 +613,7 @@ func (data *AccessListStandardData) fromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *AccessListStandard) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListStandardEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AccessListStandardEntries{}
@@ -672,7 +672,7 @@ func (data *AccessListStandard) fromBodyXML(ctx context.Context, res xmldot.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *AccessListStandardData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListStandardEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AccessListStandardEntriesData{}
@@ -733,8 +733,8 @@ func (data *AccessListStandardData) fromBodyXML(ctx context.Context, res xmldot.
 func (data *AccessListStandard) getDeletedItems(ctx context.Context, state AccessListStandard) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Entries {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Sequence.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -801,13 +801,13 @@ func (data *AccessListStandard) getDeletedItems(ctx context.Context, state Acces
 func (data *AccessListStandard) addDeletedItemsXML(ctx context.Context, state AccessListStandard, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Entries {
-		stateKeys := [...]string{"sequence"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10)}
+		stateKeys := [...]string{ "sequence",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Sequence.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -874,9 +874,10 @@ func (data *AccessListStandard) addDeletedItemsXML(ctx context.Context, state Ac
 
 func (data *AccessListStandard) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 		if !data.Entries[i].PermitLog.IsNull() && !data.Entries[i].PermitLog.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/access-list-seq-rule=%v/permit/std-ace/log", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -901,7 +902,7 @@ func (data *AccessListStandard) getEmptyLeafsDelete(ctx context.Context) []strin
 func (data *AccessListStandard) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/access-list-seq-rule=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -916,8 +917,8 @@ func (data *AccessListStandard) getDeletePaths(ctx context.Context) []string {
 func (data *AccessListStandard) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

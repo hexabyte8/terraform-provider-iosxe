@@ -41,7 +41,7 @@ func TestAccDataSourceIosxeCryptoIPSecTransformSet(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCryptoIPSecTransformSetConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -61,7 +61,7 @@ func testAccDataSourceIosxeCryptoIPSecTransformSetConfig() string {
 	config += `	esp_hmac = "esp-sha-hmac"` + "\n"
 	config += `	mode_tunnel = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_ipsec_transform_set" "test" {
 			name = "TEST"

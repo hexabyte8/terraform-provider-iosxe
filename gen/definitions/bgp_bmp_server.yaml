@@ -8,6 +8,7 @@ attributes:
     yang_scope: bgp
     tf_name: asn
     example: 65000
+    list_config: true
   - yang_name: id
     yang_scope: server
     tf_name: server_id

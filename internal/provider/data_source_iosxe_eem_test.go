@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeEEM(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_eem.test", "environment_variables.0.name", "IOSXE_TEST_VAR"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_eem.test", "environment_variables.0.value", "test_pass"))
@@ -63,7 +62,7 @@ func TestAccDataSourceIosxeEEM(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeEEMConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +80,7 @@ func testAccDataSourceIosxeEEMConfig() string {
 	config += `	environment_variables = [{` + "\n"
 	config += `		name = "IOSXE_TEST_VAR"` + "\n"
 	config += `		value = "test_pass"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	session_cli_username = "test_user"` + "\n"
 	config += `	session_cli_username_privilege = 15` + "\n"
 	config += `	history_size_events = 25` + "\n"
@@ -104,9 +103,9 @@ func testAccDataSourceIosxeEEMConfig() string {
 	config += `		event_syslog_maxrun = 30` + "\n"
 	config += `		event_syslog_ratelimit = 10` + "\n"
 	config += `		event_syslog_period = 60` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_eem" "test" {
 			depends_on = [iosxe_eem.test]

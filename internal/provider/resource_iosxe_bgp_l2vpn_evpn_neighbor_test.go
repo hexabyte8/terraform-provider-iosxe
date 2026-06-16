@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeBGPL2VPNEVPNNeighbor(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_bgp_l2vpn_evpn_neighbor.test", "ip", "3.3.3.3"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_bgp_l2vpn_evpn_neighbor.test", "activate", "true"))
@@ -51,19 +49,19 @@ func TestAccIosxeBGPL2VPNEVPNNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPL2VPNEVPNNeighborPrerequisitesConfig + testAccIosxeBGPL2VPNEVPNNeighborConfig_minimum(),
+				Config: testAccIosxeBGPL2VPNEVPNNeighborPrerequisitesConfig+testAccIosxeBGPL2VPNEVPNNeighborConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeBGPL2VPNEVPNNeighborPrerequisitesConfig + testAccIosxeBGPL2VPNEVPNNeighborConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPL2VPNEVPNNeighborPrerequisitesConfig+testAccIosxeBGPL2VPNEVPNNeighborConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_l2vpn_evpn_neighbor.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPL2VPNEVPNNeighborImportStateIdFunc("iosxe_bgp_l2vpn_evpn_neighbor.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_l2vpn_evpn_neighbor.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPL2VPNEVPNNeighborImportStateIdFunc("iosxe_bgp_l2vpn_evpn_neighbor.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -79,7 +77,7 @@ func iosxeBGPL2VPNEVPNNeighborImportStateIdFunc(resourceName string) resource.Im
 		Asn := primary.Attributes["asn"]
 		Ip := primary.Attributes["ip"]
 
-		return fmt.Sprintf("%s,%s", Asn, Ip), nil
+		return fmt.Sprintf("%s,%s", Asn,Ip), nil
 	}
 }
 
@@ -127,7 +125,6 @@ resource "iosxe_yang" "PreReq4" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

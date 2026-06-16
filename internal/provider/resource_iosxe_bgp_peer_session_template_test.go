@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -46,16 +45,16 @@ func TestAccIosxeBGPPeerSessionTemplate(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPPeerSessionTemplatePrerequisitesConfig + testAccIosxeBGPPeerSessionTemplateConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPPeerSessionTemplatePrerequisitesConfig+testAccIosxeBGPPeerSessionTemplateConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_peer_session_template.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPPeerSessionTemplateImportStateIdFunc("iosxe_bgp_peer_session_template.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_peer_session_template.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPPeerSessionTemplateImportStateIdFunc("iosxe_bgp_peer_session_template.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -71,7 +70,7 @@ func iosxeBGPPeerSessionTemplateImportStateIdFunc(resourceName string) resource.
 		Asn := primary.Attributes["asn"]
 		TemplateName := primary.Attributes["template_name"]
 
-		return fmt.Sprintf("%s,%s", Asn, TemplateName), nil
+		return fmt.Sprintf("%s,%s", Asn,TemplateName), nil
 	}
 }
 
@@ -94,7 +93,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

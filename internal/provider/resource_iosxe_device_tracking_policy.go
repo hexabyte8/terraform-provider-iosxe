@@ -25,20 +25,20 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 )
 
 // End of section. //template:end imports
@@ -99,10 +99,10 @@ func (r *DeviceTrackingPolicyResource) Schema(ctx context.Context, req resource.
 				Optional:            true,
 			},
 			"device_role": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The role of the device attached to the port").AddStringEnumDescription("node", "router", "switch").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The role of the device attached to the port").AddStringEnumDescription("node", "router", "switch", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("node", "router", "switch"),
+					stringvalidator.OneOf("node", "router", "switch", ),
 				},
 			},
 			"device_role_node_legacy": schema.BoolAttribute{
@@ -323,7 +323,7 @@ func (r *DeviceTrackingPolicyResource) Create(ctx context.Context, req resource.
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -371,7 +371,7 @@ func (r *DeviceTrackingPolicyResource) Read(ctx context.Context, req resource.Re
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

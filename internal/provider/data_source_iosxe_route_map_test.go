@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -154,8 +153,8 @@ func TestAccDataSourceIosxeRouteMap(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeRouteMapPrerequisitesConfig + testAccDataSourceIosxeRouteMapConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeRouteMapPrerequisitesConfig+testAccDataSourceIosxeRouteMapConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -173,7 +172,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -298,10 +296,10 @@ func testAccDataSourceIosxeRouteMapConfig() string {
 	config += `		set_extcomunity_vpn_distinguisher = "10:10"` + "\n"
 	config += `		set_local_preference = 110` + "\n"
 	config += `		set_weight = 10000` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_route_map" "test" {
 			name = "RM1"

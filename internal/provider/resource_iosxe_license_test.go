@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeLicense(t *testing.T) {
 	if os.Getenv("LICENSE") == "" {
-		t.Skip("skipping test, set environment variable LICENSE")
-	}
+        t.Skip("skipping test, set environment variable LICENSE")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_license.test", "boot_level_network_advantage", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_license.test", "boot_level_network_advantage_addon", "dna-advantage"))
@@ -50,15 +48,15 @@ func TestAccIosxeLicense(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeLicenseConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_license.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeLicenseImportStateIdFunc("iosxe_license.test"),
-				ImportStateVerifyIgnore: []string{"boot_level_network_essentials", "accept_agreement", "accept_end", "accept_user"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_license.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeLicenseImportStateIdFunc("iosxe_license.test"),
+				ImportStateVerifyIgnore: []string{ "boot_level_network_essentials","accept_agreement","accept_end","accept_user", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -71,7 +69,7 @@ func TestAccIosxeLicense(t *testing.T) {
 func iosxeLicenseImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

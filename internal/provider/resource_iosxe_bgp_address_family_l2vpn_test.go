@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeBGPAddressFamilyL2VPN(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_bgp_address_family_l2vpn.test", "af_name", "evpn"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_bgp_address_family_l2vpn.test", "rewrite_evpn_rt_asn", "true"))
@@ -46,19 +44,19 @@ func TestAccIosxeBGPAddressFamilyL2VPN(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPAddressFamilyL2VPNPrerequisitesConfig + testAccIosxeBGPAddressFamilyL2VPNConfig_minimum(),
+				Config: testAccIosxeBGPAddressFamilyL2VPNPrerequisitesConfig+testAccIosxeBGPAddressFamilyL2VPNConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeBGPAddressFamilyL2VPNPrerequisitesConfig + testAccIosxeBGPAddressFamilyL2VPNConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPAddressFamilyL2VPNPrerequisitesConfig+testAccIosxeBGPAddressFamilyL2VPNConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_address_family_l2vpn.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPAddressFamilyL2VPNImportStateIdFunc("iosxe_bgp_address_family_l2vpn.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_address_family_l2vpn.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPAddressFamilyL2VPNImportStateIdFunc("iosxe_bgp_address_family_l2vpn.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -74,7 +72,7 @@ func iosxeBGPAddressFamilyL2VPNImportStateIdFunc(resourceName string) resource.I
 		Asn := primary.Attributes["asn"]
 		AfName := primary.Attributes["af_name"]
 
-		return fmt.Sprintf("%s,%s", Asn, AfName), nil
+		return fmt.Sprintf("%s,%s", Asn,AfName), nil
 	}
 }
 
@@ -90,7 +88,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

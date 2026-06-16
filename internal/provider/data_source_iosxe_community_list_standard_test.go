@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeCommunityListStandard(t *testing.T) {
 	if os.Getenv("IOSXE1712") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1712")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1712")
+    }
 	var checks []resource.TestCheckFunc
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -42,7 +41,7 @@ func TestAccDataSourceIosxeCommunityListStandard(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCommunityListStandardConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -61,7 +60,7 @@ func testAccDataSourceIosxeCommunityListStandardConfig() string {
 	config += `	deny_entries = ["65000:500"]` + "\n"
 	config += `	permit_entries = ["65000:501"]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_community_list_standard" "test" {
 			name = "CLS1"

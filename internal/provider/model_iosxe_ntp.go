@@ -23,98 +23,98 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type NTP struct {
-	Device                        types.String            `tfsdk:"device"`
-	Id                            types.String            `tfsdk:"id"`
-	DeleteMode                    types.String            `tfsdk:"delete_mode"`
-	Authenticate                  types.Bool              `tfsdk:"authenticate"`
-	Logging                       types.Bool              `tfsdk:"logging"`
-	AccessGroupPeerAcl            types.String            `tfsdk:"access_group_peer_acl"`
-	AccessGroupQueryOnlyAcl       types.String            `tfsdk:"access_group_query_only_acl"`
-	AccessGroupServeAcl           types.String            `tfsdk:"access_group_serve_acl"`
-	AccessGroupServeOnlyAcl       types.String            `tfsdk:"access_group_serve_only_acl"`
-	AuthenticationKeys            []NTPAuthenticationKeys `tfsdk:"authentication_keys"`
-	ClockPeriod                   types.Int64             `tfsdk:"clock_period"`
-	Master                        types.Bool              `tfsdk:"master"`
-	MasterStratum                 types.Int64             `tfsdk:"master_stratum"`
-	Passive                       types.Bool              `tfsdk:"passive"`
-	UpdateCalendar                types.Bool              `tfsdk:"update_calendar"`
-	SourceGigabitEthernet         types.String            `tfsdk:"source_gigabit_ethernet"`
-	SourceTenGigabitEthernet      types.String            `tfsdk:"source_ten_gigabit_ethernet"`
-	SourceFortyGigabitEthernet    types.String            `tfsdk:"source_forty_gigabit_ethernet"`
-	SourceHundredGigabitEthernet  types.String            `tfsdk:"source_hundred_gigabit_ethernet"`
-	SourceLoopback                types.Int64             `tfsdk:"source_loopback"`
-	SourcePortChannel             types.Int64             `tfsdk:"source_port_channel"`
-	SourcePortChannelSubinterface types.String            `tfsdk:"source_port_channel_subinterface"`
-	SourceVlan                    types.Int64             `tfsdk:"source_vlan"`
-	Servers                       []NTPServers            `tfsdk:"servers"`
-	ServerVrfs                    []NTPServerVrfs         `tfsdk:"server_vrfs"`
-	Peers                         []NTPPeers              `tfsdk:"peers"`
-	PeerVrfs                      []NTPPeerVrfs           `tfsdk:"peer_vrfs"`
-	TrustedKeys                   []NTPTrustedKeys        `tfsdk:"trusted_keys"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Authenticate types.Bool `tfsdk:"authenticate"`
+	Logging types.Bool `tfsdk:"logging"`
+	AccessGroupPeerAcl types.String `tfsdk:"access_group_peer_acl"`
+	AccessGroupQueryOnlyAcl types.String `tfsdk:"access_group_query_only_acl"`
+	AccessGroupServeAcl types.String `tfsdk:"access_group_serve_acl"`
+	AccessGroupServeOnlyAcl types.String `tfsdk:"access_group_serve_only_acl"`
+	AuthenticationKeys []NTPAuthenticationKeys `tfsdk:"authentication_keys"`
+	ClockPeriod types.Int64 `tfsdk:"clock_period"`
+	Master types.Bool `tfsdk:"master"`
+	MasterStratum types.Int64 `tfsdk:"master_stratum"`
+	Passive types.Bool `tfsdk:"passive"`
+	UpdateCalendar types.Bool `tfsdk:"update_calendar"`
+	SourceGigabitEthernet types.String `tfsdk:"source_gigabit_ethernet"`
+	SourceTenGigabitEthernet types.String `tfsdk:"source_ten_gigabit_ethernet"`
+	SourceFortyGigabitEthernet types.String `tfsdk:"source_forty_gigabit_ethernet"`
+	SourceHundredGigabitEthernet types.String `tfsdk:"source_hundred_gigabit_ethernet"`
+	SourceLoopback types.Int64 `tfsdk:"source_loopback"`
+	SourcePortChannel types.Int64 `tfsdk:"source_port_channel"`
+	SourcePortChannelSubinterface types.String `tfsdk:"source_port_channel_subinterface"`
+	SourceVlan types.Int64 `tfsdk:"source_vlan"`
+	Servers []NTPServers `tfsdk:"servers"`
+	ServerVrfs []NTPServerVrfs `tfsdk:"server_vrfs"`
+	Peers []NTPPeers `tfsdk:"peers"`
+	PeerVrfs []NTPPeerVrfs `tfsdk:"peer_vrfs"`
+	TrustedKeys []NTPTrustedKeys `tfsdk:"trusted_keys"`
 }
 type NTPAuthenticationKeys struct {
-	Number               types.Int64  `tfsdk:"number"`
-	Md5                  types.String `tfsdk:"md5"`
-	Md5WO                types.String `tfsdk:"md5_wo"`
-	Md5WOVersion         types.Int64  `tfsdk:"md5_wo_version"`
-	CmacAes128           types.String `tfsdk:"cmac_aes_128"`
-	CmacAes128WO         types.String `tfsdk:"cmac_aes_128_wo"`
-	CmacAes128WOVersion  types.Int64  `tfsdk:"cmac_aes_128_wo_version"`
-	HmacSha1             types.String `tfsdk:"hmac_sha1"`
-	HmacSha1WO           types.String `tfsdk:"hmac_sha1_wo"`
-	HmacSha1WOVersion    types.Int64  `tfsdk:"hmac_sha1_wo_version"`
-	HmacSha2256          types.String `tfsdk:"hmac_sha2_256"`
-	HmacSha2256WO        types.String `tfsdk:"hmac_sha2_256_wo"`
-	HmacSha2256WOVersion types.Int64  `tfsdk:"hmac_sha2_256_wo_version"`
-	Sha1                 types.String `tfsdk:"sha1"`
-	Sha1WO               types.String `tfsdk:"sha1_wo"`
-	Sha1WOVersion        types.Int64  `tfsdk:"sha1_wo_version"`
-	Sha2                 types.String `tfsdk:"sha2"`
-	Sha2WO               types.String `tfsdk:"sha2_wo"`
-	Sha2WOVersion        types.Int64  `tfsdk:"sha2_wo_version"`
-	EncryptionType       types.Int64  `tfsdk:"encryption_type"`
+	Number types.Int64 `tfsdk:"number"`
+	Md5 types.String `tfsdk:"md5"`
+	Md5WO types.String `tfsdk:"md5_wo"`
+	Md5WOVersion types.Int64 `tfsdk:"md5_wo_version"`
+	CmacAes128 types.String `tfsdk:"cmac_aes_128"`
+	CmacAes128WO types.String `tfsdk:"cmac_aes_128_wo"`
+	CmacAes128WOVersion types.Int64 `tfsdk:"cmac_aes_128_wo_version"`
+	HmacSha1 types.String `tfsdk:"hmac_sha1"`
+	HmacSha1WO types.String `tfsdk:"hmac_sha1_wo"`
+	HmacSha1WOVersion types.Int64 `tfsdk:"hmac_sha1_wo_version"`
+	HmacSha2256 types.String `tfsdk:"hmac_sha2_256"`
+	HmacSha2256WO types.String `tfsdk:"hmac_sha2_256_wo"`
+	HmacSha2256WOVersion types.Int64 `tfsdk:"hmac_sha2_256_wo_version"`
+	Sha1 types.String `tfsdk:"sha1"`
+	Sha1WO types.String `tfsdk:"sha1_wo"`
+	Sha1WOVersion types.Int64 `tfsdk:"sha1_wo_version"`
+	Sha2 types.String `tfsdk:"sha2"`
+	Sha2WO types.String `tfsdk:"sha2_wo"`
+	Sha2WOVersion types.Int64 `tfsdk:"sha2_wo_version"`
+	EncryptionType types.Int64 `tfsdk:"encryption_type"`
 }
 type NTPServers struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Source    types.String `tfsdk:"source"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
-	Burst     types.Bool   `tfsdk:"burst"`
-	Iburst    types.Bool   `tfsdk:"iburst"`
-	Periodic  types.Bool   `tfsdk:"periodic"`
+	Source types.String `tfsdk:"source"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
+	Burst types.Bool `tfsdk:"burst"`
+	Iburst types.Bool `tfsdk:"iburst"`
+	Periodic types.Bool `tfsdk:"periodic"`
 }
 type NTPServerVrfs struct {
-	Name    types.String           `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Servers []NTPServerVrfsServers `tfsdk:"servers"`
 }
 type NTPPeers struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Source    types.String `tfsdk:"source"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
+	Source types.String `tfsdk:"source"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
 }
 type NTPPeerVrfs struct {
-	Name  types.String       `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Peers []NTPPeerVrfsPeers `tfsdk:"peers"`
 }
 type NTPTrustedKeys struct {
@@ -122,82 +122,82 @@ type NTPTrustedKeys struct {
 }
 type NTPServerVrfsServers struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
-	Burst     types.Bool   `tfsdk:"burst"`
-	Iburst    types.Bool   `tfsdk:"iburst"`
-	Periodic  types.Bool   `tfsdk:"periodic"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
+	Burst types.Bool `tfsdk:"burst"`
+	Iburst types.Bool `tfsdk:"iburst"`
+	Periodic types.Bool `tfsdk:"periodic"`
 }
 type NTPPeerVrfsPeers struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
 }
 
 type NTPData struct {
-	Device                        types.String                `tfsdk:"device"`
-	Id                            types.String                `tfsdk:"id"`
-	Authenticate                  types.Bool                  `tfsdk:"authenticate"`
-	Logging                       types.Bool                  `tfsdk:"logging"`
-	AccessGroupPeerAcl            types.String                `tfsdk:"access_group_peer_acl"`
-	AccessGroupQueryOnlyAcl       types.String                `tfsdk:"access_group_query_only_acl"`
-	AccessGroupServeAcl           types.String                `tfsdk:"access_group_serve_acl"`
-	AccessGroupServeOnlyAcl       types.String                `tfsdk:"access_group_serve_only_acl"`
-	AuthenticationKeys            []NTPAuthenticationKeysData `tfsdk:"authentication_keys"`
-	ClockPeriod                   types.Int64                 `tfsdk:"clock_period"`
-	Master                        types.Bool                  `tfsdk:"master"`
-	MasterStratum                 types.Int64                 `tfsdk:"master_stratum"`
-	Passive                       types.Bool                  `tfsdk:"passive"`
-	UpdateCalendar                types.Bool                  `tfsdk:"update_calendar"`
-	SourceGigabitEthernet         types.String                `tfsdk:"source_gigabit_ethernet"`
-	SourceTenGigabitEthernet      types.String                `tfsdk:"source_ten_gigabit_ethernet"`
-	SourceFortyGigabitEthernet    types.String                `tfsdk:"source_forty_gigabit_ethernet"`
-	SourceHundredGigabitEthernet  types.String                `tfsdk:"source_hundred_gigabit_ethernet"`
-	SourceLoopback                types.Int64                 `tfsdk:"source_loopback"`
-	SourcePortChannel             types.Int64                 `tfsdk:"source_port_channel"`
-	SourcePortChannelSubinterface types.String                `tfsdk:"source_port_channel_subinterface"`
-	SourceVlan                    types.Int64                 `tfsdk:"source_vlan"`
-	Servers                       []NTPServersData            `tfsdk:"servers"`
-	ServerVrfs                    []NTPServerVrfsData         `tfsdk:"server_vrfs"`
-	Peers                         []NTPPeersData              `tfsdk:"peers"`
-	PeerVrfs                      []NTPPeerVrfsData           `tfsdk:"peer_vrfs"`
-	TrustedKeys                   []NTPTrustedKeysData        `tfsdk:"trusted_keys"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Authenticate types.Bool `tfsdk:"authenticate"`
+	Logging types.Bool `tfsdk:"logging"`
+	AccessGroupPeerAcl types.String `tfsdk:"access_group_peer_acl"`
+	AccessGroupQueryOnlyAcl types.String `tfsdk:"access_group_query_only_acl"`
+	AccessGroupServeAcl types.String `tfsdk:"access_group_serve_acl"`
+	AccessGroupServeOnlyAcl types.String `tfsdk:"access_group_serve_only_acl"`
+	AuthenticationKeys []NTPAuthenticationKeysData `tfsdk:"authentication_keys"`
+	ClockPeriod types.Int64 `tfsdk:"clock_period"`
+	Master types.Bool `tfsdk:"master"`
+	MasterStratum types.Int64 `tfsdk:"master_stratum"`
+	Passive types.Bool `tfsdk:"passive"`
+	UpdateCalendar types.Bool `tfsdk:"update_calendar"`
+	SourceGigabitEthernet types.String `tfsdk:"source_gigabit_ethernet"`
+	SourceTenGigabitEthernet types.String `tfsdk:"source_ten_gigabit_ethernet"`
+	SourceFortyGigabitEthernet types.String `tfsdk:"source_forty_gigabit_ethernet"`
+	SourceHundredGigabitEthernet types.String `tfsdk:"source_hundred_gigabit_ethernet"`
+	SourceLoopback types.Int64 `tfsdk:"source_loopback"`
+	SourcePortChannel types.Int64 `tfsdk:"source_port_channel"`
+	SourcePortChannelSubinterface types.String `tfsdk:"source_port_channel_subinterface"`
+	SourceVlan types.Int64 `tfsdk:"source_vlan"`
+	Servers []NTPServersData `tfsdk:"servers"`
+	ServerVrfs []NTPServerVrfsData `tfsdk:"server_vrfs"`
+	Peers []NTPPeersData `tfsdk:"peers"`
+	PeerVrfs []NTPPeerVrfsData `tfsdk:"peer_vrfs"`
+	TrustedKeys []NTPTrustedKeysData `tfsdk:"trusted_keys"`
 }
 type NTPAuthenticationKeysData struct {
-	Number         types.Int64  `tfsdk:"number"`
-	Md5            types.String `tfsdk:"md5"`
-	CmacAes128     types.String `tfsdk:"cmac_aes_128"`
-	HmacSha1       types.String `tfsdk:"hmac_sha1"`
-	HmacSha2256    types.String `tfsdk:"hmac_sha2_256"`
-	Sha1           types.String `tfsdk:"sha1"`
-	Sha2           types.String `tfsdk:"sha2"`
-	EncryptionType types.Int64  `tfsdk:"encryption_type"`
+	Number types.Int64 `tfsdk:"number"`
+	Md5 types.String `tfsdk:"md5"`
+	CmacAes128 types.String `tfsdk:"cmac_aes_128"`
+	HmacSha1 types.String `tfsdk:"hmac_sha1"`
+	HmacSha2256 types.String `tfsdk:"hmac_sha2_256"`
+	Sha1 types.String `tfsdk:"sha1"`
+	Sha2 types.String `tfsdk:"sha2"`
+	EncryptionType types.Int64 `tfsdk:"encryption_type"`
 }
 type NTPServersData struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Source    types.String `tfsdk:"source"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
-	Burst     types.Bool   `tfsdk:"burst"`
-	Iburst    types.Bool   `tfsdk:"iburst"`
-	Periodic  types.Bool   `tfsdk:"periodic"`
+	Source types.String `tfsdk:"source"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
+	Burst types.Bool `tfsdk:"burst"`
+	Iburst types.Bool `tfsdk:"iburst"`
+	Periodic types.Bool `tfsdk:"periodic"`
 }
 type NTPServerVrfsData struct {
-	Name    types.String               `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Servers []NTPServerVrfsServersData `tfsdk:"servers"`
 }
 type NTPPeersData struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Source    types.String `tfsdk:"source"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
+	Source types.String `tfsdk:"source"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
 }
 type NTPPeerVrfsData struct {
-	Name  types.String           `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Peers []NTPPeerVrfsPeersData `tfsdk:"peers"`
 }
 type NTPTrustedKeysData struct {
@@ -205,18 +205,18 @@ type NTPTrustedKeysData struct {
 }
 type NTPServerVrfsServersData struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
-	Burst     types.Bool   `tfsdk:"burst"`
-	Iburst    types.Bool   `tfsdk:"iburst"`
-	Periodic  types.Bool   `tfsdk:"periodic"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
+	Burst types.Bool `tfsdk:"burst"`
+	Iburst types.Bool `tfsdk:"iburst"`
+	Periodic types.Bool `tfsdk:"periodic"`
 }
 type NTPPeerVrfsPeersData struct {
 	IpAddress types.String `tfsdk:"ip_address"`
-	Key       types.Int64  `tfsdk:"key"`
-	Prefer    types.Bool   `tfsdk:"prefer"`
-	Version   types.Int64  `tfsdk:"version"`
+	Key types.Int64 `tfsdk:"key"`
+	Prefer types.Bool `tfsdk:"prefer"`
+	Version types.Int64 `tfsdk:"version"`
 }
 
 // End of section. //template:end types
@@ -534,29 +534,29 @@ func (data NTP) toBodyXML(ctx context.Context, config NTP) string {
 	body := netconf.Body{}
 	if !data.Authenticate.IsNull() && !data.Authenticate.IsUnknown() {
 		if data.Authenticate.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:authenticate", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:authenticate", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:authenticate")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:authenticate")
 		}
 	}
 	if !data.Logging.IsNull() && !data.Logging.IsUnknown() {
 		if data.Logging.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:logging", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:logging", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:logging")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:logging")
 		}
 	}
 	if !data.AccessGroupPeerAcl.IsNull() && !data.AccessGroupPeerAcl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/peer/acl", data.AccessGroupPeerAcl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/peer/acl", data.AccessGroupPeerAcl.ValueString())
 	}
 	if !data.AccessGroupQueryOnlyAcl.IsNull() && !data.AccessGroupQueryOnlyAcl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/query-only/acl", data.AccessGroupQueryOnlyAcl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/query-only/acl", data.AccessGroupQueryOnlyAcl.ValueString())
 	}
 	if !data.AccessGroupServeAcl.IsNull() && !data.AccessGroupServeAcl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve/acl", data.AccessGroupServeAcl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve/acl", data.AccessGroupServeAcl.ValueString())
 	}
 	if !data.AccessGroupServeOnlyAcl.IsNull() && !data.AccessGroupServeOnlyAcl.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve-only/acl", data.AccessGroupServeOnlyAcl.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve-only/acl", data.AccessGroupServeOnlyAcl.ValueString())
 	}
 	if len(data.AuthenticationKeys) > 0 {
 		for _, item := range data.AuthenticationKeys {
@@ -621,55 +621,55 @@ func (data NTP) toBodyXML(ctx context.Context, config NTP) string {
 		}
 	}
 	if !data.ClockPeriod.IsNull() && !data.ClockPeriod.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:clock-period", strconv.FormatInt(data.ClockPeriod.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:clock-period", strconv.FormatInt(data.ClockPeriod.ValueInt64(), 10))
 	}
 	if !data.Master.IsNull() && !data.Master.IsUnknown() {
 		if data.Master.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:master", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:master", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:master")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:master")
 		}
 	}
 	if !data.MasterStratum.IsNull() && !data.MasterStratum.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:master/stratum-number", strconv.FormatInt(data.MasterStratum.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:master/stratum-number", strconv.FormatInt(data.MasterStratum.ValueInt64(), 10))
 	}
 	if !data.Passive.IsNull() && !data.Passive.IsUnknown() {
 		if data.Passive.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:passive", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:passive", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:passive")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:passive")
 		}
 	}
 	if !data.UpdateCalendar.IsNull() && !data.UpdateCalendar.IsUnknown() {
 		if data.UpdateCalendar.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:update-calendar", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:update-calendar", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:update-calendar")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:update-calendar")
 		}
 	}
 	if !data.SourceGigabitEthernet.IsNull() && !data.SourceGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/GigabitEthernet", data.SourceGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/GigabitEthernet", data.SourceGigabitEthernet.ValueString())
 	}
 	if !data.SourceTenGigabitEthernet.IsNull() && !data.SourceTenGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/TenGigabitEthernet", data.SourceTenGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/TenGigabitEthernet", data.SourceTenGigabitEthernet.ValueString())
 	}
 	if !data.SourceFortyGigabitEthernet.IsNull() && !data.SourceFortyGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet", data.SourceFortyGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet", data.SourceFortyGigabitEthernet.ValueString())
 	}
 	if !data.SourceHundredGigabitEthernet.IsNull() && !data.SourceHundredGigabitEthernet.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/HundredGigE", data.SourceHundredGigabitEthernet.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/HundredGigE", data.SourceHundredGigabitEthernet.ValueString())
 	}
 	if !data.SourceLoopback.IsNull() && !data.SourceLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/Loopback", strconv.FormatInt(data.SourceLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/Loopback", strconv.FormatInt(data.SourceLoopback.ValueInt64(), 10))
 	}
 	if !data.SourcePortChannel.IsNull() && !data.SourcePortChannel.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel", strconv.FormatInt(data.SourcePortChannel.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel", strconv.FormatInt(data.SourcePortChannel.ValueInt64(), 10))
 	}
 	if !data.SourcePortChannelSubinterface.IsNull() && !data.SourcePortChannelSubinterface.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel", data.SourcePortChannelSubinterface.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel", data.SourcePortChannelSubinterface.ValueString())
 	}
 	if !data.SourceVlan.IsNull() && !data.SourceVlan.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-ntp:source/Vlan", strconv.FormatInt(data.SourceVlan.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-ntp:source/Vlan", strconv.FormatInt(data.SourceVlan.ValueInt64(), 10))
 	}
 	if len(data.Servers) > 0 {
 		for _, item := range data.Servers {
@@ -850,7 +850,7 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:authenticate"); !data.Authenticate.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:authenticate"); !data.Authenticate.IsNull() {
 		if value.Exists() {
 			data.Authenticate = types.BoolValue(true)
 		} else {
@@ -859,7 +859,7 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Authenticate = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:logging"); !data.Logging.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:logging"); !data.Logging.IsNull() {
 		if value.Exists() {
 			data.Logging = types.BoolValue(true)
 		} else {
@@ -868,32 +868,32 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Logging = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.peer.acl"); value.Exists() && !data.AccessGroupPeerAcl.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.peer.acl"); value.Exists() && !data.AccessGroupPeerAcl.IsNull() {
 		data.AccessGroupPeerAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupPeerAcl = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.query-only.acl"); value.Exists() && !data.AccessGroupQueryOnlyAcl.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.query-only.acl"); value.Exists() && !data.AccessGroupQueryOnlyAcl.IsNull() {
 		data.AccessGroupQueryOnlyAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupQueryOnlyAcl = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.serve.acl"); value.Exists() && !data.AccessGroupServeAcl.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.serve.acl"); value.Exists() && !data.AccessGroupServeAcl.IsNull() {
 		data.AccessGroupServeAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupServeAcl = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.serve-only.acl"); value.Exists() && !data.AccessGroupServeOnlyAcl.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.serve-only.acl"); value.Exists() && !data.AccessGroupServeOnlyAcl.IsNull() {
 		data.AccessGroupServeOnlyAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupServeOnlyAcl = types.StringNull()
 	}
 	for i := range data.AuthenticationKeys {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-ntp:authentication-key").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-ntp:authentication-key").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -917,12 +917,12 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.AuthenticationKeys[i].Number = types.Int64Null()
 		}
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:clock-period"); value.Exists() && !data.ClockPeriod.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:clock-period"); value.Exists() && !data.ClockPeriod.IsNull() {
 		data.ClockPeriod = types.Int64Value(value.Int())
 	} else {
 		data.ClockPeriod = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:master"); !data.Master.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:master"); !data.Master.IsNull() {
 		if value.Exists() {
 			data.Master = types.BoolValue(true)
 		} else {
@@ -931,12 +931,12 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Master = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:master.stratum-number"); value.Exists() && !data.MasterStratum.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:master.stratum-number"); value.Exists() && !data.MasterStratum.IsNull() {
 		data.MasterStratum = types.Int64Value(value.Int())
 	} else {
 		data.MasterStratum = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:passive"); !data.Passive.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:passive"); !data.Passive.IsNull() {
 		if value.Exists() {
 			data.Passive = types.BoolValue(true)
 		} else {
@@ -945,7 +945,7 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Passive = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:update-calendar"); !data.UpdateCalendar.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:update-calendar"); !data.UpdateCalendar.IsNull() {
 		if value.Exists() {
 			data.UpdateCalendar = types.BoolValue(true)
 		} else {
@@ -954,52 +954,52 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.UpdateCalendar = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTenGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceFortyGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceHundredGigabitEthernet = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.SourceLoopback = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	} else {
 		data.SourcePortChannel = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Port-channel-subinterface.Port-channel"); value.Exists() && !data.SourcePortChannelSubinterface.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Port-channel-subinterface.Port-channel"); value.Exists() && !data.SourcePortChannelSubinterface.IsNull() {
 		data.SourcePortChannelSubinterface = types.StringValue(value.String())
 	} else {
 		data.SourcePortChannelSubinterface = types.StringNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	} else {
 		data.SourceVlan = types.Int64Null()
 	}
 	for i := range data.Servers {
-		keys := [...]string{"ip-address"}
-		keyValues := [...]string{data.Servers[i].IpAddress.ValueString()}
+		keys := [...]string{ "ip-address",  }
+		keyValues := [...]string{ data.Servers[i].IpAddress.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-ntp:server.server-list").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-ntp:server.server-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1075,11 +1075,11 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.ServerVrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.ServerVrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.ServerVrfs[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-ntp:server.vrf").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-ntp:server.vrf").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1103,8 +1103,8 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.ServerVrfs[i].Name = types.StringNull()
 		}
 		for ci := range data.ServerVrfs[i].Servers {
-			keys := [...]string{"ip-address"}
-			keyValues := [...]string{data.ServerVrfs[i].Servers[ci].IpAddress.ValueString()}
+			keys := [...]string{ "ip-address",  }
+			keyValues := [...]string{ data.ServerVrfs[i].Servers[ci].IpAddress.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("server-list").ForEach(
@@ -1179,11 +1179,11 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Peers {
-		keys := [...]string{"ip-address"}
-		keyValues := [...]string{data.Peers[i].IpAddress.ValueString()}
+		keys := [...]string{ "ip-address",  }
+		keyValues := [...]string{ data.Peers[i].IpAddress.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-ntp:peer.server-list").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-ntp:peer.server-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1232,11 +1232,11 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PeerVrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PeerVrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PeerVrfs[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-ntp:peer.vrf").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-ntp:peer.vrf").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1260,8 +1260,8 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.PeerVrfs[i].Name = types.StringNull()
 		}
 		for ci := range data.PeerVrfs[i].Peers {
-			keys := [...]string{"ip-address"}
-			keyValues := [...]string{data.PeerVrfs[i].Peers[ci].IpAddress.ValueString()}
+			keys := [...]string{ "ip-address",  }
+			keyValues := [...]string{ data.PeerVrfs[i].Peers[ci].IpAddress.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("server-list").ForEach(
@@ -1309,11 +1309,11 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.TrustedKeys {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-ntp:trusted-key").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-ntp:trusted-key").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1344,7 +1344,7 @@ func (data *NTP) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:authenticate"); !data.Authenticate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:authenticate"); !data.Authenticate.IsNull() {
 		if value.Exists() {
 			data.Authenticate = types.BoolValue(true)
 		} else {
@@ -1353,7 +1353,7 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.Authenticate = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:logging"); !data.Logging.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:logging"); !data.Logging.IsNull() {
 		if value.Exists() {
 			data.Logging = types.BoolValue(true)
 		} else {
@@ -1362,32 +1362,32 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.Logging = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/peer/acl"); value.Exists() && !data.AccessGroupPeerAcl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/peer/acl"); value.Exists() && !data.AccessGroupPeerAcl.IsNull() {
 		data.AccessGroupPeerAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupPeerAcl = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/query-only/acl"); value.Exists() && !data.AccessGroupQueryOnlyAcl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/query-only/acl"); value.Exists() && !data.AccessGroupQueryOnlyAcl.IsNull() {
 		data.AccessGroupQueryOnlyAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupQueryOnlyAcl = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve/acl"); value.Exists() && !data.AccessGroupServeAcl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve/acl"); value.Exists() && !data.AccessGroupServeAcl.IsNull() {
 		data.AccessGroupServeAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupServeAcl = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve-only/acl"); value.Exists() && !data.AccessGroupServeOnlyAcl.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve-only/acl"); value.Exists() && !data.AccessGroupServeOnlyAcl.IsNull() {
 		data.AccessGroupServeOnlyAcl = types.StringValue(value.String())
 	} else {
 		data.AccessGroupServeOnlyAcl = types.StringNull()
 	}
 	for i := range data.AuthenticationKeys {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:authentication-key").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:authentication-key").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1411,12 +1411,12 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.AuthenticationKeys[i].Number = types.Int64Null()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:clock-period"); value.Exists() && !data.ClockPeriod.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:clock-period"); value.Exists() && !data.ClockPeriod.IsNull() {
 		data.ClockPeriod = types.Int64Value(value.Int())
 	} else {
 		data.ClockPeriod = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:master"); !data.Master.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:master"); !data.Master.IsNull() {
 		if value.Exists() {
 			data.Master = types.BoolValue(true)
 		} else {
@@ -1425,12 +1425,12 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.Master = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:master/stratum-number"); value.Exists() && !data.MasterStratum.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:master/stratum-number"); value.Exists() && !data.MasterStratum.IsNull() {
 		data.MasterStratum = types.Int64Value(value.Int())
 	} else {
 		data.MasterStratum = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:passive"); !data.Passive.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:passive"); !data.Passive.IsNull() {
 		if value.Exists() {
 			data.Passive = types.BoolValue(true)
 		} else {
@@ -1439,7 +1439,7 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.Passive = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:update-calendar"); !data.UpdateCalendar.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:update-calendar"); !data.UpdateCalendar.IsNull() {
 		if value.Exists() {
 			data.UpdateCalendar = types.BoolValue(true)
 		} else {
@@ -1448,52 +1448,52 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.UpdateCalendar = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/GigabitEthernet"); value.Exists() && !data.SourceGigabitEthernet.IsNull() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/TenGigabitEthernet"); value.Exists() && !data.SourceTenGigabitEthernet.IsNull() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceTenGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet"); value.Exists() && !data.SourceFortyGigabitEthernet.IsNull() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceFortyGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/HundredGigE"); value.Exists() && !data.SourceHundredGigabitEthernet.IsNull() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	} else {
 		data.SourceHundredGigabitEthernet = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Loopback"); value.Exists() && !data.SourceLoopback.IsNull() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.SourceLoopback = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel"); value.Exists() && !data.SourcePortChannel.IsNull() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	} else {
 		data.SourcePortChannel = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel"); value.Exists() && !data.SourcePortChannelSubinterface.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel"); value.Exists() && !data.SourcePortChannelSubinterface.IsNull() {
 		data.SourcePortChannelSubinterface = types.StringValue(value.String())
 	} else {
 		data.SourcePortChannelSubinterface = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Vlan"); value.Exists() && !data.SourceVlan.IsNull() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	} else {
 		data.SourceVlan = types.Int64Null()
 	}
 	for i := range data.Servers {
-		keys := [...]string{"ip-address"}
-		keyValues := [...]string{data.Servers[i].IpAddress.ValueString()}
+		keys := [...]string{ "ip-address",  }
+		keyValues := [...]string{ data.Servers[i].IpAddress.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:server/server-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:server/server-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1569,11 +1569,11 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.ServerVrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.ServerVrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.ServerVrfs[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:server/vrf").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:server/vrf").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1597,8 +1597,8 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.ServerVrfs[i].Name = types.StringNull()
 		}
 		for ci := range data.ServerVrfs[i].Servers {
-			keys := [...]string{"ip-address"}
-			keyValues := [...]string{data.ServerVrfs[i].Servers[ci].IpAddress.ValueString()}
+			keys := [...]string{ "ip-address",  }
+			keyValues := [...]string{ data.ServerVrfs[i].Servers[ci].IpAddress.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "server-list").ForEach(
@@ -1673,11 +1673,11 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Peers {
-		keys := [...]string{"ip-address"}
-		keyValues := [...]string{data.Peers[i].IpAddress.ValueString()}
+		keys := [...]string{ "ip-address",  }
+		keyValues := [...]string{ data.Peers[i].IpAddress.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:peer/server-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:peer/server-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1726,11 +1726,11 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.PeerVrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PeerVrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PeerVrfs[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:peer/vrf").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:peer/vrf").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1754,8 +1754,8 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.PeerVrfs[i].Name = types.StringNull()
 		}
 		for ci := range data.PeerVrfs[i].Peers {
-			keys := [...]string{"ip-address"}
-			keyValues := [...]string{data.PeerVrfs[i].Peers[ci].IpAddress.ValueString()}
+			keys := [...]string{ "ip-address",  }
+			keyValues := [...]string{ data.PeerVrfs[i].Peers[ci].IpAddress.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "server-list").ForEach(
@@ -1803,11 +1803,11 @@ func (data *NTP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.TrustedKeys {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:trusted-key").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:trusted-key").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1842,29 +1842,29 @@ func (data *NTP) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
 		data.Authenticate = types.BoolValue(true)
 	} else {
 		data.Authenticate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:logging"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:logging"); value.Exists() {
 		data.Logging = types.BoolValue(true)
 	} else {
 		data.Logging = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.peer.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.peer.acl"); value.Exists() {
 		data.AccessGroupPeerAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.query-only.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.query-only.acl"); value.Exists() {
 		data.AccessGroupQueryOnlyAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.serve.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.serve.acl"); value.Exists() {
 		data.AccessGroupServeAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.serve-only.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.serve-only.acl"); value.Exists() {
 		data.AccessGroupServeOnlyAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
 		data.AuthenticationKeys = make([]NTPAuthenticationKeys, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPAuthenticationKeys{}
@@ -1896,52 +1896,52 @@ func (data *NTP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
 		data.ClockPeriod = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:master"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:master"); value.Exists() {
 		data.Master = types.BoolValue(true)
 	} else {
 		data.Master = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:master.stratum-number"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:master.stratum-number"); value.Exists() {
 		data.MasterStratum = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:passive"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:passive"); value.Exists() {
 		data.Passive = types.BoolValue(true)
 	} else {
 		data.Passive = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
 		data.UpdateCalendar = types.BoolValue(true)
 	} else {
 		data.UpdateCalendar = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.GigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.TenGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.FortyGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.HundredGigE"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Port-channel-subinterface.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Port-channel-subinterface.Port-channel"); value.Exists() {
 		data.SourcePortChannelSubinterface = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Vlan"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:server.server-list"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:server.server-list"); value.Exists() {
 		data.Servers = make([]NTPServers, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPServers{}
@@ -1981,7 +1981,7 @@ func (data *NTP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:server.vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:server.vrf"); value.Exists() {
 		data.ServerVrfs = make([]NTPServerVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPServerVrfs{}
@@ -2029,7 +2029,7 @@ func (data *NTP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:peer.server-list"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:peer.server-list"); value.Exists() {
 		data.Peers = make([]NTPPeers, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPPeers{}
@@ -2054,7 +2054,7 @@ func (data *NTP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:peer.vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:peer.vrf"); value.Exists() {
 		data.PeerVrfs = make([]NTPPeerVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPPeerVrfs{}
@@ -2087,7 +2087,7 @@ func (data *NTP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
 		data.TrustedKeys = make([]NTPTrustedKeys, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPTrustedKeys{}
@@ -2109,29 +2109,29 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
 		data.Authenticate = types.BoolValue(true)
 	} else {
 		data.Authenticate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:logging"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:logging"); value.Exists() {
 		data.Logging = types.BoolValue(true)
 	} else {
 		data.Logging = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.peer.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.peer.acl"); value.Exists() {
 		data.AccessGroupPeerAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.query-only.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.query-only.acl"); value.Exists() {
 		data.AccessGroupQueryOnlyAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.serve.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.serve.acl"); value.Exists() {
 		data.AccessGroupServeAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:access-group.serve-only.acl"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:access-group.serve-only.acl"); value.Exists() {
 		data.AccessGroupServeOnlyAcl = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
 		data.AuthenticationKeys = make([]NTPAuthenticationKeysData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPAuthenticationKeysData{}
@@ -2163,52 +2163,52 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
 		data.ClockPeriod = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:master"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:master"); value.Exists() {
 		data.Master = types.BoolValue(true)
 	} else {
 		data.Master = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:master.stratum-number"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:master.stratum-number"); value.Exists() {
 		data.MasterStratum = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:passive"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:passive"); value.Exists() {
 		data.Passive = types.BoolValue(true)
 	} else {
 		data.Passive = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
 		data.UpdateCalendar = types.BoolValue(true)
 	} else {
 		data.UpdateCalendar = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.GigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.TenGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.FortyGigabitEthernet"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.HundredGigE"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Port-channel-subinterface.Port-channel"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Port-channel-subinterface.Port-channel"); value.Exists() {
 		data.SourcePortChannelSubinterface = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:source.Vlan"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:source.Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:server.server-list"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:server.server-list"); value.Exists() {
 		data.Servers = make([]NTPServersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPServersData{}
@@ -2248,7 +2248,7 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:server.vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:server.vrf"); value.Exists() {
 		data.ServerVrfs = make([]NTPServerVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPServerVrfsData{}
@@ -2296,7 +2296,7 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:peer.server-list"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:peer.server-list"); value.Exists() {
 		data.Peers = make([]NTPPeersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPPeersData{}
@@ -2321,7 +2321,7 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:peer.vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:peer.vrf"); value.Exists() {
 		data.PeerVrfs = make([]NTPPeerVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPPeerVrfsData{}
@@ -2354,7 +2354,7 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
 		data.TrustedKeys = make([]NTPTrustedKeysData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NTPTrustedKeysData{}
@@ -2372,29 +2372,29 @@ func (data *NTPData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
 		data.Authenticate = types.BoolValue(true)
 	} else {
 		data.Authenticate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:logging"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:logging"); value.Exists() {
 		data.Logging = types.BoolValue(true)
 	} else {
 		data.Logging = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/peer/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/peer/acl"); value.Exists() {
 		data.AccessGroupPeerAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/query-only/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/query-only/acl"); value.Exists() {
 		data.AccessGroupQueryOnlyAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve/acl"); value.Exists() {
 		data.AccessGroupServeAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve-only/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve-only/acl"); value.Exists() {
 		data.AccessGroupServeOnlyAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
 		data.AuthenticationKeys = make([]NTPAuthenticationKeys, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPAuthenticationKeys{}
@@ -2426,52 +2426,52 @@ func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
 		data.ClockPeriod = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:master"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:master"); value.Exists() {
 		data.Master = types.BoolValue(true)
 	} else {
 		data.Master = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:master/stratum-number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:master/stratum-number"); value.Exists() {
 		data.MasterStratum = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:passive"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:passive"); value.Exists() {
 		data.Passive = types.BoolValue(true)
 	} else {
 		data.Passive = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
 		data.UpdateCalendar = types.BoolValue(true)
 	} else {
 		data.UpdateCalendar = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/GigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/TenGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/HundredGigE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel"); value.Exists() {
 		data.SourcePortChannelSubinterface = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:server/server-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:server/server-list"); value.Exists() {
 		data.Servers = make([]NTPServers, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPServers{}
@@ -2511,7 +2511,7 @@ func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:server/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:server/vrf"); value.Exists() {
 		data.ServerVrfs = make([]NTPServerVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPServerVrfs{}
@@ -2559,7 +2559,7 @@ func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:peer/server-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:peer/server-list"); value.Exists() {
 		data.Peers = make([]NTPPeers, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPPeers{}
@@ -2584,7 +2584,7 @@ func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:peer/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:peer/vrf"); value.Exists() {
 		data.PeerVrfs = make([]NTPPeerVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPPeerVrfs{}
@@ -2617,7 +2617,7 @@ func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
 		data.TrustedKeys = make([]NTPTrustedKeys, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPTrustedKeys{}
@@ -2635,29 +2635,29 @@ func (data *NTP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:authenticate"); value.Exists() {
 		data.Authenticate = types.BoolValue(true)
 	} else {
 		data.Authenticate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:logging"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:logging"); value.Exists() {
 		data.Logging = types.BoolValue(true)
 	} else {
 		data.Logging = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/peer/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/peer/acl"); value.Exists() {
 		data.AccessGroupPeerAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/query-only/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/query-only/acl"); value.Exists() {
 		data.AccessGroupQueryOnlyAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve/acl"); value.Exists() {
 		data.AccessGroupServeAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:access-group/serve-only/acl"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:access-group/serve-only/acl"); value.Exists() {
 		data.AccessGroupServeOnlyAcl = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:authentication-key"); value.Exists() {
 		data.AuthenticationKeys = make([]NTPAuthenticationKeysData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPAuthenticationKeysData{}
@@ -2689,52 +2689,52 @@ func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:clock-period"); value.Exists() {
 		data.ClockPeriod = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:master"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:master"); value.Exists() {
 		data.Master = types.BoolValue(true)
 	} else {
 		data.Master = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:master/stratum-number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:master/stratum-number"); value.Exists() {
 		data.MasterStratum = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:passive"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:passive"); value.Exists() {
 		data.Passive = types.BoolValue(true)
 	} else {
 		data.Passive = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:update-calendar"); value.Exists() {
 		data.UpdateCalendar = types.BoolValue(true)
 	} else {
 		data.UpdateCalendar = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/GigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/GigabitEthernet"); value.Exists() {
 		data.SourceGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/TenGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/TenGigabitEthernet"); value.Exists() {
 		data.SourceTenGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/FortyGigabitEthernet"); value.Exists() {
 		data.SourceFortyGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/HundredGigE"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/HundredGigE"); value.Exists() {
 		data.SourceHundredGigabitEthernet = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Loopback"); value.Exists() {
 		data.SourceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel"); value.Exists() {
 		data.SourcePortChannel = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Port-channel-subinterface/Port-channel"); value.Exists() {
 		data.SourcePortChannelSubinterface = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:source/Vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:source/Vlan"); value.Exists() {
 		data.SourceVlan = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:server/server-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:server/server-list"); value.Exists() {
 		data.Servers = make([]NTPServersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPServersData{}
@@ -2774,7 +2774,7 @@ func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:server/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:server/vrf"); value.Exists() {
 		data.ServerVrfs = make([]NTPServerVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPServerVrfsData{}
@@ -2822,7 +2822,7 @@ func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:peer/server-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:peer/server-list"); value.Exists() {
 		data.Peers = make([]NTPPeersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPPeersData{}
@@ -2847,7 +2847,7 @@ func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:peer/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:peer/vrf"); value.Exists() {
 		data.PeerVrfs = make([]NTPPeerVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPPeerVrfsData{}
@@ -2880,7 +2880,7 @@ func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-ntp:trusted-key"); value.Exists() {
 		data.TrustedKeys = make([]NTPTrustedKeysData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NTPTrustedKeysData{}
@@ -2900,8 +2900,8 @@ func (data *NTPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.TrustedKeys {
-		stateKeyValues := [...]string{strconv.FormatInt(state.TrustedKeys[i].Number.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.TrustedKeys[i].Number.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.TrustedKeys[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2925,8 +2925,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 		}
 	}
 	for i := range state.PeerVrfs {
-		stateKeyValues := [...]string{state.PeerVrfs[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PeerVrfs[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PeerVrfs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2943,8 +2943,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 			}
 			if found {
 				for ci := range state.PeerVrfs[i].Peers {
-					cstateKeyValues := [...]string{state.PeerVrfs[i].Peers[ci].IpAddress.ValueString()}
-
+					cstateKeyValues := [...]string{ state.PeerVrfs[i].Peers[ci].IpAddress.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.PeerVrfs[i].Peers[ci].IpAddress.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -2984,8 +2984,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 		}
 	}
 	for i := range state.Peers {
-		stateKeyValues := [...]string{state.Peers[i].IpAddress.ValueString()}
-
+		stateKeyValues := [...]string{ state.Peers[i].IpAddress.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Peers[i].IpAddress.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3021,8 +3021,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 		}
 	}
 	for i := range state.ServerVrfs {
-		stateKeyValues := [...]string{state.ServerVrfs[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.ServerVrfs[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.ServerVrfs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3039,8 +3039,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 			}
 			if found {
 				for ci := range state.ServerVrfs[i].Servers {
-					cstateKeyValues := [...]string{state.ServerVrfs[i].Servers[ci].IpAddress.ValueString()}
-
+					cstateKeyValues := [...]string{ state.ServerVrfs[i].Servers[ci].IpAddress.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.ServerVrfs[i].Servers[ci].IpAddress.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -3089,8 +3089,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 		}
 	}
 	for i := range state.Servers {
-		stateKeyValues := [...]string{state.Servers[i].IpAddress.ValueString()}
-
+		stateKeyValues := [...]string{ state.Servers[i].IpAddress.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Servers[i].IpAddress.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3174,8 +3174,8 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:clock-period", state.getPath()))
 	}
 	for i := range state.AuthenticationKeys {
-		stateKeyValues := [...]string{strconv.FormatInt(state.AuthenticationKeys[i].Number.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.AuthenticationKeys[i].Number.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.AuthenticationKeys[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -3248,13 +3248,13 @@ func (data *NTP) getDeletedItems(ctx context.Context, state NTP) []string {
 func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.TrustedKeys {
-		stateKeys := [...]string{"number"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.TrustedKeys[i].Number.ValueInt64(), 10)}
+		stateKeys := [...]string{ "number",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.TrustedKeys[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.TrustedKeys[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -3278,13 +3278,13 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 		}
 	}
 	for i := range state.PeerVrfs {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PeerVrfs[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PeerVrfs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PeerVrfs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3301,8 +3301,8 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 			}
 			if found {
 				for ci := range state.PeerVrfs[i].Peers {
-					cstateKeys := [...]string{"ip-address"}
-					cstateKeyValues := [...]string{state.PeerVrfs[i].Peers[ci].IpAddress.ValueString()}
+					cstateKeys := [...]string{ "ip-address",  }
+					cstateKeyValues := [...]string{ state.PeerVrfs[i].Peers[ci].IpAddress.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -3347,13 +3347,13 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 		}
 	}
 	for i := range state.Peers {
-		stateKeys := [...]string{"ip-address"}
-		stateKeyValues := [...]string{state.Peers[i].IpAddress.ValueString()}
+		stateKeys := [...]string{ "ip-address",  }
+		stateKeyValues := [...]string{ state.Peers[i].IpAddress.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Peers[i].IpAddress.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3389,13 +3389,13 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 		}
 	}
 	for i := range state.ServerVrfs {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.ServerVrfs[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.ServerVrfs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.ServerVrfs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3412,8 +3412,8 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 			}
 			if found {
 				for ci := range state.ServerVrfs[i].Servers {
-					cstateKeys := [...]string{"ip-address"}
-					cstateKeyValues := [...]string{state.ServerVrfs[i].Servers[ci].IpAddress.ValueString()}
+					cstateKeys := [...]string{ "ip-address",  }
+					cstateKeyValues := [...]string{ state.ServerVrfs[i].Servers[ci].IpAddress.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -3467,13 +3467,13 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 		}
 	}
 	for i := range state.Servers {
-		stateKeys := [...]string{"ip-address"}
-		stateKeyValues := [...]string{state.Servers[i].IpAddress.ValueString()}
+		stateKeys := [...]string{ "ip-address",  }
+		stateKeyValues := [...]string{ state.Servers[i].IpAddress.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Servers[i].IpAddress.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3557,13 +3557,13 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/Cisco-IOS-XE-ntp:clock-period")
 	}
 	for i := range state.AuthenticationKeys {
-		stateKeys := [...]string{"number"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.AuthenticationKeys[i].Number.ValueInt64(), 10)}
+		stateKeys := [...]string{ "number",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.AuthenticationKeys[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.AuthenticationKeys[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -3636,30 +3636,35 @@ func (data *NTP) addDeletedItemsXML(ctx context.Context, state NTP, body string)
 
 func (data *NTP) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
+	
+	
 	for i := range data.PeerVrfs {
-		keyValues := [...]string{data.PeerVrfs[i].Name.ValueString()}
-
+		keyValues := [...]string{ data.PeerVrfs[i].Name.ValueString(),  }
+		
 		for ci := range data.PeerVrfs[i].Peers {
-			ckeyValues := [...]string{data.PeerVrfs[i].Peers[ci].IpAddress.ValueString()}
+			ckeyValues := [...]string{ data.PeerVrfs[i].Peers[ci].IpAddress.ValueString(),  }
 			if !data.PeerVrfs[i].Peers[ci].Prefer.IsNull() && !data.PeerVrfs[i].Peers[ci].Prefer.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:peer/vrf=%v/server-list=%v/prefer", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
 		}
 	}
-
+	
+	
 	for i := range data.Peers {
-		keyValues := [...]string{data.Peers[i].IpAddress.ValueString()}
+		keyValues := [...]string{ data.Peers[i].IpAddress.ValueString(),  }
 		if !data.Peers[i].Prefer.IsNull() && !data.Peers[i].Prefer.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:peer/server-list=%v/prefer", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.ServerVrfs {
-		keyValues := [...]string{data.ServerVrfs[i].Name.ValueString()}
-
+		keyValues := [...]string{ data.ServerVrfs[i].Name.ValueString(),  }
+		
 		for ci := range data.ServerVrfs[i].Servers {
-			ckeyValues := [...]string{data.ServerVrfs[i].Servers[ci].IpAddress.ValueString()}
+			ckeyValues := [...]string{ data.ServerVrfs[i].Servers[ci].IpAddress.ValueString(),  }
 			if !data.ServerVrfs[i].Servers[ci].Periodic.IsNull() && !data.ServerVrfs[i].Servers[ci].Periodic.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:server/vrf=%v/server-list=%v/periodic", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -3674,9 +3679,10 @@ func (data *NTP) getEmptyLeafsDelete(ctx context.Context) []string {
 			}
 		}
 	}
-
+	
+	
 	for i := range data.Servers {
-		keyValues := [...]string{data.Servers[i].IpAddress.ValueString()}
+		keyValues := [...]string{ data.Servers[i].IpAddress.ValueString(),  }
 		if !data.Servers[i].Periodic.IsNull() && !data.Servers[i].Periodic.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:server/server-list=%v/periodic", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -3699,7 +3705,8 @@ func (data *NTP) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.Master.IsNull() && !data.Master.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:master", data.getPath()))
 	}
-
+	
+	
 	if !data.Logging.IsNull() && !data.Logging.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:logging", data.getPath()))
 	}
@@ -3717,27 +3724,27 @@ func (data *NTP) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *NTP) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.TrustedKeys {
-		keyValues := [...]string{strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:trusted-key=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.PeerVrfs {
-		keyValues := [...]string{data.PeerVrfs[i].Name.ValueString()}
+		keyValues := [...]string{ data.PeerVrfs[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:peer/vrf=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Peers {
-		keyValues := [...]string{data.Peers[i].IpAddress.ValueString()}
+		keyValues := [...]string{ data.Peers[i].IpAddress.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:peer/server-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.ServerVrfs {
-		keyValues := [...]string{data.ServerVrfs[i].Name.ValueString()}
+		keyValues := [...]string{ data.ServerVrfs[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:server/vrf=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Servers {
-		keyValues := [...]string{data.Servers[i].IpAddress.ValueString()}
+		keyValues := [...]string{ data.Servers[i].IpAddress.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:server/server-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -3781,7 +3788,7 @@ func (data *NTP) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:clock-period", data.getPath()))
 	}
 	for i := range data.AuthenticationKeys {
-		keyValues := [...]string{strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-ntp:authentication-key=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -3814,8 +3821,8 @@ func (data *NTP) getDeletePaths(ctx context.Context) []string {
 func (data *NTP) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.TrustedKeys {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.TrustedKeys[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -3824,8 +3831,8 @@ func (data *NTP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-ntp:trusted-key%v", predicates))
 	}
 	for i := range data.PeerVrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PeerVrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PeerVrfs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -3834,8 +3841,8 @@ func (data *NTP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-ntp:peer/vrf%v", predicates))
 	}
 	for i := range data.Peers {
-		keys := [...]string{"ip-address"}
-		keyValues := [...]string{data.Peers[i].IpAddress.ValueString()}
+		keys := [...]string{ "ip-address",  }
+		keyValues := [...]string{ data.Peers[i].IpAddress.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -3844,8 +3851,8 @@ func (data *NTP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-ntp:peer/server-list%v", predicates))
 	}
 	for i := range data.ServerVrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.ServerVrfs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.ServerVrfs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -3854,8 +3861,8 @@ func (data *NTP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-ntp:server/vrf%v", predicates))
 	}
 	for i := range data.Servers {
-		keys := [...]string{"ip-address"}
-		keyValues := [...]string{data.Servers[i].IpAddress.ValueString()}
+		keys := [...]string{ "ip-address",  }
+		keyValues := [...]string{ data.Servers[i].IpAddress.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -3903,8 +3910,8 @@ func (data *NTP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/Cisco-IOS-XE-ntp:clock-period")
 	}
 	for i := range data.AuthenticationKeys {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.AuthenticationKeys[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

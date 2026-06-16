@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -55,15 +54,15 @@ func TestAccIosxeDot1x(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeDot1xConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_dot1x.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeDot1xImportStateIdFunc("iosxe_dot1x.test"),
-				ImportStateVerifyIgnore: []string{"guest_vlan_supplicant", "critical_eapol", "critical_eapol_block"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_dot1x.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeDot1xImportStateIdFunc("iosxe_dot1x.test"),
+				ImportStateVerifyIgnore: []string{ "guest_vlan_supplicant","critical_eapol","critical_eapol_block", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -76,7 +75,7 @@ func TestAccIosxeDot1x(t *testing.T) {
 func iosxeDot1xImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

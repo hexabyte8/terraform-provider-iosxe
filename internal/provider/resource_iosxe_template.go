@@ -25,10 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +33,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 )
 
 // End of section. //template:end imports
@@ -95,10 +95,10 @@ func (r *TemplateResource) Schema(ctx context.Context, req resource.SchemaReques
 				},
 			},
 			"dot1x_pae": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set 802.1x interface pae type").AddStringEnumDescription("authenticator", "both", "supplicant").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set 802.1x interface pae type").AddStringEnumDescription("authenticator", "both", "supplicant", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("authenticator", "both", "supplicant"),
+					stringvalidator.OneOf("authenticator", "both", "supplicant", ),
 				},
 			},
 			"dot1x_max_reauth_req": schema.Int64Attribute{
@@ -308,24 +308,24 @@ func (r *TemplateResource) Schema(ctx context.Context, req resource.SchemaReques
 				Optional:            true,
 			},
 			"access_session_port_control": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set the port-control value").AddStringEnumDescription("auto", "force-authorized", "force-unauthorized").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set the port-control value").AddStringEnumDescription("auto", "force-authorized", "force-unauthorized", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("auto", "force-authorized", "force-unauthorized"),
+					stringvalidator.OneOf("auto", "force-authorized", "force-unauthorized", ),
 				},
 			},
 			"access_session_control_direction": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set the control-direction on the interface").AddStringEnumDescription("both", "in").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set the control-direction on the interface").AddStringEnumDescription("both", "in", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("both", "in"),
+					stringvalidator.OneOf("both", "in", ),
 				},
 			},
 			"access_session_host_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set the Host mode for authentication on this interface").AddStringEnumDescription("multi-auth", "multi-domain", "multi-host", "single-host").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set the Host mode for authentication on this interface").AddStringEnumDescription("multi-auth", "multi-domain", "multi-host", "single-host", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("multi-auth", "multi-domain", "multi-host", "single-host"),
+					stringvalidator.OneOf("multi-auth", "multi-domain", "multi-host", "single-host", ),
 				},
 			},
 			"access_session_interface_template_sticky": schema.BoolAttribute{
@@ -446,10 +446,10 @@ func (r *TemplateResource) Schema(ctx context.Context, req resource.SchemaReques
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("packet flow direction").AddStringEnumDescription("in", "out").String,
+							MarkdownDescription: helpers.NewAttributeDescription("packet flow direction").AddStringEnumDescription("in", "out", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("in", "out"),
+								stringvalidator.OneOf("in", "out", ),
 							},
 						},
 						"access_list": schema.StringAttribute{
@@ -613,7 +613,7 @@ func (r *TemplateResource) Create(ctx context.Context, req resource.CreateReques
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -661,7 +661,7 @@ func (r *TemplateResource) Read(ctx context.Context, req resource.ReadRequest, r
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

@@ -74,8 +74,8 @@ func TestAccDataSourceIosxeOSPFVRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeOSPFVRFPrerequisitesConfig + testAccDataSourceIosxeOSPFVRFConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeOSPFVRFPrerequisitesConfig+testAccDataSourceIosxeOSPFVRFConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -95,7 +95,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -125,19 +124,19 @@ func testAccDataSourceIosxeOSPFVRFConfig() string {
 	config += `		ip = "2.2.2.2"` + "\n"
 	config += `		priority = 10` + "\n"
 	config += `		cost = 100` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	network = [{` + "\n"
 	config += `		ip = "3.3.3.0"` + "\n"
 	config += `		wildcard = "0.0.0.255"` + "\n"
 	config += `		area = "0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	priority = 100` + "\n"
 	config += `	router_id = "1.2.3.4"` + "\n"
 	config += `	shutdown = false` + "\n"
 	config += `	summary_address = [{` + "\n"
 	config += `		ip = "3.3.3.0"` + "\n"
 	config += `		mask = "255.255.255.0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	areas = [{` + "\n"
 	config += `		area_id = "5"` + "\n"
 	config += `		authentication_message_digest = true` + "\n"
@@ -147,12 +146,12 @@ func testAccDataSourceIosxeOSPFVRFConfig() string {
 	config += `		nssa_default_information_originate_metric_type = 1` + "\n"
 	config += `		nssa_no_summary = true` + "\n"
 	config += `		nssa_no_redistribution = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	auto_cost_reference_bandwidth = 40000` + "\n"
 	config += `	passive_interface_default = true` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_ospf_vrf" "test" {
 			process_id = 2

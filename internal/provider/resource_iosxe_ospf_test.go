@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -82,15 +81,15 @@ func TestAccIosxeOSPF(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeOSPFConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_ospf.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeOSPFImportStateIdFunc("iosxe_ospf.test"),
-				ImportStateVerifyIgnore: []string{"mpls_ldp_autoconfig", "mpls_ldp_sync", "log_adjacency_changes_detail", "nsf_cisco", "nsf_cisco_enforce_global", "max_metric_router_lsa_on_startup_wait_for_bgp"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_ospf.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeOSPFImportStateIdFunc("iosxe_ospf.test"),
+				ImportStateVerifyIgnore: []string{ "mpls_ldp_autoconfig","mpls_ldp_sync","log_adjacency_changes_detail","nsf_cisco","nsf_cisco_enforce_global","max_metric_router_lsa_on_startup_wait_for_bgp", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

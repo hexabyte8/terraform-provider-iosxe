@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeEVPNEthernetSegment(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_ethernet_segment.test", "df_election_wait_time", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_ethernet_segment.test", "redundancy_all_active", "false"))
@@ -47,7 +46,7 @@ func TestAccDataSourceIosxeEVPNEthernetSegment(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeEVPNEthernetSegmentConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,9 +68,9 @@ func testAccDataSourceIosxeEVPNEthernetSegmentConfig() string {
 	config += `	identifier_types = [{` + "\n"
 	config += `		type = 3` + "\n"
 	config += `		system_mac = "0011.2233.4455"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_evpn_ethernet_segment" "test" {
 			es_value = 1

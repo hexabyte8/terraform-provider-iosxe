@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -55,7 +54,7 @@ func TestAccDataSourceIosxeDeviceTrackingPolicy(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeDeviceTrackingPolicyConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -89,7 +88,7 @@ func testAccDataSourceIosxeDeviceTrackingPolicyConfig() string {
 	config += `	limit_address_count = 100` + "\n"
 	config += `	security_level_glean = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_device_tracking_policy" "test" {
 			name = "DT_trunk_policy"

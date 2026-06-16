@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -58,15 +57,15 @@ func TestAccIosxeClassMap(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeClassMapConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_class_map.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeClassMapImportStateIdFunc("iosxe_class_map.test"),
-				ImportStateVerifyIgnore: []string{"match_authorization_status_unauthorized"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_class_map.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeClassMapImportStateIdFunc("iosxe_class_map.test"),
+				ImportStateVerifyIgnore: []string{ "match_authorization_status_unauthorized", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

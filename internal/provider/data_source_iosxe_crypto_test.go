@@ -39,7 +39,7 @@ func TestAccDataSourceIosxeCrypto(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCryptoConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -56,7 +56,7 @@ func testAccDataSourceIosxeCryptoConfig() string {
 	config := `resource "iosxe_crypto" "test" {` + "\n"
 	config += `	engine_compliance_shield_disable = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto" "test" {
 			depends_on = [iosxe_crypto.test]

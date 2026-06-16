@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeInterfacePortChannel(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "description", "My Interface Description"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "shutdown", "false"))
@@ -71,7 +70,7 @@ func TestAccDataSourceIosxeInterfacePortChannel(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "load_interval", "30"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "logging_event_link_status_enable", "false"))
 	if os.Getenv("IOSXE1712") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "evpn_ethernet_segments_legacy.0.es_value", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "evpn_ethernet_segments_legacy.0.es_value", "1"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "ip_igmp_version", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_port_channel.test", "ip_flow_monitors.0.name", "MON1"))
@@ -81,8 +80,8 @@ func TestAccDataSourceIosxeInterfacePortChannel(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfacePortChannelPrerequisitesConfig + testAccDataSourceIosxeInterfacePortChannelConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfacePortChannelPrerequisitesConfig+testAccDataSourceIosxeInterfacePortChannelConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -175,7 +174,6 @@ resource "iosxe_yang" "PreReq8" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -203,7 +201,7 @@ func testAccDataSourceIosxeInterfacePortChannelConfig() string {
 	config += `	helper_addresses = [{` + "\n"
 	config += `		address = "10.10.10.10"` + "\n"
 	config += `		global = false` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	bfd_template = "bfd_template1"` + "\n"
 	config += `	bfd_enable = true` + "\n"
 	config += `	bfd_local_address = "1.2.3.4"` + "\n"
@@ -213,29 +211,29 @@ func testAccDataSourceIosxeInterfacePortChannelConfig() string {
 	config += `	ipv6_link_local_addresses = [{` + "\n"
 	config += `		address = "fe80::64"` + "\n"
 	config += `		link_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_addresses = [{` + "\n"
 	config += `		prefix = "2224:DB8::/32"` + "\n"
 	config += `		eui_64 = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	arp_timeout = 2147` + "\n"
 	config += `	ip_arp_inspection_trust = true` + "\n"
 	config += `	ip_arp_inspection_limit_rate = 1000` + "\n"
 	config += `	load_interval = 30` + "\n"
 	config += `	logging_event_link_status_enable = false` + "\n"
 	if os.Getenv("IOSXE1712") != "" {
-		config += `	evpn_ethernet_segments_legacy = [{` + "\n"
-		config += `		es_value = 1` + "\n"
+	config += `	evpn_ethernet_segments_legacy = [{` + "\n"
+	config += `		es_value = 1` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	ip_flow_monitors = [{` + "\n"
 	config += `		name = "MON1"` + "\n"
 	config += `		direction = "input"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, iosxe_yang.PreReq3, iosxe_yang.PreReq4, iosxe_yang.PreReq5, iosxe_yang.PreReq6, iosxe_yang.PreReq7, iosxe_yang.PreReq8, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_port_channel" "test" {
 			name = 10

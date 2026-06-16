@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeInterfaceEthernet(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "mtu", "1600"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "bandwidth", "1000000"))
@@ -94,7 +93,7 @@ func TestAccDataSourceIosxeInterfaceEthernet(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "cdp_tlv_server_location", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "ip_nat_inside", "true"))
 	if os.Getenv("C9000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "evpn_ethernet_segments.0.es_value", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "evpn_ethernet_segments.0.es_value", "1"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "carrier_delay_msec", "250"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_ethernet.test", "hold_queues.0.direction", "in"))
@@ -105,8 +104,8 @@ func TestAccDataSourceIosxeInterfaceEthernet(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfaceEthernetPrerequisitesConfig + testAccDataSourceIosxeInterfaceEthernetConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfaceEthernetPrerequisitesConfig+testAccDataSourceIosxeInterfaceEthernetConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -165,7 +164,6 @@ resource "iosxe_yang" "PreReq5" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -192,11 +190,11 @@ func testAccDataSourceIosxeInterfaceEthernetConfig() string {
 	config += `		address = "10.10.10.10"` + "\n"
 	config += `		global = false` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	source_template = [{` + "\n"
 	config += `		template_name = "TEMP1"` + "\n"
 	config += `		merge = false` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_enable = true` + "\n"
 	config += `	ipv6_mtu = 1300` + "\n"
 	config += `	ipv6_nd_ra_suppress_all = true` + "\n"
@@ -204,11 +202,11 @@ func testAccDataSourceIosxeInterfaceEthernetConfig() string {
 	config += `	ipv6_link_local_addresses = [{` + "\n"
 	config += `		address = "fe80::9656:d028:8652:66b6"` + "\n"
 	config += `		link_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_addresses = [{` + "\n"
 	config += `		prefix = "2001:DB8::/32"` + "\n"
 	config += `		eui_64 = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	arp_timeout = 300` + "\n"
 	config += `	spanning_tree_link_type = "point-to-point"` + "\n"
 	config += `	bpduguard_enable = false` + "\n"
@@ -233,7 +231,7 @@ func testAccDataSourceIosxeInterfaceEthernetConfig() string {
 	config += `	ip_flow_monitors = [{` + "\n"
 	config += `		name = "MON1"` + "\n"
 	config += `		direction = "input"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	load_interval = 30` + "\n"
 	config += `	snmp_trap_link_status = false` + "\n"
 	config += `	logging_event_link_status_enable = false` + "\n"
@@ -242,19 +240,19 @@ func testAccDataSourceIosxeInterfaceEthernetConfig() string {
 	config += `	cdp_tlv_server_location = false` + "\n"
 	config += `	ip_nat_inside = true` + "\n"
 	if os.Getenv("C9000V") != "" {
-		config += `	evpn_ethernet_segments = [{` + "\n"
-		config += `		es_value = 1` + "\n"
+	config += `	evpn_ethernet_segments = [{` + "\n"
+	config += `		es_value = 1` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `	carrier_delay_msec = 250` + "\n"
 	config += `	hold_queues = [{` + "\n"
 	config += `		direction = "in"` + "\n"
 	config += `		queue_length = 50` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, iosxe_yang.PreReq3, iosxe_yang.PreReq4, iosxe_yang.PreReq5, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_ethernet" "test" {
 			type = "GigabitEthernet"

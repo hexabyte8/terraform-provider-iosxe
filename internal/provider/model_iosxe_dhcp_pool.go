@@ -23,103 +23,103 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type DHCPPool struct {
-	Device                 types.String                `tfsdk:"device"`
-	Id                     types.String                `tfsdk:"id"`
-	DeleteMode             types.String                `tfsdk:"delete_mode"`
-	Name                   types.String                `tfsdk:"name"`
-	Vrf                    types.String                `tfsdk:"vrf"`
-	DomainName             types.String                `tfsdk:"domain_name"`
-	Bootfile               types.String                `tfsdk:"bootfile"`
-	ClientName             types.String                `tfsdk:"client_name"`
-	NetworkNumber          types.String                `tfsdk:"network_number"`
-	NetworkMask            types.String                `tfsdk:"network_mask"`
-	SecondaryNetworks      []DHCPPoolSecondaryNetworks `tfsdk:"secondary_networks"`
-	HostNumber             types.String                `tfsdk:"host_number"`
-	HostMask               types.String                `tfsdk:"host_mask"`
-	DefaultRouters         types.List                  `tfsdk:"default_routers"`
-	DnsServers             types.List                  `tfsdk:"dns_servers"`
-	NextServers            types.List                  `tfsdk:"next_servers"`
-	LeaseDays              types.Int64                 `tfsdk:"lease_days"`
-	LeaseHours             types.Int64                 `tfsdk:"lease_hours"`
-	LeaseMinutes           types.Int64                 `tfsdk:"lease_minutes"`
-	LeaseInfinite          types.Bool                  `tfsdk:"lease_infinite"`
-	UtilizationMarkHigh    types.Int64                 `tfsdk:"utilization_mark_high"`
-	UtilizationMarkHighLog types.Bool                  `tfsdk:"utilization_mark_high_log"`
-	UtilizationMarkLow     types.Int64                 `tfsdk:"utilization_mark_low"`
-	UtilizationMarkLowLog  types.Bool                  `tfsdk:"utilization_mark_low_log"`
-	SubnetPrefixLength     types.Int64                 `tfsdk:"subnet_prefix_length"`
-	Options                []DHCPPoolOptions           `tfsdk:"options"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	Vrf types.String `tfsdk:"vrf"`
+	DomainName types.String `tfsdk:"domain_name"`
+	Bootfile types.String `tfsdk:"bootfile"`
+	ClientName types.String `tfsdk:"client_name"`
+	NetworkNumber types.String `tfsdk:"network_number"`
+	NetworkMask types.String `tfsdk:"network_mask"`
+	SecondaryNetworks []DHCPPoolSecondaryNetworks `tfsdk:"secondary_networks"`
+	HostNumber types.String `tfsdk:"host_number"`
+	HostMask types.String `tfsdk:"host_mask"`
+	DefaultRouters types.List `tfsdk:"default_routers"`
+	DnsServers types.List `tfsdk:"dns_servers"`
+	NextServers types.List `tfsdk:"next_servers"`
+	LeaseDays types.Int64 `tfsdk:"lease_days"`
+	LeaseHours types.Int64 `tfsdk:"lease_hours"`
+	LeaseMinutes types.Int64 `tfsdk:"lease_minutes"`
+	LeaseInfinite types.Bool `tfsdk:"lease_infinite"`
+	UtilizationMarkHigh types.Int64 `tfsdk:"utilization_mark_high"`
+	UtilizationMarkHighLog types.Bool `tfsdk:"utilization_mark_high_log"`
+	UtilizationMarkLow types.Int64 `tfsdk:"utilization_mark_low"`
+	UtilizationMarkLowLog types.Bool `tfsdk:"utilization_mark_low_log"`
+	SubnetPrefixLength types.Int64 `tfsdk:"subnet_prefix_length"`
+	Options []DHCPPoolOptions `tfsdk:"options"`
 }
 type DHCPPoolSecondaryNetworks struct {
-	Number    types.String `tfsdk:"number"`
-	Mask      types.String `tfsdk:"mask"`
-	Secondary types.Bool   `tfsdk:"secondary"`
+	Number types.String `tfsdk:"number"`
+	Mask types.String `tfsdk:"mask"`
+	Secondary types.Bool `tfsdk:"secondary"`
 }
 type DHCPPoolOptions struct {
-	OptionCode types.Int64  `tfsdk:"option_code"`
-	Ascii      types.String `tfsdk:"ascii"`
-	Hex        types.String `tfsdk:"hex"`
-	Ip         types.List   `tfsdk:"ip"`
-	IpLegacy   types.List   `tfsdk:"ip_legacy"`
+	OptionCode types.Int64 `tfsdk:"option_code"`
+	Ascii types.String `tfsdk:"ascii"`
+	Hex types.String `tfsdk:"hex"`
+	Ip types.List `tfsdk:"ip"`
+	IpLegacy types.List `tfsdk:"ip_legacy"`
 }
 
 type DHCPPoolData struct {
-	Device                 types.String                    `tfsdk:"device"`
-	Id                     types.String                    `tfsdk:"id"`
-	Name                   types.String                    `tfsdk:"name"`
-	Vrf                    types.String                    `tfsdk:"vrf"`
-	DomainName             types.String                    `tfsdk:"domain_name"`
-	Bootfile               types.String                    `tfsdk:"bootfile"`
-	ClientName             types.String                    `tfsdk:"client_name"`
-	NetworkNumber          types.String                    `tfsdk:"network_number"`
-	NetworkMask            types.String                    `tfsdk:"network_mask"`
-	SecondaryNetworks      []DHCPPoolSecondaryNetworksData `tfsdk:"secondary_networks"`
-	HostNumber             types.String                    `tfsdk:"host_number"`
-	HostMask               types.String                    `tfsdk:"host_mask"`
-	DefaultRouters         types.List                      `tfsdk:"default_routers"`
-	DnsServers             types.List                      `tfsdk:"dns_servers"`
-	NextServers            types.List                      `tfsdk:"next_servers"`
-	LeaseDays              types.Int64                     `tfsdk:"lease_days"`
-	LeaseHours             types.Int64                     `tfsdk:"lease_hours"`
-	LeaseMinutes           types.Int64                     `tfsdk:"lease_minutes"`
-	LeaseInfinite          types.Bool                      `tfsdk:"lease_infinite"`
-	UtilizationMarkHigh    types.Int64                     `tfsdk:"utilization_mark_high"`
-	UtilizationMarkHighLog types.Bool                      `tfsdk:"utilization_mark_high_log"`
-	UtilizationMarkLow     types.Int64                     `tfsdk:"utilization_mark_low"`
-	UtilizationMarkLowLog  types.Bool                      `tfsdk:"utilization_mark_low_log"`
-	SubnetPrefixLength     types.Int64                     `tfsdk:"subnet_prefix_length"`
-	Options                []DHCPPoolOptionsData           `tfsdk:"options"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Vrf types.String `tfsdk:"vrf"`
+	DomainName types.String `tfsdk:"domain_name"`
+	Bootfile types.String `tfsdk:"bootfile"`
+	ClientName types.String `tfsdk:"client_name"`
+	NetworkNumber types.String `tfsdk:"network_number"`
+	NetworkMask types.String `tfsdk:"network_mask"`
+	SecondaryNetworks []DHCPPoolSecondaryNetworksData `tfsdk:"secondary_networks"`
+	HostNumber types.String `tfsdk:"host_number"`
+	HostMask types.String `tfsdk:"host_mask"`
+	DefaultRouters types.List `tfsdk:"default_routers"`
+	DnsServers types.List `tfsdk:"dns_servers"`
+	NextServers types.List `tfsdk:"next_servers"`
+	LeaseDays types.Int64 `tfsdk:"lease_days"`
+	LeaseHours types.Int64 `tfsdk:"lease_hours"`
+	LeaseMinutes types.Int64 `tfsdk:"lease_minutes"`
+	LeaseInfinite types.Bool `tfsdk:"lease_infinite"`
+	UtilizationMarkHigh types.Int64 `tfsdk:"utilization_mark_high"`
+	UtilizationMarkHighLog types.Bool `tfsdk:"utilization_mark_high_log"`
+	UtilizationMarkLow types.Int64 `tfsdk:"utilization_mark_low"`
+	UtilizationMarkLowLog types.Bool `tfsdk:"utilization_mark_low_log"`
+	SubnetPrefixLength types.Int64 `tfsdk:"subnet_prefix_length"`
+	Options []DHCPPoolOptionsData `tfsdk:"options"`
 }
 type DHCPPoolSecondaryNetworksData struct {
-	Number    types.String `tfsdk:"number"`
-	Mask      types.String `tfsdk:"mask"`
-	Secondary types.Bool   `tfsdk:"secondary"`
+	Number types.String `tfsdk:"number"`
+	Mask types.String `tfsdk:"mask"`
+	Secondary types.Bool `tfsdk:"secondary"`
 }
 type DHCPPoolOptionsData struct {
-	OptionCode types.Int64  `tfsdk:"option_code"`
-	Ascii      types.String `tfsdk:"ascii"`
-	Hex        types.String `tfsdk:"hex"`
-	Ip         types.List   `tfsdk:"ip"`
-	IpLegacy   types.List   `tfsdk:"ip_legacy"`
+	OptionCode types.Int64 `tfsdk:"option_code"`
+	Ascii types.String `tfsdk:"ascii"`
+	Hex types.String `tfsdk:"hex"`
+	Ip types.List `tfsdk:"ip"`
+	IpLegacy types.List `tfsdk:"ip_legacy"`
 }
 
 // End of section. //template:end types
@@ -289,25 +289,25 @@ func (data DHCPPool) toBody(ctx context.Context, config DHCPPool) string {
 func (data DHCPPool) toBodyXML(ctx context.Context, config DHCPPool) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Name.ValueString())
 	}
 	if !data.Vrf.IsNull() && !data.Vrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/vrf", data.Vrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/vrf", data.Vrf.ValueString())
 	}
 	if !data.DomainName.IsNull() && !data.DomainName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/domain-name", data.DomainName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/domain-name", data.DomainName.ValueString())
 	}
 	if !data.Bootfile.IsNull() && !data.Bootfile.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bootfile", data.Bootfile.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bootfile", data.Bootfile.ValueString())
 	}
 	if !data.ClientName.IsNull() && !data.ClientName.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/client-name", data.ClientName.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/client-name", data.ClientName.ValueString())
 	}
 	if !data.NetworkNumber.IsNull() && !data.NetworkNumber.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/network/primary-network/number", data.NetworkNumber.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/network/primary-network/number", data.NetworkNumber.ValueString())
 	}
 	if !data.NetworkMask.IsNull() && !data.NetworkMask.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/network/primary-network/mask", data.NetworkMask.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/network/primary-network/mask", data.NetworkMask.ValueString())
 	}
 	if len(data.SecondaryNetworks) > 0 {
 		for _, item := range data.SecondaryNetworks {
@@ -329,70 +329,70 @@ func (data DHCPPool) toBodyXML(ctx context.Context, config DHCPPool) string {
 		}
 	}
 	if !data.HostNumber.IsNull() && !data.HostNumber.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/host/number", data.HostNumber.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/host/number", data.HostNumber.ValueString())
 	}
 	if !data.HostMask.IsNull() && !data.HostMask.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/host/mask", data.HostMask.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/host/mask", data.HostMask.ValueString())
 	}
 	if !data.DefaultRouters.IsNull() && !data.DefaultRouters.IsUnknown() {
 		var values []string
 		data.DefaultRouters.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/default-router/default-router-list", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/default-router/default-router-list", v)
 		}
 	}
 	if !data.DnsServers.IsNull() && !data.DnsServers.IsUnknown() {
 		var values []string
 		data.DnsServers.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/dns-server/dns-server-list", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/dns-server/dns-server-list", v)
 		}
 	}
 	if !data.NextServers.IsNull() && !data.NextServers.IsUnknown() {
 		var values []string
 		data.NextServers.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/next-server", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/next-server", v)
 		}
 	}
 	if !data.LeaseDays.IsNull() && !data.LeaseDays.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/lease/lease-value/days", strconv.FormatInt(data.LeaseDays.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/lease/lease-value/days", strconv.FormatInt(data.LeaseDays.ValueInt64(), 10))
 	}
 	if !data.LeaseHours.IsNull() && !data.LeaseHours.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/lease/lease-value/hours", strconv.FormatInt(data.LeaseHours.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/lease/lease-value/hours", strconv.FormatInt(data.LeaseHours.ValueInt64(), 10))
 	}
 	if !data.LeaseMinutes.IsNull() && !data.LeaseMinutes.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/lease/lease-value/minutes", strconv.FormatInt(data.LeaseMinutes.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/lease/lease-value/minutes", strconv.FormatInt(data.LeaseMinutes.ValueInt64(), 10))
 	}
 	if !data.LeaseInfinite.IsNull() && !data.LeaseInfinite.IsUnknown() {
 		if data.LeaseInfinite.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/lease/infinite", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/lease/infinite", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/lease/infinite")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/lease/infinite")
 		}
 	}
 	if !data.UtilizationMarkHigh.IsNull() && !data.UtilizationMarkHigh.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/utilization/mark/high/high-value", strconv.FormatInt(data.UtilizationMarkHigh.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/utilization/mark/high/high-value", strconv.FormatInt(data.UtilizationMarkHigh.ValueInt64(), 10))
 	}
 	if !data.UtilizationMarkHighLog.IsNull() && !data.UtilizationMarkHighLog.IsUnknown() {
 		if data.UtilizationMarkHighLog.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/utilization/mark/high/log", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/utilization/mark/high/log", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/utilization/mark/high/log")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/utilization/mark/high/log")
 		}
 	}
 	if !data.UtilizationMarkLow.IsNull() && !data.UtilizationMarkLow.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/utilization/mark/low/low-value", strconv.FormatInt(data.UtilizationMarkLow.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/utilization/mark/low/low-value", strconv.FormatInt(data.UtilizationMarkLow.ValueInt64(), 10))
 	}
 	if !data.UtilizationMarkLowLog.IsNull() && !data.UtilizationMarkLowLog.IsUnknown() {
 		if data.UtilizationMarkLowLog.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/utilization/mark/low/log", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/utilization/mark/low/log", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/utilization/mark/low/log")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/utilization/mark/low/log")
 		}
 	}
 	if !data.SubnetPrefixLength.IsNull() && !data.SubnetPrefixLength.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/subnet/prefix-length", strconv.FormatInt(data.SubnetPrefixLength.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/subnet/prefix-length", strconv.FormatInt(data.SubnetPrefixLength.ValueInt64(), 10))
 	}
 	if len(data.Options) > 0 {
 		for _, item := range data.Options {
@@ -439,47 +439,47 @@ func (data *DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() && !data.Vrf.IsNull() {
+	if value := res.Get(prefix+"vrf"); value.Exists() && !data.Vrf.IsNull() {
 		data.Vrf = types.StringValue(value.String())
 	} else {
 		data.Vrf = types.StringNull()
 	}
-	if value := res.Get(prefix + "domain-name"); value.Exists() && !data.DomainName.IsNull() {
+	if value := res.Get(prefix+"domain-name"); value.Exists() && !data.DomainName.IsNull() {
 		data.DomainName = types.StringValue(value.String())
 	} else {
 		data.DomainName = types.StringNull()
 	}
-	if value := res.Get(prefix + "bootfile"); value.Exists() && !data.Bootfile.IsNull() {
+	if value := res.Get(prefix+"bootfile"); value.Exists() && !data.Bootfile.IsNull() {
 		data.Bootfile = types.StringValue(value.String())
 	} else {
 		data.Bootfile = types.StringNull()
 	}
-	if value := res.Get(prefix + "client-name"); value.Exists() && !data.ClientName.IsNull() {
+	if value := res.Get(prefix+"client-name"); value.Exists() && !data.ClientName.IsNull() {
 		data.ClientName = types.StringValue(value.String())
 	} else {
 		data.ClientName = types.StringNull()
 	}
-	if value := res.Get(prefix + "network.primary-network.number"); value.Exists() && !data.NetworkNumber.IsNull() {
+	if value := res.Get(prefix+"network.primary-network.number"); value.Exists() && !data.NetworkNumber.IsNull() {
 		data.NetworkNumber = types.StringValue(value.String())
 	} else {
 		data.NetworkNumber = types.StringNull()
 	}
-	if value := res.Get(prefix + "network.primary-network.mask"); value.Exists() && !data.NetworkMask.IsNull() {
+	if value := res.Get(prefix+"network.primary-network.mask"); value.Exists() && !data.NetworkMask.IsNull() {
 		data.NetworkMask = types.StringValue(value.String())
 	} else {
 		data.NetworkMask = types.StringNull()
 	}
 	for i := range data.SecondaryNetworks {
-		keys := [...]string{"number"}
-		keyValues := [...]string{data.SecondaryNetworks[i].Number.ValueString()}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ data.SecondaryNetworks[i].Number.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "network.secondary-network").ForEach(
+		res.Get(prefix+"network.secondary-network").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -517,47 +517,47 @@ func (data *DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.SecondaryNetworks[i].Secondary = types.BoolNull()
 		}
 	}
-	if value := res.Get(prefix + "host.number"); value.Exists() && !data.HostNumber.IsNull() {
+	if value := res.Get(prefix+"host.number"); value.Exists() && !data.HostNumber.IsNull() {
 		data.HostNumber = types.StringValue(value.String())
 	} else {
 		data.HostNumber = types.StringNull()
 	}
-	if value := res.Get(prefix + "host.mask"); value.Exists() && !data.HostMask.IsNull() {
+	if value := res.Get(prefix+"host.mask"); value.Exists() && !data.HostMask.IsNull() {
 		data.HostMask = types.StringValue(value.String())
 	} else {
 		data.HostMask = types.StringNull()
 	}
-	if value := res.Get(prefix + "default-router.default-router-list"); value.Exists() && !data.DefaultRouters.IsNull() {
+	if value := res.Get(prefix+"default-router.default-router-list"); value.Exists() && !data.DefaultRouters.IsNull() {
 		data.DefaultRouters = helpers.GetStringList(value.Array())
 	} else {
 		data.DefaultRouters = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "dns-server.dns-server-list"); value.Exists() && !data.DnsServers.IsNull() {
+	if value := res.Get(prefix+"dns-server.dns-server-list"); value.Exists() && !data.DnsServers.IsNull() {
 		data.DnsServers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "next-server"); value.Exists() && !data.NextServers.IsNull() {
+	if value := res.Get(prefix+"next-server"); value.Exists() && !data.NextServers.IsNull() {
 		data.NextServers = helpers.GetStringList(value.Array())
 	} else {
 		data.NextServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "lease.lease-value.days"); value.Exists() && !data.LeaseDays.IsNull() {
+	if value := res.Get(prefix+"lease.lease-value.days"); value.Exists() && !data.LeaseDays.IsNull() {
 		data.LeaseDays = types.Int64Value(value.Int())
 	} else {
 		data.LeaseDays = types.Int64Null()
 	}
-	if value := res.Get(prefix + "lease.lease-value.hours"); value.Exists() && !data.LeaseHours.IsNull() {
+	if value := res.Get(prefix+"lease.lease-value.hours"); value.Exists() && !data.LeaseHours.IsNull() {
 		data.LeaseHours = types.Int64Value(value.Int())
 	} else {
 		data.LeaseHours = types.Int64Null()
 	}
-	if value := res.Get(prefix + "lease.lease-value.minutes"); value.Exists() && !data.LeaseMinutes.IsNull() {
+	if value := res.Get(prefix+"lease.lease-value.minutes"); value.Exists() && !data.LeaseMinutes.IsNull() {
 		data.LeaseMinutes = types.Int64Value(value.Int())
 	} else {
 		data.LeaseMinutes = types.Int64Null()
 	}
-	if value := res.Get(prefix + "lease.infinite"); !data.LeaseInfinite.IsNull() {
+	if value := res.Get(prefix+"lease.infinite"); !data.LeaseInfinite.IsNull() {
 		if value.Exists() {
 			data.LeaseInfinite = types.BoolValue(true)
 		} else {
@@ -566,12 +566,12 @@ func (data *DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LeaseInfinite = types.BoolNull()
 	}
-	if value := res.Get(prefix + "utilization.mark.high.high-value"); value.Exists() && !data.UtilizationMarkHigh.IsNull() {
+	if value := res.Get(prefix+"utilization.mark.high.high-value"); value.Exists() && !data.UtilizationMarkHigh.IsNull() {
 		data.UtilizationMarkHigh = types.Int64Value(value.Int())
 	} else {
 		data.UtilizationMarkHigh = types.Int64Null()
 	}
-	if value := res.Get(prefix + "utilization.mark.high.log"); !data.UtilizationMarkHighLog.IsNull() {
+	if value := res.Get(prefix+"utilization.mark.high.log"); !data.UtilizationMarkHighLog.IsNull() {
 		if value.Exists() {
 			data.UtilizationMarkHighLog = types.BoolValue(true)
 		} else {
@@ -580,12 +580,12 @@ func (data *DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.UtilizationMarkHighLog = types.BoolNull()
 	}
-	if value := res.Get(prefix + "utilization.mark.low.low-value"); value.Exists() && !data.UtilizationMarkLow.IsNull() {
+	if value := res.Get(prefix+"utilization.mark.low.low-value"); value.Exists() && !data.UtilizationMarkLow.IsNull() {
 		data.UtilizationMarkLow = types.Int64Value(value.Int())
 	} else {
 		data.UtilizationMarkLow = types.Int64Null()
 	}
-	if value := res.Get(prefix + "utilization.mark.low.log"); !data.UtilizationMarkLowLog.IsNull() {
+	if value := res.Get(prefix+"utilization.mark.low.log"); !data.UtilizationMarkLowLog.IsNull() {
 		if value.Exists() {
 			data.UtilizationMarkLowLog = types.BoolValue(true)
 		} else {
@@ -594,17 +594,17 @@ func (data *DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.UtilizationMarkLowLog = types.BoolNull()
 	}
-	if value := res.Get(prefix + "subnet.prefix-length"); value.Exists() && !data.SubnetPrefixLength.IsNull() {
+	if value := res.Get(prefix+"subnet.prefix-length"); value.Exists() && !data.SubnetPrefixLength.IsNull() {
 		data.SubnetPrefixLength = types.Int64Value(value.Int())
 	} else {
 		data.SubnetPrefixLength = types.Int64Null()
 	}
 	for i := range data.Options {
-		keys := [...]string{"option-range"}
-		keyValues := [...]string{strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10)}
+		keys := [...]string{ "option-range",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "option.option-range").ForEach(
+		res.Get(prefix+"option.option-range").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -655,47 +655,47 @@ func (data *DHCPPool) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() && !data.Vrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() && !data.Vrf.IsNull() {
 		data.Vrf = types.StringValue(value.String())
 	} else {
 		data.Vrf = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-name"); value.Exists() && !data.DomainName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-name"); value.Exists() && !data.DomainName.IsNull() {
 		data.DomainName = types.StringValue(value.String())
 	} else {
 		data.DomainName = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bootfile"); value.Exists() && !data.Bootfile.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bootfile"); value.Exists() && !data.Bootfile.IsNull() {
 		data.Bootfile = types.StringValue(value.String())
 	} else {
 		data.Bootfile = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/client-name"); value.Exists() && !data.ClientName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/client-name"); value.Exists() && !data.ClientName.IsNull() {
 		data.ClientName = types.StringValue(value.String())
 	} else {
 		data.ClientName = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/primary-network/number"); value.Exists() && !data.NetworkNumber.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/primary-network/number"); value.Exists() && !data.NetworkNumber.IsNull() {
 		data.NetworkNumber = types.StringValue(value.String())
 	} else {
 		data.NetworkNumber = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/primary-network/mask"); value.Exists() && !data.NetworkMask.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/primary-network/mask"); value.Exists() && !data.NetworkMask.IsNull() {
 		data.NetworkMask = types.StringValue(value.String())
 	} else {
 		data.NetworkMask = types.StringNull()
 	}
 	for i := range data.SecondaryNetworks {
-		keys := [...]string{"number"}
-		keyValues := [...]string{data.SecondaryNetworks[i].Number.ValueString()}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ data.SecondaryNetworks[i].Number.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/secondary-network").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/secondary-network").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -733,47 +733,47 @@ func (data *DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 			data.SecondaryNetworks[i].Secondary = types.BoolNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host/number"); value.Exists() && !data.HostNumber.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host/number"); value.Exists() && !data.HostNumber.IsNull() {
 		data.HostNumber = types.StringValue(value.String())
 	} else {
 		data.HostNumber = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host/mask"); value.Exists() && !data.HostMask.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host/mask"); value.Exists() && !data.HostMask.IsNull() {
 		data.HostMask = types.StringValue(value.String())
 	} else {
 		data.HostMask = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-router/default-router-list"); value.Exists() && !data.DefaultRouters.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-router/default-router-list"); value.Exists() && !data.DefaultRouters.IsNull() {
 		data.DefaultRouters = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DefaultRouters = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-server/dns-server-list"); value.Exists() && !data.DnsServers.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-server/dns-server-list"); value.Exists() && !data.DnsServers.IsNull() {
 		data.DnsServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/next-server"); value.Exists() && !data.NextServers.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/next-server"); value.Exists() && !data.NextServers.IsNull() {
 		data.NextServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.NextServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/days"); value.Exists() && !data.LeaseDays.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/days"); value.Exists() && !data.LeaseDays.IsNull() {
 		data.LeaseDays = types.Int64Value(value.Int())
 	} else {
 		data.LeaseDays = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/hours"); value.Exists() && !data.LeaseHours.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/hours"); value.Exists() && !data.LeaseHours.IsNull() {
 		data.LeaseHours = types.Int64Value(value.Int())
 	} else {
 		data.LeaseHours = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/minutes"); value.Exists() && !data.LeaseMinutes.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/minutes"); value.Exists() && !data.LeaseMinutes.IsNull() {
 		data.LeaseMinutes = types.Int64Value(value.Int())
 	} else {
 		data.LeaseMinutes = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/infinite"); !data.LeaseInfinite.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/infinite"); !data.LeaseInfinite.IsNull() {
 		if value.Exists() {
 			data.LeaseInfinite = types.BoolValue(true)
 		} else {
@@ -782,12 +782,12 @@ func (data *DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.LeaseInfinite = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/high/high-value"); value.Exists() && !data.UtilizationMarkHigh.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/high/high-value"); value.Exists() && !data.UtilizationMarkHigh.IsNull() {
 		data.UtilizationMarkHigh = types.Int64Value(value.Int())
 	} else {
 		data.UtilizationMarkHigh = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/high/log"); !data.UtilizationMarkHighLog.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/high/log"); !data.UtilizationMarkHighLog.IsNull() {
 		if value.Exists() {
 			data.UtilizationMarkHighLog = types.BoolValue(true)
 		} else {
@@ -796,12 +796,12 @@ func (data *DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.UtilizationMarkHighLog = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/low/low-value"); value.Exists() && !data.UtilizationMarkLow.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/low/low-value"); value.Exists() && !data.UtilizationMarkLow.IsNull() {
 		data.UtilizationMarkLow = types.Int64Value(value.Int())
 	} else {
 		data.UtilizationMarkLow = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/low/log"); !data.UtilizationMarkLowLog.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/low/log"); !data.UtilizationMarkLowLog.IsNull() {
 		if value.Exists() {
 			data.UtilizationMarkLowLog = types.BoolValue(true)
 		} else {
@@ -810,17 +810,17 @@ func (data *DHCPPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.UtilizationMarkLowLog = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subnet/prefix-length"); value.Exists() && !data.SubnetPrefixLength.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subnet/prefix-length"); value.Exists() && !data.SubnetPrefixLength.IsNull() {
 		data.SubnetPrefixLength = types.Int64Value(value.Int())
 	} else {
 		data.SubnetPrefixLength = types.Int64Null()
 	}
 	for i := range data.Options {
-		keys := [...]string{"option-range"}
-		keyValues := [...]string{strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10)}
+		keys := [...]string{ "option-range",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/option-range").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/option-range").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -875,25 +875,25 @@ func (data *DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "domain-name"); value.Exists() {
+	if value := res.Get(prefix+"domain-name"); value.Exists() {
 		data.DomainName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bootfile"); value.Exists() {
+	if value := res.Get(prefix+"bootfile"); value.Exists() {
 		data.Bootfile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "client-name"); value.Exists() {
+	if value := res.Get(prefix+"client-name"); value.Exists() {
 		data.ClientName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "network.primary-network.number"); value.Exists() {
+	if value := res.Get(prefix+"network.primary-network.number"); value.Exists() {
 		data.NetworkNumber = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "network.primary-network.mask"); value.Exists() {
+	if value := res.Get(prefix+"network.primary-network.mask"); value.Exists() {
 		data.NetworkMask = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "network.secondary-network"); value.Exists() {
+	if value := res.Get(prefix+"network.secondary-network"); value.Exists() {
 		data.SecondaryNetworks = make([]DHCPPoolSecondaryNetworks, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := DHCPPoolSecondaryNetworks{}
@@ -912,61 +912,61 @@ func (data *DHCPPool) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "host.number"); value.Exists() {
+	if value := res.Get(prefix+"host.number"); value.Exists() {
 		data.HostNumber = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "host.mask"); value.Exists() {
+	if value := res.Get(prefix+"host.mask"); value.Exists() {
 		data.HostMask = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "default-router.default-router-list"); value.Exists() {
+	if value := res.Get(prefix+"default-router.default-router-list"); value.Exists() {
 		data.DefaultRouters = helpers.GetStringList(value.Array())
 	} else {
 		data.DefaultRouters = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "dns-server.dns-server-list"); value.Exists() {
+	if value := res.Get(prefix+"dns-server.dns-server-list"); value.Exists() {
 		data.DnsServers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "next-server"); value.Exists() {
+	if value := res.Get(prefix+"next-server"); value.Exists() {
 		data.NextServers = helpers.GetStringList(value.Array())
 	} else {
 		data.NextServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "lease.lease-value.days"); value.Exists() {
+	if value := res.Get(prefix+"lease.lease-value.days"); value.Exists() {
 		data.LeaseDays = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "lease.lease-value.hours"); value.Exists() {
+	if value := res.Get(prefix+"lease.lease-value.hours"); value.Exists() {
 		data.LeaseHours = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "lease.lease-value.minutes"); value.Exists() {
+	if value := res.Get(prefix+"lease.lease-value.minutes"); value.Exists() {
 		data.LeaseMinutes = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "lease.infinite"); value.Exists() {
+	if value := res.Get(prefix+"lease.infinite"); value.Exists() {
 		data.LeaseInfinite = types.BoolValue(true)
 	} else {
 		data.LeaseInfinite = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "utilization.mark.high.high-value"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.high.high-value"); value.Exists() {
 		data.UtilizationMarkHigh = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "utilization.mark.high.log"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.high.log"); value.Exists() {
 		data.UtilizationMarkHighLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkHighLog = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "utilization.mark.low.low-value"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.low.low-value"); value.Exists() {
 		data.UtilizationMarkLow = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "utilization.mark.low.log"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.low.log"); value.Exists() {
 		data.UtilizationMarkLowLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkLowLog = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "subnet.prefix-length"); value.Exists() {
+	if value := res.Get(prefix+"subnet.prefix-length"); value.Exists() {
 		data.SubnetPrefixLength = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.option-range"); value.Exists() {
+	if value := res.Get(prefix+"option.option-range"); value.Exists() {
 		data.Options = make([]DHCPPoolOptions, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := DHCPPoolOptions{}
@@ -1004,25 +1004,25 @@ func (data *DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "vrf"); value.Exists() {
+	if value := res.Get(prefix+"vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "domain-name"); value.Exists() {
+	if value := res.Get(prefix+"domain-name"); value.Exists() {
 		data.DomainName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "bootfile"); value.Exists() {
+	if value := res.Get(prefix+"bootfile"); value.Exists() {
 		data.Bootfile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "client-name"); value.Exists() {
+	if value := res.Get(prefix+"client-name"); value.Exists() {
 		data.ClientName = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "network.primary-network.number"); value.Exists() {
+	if value := res.Get(prefix+"network.primary-network.number"); value.Exists() {
 		data.NetworkNumber = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "network.primary-network.mask"); value.Exists() {
+	if value := res.Get(prefix+"network.primary-network.mask"); value.Exists() {
 		data.NetworkMask = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "network.secondary-network"); value.Exists() {
+	if value := res.Get(prefix+"network.secondary-network"); value.Exists() {
 		data.SecondaryNetworks = make([]DHCPPoolSecondaryNetworksData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := DHCPPoolSecondaryNetworksData{}
@@ -1041,61 +1041,61 @@ func (data *DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "host.number"); value.Exists() {
+	if value := res.Get(prefix+"host.number"); value.Exists() {
 		data.HostNumber = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "host.mask"); value.Exists() {
+	if value := res.Get(prefix+"host.mask"); value.Exists() {
 		data.HostMask = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "default-router.default-router-list"); value.Exists() {
+	if value := res.Get(prefix+"default-router.default-router-list"); value.Exists() {
 		data.DefaultRouters = helpers.GetStringList(value.Array())
 	} else {
 		data.DefaultRouters = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "dns-server.dns-server-list"); value.Exists() {
+	if value := res.Get(prefix+"dns-server.dns-server-list"); value.Exists() {
 		data.DnsServers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "next-server"); value.Exists() {
+	if value := res.Get(prefix+"next-server"); value.Exists() {
 		data.NextServers = helpers.GetStringList(value.Array())
 	} else {
 		data.NextServers = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "lease.lease-value.days"); value.Exists() {
+	if value := res.Get(prefix+"lease.lease-value.days"); value.Exists() {
 		data.LeaseDays = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "lease.lease-value.hours"); value.Exists() {
+	if value := res.Get(prefix+"lease.lease-value.hours"); value.Exists() {
 		data.LeaseHours = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "lease.lease-value.minutes"); value.Exists() {
+	if value := res.Get(prefix+"lease.lease-value.minutes"); value.Exists() {
 		data.LeaseMinutes = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "lease.infinite"); value.Exists() {
+	if value := res.Get(prefix+"lease.infinite"); value.Exists() {
 		data.LeaseInfinite = types.BoolValue(true)
 	} else {
 		data.LeaseInfinite = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "utilization.mark.high.high-value"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.high.high-value"); value.Exists() {
 		data.UtilizationMarkHigh = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "utilization.mark.high.log"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.high.log"); value.Exists() {
 		data.UtilizationMarkHighLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkHighLog = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "utilization.mark.low.low-value"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.low.low-value"); value.Exists() {
 		data.UtilizationMarkLow = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "utilization.mark.low.log"); value.Exists() {
+	if value := res.Get(prefix+"utilization.mark.low.log"); value.Exists() {
 		data.UtilizationMarkLowLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkLowLog = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "subnet.prefix-length"); value.Exists() {
+	if value := res.Get(prefix+"subnet.prefix-length"); value.Exists() {
 		data.SubnetPrefixLength = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "option.option-range"); value.Exists() {
+	if value := res.Get(prefix+"option.option-range"); value.Exists() {
 		data.Options = make([]DHCPPoolOptionsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := DHCPPoolOptionsData{}
@@ -1129,25 +1129,25 @@ func (data *DHCPPoolData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-name"); value.Exists() {
 		data.DomainName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bootfile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bootfile"); value.Exists() {
 		data.Bootfile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/client-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/client-name"); value.Exists() {
 		data.ClientName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/primary-network/number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/primary-network/number"); value.Exists() {
 		data.NetworkNumber = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/primary-network/mask"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/primary-network/mask"); value.Exists() {
 		data.NetworkMask = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/secondary-network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/secondary-network"); value.Exists() {
 		data.SecondaryNetworks = make([]DHCPPoolSecondaryNetworks, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := DHCPPoolSecondaryNetworks{}
@@ -1166,61 +1166,61 @@ func (data *DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host/number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host/number"); value.Exists() {
 		data.HostNumber = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host/mask"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host/mask"); value.Exists() {
 		data.HostMask = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-router/default-router-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-router/default-router-list"); value.Exists() {
 		data.DefaultRouters = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DefaultRouters = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-server/dns-server-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-server/dns-server-list"); value.Exists() {
 		data.DnsServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/next-server"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/next-server"); value.Exists() {
 		data.NextServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.NextServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/days"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/days"); value.Exists() {
 		data.LeaseDays = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/hours"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/hours"); value.Exists() {
 		data.LeaseHours = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/minutes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/minutes"); value.Exists() {
 		data.LeaseMinutes = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/infinite"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/infinite"); value.Exists() {
 		data.LeaseInfinite = types.BoolValue(true)
 	} else {
 		data.LeaseInfinite = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/high/high-value"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/high/high-value"); value.Exists() {
 		data.UtilizationMarkHigh = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/high/log"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/high/log"); value.Exists() {
 		data.UtilizationMarkHighLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkHighLog = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/low/low-value"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/low/low-value"); value.Exists() {
 		data.UtilizationMarkLow = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/low/log"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/low/log"); value.Exists() {
 		data.UtilizationMarkLowLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkLowLog = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subnet/prefix-length"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subnet/prefix-length"); value.Exists() {
 		data.SubnetPrefixLength = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/option-range"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/option-range"); value.Exists() {
 		data.Options = make([]DHCPPoolOptions, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := DHCPPoolOptions{}
@@ -1254,25 +1254,25 @@ func (data *DHCPPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vrf"); value.Exists() {
 		data.Vrf = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/domain-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/domain-name"); value.Exists() {
 		data.DomainName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bootfile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bootfile"); value.Exists() {
 		data.Bootfile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/client-name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/client-name"); value.Exists() {
 		data.ClientName = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/primary-network/number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/primary-network/number"); value.Exists() {
 		data.NetworkNumber = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/primary-network/mask"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/primary-network/mask"); value.Exists() {
 		data.NetworkMask = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network/secondary-network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network/secondary-network"); value.Exists() {
 		data.SecondaryNetworks = make([]DHCPPoolSecondaryNetworksData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := DHCPPoolSecondaryNetworksData{}
@@ -1291,61 +1291,61 @@ func (data *DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host/number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host/number"); value.Exists() {
 		data.HostNumber = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host/mask"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host/mask"); value.Exists() {
 		data.HostMask = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-router/default-router-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-router/default-router-list"); value.Exists() {
 		data.DefaultRouters = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DefaultRouters = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/dns-server/dns-server-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/dns-server/dns-server-list"); value.Exists() {
 		data.DnsServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.DnsServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/next-server"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/next-server"); value.Exists() {
 		data.NextServers = helpers.GetStringListXML(value.Array())
 	} else {
 		data.NextServers = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/days"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/days"); value.Exists() {
 		data.LeaseDays = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/hours"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/hours"); value.Exists() {
 		data.LeaseHours = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/lease-value/minutes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/lease-value/minutes"); value.Exists() {
 		data.LeaseMinutes = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/lease/infinite"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/lease/infinite"); value.Exists() {
 		data.LeaseInfinite = types.BoolValue(true)
 	} else {
 		data.LeaseInfinite = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/high/high-value"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/high/high-value"); value.Exists() {
 		data.UtilizationMarkHigh = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/high/log"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/high/log"); value.Exists() {
 		data.UtilizationMarkHighLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkHighLog = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/low/low-value"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/low/low-value"); value.Exists() {
 		data.UtilizationMarkLow = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/utilization/mark/low/log"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/utilization/mark/low/log"); value.Exists() {
 		data.UtilizationMarkLowLog = types.BoolValue(true)
 	} else {
 		data.UtilizationMarkLowLog = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subnet/prefix-length"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subnet/prefix-length"); value.Exists() {
 		data.SubnetPrefixLength = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/option/option-range"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/option/option-range"); value.Exists() {
 		data.Options = make([]DHCPPoolOptionsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := DHCPPoolOptionsData{}
@@ -1381,8 +1381,8 @@ func (data *DHCPPoolData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *DHCPPool) getDeletedItems(ctx context.Context, state DHCPPool) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Options {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Options[i].OptionCode.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Options[i].OptionCode.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Options[i].OptionCode.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -1550,8 +1550,8 @@ func (data *DHCPPool) getDeletedItems(ctx context.Context, state DHCPPool) []str
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/host/number", state.getPath()))
 	}
 	for i := range state.SecondaryNetworks {
-		stateKeyValues := [...]string{state.SecondaryNetworks[i].Number.ValueString()}
-
+		stateKeyValues := [...]string{ state.SecondaryNetworks[i].Number.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.SecondaryNetworks[i].Number.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1609,13 +1609,13 @@ func (data *DHCPPool) getDeletedItems(ctx context.Context, state DHCPPool) []str
 func (data *DHCPPool) addDeletedItemsXML(ctx context.Context, state DHCPPool, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Options {
-		stateKeys := [...]string{"option-range"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Options[i].OptionCode.ValueInt64(), 10)}
+		stateKeys := [...]string{ "option-range",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Options[i].OptionCode.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Options[i].OptionCode.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -1803,13 +1803,13 @@ func (data *DHCPPool) addDeletedItemsXML(ctx context.Context, state DHCPPool, bo
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/host/number")
 	}
 	for i := range state.SecondaryNetworks {
-		stateKeys := [...]string{"number"}
-		stateKeyValues := [...]string{state.SecondaryNetworks[i].Number.ValueString()}
+		stateKeys := [...]string{ "number",  }
+		stateKeyValues := [...]string{ state.SecondaryNetworks[i].Number.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.SecondaryNetworks[i].Number.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1867,7 +1867,8 @@ func (data *DHCPPool) addDeletedItemsXML(ctx context.Context, state DHCPPool, bo
 
 func (data *DHCPPool) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	if !data.UtilizationMarkLowLog.IsNull() && !data.UtilizationMarkLowLog.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/utilization/mark/low/log", data.getPath()))
 	}
@@ -1877,9 +1878,10 @@ func (data *DHCPPool) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.LeaseInfinite.IsNull() && !data.LeaseInfinite.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/lease/infinite", data.getPath()))
 	}
-
+	
+	
 	for i := range data.SecondaryNetworks {
-		keyValues := [...]string{data.SecondaryNetworks[i].Number.ValueString()}
+		keyValues := [...]string{ data.SecondaryNetworks[i].Number.ValueString(),  }
 		if !data.SecondaryNetworks[i].Secondary.IsNull() && !data.SecondaryNetworks[i].Secondary.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/network/secondary-network=%v/secondary", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -1895,7 +1897,7 @@ func (data *DHCPPool) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *DHCPPool) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Options {
-		keyValues := [...]string{strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/option/option-range=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1942,7 +1944,7 @@ func (data *DHCPPool) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/host/number", data.getPath()))
 	}
 	for i := range data.SecondaryNetworks {
-		keyValues := [...]string{data.SecondaryNetworks[i].Number.ValueString()}
+		keyValues := [...]string{ data.SecondaryNetworks[i].Number.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/network/secondary-network=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1975,8 +1977,8 @@ func (data *DHCPPool) getDeletePaths(ctx context.Context) []string {
 func (data *DHCPPool) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Options {
-		keys := [...]string{"option-range"}
-		keyValues := [...]string{strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10)}
+		keys := [...]string{ "option-range",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Options[i].OptionCode.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2039,8 +2041,8 @@ func (data *DHCPPool) addDeletePathsXML(ctx context.Context, body string) string
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/host/number")
 	}
 	for i := range data.SecondaryNetworks {
-		keys := [...]string{"number"}
-		keyValues := [...]string{data.SecondaryNetworks[i].Number.ValueString()}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ data.SecondaryNetworks[i].Number.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

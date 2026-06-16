@@ -23,162 +23,162 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type AccessListExtended struct {
-	Device  types.String                `tfsdk:"device"`
-	Id      types.String                `tfsdk:"id"`
-	Name    types.String                `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []AccessListExtendedEntries `tfsdk:"entries"`
 }
 type AccessListExtendedEntries struct {
-	Sequence                   types.Int64  `tfsdk:"sequence"`
-	Remark                     types.String `tfsdk:"remark"`
-	AceRuleAction              types.String `tfsdk:"ace_rule_action"`
-	AceRuleProtocol            types.String `tfsdk:"ace_rule_protocol"`
-	ServiceObjectGroup         types.String `tfsdk:"service_object_group"`
-	SourcePrefix               types.String `tfsdk:"source_prefix"`
-	SourcePrefixMask           types.String `tfsdk:"source_prefix_mask"`
-	SourceAny                  types.Bool   `tfsdk:"source_any"`
-	SourceHost                 types.String `tfsdk:"source_host"`
-	SourceObjectGroup          types.String `tfsdk:"source_object_group"`
-	SourceFqdnGroup            types.String `tfsdk:"source_fqdn_group"`
-	SourcePortEqual            types.String `tfsdk:"source_port_equal"`
-	SourcePortGreaterThan      types.String `tfsdk:"source_port_greater_than"`
-	SourcePortLesserThan       types.String `tfsdk:"source_port_lesser_than"`
-	SourcePortRangeFrom        types.String `tfsdk:"source_port_range_from"`
-	SourcePortRangeTo          types.String `tfsdk:"source_port_range_to"`
-	SourcePortEqual2           types.String `tfsdk:"source_port_equal_2"`
-	SourcePortEqual3           types.String `tfsdk:"source_port_equal_3"`
-	SourcePortEqual4           types.String `tfsdk:"source_port_equal_4"`
-	SourcePortEqual5           types.String `tfsdk:"source_port_equal_5"`
-	SourcePortEqual6           types.String `tfsdk:"source_port_equal_6"`
-	SourcePortEqual7           types.String `tfsdk:"source_port_equal_7"`
-	SourcePortEqual8           types.String `tfsdk:"source_port_equal_8"`
-	SourcePortEqual9           types.String `tfsdk:"source_port_equal_9"`
-	SourcePortEqual10          types.String `tfsdk:"source_port_equal_10"`
-	DestinationPrefix          types.String `tfsdk:"destination_prefix"`
-	DestinationPrefixMask      types.String `tfsdk:"destination_prefix_mask"`
-	DestinationAny             types.Bool   `tfsdk:"destination_any"`
-	DestinationHost            types.String `tfsdk:"destination_host"`
-	DestinationObjectGroup     types.String `tfsdk:"destination_object_group"`
-	DestinationFqdnGroup       types.String `tfsdk:"destination_fqdn_group"`
-	DestinationPortEqual       types.String `tfsdk:"destination_port_equal"`
+	Sequence types.Int64 `tfsdk:"sequence"`
+	Remark types.String `tfsdk:"remark"`
+	AceRuleAction types.String `tfsdk:"ace_rule_action"`
+	AceRuleProtocol types.String `tfsdk:"ace_rule_protocol"`
+	ServiceObjectGroup types.String `tfsdk:"service_object_group"`
+	SourcePrefix types.String `tfsdk:"source_prefix"`
+	SourcePrefixMask types.String `tfsdk:"source_prefix_mask"`
+	SourceAny types.Bool `tfsdk:"source_any"`
+	SourceHost types.String `tfsdk:"source_host"`
+	SourceObjectGroup types.String `tfsdk:"source_object_group"`
+	SourceFqdnGroup types.String `tfsdk:"source_fqdn_group"`
+	SourcePortEqual types.String `tfsdk:"source_port_equal"`
+	SourcePortGreaterThan types.String `tfsdk:"source_port_greater_than"`
+	SourcePortLesserThan types.String `tfsdk:"source_port_lesser_than"`
+	SourcePortRangeFrom types.String `tfsdk:"source_port_range_from"`
+	SourcePortRangeTo types.String `tfsdk:"source_port_range_to"`
+	SourcePortEqual2 types.String `tfsdk:"source_port_equal_2"`
+	SourcePortEqual3 types.String `tfsdk:"source_port_equal_3"`
+	SourcePortEqual4 types.String `tfsdk:"source_port_equal_4"`
+	SourcePortEqual5 types.String `tfsdk:"source_port_equal_5"`
+	SourcePortEqual6 types.String `tfsdk:"source_port_equal_6"`
+	SourcePortEqual7 types.String `tfsdk:"source_port_equal_7"`
+	SourcePortEqual8 types.String `tfsdk:"source_port_equal_8"`
+	SourcePortEqual9 types.String `tfsdk:"source_port_equal_9"`
+	SourcePortEqual10 types.String `tfsdk:"source_port_equal_10"`
+	DestinationPrefix types.String `tfsdk:"destination_prefix"`
+	DestinationPrefixMask types.String `tfsdk:"destination_prefix_mask"`
+	DestinationAny types.Bool `tfsdk:"destination_any"`
+	DestinationHost types.String `tfsdk:"destination_host"`
+	DestinationObjectGroup types.String `tfsdk:"destination_object_group"`
+	DestinationFqdnGroup types.String `tfsdk:"destination_fqdn_group"`
+	DestinationPortEqual types.String `tfsdk:"destination_port_equal"`
 	DestinationPortGreaterThan types.String `tfsdk:"destination_port_greater_than"`
-	DestinationPortLesserThan  types.String `tfsdk:"destination_port_lesser_than"`
-	DestinationPortRangeFrom   types.String `tfsdk:"destination_port_range_from"`
-	DestinationPortRangeTo     types.String `tfsdk:"destination_port_range_to"`
-	Ack                        types.Bool   `tfsdk:"ack"`
-	Fin                        types.Bool   `tfsdk:"fin"`
-	Psh                        types.Bool   `tfsdk:"psh"`
-	Rst                        types.Bool   `tfsdk:"rst"`
-	Syn                        types.Bool   `tfsdk:"syn"`
-	Urg                        types.Bool   `tfsdk:"urg"`
-	Established                types.Bool   `tfsdk:"established"`
-	Dscp                       types.String `tfsdk:"dscp"`
-	Fragments                  types.Bool   `tfsdk:"fragments"`
-	Precedence                 types.String `tfsdk:"precedence"`
-	Tos                        types.String `tfsdk:"tos"`
-	Log                        types.Bool   `tfsdk:"log"`
-	LogInput                   types.Bool   `tfsdk:"log_input"`
-	IcmpNamedMsgType           types.String `tfsdk:"icmp_named_msg_type"`
-	DestinationPortEqual2      types.String `tfsdk:"destination_port_equal_2"`
-	DestinationPortEqual3      types.String `tfsdk:"destination_port_equal_3"`
-	DestinationPortEqual4      types.String `tfsdk:"destination_port_equal_4"`
-	DestinationPortEqual5      types.String `tfsdk:"destination_port_equal_5"`
-	DestinationPortEqual6      types.String `tfsdk:"destination_port_equal_6"`
-	DestinationPortEqual7      types.String `tfsdk:"destination_port_equal_7"`
-	DestinationPortEqual8      types.String `tfsdk:"destination_port_equal_8"`
-	DestinationPortEqual9      types.String `tfsdk:"destination_port_equal_9"`
-	DestinationPortEqual10     types.String `tfsdk:"destination_port_equal_10"`
-	IcmpMsgType                types.Int64  `tfsdk:"icmp_msg_type"`
-	IcmpMsgCode                types.Int64  `tfsdk:"icmp_msg_code"`
+	DestinationPortLesserThan types.String `tfsdk:"destination_port_lesser_than"`
+	DestinationPortRangeFrom types.String `tfsdk:"destination_port_range_from"`
+	DestinationPortRangeTo types.String `tfsdk:"destination_port_range_to"`
+	Ack types.Bool `tfsdk:"ack"`
+	Fin types.Bool `tfsdk:"fin"`
+	Psh types.Bool `tfsdk:"psh"`
+	Rst types.Bool `tfsdk:"rst"`
+	Syn types.Bool `tfsdk:"syn"`
+	Urg types.Bool `tfsdk:"urg"`
+	Established types.Bool `tfsdk:"established"`
+	Dscp types.String `tfsdk:"dscp"`
+	Fragments types.Bool `tfsdk:"fragments"`
+	Precedence types.String `tfsdk:"precedence"`
+	Tos types.String `tfsdk:"tos"`
+	Log types.Bool `tfsdk:"log"`
+	LogInput types.Bool `tfsdk:"log_input"`
+	IcmpNamedMsgType types.String `tfsdk:"icmp_named_msg_type"`
+	DestinationPortEqual2 types.String `tfsdk:"destination_port_equal_2"`
+	DestinationPortEqual3 types.String `tfsdk:"destination_port_equal_3"`
+	DestinationPortEqual4 types.String `tfsdk:"destination_port_equal_4"`
+	DestinationPortEqual5 types.String `tfsdk:"destination_port_equal_5"`
+	DestinationPortEqual6 types.String `tfsdk:"destination_port_equal_6"`
+	DestinationPortEqual7 types.String `tfsdk:"destination_port_equal_7"`
+	DestinationPortEqual8 types.String `tfsdk:"destination_port_equal_8"`
+	DestinationPortEqual9 types.String `tfsdk:"destination_port_equal_9"`
+	DestinationPortEqual10 types.String `tfsdk:"destination_port_equal_10"`
+	IcmpMsgType types.Int64 `tfsdk:"icmp_msg_type"`
+	IcmpMsgCode types.Int64 `tfsdk:"icmp_msg_code"`
 }
 
 type AccessListExtendedData struct {
-	Device  types.String                    `tfsdk:"device"`
-	Id      types.String                    `tfsdk:"id"`
-	Name    types.String                    `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	Entries []AccessListExtendedEntriesData `tfsdk:"entries"`
 }
 type AccessListExtendedEntriesData struct {
-	Sequence                   types.Int64  `tfsdk:"sequence"`
-	Remark                     types.String `tfsdk:"remark"`
-	AceRuleAction              types.String `tfsdk:"ace_rule_action"`
-	AceRuleProtocol            types.String `tfsdk:"ace_rule_protocol"`
-	ServiceObjectGroup         types.String `tfsdk:"service_object_group"`
-	SourcePrefix               types.String `tfsdk:"source_prefix"`
-	SourcePrefixMask           types.String `tfsdk:"source_prefix_mask"`
-	SourceAny                  types.Bool   `tfsdk:"source_any"`
-	SourceHost                 types.String `tfsdk:"source_host"`
-	SourceObjectGroup          types.String `tfsdk:"source_object_group"`
-	SourceFqdnGroup            types.String `tfsdk:"source_fqdn_group"`
-	SourcePortEqual            types.String `tfsdk:"source_port_equal"`
-	SourcePortGreaterThan      types.String `tfsdk:"source_port_greater_than"`
-	SourcePortLesserThan       types.String `tfsdk:"source_port_lesser_than"`
-	SourcePortRangeFrom        types.String `tfsdk:"source_port_range_from"`
-	SourcePortRangeTo          types.String `tfsdk:"source_port_range_to"`
-	SourcePortEqual2           types.String `tfsdk:"source_port_equal_2"`
-	SourcePortEqual3           types.String `tfsdk:"source_port_equal_3"`
-	SourcePortEqual4           types.String `tfsdk:"source_port_equal_4"`
-	SourcePortEqual5           types.String `tfsdk:"source_port_equal_5"`
-	SourcePortEqual6           types.String `tfsdk:"source_port_equal_6"`
-	SourcePortEqual7           types.String `tfsdk:"source_port_equal_7"`
-	SourcePortEqual8           types.String `tfsdk:"source_port_equal_8"`
-	SourcePortEqual9           types.String `tfsdk:"source_port_equal_9"`
-	SourcePortEqual10          types.String `tfsdk:"source_port_equal_10"`
-	DestinationPrefix          types.String `tfsdk:"destination_prefix"`
-	DestinationPrefixMask      types.String `tfsdk:"destination_prefix_mask"`
-	DestinationAny             types.Bool   `tfsdk:"destination_any"`
-	DestinationHost            types.String `tfsdk:"destination_host"`
-	DestinationObjectGroup     types.String `tfsdk:"destination_object_group"`
-	DestinationFqdnGroup       types.String `tfsdk:"destination_fqdn_group"`
-	DestinationPortEqual       types.String `tfsdk:"destination_port_equal"`
+	Sequence types.Int64 `tfsdk:"sequence"`
+	Remark types.String `tfsdk:"remark"`
+	AceRuleAction types.String `tfsdk:"ace_rule_action"`
+	AceRuleProtocol types.String `tfsdk:"ace_rule_protocol"`
+	ServiceObjectGroup types.String `tfsdk:"service_object_group"`
+	SourcePrefix types.String `tfsdk:"source_prefix"`
+	SourcePrefixMask types.String `tfsdk:"source_prefix_mask"`
+	SourceAny types.Bool `tfsdk:"source_any"`
+	SourceHost types.String `tfsdk:"source_host"`
+	SourceObjectGroup types.String `tfsdk:"source_object_group"`
+	SourceFqdnGroup types.String `tfsdk:"source_fqdn_group"`
+	SourcePortEqual types.String `tfsdk:"source_port_equal"`
+	SourcePortGreaterThan types.String `tfsdk:"source_port_greater_than"`
+	SourcePortLesserThan types.String `tfsdk:"source_port_lesser_than"`
+	SourcePortRangeFrom types.String `tfsdk:"source_port_range_from"`
+	SourcePortRangeTo types.String `tfsdk:"source_port_range_to"`
+	SourcePortEqual2 types.String `tfsdk:"source_port_equal_2"`
+	SourcePortEqual3 types.String `tfsdk:"source_port_equal_3"`
+	SourcePortEqual4 types.String `tfsdk:"source_port_equal_4"`
+	SourcePortEqual5 types.String `tfsdk:"source_port_equal_5"`
+	SourcePortEqual6 types.String `tfsdk:"source_port_equal_6"`
+	SourcePortEqual7 types.String `tfsdk:"source_port_equal_7"`
+	SourcePortEqual8 types.String `tfsdk:"source_port_equal_8"`
+	SourcePortEqual9 types.String `tfsdk:"source_port_equal_9"`
+	SourcePortEqual10 types.String `tfsdk:"source_port_equal_10"`
+	DestinationPrefix types.String `tfsdk:"destination_prefix"`
+	DestinationPrefixMask types.String `tfsdk:"destination_prefix_mask"`
+	DestinationAny types.Bool `tfsdk:"destination_any"`
+	DestinationHost types.String `tfsdk:"destination_host"`
+	DestinationObjectGroup types.String `tfsdk:"destination_object_group"`
+	DestinationFqdnGroup types.String `tfsdk:"destination_fqdn_group"`
+	DestinationPortEqual types.String `tfsdk:"destination_port_equal"`
 	DestinationPortGreaterThan types.String `tfsdk:"destination_port_greater_than"`
-	DestinationPortLesserThan  types.String `tfsdk:"destination_port_lesser_than"`
-	DestinationPortRangeFrom   types.String `tfsdk:"destination_port_range_from"`
-	DestinationPortRangeTo     types.String `tfsdk:"destination_port_range_to"`
-	Ack                        types.Bool   `tfsdk:"ack"`
-	Fin                        types.Bool   `tfsdk:"fin"`
-	Psh                        types.Bool   `tfsdk:"psh"`
-	Rst                        types.Bool   `tfsdk:"rst"`
-	Syn                        types.Bool   `tfsdk:"syn"`
-	Urg                        types.Bool   `tfsdk:"urg"`
-	Established                types.Bool   `tfsdk:"established"`
-	Dscp                       types.String `tfsdk:"dscp"`
-	Fragments                  types.Bool   `tfsdk:"fragments"`
-	Precedence                 types.String `tfsdk:"precedence"`
-	Tos                        types.String `tfsdk:"tos"`
-	Log                        types.Bool   `tfsdk:"log"`
-	LogInput                   types.Bool   `tfsdk:"log_input"`
-	IcmpNamedMsgType           types.String `tfsdk:"icmp_named_msg_type"`
-	DestinationPortEqual2      types.String `tfsdk:"destination_port_equal_2"`
-	DestinationPortEqual3      types.String `tfsdk:"destination_port_equal_3"`
-	DestinationPortEqual4      types.String `tfsdk:"destination_port_equal_4"`
-	DestinationPortEqual5      types.String `tfsdk:"destination_port_equal_5"`
-	DestinationPortEqual6      types.String `tfsdk:"destination_port_equal_6"`
-	DestinationPortEqual7      types.String `tfsdk:"destination_port_equal_7"`
-	DestinationPortEqual8      types.String `tfsdk:"destination_port_equal_8"`
-	DestinationPortEqual9      types.String `tfsdk:"destination_port_equal_9"`
-	DestinationPortEqual10     types.String `tfsdk:"destination_port_equal_10"`
-	IcmpMsgType                types.Int64  `tfsdk:"icmp_msg_type"`
-	IcmpMsgCode                types.Int64  `tfsdk:"icmp_msg_code"`
+	DestinationPortLesserThan types.String `tfsdk:"destination_port_lesser_than"`
+	DestinationPortRangeFrom types.String `tfsdk:"destination_port_range_from"`
+	DestinationPortRangeTo types.String `tfsdk:"destination_port_range_to"`
+	Ack types.Bool `tfsdk:"ack"`
+	Fin types.Bool `tfsdk:"fin"`
+	Psh types.Bool `tfsdk:"psh"`
+	Rst types.Bool `tfsdk:"rst"`
+	Syn types.Bool `tfsdk:"syn"`
+	Urg types.Bool `tfsdk:"urg"`
+	Established types.Bool `tfsdk:"established"`
+	Dscp types.String `tfsdk:"dscp"`
+	Fragments types.Bool `tfsdk:"fragments"`
+	Precedence types.String `tfsdk:"precedence"`
+	Tos types.String `tfsdk:"tos"`
+	Log types.Bool `tfsdk:"log"`
+	LogInput types.Bool `tfsdk:"log_input"`
+	IcmpNamedMsgType types.String `tfsdk:"icmp_named_msg_type"`
+	DestinationPortEqual2 types.String `tfsdk:"destination_port_equal_2"`
+	DestinationPortEqual3 types.String `tfsdk:"destination_port_equal_3"`
+	DestinationPortEqual4 types.String `tfsdk:"destination_port_equal_4"`
+	DestinationPortEqual5 types.String `tfsdk:"destination_port_equal_5"`
+	DestinationPortEqual6 types.String `tfsdk:"destination_port_equal_6"`
+	DestinationPortEqual7 types.String `tfsdk:"destination_port_equal_7"`
+	DestinationPortEqual8 types.String `tfsdk:"destination_port_equal_8"`
+	DestinationPortEqual9 types.String `tfsdk:"destination_port_equal_9"`
+	DestinationPortEqual10 types.String `tfsdk:"destination_port_equal_10"`
+	IcmpMsgType types.Int64 `tfsdk:"icmp_msg_type"`
+	IcmpMsgCode types.Int64 `tfsdk:"icmp_msg_code"`
 }
 
 // End of section. //template:end types
@@ -448,7 +448,7 @@ func (data AccessListExtended) toBody(ctx context.Context, config AccessListExte
 func (data AccessListExtended) toBodyXML(ctx context.Context, config AccessListExtended) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if len(data.Entries) > 0 {
 		for _, item := range data.Entries {
@@ -703,17 +703,17 @@ func (data *AccessListExtended) updateFromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "access-list-seq-rule").ForEach(
+		res.Get(prefix+"access-list-seq-rule").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1092,17 +1092,17 @@ func (data *AccessListExtended) updateFromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *AccessListExtended) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1485,7 +1485,7 @@ func (data *AccessListExtended) fromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-list-seq-rule"); value.Exists() {
+	if value := res.Get(prefix+"access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListExtendedEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AccessListExtendedEntries{}
@@ -1711,7 +1711,7 @@ func (data *AccessListExtendedData) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "access-list-seq-rule"); value.Exists() {
+	if value := res.Get(prefix+"access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListExtendedEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AccessListExtendedEntriesData{}
@@ -1933,7 +1933,7 @@ func (data *AccessListExtendedData) fromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *AccessListExtended) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListExtendedEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AccessListExtendedEntries{}
@@ -2155,7 +2155,7 @@ func (data *AccessListExtended) fromBodyXML(ctx context.Context, res xmldot.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *AccessListExtendedData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/access-list-seq-rule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/access-list-seq-rule"); value.Exists() {
 		data.Entries = make([]AccessListExtendedEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AccessListExtendedEntriesData{}
@@ -2379,8 +2379,8 @@ func (data *AccessListExtendedData) fromBodyXML(ctx context.Context, res xmldot.
 func (data *AccessListExtended) getDeletedItems(ctx context.Context, state AccessListExtended) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Entries {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Sequence.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2594,13 +2594,13 @@ func (data *AccessListExtended) getDeletedItems(ctx context.Context, state Acces
 func (data *AccessListExtended) addDeletedItemsXML(ctx context.Context, state AccessListExtended, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Entries {
-		stateKeys := [...]string{"sequence"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10)}
+		stateKeys := [...]string{ "sequence",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Sequence.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Sequence.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2814,9 +2814,10 @@ func (data *AccessListExtended) addDeletedItemsXML(ctx context.Context, state Ac
 
 func (data *AccessListExtended) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 		if !data.Entries[i].LogInput.IsNull() && !data.Entries[i].LogInput.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/access-list-seq-rule=%v/ace-rule/log-input", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -2865,7 +2866,7 @@ func (data *AccessListExtended) getEmptyLeafsDelete(ctx context.Context) []strin
 func (data *AccessListExtended) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/access-list-seq-rule=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2880,8 +2881,8 @@ func (data *AccessListExtended) getDeletePaths(ctx context.Context) []string {
 func (data *AccessListExtended) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Entries {
-		keys := [...]string{"sequence"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10)}
+		keys := [...]string{ "sequence",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Sequence.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

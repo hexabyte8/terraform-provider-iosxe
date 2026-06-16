@@ -26,43 +26,43 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type TACACSServer struct {
-	Device                    types.String `tfsdk:"device"`
-	Id                        types.String `tfsdk:"id"`
-	DeleteMode                types.String `tfsdk:"delete_mode"`
-	Timeout                   types.Int64  `tfsdk:"timeout"`
-	DirectedRequest           types.Bool   `tfsdk:"directed_request"`
-	DirectedRequestRestricted types.Bool   `tfsdk:"directed_request_restricted"`
-	DirectedRequestNoTruncate types.Bool   `tfsdk:"directed_request_no_truncate"`
-	Encryption                types.String `tfsdk:"encryption"`
-	Key                       types.String `tfsdk:"key"`
-	KeyWO                     types.String `tfsdk:"key_wo"`
-	KeyWOVersion              types.Int64  `tfsdk:"key_wo_version"`
-	AttributeAllowUnknown     types.Bool   `tfsdk:"attribute_allow_unknown"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Timeout types.Int64 `tfsdk:"timeout"`
+	DirectedRequest types.Bool `tfsdk:"directed_request"`
+	DirectedRequestRestricted types.Bool `tfsdk:"directed_request_restricted"`
+	DirectedRequestNoTruncate types.Bool `tfsdk:"directed_request_no_truncate"`
+	Encryption types.String `tfsdk:"encryption"`
+	Key types.String `tfsdk:"key"`
+	KeyWO types.String `tfsdk:"key_wo"`
+	KeyWOVersion types.Int64 `tfsdk:"key_wo_version"`
+	AttributeAllowUnknown types.Bool `tfsdk:"attribute_allow_unknown"`
 }
 
 type TACACSServerData struct {
-	Device                    types.String `tfsdk:"device"`
-	Id                        types.String `tfsdk:"id"`
-	Timeout                   types.Int64  `tfsdk:"timeout"`
-	DirectedRequest           types.Bool   `tfsdk:"directed_request"`
-	DirectedRequestRestricted types.Bool   `tfsdk:"directed_request_restricted"`
-	DirectedRequestNoTruncate types.Bool   `tfsdk:"directed_request_no_truncate"`
-	Encryption                types.String `tfsdk:"encryption"`
-	Key                       types.String `tfsdk:"key"`
-	AttributeAllowUnknown     types.Bool   `tfsdk:"attribute_allow_unknown"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Timeout types.Int64 `tfsdk:"timeout"`
+	DirectedRequest types.Bool `tfsdk:"directed_request"`
+	DirectedRequestRestricted types.Bool `tfsdk:"directed_request_restricted"`
+	DirectedRequestNoTruncate types.Bool `tfsdk:"directed_request_no_truncate"`
+	Encryption types.String `tfsdk:"encryption"`
+	Key types.String `tfsdk:"key"`
+	AttributeAllowUnknown types.Bool `tfsdk:"attribute_allow_unknown"`
 }
 
 // End of section. //template:end types
@@ -148,44 +148,44 @@ func (data TACACSServer) toBody(ctx context.Context, config TACACSServer) string
 func (data TACACSServer) toBodyXML(ctx context.Context, config TACACSServer) string {
 	body := netconf.Body{}
 	if !data.Timeout.IsNull() && !data.Timeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:timeout", strconv.FormatInt(data.Timeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:timeout", strconv.FormatInt(data.Timeout.ValueInt64(), 10))
 	}
 	if !data.DirectedRequest.IsNull() && !data.DirectedRequest.IsUnknown() {
 		if data.DirectedRequest.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request")
 		}
 	}
 	if !data.DirectedRequestRestricted.IsNull() && !data.DirectedRequestRestricted.IsUnknown() {
 		if data.DirectedRequestRestricted.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/restricted", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/restricted", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/restricted")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/restricted")
 		}
 	}
 	if !data.DirectedRequestNoTruncate.IsNull() && !data.DirectedRequestNoTruncate.IsUnknown() {
 		if data.DirectedRequestNoTruncate.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/no-truncate", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/no-truncate", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/no-truncate")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/no-truncate")
 		}
 	}
 	if !data.Encryption.IsNull() && !data.Encryption.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:key/encryption", data.Encryption.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:key/encryption", data.Encryption.ValueString())
 	}
 	if !data.Key.IsNull() && !data.Key.IsUnknown() {
 		if !config.KeyWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:key/key", config.KeyWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:key/key", config.KeyWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:key/key", data.Key.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:key/key", data.Key.ValueString())
 		}
 	}
 	if !data.AttributeAllowUnknown.IsNull() && !data.AttributeAllowUnknown.IsUnknown() {
 		if data.AttributeAllowUnknown.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:attribute/allow/unknown", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:attribute/allow/unknown", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-aaa:attribute/allow/unknown")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-aaa:attribute/allow/unknown")
 		}
 	}
 	bodyString, err := body.String()
@@ -204,12 +204,12 @@ func (data *TACACSServer) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:timeout"); value.Exists() && !data.Timeout.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:timeout"); value.Exists() && !data.Timeout.IsNull() {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request"); !data.DirectedRequest.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request"); !data.DirectedRequest.IsNull() {
 		if value.Exists() {
 			data.DirectedRequest = types.BoolValue(true)
 		} else {
@@ -218,7 +218,7 @@ func (data *TACACSServer) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.DirectedRequest = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request.restricted"); !data.DirectedRequestRestricted.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request.restricted"); !data.DirectedRequestRestricted.IsNull() {
 		if value.Exists() {
 			data.DirectedRequestRestricted = types.BoolValue(true)
 		} else {
@@ -227,7 +227,7 @@ func (data *TACACSServer) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.DirectedRequestRestricted = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request.no-truncate"); !data.DirectedRequestNoTruncate.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request.no-truncate"); !data.DirectedRequestNoTruncate.IsNull() {
 		if value.Exists() {
 			data.DirectedRequestNoTruncate = types.BoolValue(true)
 		} else {
@@ -236,7 +236,7 @@ func (data *TACACSServer) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.DirectedRequestNoTruncate = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:attribute.allow.unknown"); !data.AttributeAllowUnknown.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:attribute.allow.unknown"); !data.AttributeAllowUnknown.IsNull() {
 		if value.Exists() {
 			data.AttributeAllowUnknown = types.BoolValue(true)
 		} else {
@@ -252,12 +252,12 @@ func (data *TACACSServer) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *TACACSServer) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:timeout"); value.Exists() && !data.Timeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:timeout"); value.Exists() && !data.Timeout.IsNull() {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request"); !data.DirectedRequest.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request"); !data.DirectedRequest.IsNull() {
 		if value.Exists() {
 			data.DirectedRequest = types.BoolValue(true)
 		} else {
@@ -266,7 +266,7 @@ func (data *TACACSServer) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.DirectedRequest = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/restricted"); !data.DirectedRequestRestricted.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/restricted"); !data.DirectedRequestRestricted.IsNull() {
 		if value.Exists() {
 			data.DirectedRequestRestricted = types.BoolValue(true)
 		} else {
@@ -275,7 +275,7 @@ func (data *TACACSServer) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.DirectedRequestRestricted = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/no-truncate"); !data.DirectedRequestNoTruncate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/no-truncate"); !data.DirectedRequestNoTruncate.IsNull() {
 		if value.Exists() {
 			data.DirectedRequestNoTruncate = types.BoolValue(true)
 		} else {
@@ -284,7 +284,7 @@ func (data *TACACSServer) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.DirectedRequestNoTruncate = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:attribute/allow/unknown"); !data.AttributeAllowUnknown.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:attribute/allow/unknown"); !data.AttributeAllowUnknown.IsNull() {
 		if value.Exists() {
 			data.AttributeAllowUnknown = types.BoolValue(true)
 		} else {
@@ -304,31 +304,31 @@ func (data *TACACSServer) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:timeout"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
 		data.DirectedRequest = types.BoolValue(true)
 	} else {
 		data.DirectedRequest = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request.restricted"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request.restricted"); value.Exists() {
 		data.DirectedRequestRestricted = types.BoolValue(true)
 	} else {
 		data.DirectedRequestRestricted = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request.no-truncate"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request.no-truncate"); value.Exists() {
 		data.DirectedRequestNoTruncate = types.BoolValue(true)
 	} else {
 		data.DirectedRequestNoTruncate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:key.encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:key.key"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:key.key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:attribute.allow.unknown"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:attribute.allow.unknown"); value.Exists() {
 		data.AttributeAllowUnknown = types.BoolValue(true)
 	} else {
 		data.AttributeAllowUnknown = types.BoolValue(false)
@@ -344,31 +344,31 @@ func (data *TACACSServerData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:timeout"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
 		data.DirectedRequest = types.BoolValue(true)
 	} else {
 		data.DirectedRequest = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request.restricted"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request.restricted"); value.Exists() {
 		data.DirectedRequestRestricted = types.BoolValue(true)
 	} else {
 		data.DirectedRequestRestricted = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:directed-request.no-truncate"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:directed-request.no-truncate"); value.Exists() {
 		data.DirectedRequestNoTruncate = types.BoolValue(true)
 	} else {
 		data.DirectedRequestNoTruncate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:key.encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:key.key"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:key.key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-aaa:attribute.allow.unknown"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-aaa:attribute.allow.unknown"); value.Exists() {
 		data.AttributeAllowUnknown = types.BoolValue(true)
 	} else {
 		data.AttributeAllowUnknown = types.BoolValue(false)
@@ -380,31 +380,31 @@ func (data *TACACSServerData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *TACACSServer) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
 		data.DirectedRequest = types.BoolValue(true)
 	} else {
 		data.DirectedRequest = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/restricted"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/restricted"); value.Exists() {
 		data.DirectedRequestRestricted = types.BoolValue(true)
 	} else {
 		data.DirectedRequestRestricted = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/no-truncate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/no-truncate"); value.Exists() {
 		data.DirectedRequestNoTruncate = types.BoolValue(true)
 	} else {
 		data.DirectedRequestNoTruncate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:key/encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:key/key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:attribute/allow/unknown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:attribute/allow/unknown"); value.Exists() {
 		data.AttributeAllowUnknown = types.BoolValue(true)
 	} else {
 		data.AttributeAllowUnknown = types.BoolValue(false)
@@ -416,31 +416,31 @@ func (data *TACACSServer) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *TACACSServerData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request"); value.Exists() {
 		data.DirectedRequest = types.BoolValue(true)
 	} else {
 		data.DirectedRequest = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/restricted"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/restricted"); value.Exists() {
 		data.DirectedRequestRestricted = types.BoolValue(true)
 	} else {
 		data.DirectedRequestRestricted = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:directed-request/no-truncate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:directed-request/no-truncate"); value.Exists() {
 		data.DirectedRequestNoTruncate = types.BoolValue(true)
 	} else {
 		data.DirectedRequestNoTruncate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:key/encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:key/key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-aaa:attribute/allow/unknown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-aaa:attribute/allow/unknown"); value.Exists() {
 		data.AttributeAllowUnknown = types.BoolValue(true)
 	} else {
 		data.AttributeAllowUnknown = types.BoolValue(false)

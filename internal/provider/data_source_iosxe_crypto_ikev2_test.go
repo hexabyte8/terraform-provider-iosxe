@@ -43,7 +43,7 @@ func TestAccDataSourceIosxeCryptoIKEv2(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCryptoIKEv2Config(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -65,7 +65,7 @@ func testAccDataSourceIosxeCryptoIKEv2Config() string {
 	config += `	dpd_query = "periodic"` + "\n"
 	config += `	http_url_cert = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_ikev2" "test" {
 			depends_on = [iosxe_crypto_ikev2.test]

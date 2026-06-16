@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -81,10 +81,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Interface type").AddStringEnumDescription("GigabitEthernet", "TwoGigabitEthernet", "FiveGigabitEthernet", "TenGigabitEthernet", "TwentyFiveGigE", "FortyGigabitEthernet", "FiftyGigabitEthernet", "HundredGigE", "TwoHundredGigE", "FourHundredGigE").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Interface type").AddStringEnumDescription("GigabitEthernet", "TwoGigabitEthernet", "FiveGigabitEthernet", "TenGigabitEthernet", "TwentyFiveGigE", "FortyGigabitEthernet", "FiftyGigabitEthernet", "HundredGigE", "TwoHundredGigE", "FourHundredGigE", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("GigabitEthernet", "TwoGigabitEthernet", "FiveGigabitEthernet", "TenGigabitEthernet", "TwentyFiveGigE", "FortyGigabitEthernet", "FiftyGigabitEthernet", "HundredGigE", "TwoHundredGigE", "FourHundredGigE"),
+					stringvalidator.OneOf("GigabitEthernet", "TwoGigabitEthernet", "FiveGigabitEthernet", "TenGigabitEthernet", "TwentyFiveGigE", "FortyGigabitEthernet", "FiftyGigabitEthernet", "HundredGigE", "TwoHundredGigE", "FourHundredGigE", ),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -101,10 +101,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"media_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Media type").AddStringEnumDescription("auto-select", "rj45", "sfp").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Media type").AddStringEnumDescription("auto-select", "rj45", "sfp", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("auto-select", "rj45", "sfp"),
+					stringvalidator.OneOf("auto-select", "rj45", "sfp", ),
 				},
 			},
 			"mtu": schema.Int64Attribute{
@@ -190,10 +190,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"channel_group_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Etherchannel Mode of the interface").AddStringEnumDescription("active", "auto", "desirable", "on", "passive").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Etherchannel Mode of the interface").AddStringEnumDescription("active", "auto", "desirable", "on", "passive", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("active", "auto", "desirable", "on", "passive"),
+					stringvalidator.OneOf("active", "auto", "desirable", "on", "passive", ),
 				},
 			},
 			"ip_dhcp_relay_source_interface": schema.StringAttribute{
@@ -217,10 +217,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				Optional:            true,
 			},
 			"spanning_tree_guard": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Change an interface's spanning tree guard mode").AddStringEnumDescription("loop", "none", "root").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Change an interface's spanning tree guard mode").AddStringEnumDescription("loop", "none", "root", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("loop", "none", "root"),
+					stringvalidator.OneOf("loop", "none", "root", ),
 				},
 			},
 			"auto_qos_classify": schema.BoolAttribute{
@@ -268,10 +268,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				Optional:            true,
 			},
 			"trust_device": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("trusted device class").AddStringEnumDescription("cisco-phone", "cts", "ip-camera", "media-player").String,
+				MarkdownDescription: helpers.NewAttributeDescription("trusted device class").AddStringEnumDescription("cisco-phone", "cts", "ip-camera", "media-player", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("cisco-phone", "cts", "ip-camera", "media-player"),
+					stringvalidator.OneOf("cisco-phone", "cts", "ip-camera", "media-player", ),
 				},
 			},
 			"helper_addresses": schema.ListNestedAttribute{
@@ -423,10 +423,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 							Required:            true,
 						},
 						"direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("input", "output"),
+								stringvalidator.OneOf("input", "output", ),
 							},
 						},
 					},
@@ -440,10 +440,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"spanning_tree_link_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Specify a link type for spanning tree tree protocol use").AddStringEnumDescription("point-to-point", "shared").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Specify a link type for spanning tree tree protocol use").AddStringEnumDescription("point-to-point", "shared", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("point-to-point", "shared"),
+					stringvalidator.OneOf("point-to-point", "shared", ),
 				},
 			},
 			"bpduguard_enable": schema.BoolAttribute{
@@ -553,10 +553,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"authentication_host_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set the Host mode for authentication on this interface").AddStringEnumDescription("multi-auth", "multi-domain", "multi-host", "single-host").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set the Host mode for authentication on this interface").AddStringEnumDescription("multi-auth", "multi-domain", "multi-host", "single-host", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("multi-auth", "multi-domain", "multi-host", "single-host"),
+					stringvalidator.OneOf("multi-auth", "multi-domain", "multi-host", "single-host", ),
 				},
 			},
 			"authentication_order_dot1x": schema.BoolAttribute{
@@ -616,10 +616,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				Optional:            true,
 			},
 			"authentication_port_control": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("set the port-control value").AddStringEnumDescription("auto", "force-authorized", "force-unauthorized").String,
+				MarkdownDescription: helpers.NewAttributeDescription("set the port-control value").AddStringEnumDescription("auto", "force-authorized", "force-unauthorized", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("auto", "force-authorized", "force-unauthorized"),
+					stringvalidator.OneOf("auto", "force-authorized", "force-unauthorized", ),
 				},
 			},
 			"authentication_periodic": schema.BoolAttribute{
@@ -694,10 +694,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				Optional:            true,
 			},
 			"dot1x_pae": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set 802.1x interface pae type").AddStringEnumDescription("authenticator", "both", "supplicant").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set 802.1x interface pae type").AddStringEnumDescription("authenticator", "both", "supplicant", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("authenticator", "both", "supplicant"),
+					stringvalidator.OneOf("authenticator", "both", "supplicant", ),
 				},
 			},
 			"dot1x_timeout_auth_period": schema.Int64Attribute{
@@ -788,10 +788,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 							Required:            true,
 						},
 						"direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("input", "output", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("input", "output"),
+								stringvalidator.OneOf("input", "output", ),
 							},
 						},
 					},
@@ -884,10 +884,10 @@ func (r *InterfaceEthernetResource) Schema(ctx context.Context, req resource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("in", "out").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("in", "out", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("in", "out"),
+								stringvalidator.OneOf("in", "out", ),
 							},
 						},
 						"queue_length": schema.Int64Attribute{
@@ -1007,7 +1007,7 @@ func (r *InterfaceEthernetResource) Create(ctx context.Context, req resource.Cre
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -1055,7 +1055,7 @@ func (r *InterfaceEthernetResource) Read(ctx context.Context, req resource.ReadR
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

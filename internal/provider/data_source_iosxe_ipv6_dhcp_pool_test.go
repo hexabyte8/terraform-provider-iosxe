@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeIPv6DHCPPool(t *testing.T) {
 	if os.Getenv("ISR") == "" {
-		t.Skip("skipping test, set environment variable ISR")
-	}
+        t.Skip("skipping test, set environment variable ISR")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_ipv6_dhcp_pool.test", "prefix_delegation_pool_name", "DHCPv6-PD"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_ipv6_dhcp_pool.test", "dns_servers.0", "2001:4860:4860::8888"))
@@ -47,8 +46,8 @@ func TestAccDataSourceIosxeIPv6DHCPPool(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeIPv6DHCPPoolPrerequisitesConfig + testAccDataSourceIosxeIPv6DHCPPoolConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeIPv6DHCPPoolPrerequisitesConfig+testAccDataSourceIosxeIPv6DHCPPoolConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -78,7 +77,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -96,10 +94,10 @@ func testAccDataSourceIosxeIPv6DHCPPoolConfig() string {
 	config += `			number = 1` + "\n"
 	config += `			address = "2001:db8::1"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_ipv6_dhcp_pool" "test" {
 			name = "DHCPv6-PD"

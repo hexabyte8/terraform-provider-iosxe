@@ -55,7 +55,7 @@ func TestAccDataSourceIosxeAAAAccounting(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeAAAAccountingConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +81,7 @@ func testAccDataSourceIosxeAAAAccountingConfig() string {
 	config += `		start_stop_group2 = "GROUP2"` + "\n"
 	config += `		start_stop_group3 = "GROUP3"` + "\n"
 	config += `		start_stop_group4 = "GROUP4"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	identity_default_start_stop_group1 = "RADIUS-GROUP"` + "\n"
 	config += `	identity_default_start_stop_group2 = "RADIUS-GROUP2"` + "\n"
 	config += `	identity_default_start_stop_group3 = "RADIUS-GROUP3"` + "\n"
@@ -90,10 +90,10 @@ func testAccDataSourceIosxeAAAAccountingConfig() string {
 	config += `		id = "network1"` + "\n"
 	config += `		start_stop_group1 = "radius"` + "\n"
 	config += `		start_stop_group2 = "tacacs+"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	system_guarantee_first = false` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_aaa_accounting" "test" {
 			depends_on = [iosxe_aaa_accounting.test]

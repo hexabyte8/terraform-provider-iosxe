@@ -23,37 +23,37 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type EVPNProfile struct {
-	Device     types.String `tfsdk:"device"`
-	Id         types.String `tfsdk:"id"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
 	DeleteMode types.String `tfsdk:"delete_mode"`
-	Name       types.String `tfsdk:"name"`
-	EviBase    types.Int64  `tfsdk:"evi_base"`
-	L2vniBase  types.Int64  `tfsdk:"l2vni_base"`
+	Name types.String `tfsdk:"name"`
+	EviBase types.Int64 `tfsdk:"evi_base"`
+	L2vniBase types.Int64 `tfsdk:"l2vni_base"`
 }
 
 type EVPNProfileData struct {
-	Device    types.String `tfsdk:"device"`
-	Id        types.String `tfsdk:"id"`
-	Name      types.String `tfsdk:"name"`
-	EviBase   types.Int64  `tfsdk:"evi_base"`
-	L2vniBase types.Int64  `tfsdk:"l2vni_base"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	EviBase types.Int64 `tfsdk:"evi_base"`
+	L2vniBase types.Int64 `tfsdk:"l2vni_base"`
 }
 
 // End of section. //template:end types
@@ -117,13 +117,13 @@ func (data EVPNProfile) toBody(ctx context.Context, config EVPNProfile) string {
 func (data EVPNProfile) toBodyXML(ctx context.Context, config EVPNProfile) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.EviBase.IsNull() && !data.EviBase.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/evi-base", strconv.FormatInt(data.EviBase.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/evi-base", strconv.FormatInt(data.EviBase.ValueInt64(), 10))
 	}
 	if !data.L2vniBase.IsNull() && !data.L2vniBase.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/l2vni-base", strconv.FormatInt(data.L2vniBase.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/l2vni-base", strconv.FormatInt(data.L2vniBase.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -141,17 +141,17 @@ func (data *EVPNProfile) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "evi-base"); value.Exists() && !data.EviBase.IsNull() {
+	if value := res.Get(prefix+"evi-base"); value.Exists() && !data.EviBase.IsNull() {
 		data.EviBase = types.Int64Value(value.Int())
 	} else {
 		data.EviBase = types.Int64Null()
 	}
-	if value := res.Get(prefix + "l2vni-base"); value.Exists() && !data.L2vniBase.IsNull() {
+	if value := res.Get(prefix+"l2vni-base"); value.Exists() && !data.L2vniBase.IsNull() {
 		data.L2vniBase = types.Int64Value(value.Int())
 	} else {
 		data.L2vniBase = types.Int64Null()
@@ -163,17 +163,17 @@ func (data *EVPNProfile) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *EVPNProfile) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/evi-base"); value.Exists() && !data.EviBase.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/evi-base"); value.Exists() && !data.EviBase.IsNull() {
 		data.EviBase = types.Int64Value(value.Int())
 	} else {
 		data.EviBase = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vni-base"); value.Exists() && !data.L2vniBase.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vni-base"); value.Exists() && !data.L2vniBase.IsNull() {
 		data.L2vniBase = types.Int64Value(value.Int())
 	} else {
 		data.L2vniBase = types.Int64Null()
@@ -189,10 +189,10 @@ func (data *EVPNProfile) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "evi-base"); value.Exists() {
+	if value := res.Get(prefix+"evi-base"); value.Exists() {
 		data.EviBase = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "l2vni-base"); value.Exists() {
+	if value := res.Get(prefix+"l2vni-base"); value.Exists() {
 		data.L2vniBase = types.Int64Value(value.Int())
 	}
 }
@@ -206,10 +206,10 @@ func (data *EVPNProfileData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "evi-base"); value.Exists() {
+	if value := res.Get(prefix+"evi-base"); value.Exists() {
 		data.EviBase = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "l2vni-base"); value.Exists() {
+	if value := res.Get(prefix+"l2vni-base"); value.Exists() {
 		data.L2vniBase = types.Int64Value(value.Int())
 	}
 }
@@ -219,10 +219,10 @@ func (data *EVPNProfileData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *EVPNProfile) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/evi-base"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/evi-base"); value.Exists() {
 		data.EviBase = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vni-base"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vni-base"); value.Exists() {
 		data.L2vniBase = types.Int64Value(value.Int())
 	}
 }
@@ -232,10 +232,10 @@ func (data *EVPNProfile) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *EVPNProfileData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/evi-base"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/evi-base"); value.Exists() {
 		data.EviBase = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/l2vni-base"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/l2vni-base"); value.Exists() {
 		data.L2vniBase = types.Int64Value(value.Int())
 	}
 }

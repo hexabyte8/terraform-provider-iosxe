@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -50,15 +49,15 @@ func TestAccIosxeFlowExporter(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeFlowExporterConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_flow_exporter.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeFlowExporterImportStateIdFunc("iosxe_flow_exporter.test"),
-				ImportStateVerifyIgnore: []string{"option_sampler_table"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_flow_exporter.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeFlowExporterImportStateIdFunc("iosxe_flow_exporter.test"),
+				ImportStateVerifyIgnore: []string{ "option_sampler_table", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

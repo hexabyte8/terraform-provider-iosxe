@@ -50,7 +50,7 @@ func TestAccDataSourceIosxeDot1x(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeDot1xConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -75,7 +75,7 @@ func testAccDataSourceIosxeDot1xConfig() string {
 	config += `		password = "password123"` + "\n"
 	config += `		pki_trustpoint = "trustpoint1"` + "\n"
 	config += `		anonymous_id = "1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	critical_eapol_config_block = true` + "\n"
 	config += `	test_timeout = 1000` + "\n"
 	config += `	logging_verbose = true` + "\n"
@@ -83,7 +83,7 @@ func testAccDataSourceIosxeDot1xConfig() string {
 	config += `	supplicant_force_multicast = true` + "\n"
 	config += `	system_auth_control = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_dot1x" "test" {
 			depends_on = [iosxe_dot1x.test]

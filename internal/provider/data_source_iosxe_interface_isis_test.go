@@ -39,8 +39,8 @@ func TestAccDataSourceIosxeInterfaceISIS(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfaceISISPrerequisitesConfig + testAccDataSourceIosxeInterfaceISISConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfaceISISPrerequisitesConfig+testAccDataSourceIosxeInterfaceISISConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -80,7 +80,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -93,10 +92,10 @@ func testAccDataSourceIosxeInterfaceISISConfig() string {
 	config += `	ipv4_metric_levels = [{` + "\n"
 	config += `		level = "level-1"` + "\n"
 	config += `		value = 100` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_isis" "test" {
 			type = "Loopback"

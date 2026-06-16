@@ -1,18 +1,18 @@
 resource "iosxe_logging" "example" {
-  monitor_severity         = "informational"
-  buffered_size_legacy     = 16000
+  monitor_severity = "informational"
+  buffered_size_legacy = 16000
   buffered_severity_legacy = "informational"
-  facility                 = "local0"
-  history_size             = 100
-  history_severity         = "informational"
-  trap                     = true
-  trap_severity            = "informational"
-  origin_id_type           = "hostname"
-  source_interface         = "Loopback0"
-  console                  = true
+  facility = "local0"
+  history_size = 100
+  history_severity = "informational"
+  trap = true
+  trap_severity = "informational"
+  origin_id_type = "hostname"
+  source_interface = "Loopback0"
+  console = true
   source_interfaces_vrf = [
     {
-      vrf            = "VRF1"
+      vrf = "VRF1"
       interface_name = "Loopback200"
     }
   ]
@@ -24,7 +24,7 @@ resource "iosxe_logging" "example" {
   ipv4_vrf_hosts = [
     {
       ipv4_host = "1.1.1.1"
-      vrf       = "VRF1"
+      vrf = "VRF1"
     }
   ]
   ipv6_hosts = [
@@ -35,10 +35,10 @@ resource "iosxe_logging" "example" {
   ipv6_vrf_hosts = [
     {
       ipv6_host = "2001::1"
-      vrf       = "VRF1"
+      vrf = "VRF1"
     }
   ]
-  persistent_size     = 1000000
+  persistent_size = 1000000
   persistent_filesize = 500000
-  rate_limit_all      = 200
+  rate_limit_all = 200
 }

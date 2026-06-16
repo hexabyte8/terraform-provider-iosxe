@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -235,10 +235,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				},
 			},
 			"ip_http_tls_version": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set TLS version for HTTP secure server").AddStringEnumDescription("TLSv1.0", "TLSv1.1", "TLSv1.2", "TLSv1.3").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set TLS version for HTTP secure server").AddStringEnumDescription("TLSv1.0", "TLSv1.1", "TLSv1.2", "TLSv1.3", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("TLSv1.0", "TLSv1.1", "TLSv1.2", "TLSv1.3"),
+					stringvalidator.OneOf("TLSv1.0", "TLSv1.1", "TLSv1.2", "TLSv1.3", ),
 				},
 			},
 			"ip_http_client_secure_trustpoint": schema.StringAttribute{
@@ -406,10 +406,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"diagnostic_bootup_level": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Select diagnostic level").AddStringEnumDescription("complete", "minimal").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Select diagnostic level").AddStringEnumDescription("complete", "minimal", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("complete", "minimal"),
+					stringvalidator.OneOf("complete", "minimal", ),
 				},
 			},
 			"memory_free_low_watermark_processor": schema.Int64Attribute{
@@ -457,10 +457,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"redundancy_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("redundancy mode for this chassis").AddStringEnumDescription("none", "rpr", "rpr-plus", "sso").String,
+				MarkdownDescription: helpers.NewAttributeDescription("redundancy mode for this chassis").AddStringEnumDescription("none", "rpr", "rpr-plus", "sso", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("none", "rpr", "rpr-plus", "sso"),
+					stringvalidator.OneOf("none", "rpr", "rpr-plus", "sso", ),
 				},
 			},
 			"transceiver_type_all_monitoring": schema.BoolAttribute{
@@ -480,10 +480,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"ip_sftp_password_encryption": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "7").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "7", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("0", "7"),
+					stringvalidator.OneOf("0", "7", ),
 				},
 			},
 			"ip_sftp_password": schema.StringAttribute{
@@ -504,10 +504,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"ip_ssh_version": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Specify protocol version supported").AddStringEnumDescription("2").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Specify protocol version supported").AddStringEnumDescription("2", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("2"),
+					stringvalidator.OneOf("2", ),
 				},
 			},
 			"ip_ssh_version_legacy": schema.Int64Attribute{
@@ -745,10 +745,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"enable_secret_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "4", "5", "8", "9").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("0", "4", "5", "8", "9", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("0", "4", "5", "8", "9"),
+					stringvalidator.OneOf("0", "4", "5", "8", "9", ),
 				},
 			},
 			"enable_secret_level": schema.Int64Attribute{
@@ -824,10 +824,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"call_home_cisco_tac_1_destination_transport_method": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("To specify transport method for this profile").AddStringEnumDescription("email", "http").String,
+				MarkdownDescription: helpers.NewAttributeDescription("To specify transport method for this profile").AddStringEnumDescription("email", "http", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("email", "http"),
+					stringvalidator.OneOf("email", "http", ),
 				},
 			},
 			"ip_tcp_path_mtu_discovery": schema.BoolAttribute{
@@ -895,10 +895,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"multilink_ppp_bundle_name": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Select method for naming multilink bundles").AddStringEnumDescription("authenticated", "both", "endpoint", "rfc").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Select method for naming multilink bundles").AddStringEnumDescription("authenticated", "both", "endpoint", "rfc", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("authenticated", "both", "endpoint", "rfc"),
+					stringvalidator.OneOf("authenticated", "both", "endpoint", "rfc", ),
 				},
 			},
 			"version": schema.StringAttribute{
@@ -1003,10 +1003,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"standby_redirects_enable_disable": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("disable", "enable").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("disable", "enable", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("disable", "enable"),
+					stringvalidator.OneOf("disable", "enable", ),
 				},
 			},
 			"ip_routing_protocol_purge_interface": schema.BoolAttribute{
@@ -1030,10 +1030,10 @@ func (r *SystemResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:            true,
 			},
 			"port_channel_load_balance": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("dst-ip", "dst-mac", "dst-mixed-ip-port", "dst-port", "mpls", "src-dst-ip", "src-dst-mac", "src-dst-mixed-ip-port", "src-dst-port", "src-ip", "src-mac", "src-mixed-ip-port", "src-port", "vlan-dst-ip", "vlan-dst-mixed-ip-port", "vlan-src-dst-ip", "vlan-src-dst-mixed-ip-port", "vlan-src-ip", "vlan-src-mixed-ip-port").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("dst-ip", "dst-mac", "dst-mixed-ip-port", "dst-port", "mpls", "src-dst-ip", "src-dst-mac", "src-dst-mixed-ip-port", "src-dst-port", "src-ip", "src-mac", "src-mixed-ip-port", "src-port", "vlan-dst-ip", "vlan-dst-mixed-ip-port", "vlan-src-dst-ip", "vlan-src-dst-mixed-ip-port", "vlan-src-ip", "vlan-src-mixed-ip-port", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("dst-ip", "dst-mac", "dst-mixed-ip-port", "dst-port", "mpls", "src-dst-ip", "src-dst-mac", "src-dst-mixed-ip-port", "src-dst-port", "src-ip", "src-mac", "src-mixed-ip-port", "src-port", "vlan-dst-ip", "vlan-dst-mixed-ip-port", "vlan-src-dst-ip", "vlan-src-dst-mixed-ip-port", "vlan-src-ip", "vlan-src-mixed-ip-port"),
+					stringvalidator.OneOf("dst-ip", "dst-mac", "dst-mixed-ip-port", "dst-port", "mpls", "src-dst-ip", "src-dst-mac", "src-dst-mixed-ip-port", "src-dst-port", "src-ip", "src-mac", "src-mixed-ip-port", "src-port", "vlan-dst-ip", "vlan-dst-mixed-ip-port", "vlan-src-dst-ip", "vlan-src-dst-mixed-ip-port", "vlan-src-ip", "vlan-src-mixed-ip-port", ),
 				},
 			},
 			"authentication_mac_move_permit": schema.BoolAttribute{
@@ -1187,7 +1187,7 @@ func (r *SystemResource) Create(ctx context.Context, req resource.CreateRequest,
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -1235,7 +1235,7 @@ func (r *SystemResource) Read(ctx context.Context, req resource.ReadRequest, res
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

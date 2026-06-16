@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfacePortChannel(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "name", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "description", "My Interface Description"))
@@ -74,7 +72,7 @@ func TestAccIosxeInterfacePortChannel(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "load_interval", "30"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "logging_event_link_status_enable", "false"))
 	if os.Getenv("IOSXE1712") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "evpn_ethernet_segments_legacy.0.es_value", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "evpn_ethernet_segments_legacy.0.es_value", "1"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "ip_igmp_version", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_port_channel.test", "ip_flow_monitors.0.name", "MON1"))
@@ -84,19 +82,19 @@ func TestAccIosxeInterfacePortChannel(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfacePortChannelPrerequisitesConfig + testAccIosxeInterfacePortChannelConfig_minimum(),
+				Config: testAccIosxeInterfacePortChannelPrerequisitesConfig+testAccIosxeInterfacePortChannelConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfacePortChannelPrerequisitesConfig + testAccIosxeInterfacePortChannelConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfacePortChannelPrerequisitesConfig+testAccIosxeInterfacePortChannelConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_port_channel.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfacePortChannelImportStateIdFunc("iosxe_interface_port_channel.test"),
-				ImportStateVerifyIgnore: []string{"ipv4_address_dhcp", "auto_qos_classify", "auto_qos_classify_police", "auto_qos_trust", "auto_qos_trust_cos", "auto_qos_trust_dscp", "auto_qos_video_cts", "auto_qos_video_ip_camera", "auto_qos_video_media_player", "auto_qos_voip_cisco_phone", "auto_qos_voip_cisco_softphone", "auto_qos_voip_trust", "ipv6_nd_ra_suppress_all", "ipv6_address_autoconfig_default", "bpduguard_enable", "bpduguard_disable", "spanning_tree_portfast", "spanning_tree_portfast_disable", "spanning_tree_portfast_trunk", "spanning_tree_portfast_edge", "ip_dhcp_snooping_trust", "device_tracking", "ip_nat_inside", "ip_nat_outside"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_port_channel.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfacePortChannelImportStateIdFunc("iosxe_interface_port_channel.test"),
+				ImportStateVerifyIgnore: []string{ "ipv4_address_dhcp","auto_qos_classify","auto_qos_classify_police","auto_qos_trust","auto_qos_trust_cos","auto_qos_trust_dscp","auto_qos_video_cts","auto_qos_video_ip_camera","auto_qos_video_media_player","auto_qos_voip_cisco_phone","auto_qos_voip_cisco_softphone","auto_qos_voip_trust","ipv6_nd_ra_suppress_all","ipv6_address_autoconfig_default","bpduguard_enable","bpduguard_disable","spanning_tree_portfast","spanning_tree_portfast_disable","spanning_tree_portfast_trunk","spanning_tree_portfast_edge","ip_dhcp_snooping_trust","device_tracking","ip_nat_inside","ip_nat_outside", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -202,7 +200,6 @@ resource "iosxe_yang" "PreReq8" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -264,9 +261,9 @@ func testAccIosxeInterfacePortChannelConfig_all() string {
 	config += `	load_interval = 30` + "\n"
 	config += `	logging_event_link_status_enable = false` + "\n"
 	if os.Getenv("IOSXE1712") != "" {
-		config += `	evpn_ethernet_segments_legacy = [{` + "\n"
-		config += `		es_value = 1` + "\n"
-		config += `	}]` + "\n"
+	config += `	evpn_ethernet_segments_legacy = [{` + "\n"
+	config += `		es_value = 1` + "\n"
+	config += `	}]` + "\n"
 	}
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	ip_flow_monitors = [{` + "\n"

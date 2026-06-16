@@ -25,9 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,8 +33,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -87,20 +87,20 @@ func (r *PolicyMapEventResource) Schema(ctx context.Context, req resource.Schema
 				},
 			},
 			"event_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The event this control class-map triggers upon").AddStringEnumDescription("aaa-available", "absolute-timeout", "agent-found", "authentication-failure", "authentication-success", "authorization-failure", "authorization-success", "identity-update", "inactivity-timeout", "remote-authentication-failure", "remote-authentication-success", "remote-update", "session-disconnected", "session-started", "tag-added", "tag-removed", "template-activated", "template-activation-failed", "template-deactivated", "template-deactivation-failed", "timer-expiry", "violation").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The event this control class-map triggers upon").AddStringEnumDescription("aaa-available", "absolute-timeout", "agent-found", "authentication-failure", "authentication-success", "authorization-failure", "authorization-success", "identity-update", "inactivity-timeout", "remote-authentication-failure", "remote-authentication-success", "remote-update", "session-disconnected", "session-started", "tag-added", "tag-removed", "template-activated", "template-activation-failed", "template-deactivated", "template-deactivation-failed", "timer-expiry", "violation", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("aaa-available", "absolute-timeout", "agent-found", "authentication-failure", "authentication-success", "authorization-failure", "authorization-success", "identity-update", "inactivity-timeout", "remote-authentication-failure", "remote-authentication-success", "remote-update", "session-disconnected", "session-started", "tag-added", "tag-removed", "template-activated", "template-activation-failed", "template-deactivated", "template-deactivation-failed", "timer-expiry", "violation"),
+					stringvalidator.OneOf("aaa-available", "absolute-timeout", "agent-found", "authentication-failure", "authentication-success", "authorization-failure", "authorization-success", "identity-update", "inactivity-timeout", "remote-authentication-failure", "remote-authentication-success", "remote-update", "session-disconnected", "session-started", "tag-added", "tag-removed", "template-activated", "template-activation-failed", "template-deactivated", "template-deactivation-failed", "timer-expiry", "violation", ),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"match_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Matching criteria for first or all events.").AddStringEnumDescription("match-all", "match-first").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Matching criteria for first or all events.").AddStringEnumDescription("match-all", "match-first", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("match-all", "match-first"),
+					stringvalidator.OneOf("match-all", "match-first", ),
 				},
 			},
 			"class_numbers": schema.ListNestedAttribute{
@@ -120,10 +120,10 @@ func (r *PolicyMapEventResource) Schema(ctx context.Context, req resource.Schema
 							Optional:            true,
 						},
 						"execution_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Policy execution strategy").AddStringEnumDescription("do-all", "do-until-failure", "do-until-success").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Policy execution strategy").AddStringEnumDescription("do-all", "do-until-failure", "do-until-success", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("do-all", "do-until-failure", "do-until-success"),
+								stringvalidator.OneOf("do-all", "do-until-failure", "do-until-success", ),
 							},
 						},
 						"action_numbers": schema.ListNestedAttribute{
@@ -147,10 +147,10 @@ func (r *PolicyMapEventResource) Schema(ctx context.Context, req resource.Schema
 										Optional:            true,
 									},
 									"terminate_config": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("terminate auth method").AddStringEnumDescription("dot1x", "mab", "webauth").String,
+										MarkdownDescription: helpers.NewAttributeDescription("terminate auth method").AddStringEnumDescription("dot1x", "mab", "webauth", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("dot1x", "mab", "webauth"),
+											stringvalidator.OneOf("dot1x", "mab", "webauth", ),
 										},
 									},
 									"activate_service_template_config_service_template": schema.StringAttribute{
@@ -196,10 +196,10 @@ func (r *PolicyMapEventResource) Schema(ctx context.Context, req resource.Schema
 										Optional:            true,
 									},
 									"authenticate_using_method": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("method/protocol to be used for authentication").AddStringEnumDescription("dot1x", "mab", "webauth").String,
+										MarkdownDescription: helpers.NewAttributeDescription("method/protocol to be used for authentication").AddStringEnumDescription("dot1x", "mab", "webauth", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("dot1x", "mab", "webauth"),
+											stringvalidator.OneOf("dot1x", "mab", "webauth", ),
 										},
 									},
 									"authenticate_using_retries": schema.Int64Attribute{
@@ -287,10 +287,10 @@ func (r *PolicyMapEventResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"set_domain": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("set domain").AddStringEnumDescription("data", "switch", "voice").String,
+										MarkdownDescription: helpers.NewAttributeDescription("set domain").AddStringEnumDescription("data", "switch", "voice", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("data", "switch", "voice"),
+											stringvalidator.OneOf("data", "switch", "voice", ),
 										},
 									},
 									"unauthorize": schema.BoolAttribute{
@@ -414,7 +414,7 @@ func (r *PolicyMapEventResource) Create(ctx context.Context, req resource.Create
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -462,7 +462,7 @@ func (r *PolicyMapEventResource) Read(ctx context.Context, req resource.ReadRequ
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

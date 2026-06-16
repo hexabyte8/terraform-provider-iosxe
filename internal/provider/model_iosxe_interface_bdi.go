@@ -23,38 +23,38 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type InterfaceBDI struct {
-	Device             types.String `tfsdk:"device"`
-	Id                 types.String `tfsdk:"id"`
-	DeleteMode         types.String `tfsdk:"delete_mode"`
-	Name               types.String `tfsdk:"name"`
-	MacAddress         types.String `tfsdk:"mac_address"`
-	IpMtu              types.Int64  `tfsdk:"ip_mtu"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	MacAddress types.String `tfsdk:"mac_address"`
+	IpMtu types.Int64 `tfsdk:"ip_mtu"`
 	ZoneMemberSecurity types.String `tfsdk:"zone_member_security"`
 }
 
 type InterfaceBDIData struct {
-	Device             types.String `tfsdk:"device"`
-	Id                 types.String `tfsdk:"id"`
-	Name               types.String `tfsdk:"name"`
-	MacAddress         types.String `tfsdk:"mac_address"`
-	IpMtu              types.Int64  `tfsdk:"ip_mtu"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	MacAddress types.String `tfsdk:"mac_address"`
+	IpMtu types.Int64 `tfsdk:"ip_mtu"`
 	ZoneMemberSecurity types.String `tfsdk:"zone_member_security"`
 }
 
@@ -122,16 +122,16 @@ func (data InterfaceBDI) toBody(ctx context.Context, config InterfaceBDI) string
 func (data InterfaceBDI) toBodyXML(ctx context.Context, config InterfaceBDI) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.MacAddress.IsNull() && !data.MacAddress.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/mac-address", data.MacAddress.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/mac-address", data.MacAddress.ValueString())
 	}
 	if !data.IpMtu.IsNull() && !data.IpMtu.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/mtu", strconv.FormatInt(data.IpMtu.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/mtu", strconv.FormatInt(data.IpMtu.ValueInt64(), 10))
 	}
 	if !data.ZoneMemberSecurity.IsNull() && !data.ZoneMemberSecurity.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security", data.ZoneMemberSecurity.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security", data.ZoneMemberSecurity.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -149,22 +149,22 @@ func (data *InterfaceBDI) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "mac-address"); value.Exists() && !data.MacAddress.IsNull() {
+	if value := res.Get(prefix+"mac-address"); value.Exists() && !data.MacAddress.IsNull() {
 		data.MacAddress = types.StringValue(value.String())
 	} else {
 		data.MacAddress = types.StringNull()
 	}
-	if value := res.Get(prefix + "ip.mtu"); value.Exists() && !data.IpMtu.IsNull() {
+	if value := res.Get(prefix+"ip.mtu"); value.Exists() && !data.IpMtu.IsNull() {
 		data.IpMtu = types.Int64Value(value.Int())
 	} else {
 		data.IpMtu = types.Int64Null()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-zone:zone-member.security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-zone:zone-member.security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	} else {
 		data.ZoneMemberSecurity = types.StringNull()
@@ -176,22 +176,22 @@ func (data *InterfaceBDI) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *InterfaceBDI) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac-address"); value.Exists() && !data.MacAddress.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac-address"); value.Exists() && !data.MacAddress.IsNull() {
 		data.MacAddress = types.StringValue(value.String())
 	} else {
 		data.MacAddress = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/mtu"); value.Exists() && !data.IpMtu.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/mtu"); value.Exists() && !data.IpMtu.IsNull() {
 		data.IpMtu = types.Int64Value(value.Int())
 	} else {
 		data.IpMtu = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() && !data.ZoneMemberSecurity.IsNull() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	} else {
 		data.ZoneMemberSecurity = types.StringNull()
@@ -207,13 +207,13 @@ func (data *InterfaceBDI) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "mac-address"); value.Exists() {
+	if value := res.Get(prefix+"mac-address"); value.Exists() {
 		data.MacAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.mtu"); value.Exists() {
+	if value := res.Get(prefix+"ip.mtu"); value.Exists() {
 		data.IpMtu = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -227,13 +227,13 @@ func (data *InterfaceBDIData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "mac-address"); value.Exists() {
+	if value := res.Get(prefix+"mac-address"); value.Exists() {
 		data.MacAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "ip.mtu"); value.Exists() {
+	if value := res.Get(prefix+"ip.mtu"); value.Exists() {
 		data.IpMtu = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-zone:zone-member.security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -243,13 +243,13 @@ func (data *InterfaceBDIData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *InterfaceBDI) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac-address"); value.Exists() {
 		data.MacAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/mtu"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/mtu"); value.Exists() {
 		data.IpMtu = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }
@@ -259,13 +259,13 @@ func (data *InterfaceBDI) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *InterfaceBDIData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac-address"); value.Exists() {
 		data.MacAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/mtu"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/mtu"); value.Exists() {
 		data.IpMtu = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-zone:zone-member/security"); value.Exists() {
 		data.ZoneMemberSecurity = types.StringValue(value.String())
 	}
 }

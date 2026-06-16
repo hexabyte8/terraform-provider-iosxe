@@ -45,8 +45,8 @@ func TestAccDataSourceIosxeBGPBMPServer(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPBMPServerPrerequisitesConfig + testAccDataSourceIosxeBGPBMPServerConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPBMPServerPrerequisitesConfig+testAccDataSourceIosxeBGPBMPServerConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -81,7 +81,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -101,7 +100,7 @@ func testAccDataSourceIosxeBGPBMPServerConfig() string {
 	config += `	update_source_loopback = 100` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_bmp_server" "test" {
 			asn = "65000"

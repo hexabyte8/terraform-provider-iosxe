@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeEVPNProfile(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_profile.test", "evi_base", "1000"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_evpn_profile.test", "l2vni_base", "10000"))
@@ -44,7 +43,7 @@ func TestAccDataSourceIosxeEVPNProfile(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeEVPNProfileConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -64,7 +63,7 @@ func testAccDataSourceIosxeEVPNProfileConfig() string {
 	config += `	evi_base = 1000` + "\n"
 	config += `	l2vni_base = 10000` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_evpn_profile" "test" {
 			name = "MY_EVPN_PROFILE"

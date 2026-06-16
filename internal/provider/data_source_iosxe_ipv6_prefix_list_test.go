@@ -46,7 +46,7 @@ func TestAccDataSourceIosxeIPv6PrefixList(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeIPv6PrefixListConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,13 +68,13 @@ func testAccDataSourceIosxeIPv6PrefixListConfig() string {
 	config += `		ip = "2001:db8::/32"` + "\n"
 	config += `		ge = 48` + "\n"
 	config += `		le = 128` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	prefix_list_description = [{` + "\n"
 	config += `		name = "PREFIX_LIST_1"` + "\n"
 	config += `		description = "My IPv6 prefix list"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_ipv6_prefix_list" "test" {
 			depends_on = [iosxe_ipv6_prefix_list.test]

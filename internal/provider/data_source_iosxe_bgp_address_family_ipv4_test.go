@@ -60,8 +60,8 @@ func TestAccDataSourceIosxeBGPAddressFamilyIPv4(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPAddressFamilyIPv4PrerequisitesConfig + testAccDataSourceIosxeBGPAddressFamilyIPv4Config(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPAddressFamilyIPv4PrerequisitesConfig+testAccDataSourceIosxeBGPAddressFamilyIPv4Config(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -79,7 +79,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -98,23 +97,23 @@ func testAccDataSourceIosxeBGPAddressFamilyIPv4Config() string {
 	config += `	ipv4_unicast_aggregate_addresses = [{` + "\n"
 	config += `		ipv4_address = "10.0.0.0"` + "\n"
 	config += `		ipv4_mask = "255.255.0.0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_unicast_networks_mask = [{` + "\n"
 	config += `		network = "12.0.0.0"` + "\n"
 	config += `		mask = "255.255.0.0"` + "\n"
 	config += `		route_map = "RM1"` + "\n"
 	config += `		backdoor = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_unicast_networks = [{` + "\n"
 	config += `		network = "13.0.0.0"` + "\n"
 	config += `		route_map = "RM1"` + "\n"
 	config += `		backdoor = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_unicast_admin_distances = [{` + "\n"
 	config += `		distance = 200` + "\n"
 	config += `		source_ip = "10.1.1.1"` + "\n"
 	config += `		wildcard = "0.0.0.0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv4_unicast_distance_bgp_external = 20` + "\n"
 	config += `	ipv4_unicast_distance_bgp_internal = 200` + "\n"
 	config += `	ipv4_unicast_distance_bgp_local = 200` + "\n"
@@ -122,7 +121,7 @@ func testAccDataSourceIosxeBGPAddressFamilyIPv4Config() string {
 	config += `	ipv4_unicast_maximum_paths_ibgp = 2` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_address_family_ipv4" "test" {
 			asn = "65000"

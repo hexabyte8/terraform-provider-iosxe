@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeLicense(t *testing.T) {
 	if os.Getenv("LICENSE") == "" {
-		t.Skip("skipping test, set environment variable LICENSE")
-	}
+        t.Skip("skipping test, set environment variable LICENSE")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_license.test", "boot_level_network_advantage", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_license.test", "boot_level_network_advantage_addon", "dna-advantage"))
@@ -45,7 +44,7 @@ func TestAccDataSourceIosxeLicense(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeLicenseConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -65,7 +64,7 @@ func testAccDataSourceIosxeLicenseConfig() string {
 	config += `	boot_level_network_advantage_addon = "dna-advantage"` + "\n"
 	config += `	smart_transport_type = "Off"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_license" "test" {
 			depends_on = [iosxe_license.test]

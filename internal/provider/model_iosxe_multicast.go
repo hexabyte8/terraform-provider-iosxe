@@ -23,47 +23,47 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type Multicast struct {
-	Device          types.String    `tfsdk:"device"`
-	Id              types.String    `tfsdk:"id"`
-	DeleteMode      types.String    `tfsdk:"delete_mode"`
-	Multipath       types.Bool      `tfsdk:"multipath"`
-	MultipathSGHash types.String    `tfsdk:"multipath_s_g_hash"`
-	Vrfs            []MulticastVrfs `tfsdk:"vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Multipath types.Bool `tfsdk:"multipath"`
+	MultipathSGHash types.String `tfsdk:"multipath_s_g_hash"`
+	Vrfs []MulticastVrfs `tfsdk:"vrfs"`
 }
 type MulticastVrfs struct {
-	Vrf             types.String `tfsdk:"vrf"`
-	Multipath       types.Bool   `tfsdk:"multipath"`
+	Vrf types.String `tfsdk:"vrf"`
+	Multipath types.Bool `tfsdk:"multipath"`
 	MultipathSGHash types.String `tfsdk:"multipath_s_g_hash"`
 }
 
 type MulticastData struct {
-	Device          types.String        `tfsdk:"device"`
-	Id              types.String        `tfsdk:"id"`
-	Multipath       types.Bool          `tfsdk:"multipath"`
-	MultipathSGHash types.String        `tfsdk:"multipath_s_g_hash"`
-	Vrfs            []MulticastVrfsData `tfsdk:"vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Multipath types.Bool `tfsdk:"multipath"`
+	MultipathSGHash types.String `tfsdk:"multipath_s_g_hash"`
+	Vrfs []MulticastVrfsData `tfsdk:"vrfs"`
 }
 type MulticastVrfsData struct {
-	Vrf             types.String `tfsdk:"vrf"`
-	Multipath       types.Bool   `tfsdk:"multipath"`
+	Vrf types.String `tfsdk:"vrf"`
+	Multipath types.Bool `tfsdk:"multipath"`
 	MultipathSGHash types.String `tfsdk:"multipath_s_g_hash"`
 }
 
@@ -142,13 +142,13 @@ func (data Multicast) toBodyXML(ctx context.Context, config Multicast) string {
 	body := netconf.Body{}
 	if !data.Multipath.IsNull() && !data.Multipath.IsUnknown() {
 		if data.Multipath.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:multipath", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:multipath", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:multipath")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:multipath")
 		}
 	}
 	if !data.MultipathSGHash.IsNull() && !data.MultipathSGHash.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:multipath/s-g-hash", data.MultipathSGHash.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:multipath/s-g-hash", data.MultipathSGHash.ValueString())
 	}
 	if len(data.Vrfs) > 0 {
 		for _, item := range data.Vrfs {
@@ -185,7 +185,7 @@ func (data *Multicast) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:multipath"); !data.Multipath.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:multipath"); !data.Multipath.IsNull() {
 		if value.Exists() {
 			data.Multipath = types.BoolValue(true)
 		} else {
@@ -194,17 +194,17 @@ func (data *Multicast) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Multipath = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:multipath.s-g-hash"); value.Exists() && !data.MultipathSGHash.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:multipath.s-g-hash"); value.Exists() && !data.MultipathSGHash.IsNull() {
 		data.MultipathSGHash = types.StringValue(value.String())
 	} else {
 		data.MultipathSGHash = types.StringNull()
 	}
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-multicast:vrf").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-multicast:vrf").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -249,7 +249,7 @@ func (data *Multicast) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *Multicast) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:multipath"); !data.Multipath.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:multipath"); !data.Multipath.IsNull() {
 		if value.Exists() {
 			data.Multipath = types.BoolValue(true)
 		} else {
@@ -258,17 +258,17 @@ func (data *Multicast) updateFromBodyXML(ctx context.Context, res xmldot.Result)
 	} else {
 		data.Multipath = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:multipath/s-g-hash"); value.Exists() && !data.MultipathSGHash.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:multipath/s-g-hash"); value.Exists() && !data.MultipathSGHash.IsNull() {
 		data.MultipathSGHash = types.StringValue(value.String())
 	} else {
 		data.MultipathSGHash = types.StringNull()
 	}
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:vrf").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:vrf").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -317,15 +317,15 @@ func (data *Multicast) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:multipath"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:multipath"); value.Exists() {
 		data.Multipath = types.BoolValue(true)
 	} else {
 		data.Multipath = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:multipath.s-g-hash"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:multipath.s-g-hash"); value.Exists() {
 		data.MultipathSGHash = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:vrf"); value.Exists() {
 		data.Vrfs = make([]MulticastVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MulticastVrfs{}
@@ -355,15 +355,15 @@ func (data *MulticastData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:multipath"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:multipath"); value.Exists() {
 		data.Multipath = types.BoolValue(true)
 	} else {
 		data.Multipath = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:multipath.s-g-hash"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:multipath.s-g-hash"); value.Exists() {
 		data.MultipathSGHash = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:vrf"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:vrf"); value.Exists() {
 		data.Vrfs = make([]MulticastVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := MulticastVrfsData{}
@@ -389,15 +389,15 @@ func (data *MulticastData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *Multicast) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:multipath"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:multipath"); value.Exists() {
 		data.Multipath = types.BoolValue(true)
 	} else {
 		data.Multipath = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:multipath/s-g-hash"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:multipath/s-g-hash"); value.Exists() {
 		data.MultipathSGHash = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:vrf"); value.Exists() {
 		data.Vrfs = make([]MulticastVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MulticastVrfs{}
@@ -423,15 +423,15 @@ func (data *Multicast) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *MulticastData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:multipath"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:multipath"); value.Exists() {
 		data.Multipath = types.BoolValue(true)
 	} else {
 		data.Multipath = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:multipath/s-g-hash"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:multipath/s-g-hash"); value.Exists() {
 		data.MultipathSGHash = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:vrf"); value.Exists() {
 		data.Vrfs = make([]MulticastVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := MulticastVrfsData{}
@@ -459,8 +459,8 @@ func (data *MulticastData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *Multicast) getDeletedItems(ctx context.Context, state Multicast) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Vrfs {
-		stateKeyValues := [...]string{state.Vrfs[i].Vrf.ValueString()}
-
+		stateKeyValues := [...]string{ state.Vrfs[i].Vrf.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vrfs[i].Vrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -506,13 +506,13 @@ func (data *Multicast) getDeletedItems(ctx context.Context, state Multicast) []s
 func (data *Multicast) addDeletedItemsXML(ctx context.Context, state Multicast, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Vrfs {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Vrfs[i].Vrf.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Vrfs[i].Vrf.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vrfs[i].Vrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -558,9 +558,10 @@ func (data *Multicast) addDeletedItemsXML(ctx context.Context, state Multicast, 
 
 func (data *Multicast) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Vrfs {
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 		if !data.Vrfs[i].Multipath.IsNull() && !data.Vrfs[i].Multipath.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/Cisco-IOS-XE-multicast:vrf=%v/multipath", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -579,7 +580,7 @@ func (data *Multicast) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *Multicast) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Vrfs {
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-multicast:vrf=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -600,8 +601,8 @@ func (data *Multicast) getDeletePaths(ctx context.Context) []string {
 func (data *Multicast) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Vrfs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Vrfs[i].Vrf.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Vrfs[i].Vrf.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

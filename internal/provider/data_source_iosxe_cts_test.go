@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeCTS(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_cts.test", "authorization_list", "Tacacs-GROUP"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_cts.test", "sgt", "200"))
@@ -63,8 +62,8 @@ func TestAccDataSourceIosxeCTS(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeCTSPrerequisitesConfig + testAccDataSourceIosxeCTSConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeCTSPrerequisitesConfig+testAccDataSourceIosxeCTSConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -85,7 +84,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -107,7 +105,7 @@ func testAccDataSourceIosxeCTSConfig() string {
 	config += `		option = "listener"` + "\n"
 	config += `		hold_time = 60` + "\n"
 	config += `		max_time = 300` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	sxp_connection_peers_ipv4_vrf = [{` + "\n"
 	config += `		ip = "4.4.4.4"` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
@@ -117,7 +115,7 @@ func testAccDataSourceIosxeCTSConfig() string {
 	config += `		option = "listener"` + "\n"
 	config += `		hold_time = 60` + "\n"
 	config += `		max_time = 300` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	sxp_speaker_hold_time = 300` + "\n"
 	config += `	sxp_listener_hold_min_time = 60` + "\n"
 	config += `	sxp_listener_hold_max_time = 300` + "\n"
@@ -125,7 +123,7 @@ func testAccDataSourceIosxeCTSConfig() string {
 	config += `	role_based_enforcement_logging_interval = 300` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_cts" "test" {
 			depends_on = [iosxe_cts.test]

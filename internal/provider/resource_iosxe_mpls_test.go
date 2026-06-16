@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeMPLS(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_mpls.test", "label_mode_all_vrfs_all_afs_per_vrf", "true"))
 	resource.Test(t, resource.TestCase{
@@ -48,15 +46,15 @@ func TestAccIosxeMPLS(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeMPLSConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_mpls.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeMPLSImportStateIdFunc("iosxe_mpls.test"),
-				ImportStateVerifyIgnore: []string{"label_mode_all_vrfs_all_afs_per_prefix", "label_mode_all_vrfs_all_afs_per_ce", "label_mode_all_vrfs_all_afs_vrf_conn_aggr", "label_mode_all_vrfs_bgp_vpnv4_per_vrf", "label_mode_all_vrfs_bgp_vpnv4_per_prefix", "label_mode_all_vrfs_bgp_vpnv4_per_ce", "label_mode_all_vrfs_bgp_vpnv4_vrf_conn_aggr", "label_mode_all_vrfs_bgp_vpnv6_per_vrf", "label_mode_all_vrfs_bgp_vpnv6_per_prefix", "label_mode_all_vrfs_bgp_vpnv6_per_ce", "label_mode_all_vrfs_bgp_vpnv6_vrf_conn_aggr"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_mpls.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeMPLSImportStateIdFunc("iosxe_mpls.test"),
+				ImportStateVerifyIgnore: []string{ "label_mode_all_vrfs_all_afs_per_prefix","label_mode_all_vrfs_all_afs_per_ce","label_mode_all_vrfs_all_afs_vrf_conn_aggr","label_mode_all_vrfs_bgp_vpnv4_per_vrf","label_mode_all_vrfs_bgp_vpnv4_per_prefix","label_mode_all_vrfs_bgp_vpnv4_per_ce","label_mode_all_vrfs_bgp_vpnv4_vrf_conn_aggr","label_mode_all_vrfs_bgp_vpnv6_per_vrf","label_mode_all_vrfs_bgp_vpnv6_per_prefix","label_mode_all_vrfs_bgp_vpnv6_per_ce","label_mode_all_vrfs_bgp_vpnv6_vrf_conn_aggr", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,7 +67,7 @@ func TestAccIosxeMPLS(t *testing.T) {
 func iosxeMPLSImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeBGPIPv4MVPNNeighbor(t *testing.T) {
 	if os.Getenv("IOSXE1715") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1715")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1715")
+    }
 	var checks []resource.TestCheckFunc
 	if os.Getenv("IOSXE1715") != "" {
 		checks = append(checks, resource.TestCheckResourceAttr("iosxe_bgp_ipv4_mvpn_neighbor.test", "ip", "172.16.255.4"))
@@ -52,19 +50,19 @@ func TestAccIosxeBGPIPv4MVPNNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPIPv4MVPNNeighborPrerequisitesConfig + testAccIosxeBGPIPv4MVPNNeighborConfig_minimum(),
+				Config: testAccIosxeBGPIPv4MVPNNeighborPrerequisitesConfig+testAccIosxeBGPIPv4MVPNNeighborConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeBGPIPv4MVPNNeighborPrerequisitesConfig + testAccIosxeBGPIPv4MVPNNeighborConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPIPv4MVPNNeighborPrerequisitesConfig+testAccIosxeBGPIPv4MVPNNeighborConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_ipv4_mvpn_neighbor.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPIPv4MVPNNeighborImportStateIdFunc("iosxe_bgp_ipv4_mvpn_neighbor.test"),
-				ImportStateVerifyIgnore: []string{"activate"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_ipv4_mvpn_neighbor.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPIPv4MVPNNeighborImportStateIdFunc("iosxe_bgp_ipv4_mvpn_neighbor.test"),
+				ImportStateVerifyIgnore: []string{ "activate", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -80,7 +78,7 @@ func iosxeBGPIPv4MVPNNeighborImportStateIdFunc(resourceName string) resource.Imp
 		Asn := primary.Attributes["asn"]
 		Ip := primary.Attributes["ip"]
 
-		return fmt.Sprintf("%s,%s", Asn, Ip), nil
+		return fmt.Sprintf("%s,%s", Asn,Ip), nil
 	}
 }
 
@@ -113,7 +111,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

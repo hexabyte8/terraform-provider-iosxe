@@ -41,7 +41,7 @@ func TestAccDataSourceIosxeCryptoIKEv2Proposal(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeCryptoIKEv2ProposalConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -61,7 +61,7 @@ func testAccDataSourceIosxeCryptoIKEv2ProposalConfig() string {
 	config += `	group_sixteen = true` + "\n"
 	config += `	integrity_sha256 = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_crypto_ikev2_proposal" "test" {
 			name = "PROPOSAL1"

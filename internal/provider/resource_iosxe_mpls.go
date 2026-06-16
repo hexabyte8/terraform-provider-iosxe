@@ -25,8 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,8 +33,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 )
 
 // End of section. //template:end imports
@@ -86,10 +86,10 @@ func (r *MPLSResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				},
 			},
 			"label_protocol": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Set platform default label distribution protocol").AddStringEnumDescription("ldp", "tdp").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Set platform default label distribution protocol").AddStringEnumDescription("ldp", "tdp", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("ldp", "tdp"),
+					stringvalidator.OneOf("ldp", "tdp", ),
 				},
 			},
 			"label_mode_all_vrfs_all_afs_per_vrf": schema.BoolAttribute{
@@ -232,7 +232,7 @@ func (r *MPLSResource) Create(ctx context.Context, req resource.CreateRequest, r
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -280,7 +280,7 @@ func (r *MPLSResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

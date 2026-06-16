@@ -25,8 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,8 +33,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 )
 
 // End of section. //template:end imports
@@ -86,17 +86,17 @@ func (r *CryptoIPSecTransformSetResource) Schema(ctx context.Context, req resour
 				},
 			},
 			"esp": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("esp-192-aes", "esp-256-aes", "esp-3des", "esp-aes", "esp-des", "esp-gcm", "esp-gmac", "esp-null", "esp-seal").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("esp-192-aes", "esp-256-aes", "esp-3des", "esp-aes", "esp-des", "esp-gcm", "esp-gmac", "esp-null", "esp-seal", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("esp-192-aes", "esp-256-aes", "esp-3des", "esp-aes", "esp-des", "esp-gcm", "esp-gmac", "esp-null", "esp-seal"),
+					stringvalidator.OneOf("esp-192-aes", "esp-256-aes", "esp-3des", "esp-aes", "esp-des", "esp-gcm", "esp-gmac", "esp-null", "esp-seal", ),
 				},
 			},
 			"esp_hmac": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("esp-md5-hmac", "esp-sha-hmac", "esp-sha256-hmac", "esp-sha384-hmac", "esp-sha512-hmac").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("esp-md5-hmac", "esp-sha-hmac", "esp-sha256-hmac", "esp-sha384-hmac", "esp-sha512-hmac", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("esp-md5-hmac", "esp-sha-hmac", "esp-sha256-hmac", "esp-sha384-hmac", "esp-sha512-hmac"),
+					stringvalidator.OneOf("esp-md5-hmac", "esp-sha-hmac", "esp-sha256-hmac", "esp-sha384-hmac", "esp-sha512-hmac", ),
 				},
 			},
 			"mode_tunnel": schema.BoolAttribute{
@@ -195,7 +195,7 @@ func (r *CryptoIPSecTransformSetResource) Create(ctx context.Context, req resour
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -243,7 +243,7 @@ func (r *CryptoIPSecTransformSetResource) Read(ctx context.Context, req resource
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

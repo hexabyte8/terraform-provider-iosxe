@@ -9,6 +9,7 @@ attributes:
     description: Interface type
     type: String
     reference: true
+    list_config: true
     enum_values:
       - GigabitEthernet
       - TwoGigabitEthernet

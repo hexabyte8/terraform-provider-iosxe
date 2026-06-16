@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -67,16 +66,16 @@ func TestAccIosxeBGPIPv4UnicastVRFNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPIPv4UnicastVRFNeighborPrerequisitesConfig + testAccIosxeBGPIPv4UnicastVRFNeighborConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPIPv4UnicastVRFNeighborPrerequisitesConfig+testAccIosxeBGPIPv4UnicastVRFNeighborConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_ipv4_unicast_vrf_neighbor.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPIPv4UnicastVRFNeighborImportStateIdFunc("iosxe_bgp_ipv4_unicast_vrf_neighbor.test"),
-				ImportStateVerifyIgnore: []string{"fall_over_bfd_multi_hop", "disable_connected_check", "local_as_no_prepend", "local_as_replace_as", "local_as_dual_as", "ebgp_multihop"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_ipv4_unicast_vrf_neighbor.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPIPv4UnicastVRFNeighborImportStateIdFunc("iosxe_bgp_ipv4_unicast_vrf_neighbor.test"),
+				ImportStateVerifyIgnore: []string{ "fall_over_bfd_multi_hop","disable_connected_check","local_as_no_prepend","local_as_replace_as","local_as_dual_as","ebgp_multihop", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -93,7 +92,7 @@ func iosxeBGPIPv4UnicastVRFNeighborImportStateIdFunc(resourceName string) resour
 		Vrf := primary.Attributes["vrf"]
 		Ip := primary.Attributes["ip"]
 
-		return fmt.Sprintf("%s,%s,%s", Asn, Vrf, Ip), nil
+		return fmt.Sprintf("%s,%s,%s", Asn,Vrf,Ip), nil
 	}
 }
 
@@ -145,7 +144,6 @@ resource "iosxe_yang" "PreReq3" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

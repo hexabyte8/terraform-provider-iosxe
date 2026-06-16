@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeAAAAuthentication(t *testing.T) {
 	if os.Getenv("AAA") == "" {
-		t.Skip("skipping test, set environment variable AAA")
-	}
+        t.Skip("skipping test, set environment variable AAA")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_aaa_authentication.test", "logins.0.name", "test"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_aaa_authentication.test", "logins.0.a1_group", "Radius-GROUP"))
@@ -52,7 +51,7 @@ func TestAccDataSourceIosxeAAAAuthentication(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeAAAAuthenticationConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -72,18 +71,18 @@ func testAccDataSourceIosxeAAAAuthenticationConfig() string {
 	config += `		name = "test"` + "\n"
 	config += `		a1_group = "Radius-GROUP"` + "\n"
 	config += `		a2_none = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	dot1x = [{` + "\n"
 	config += `		name = "test"` + "\n"
 	config += `		a1_group = "GROUP1"` + "\n"
 	config += `		a2_cache = "GROUP2"` + "\n"
 	config += `		a3_radius = true` + "\n"
 	config += `		a4_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	dot1x_default_a1_group = "Radius-GROUP"` + "\n"
 	config += `	dot1x_default_a2_group = "Radius-GROUP2"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_aaa_authentication" "test" {
 			depends_on = [iosxe_aaa_authentication.test]

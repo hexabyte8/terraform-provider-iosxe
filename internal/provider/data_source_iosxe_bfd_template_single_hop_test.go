@@ -47,7 +47,7 @@ func TestAccDataSourceIosxeBFDTemplateSingleHop(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeBFDTemplateSingleHopConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -73,7 +73,7 @@ func testAccDataSourceIosxeBFDTemplateSingleHopConfig() string {
 	config += `	dampening_suppress_time = 100` + "\n"
 	config += `	dampening_max_suppressing_time = 60` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bfd_template_single_hop" "test" {
 			name = "SH-TEMPLATE-1"

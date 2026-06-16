@@ -45,8 +45,8 @@ func TestAccDataSourceIosxeStaticRoutesVRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeStaticRoutesVRFPrerequisitesConfig + testAccDataSourceIosxeStaticRoutesVRFConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeStaticRoutesVRFPrerequisitesConfig+testAccDataSourceIosxeStaticRoutesVRFConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -66,7 +66,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -85,10 +84,10 @@ func testAccDataSourceIosxeStaticRoutesVRFConfig() string {
 	config += `			permanent = true` + "\n"
 	config += `			tag = 100` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_static_routes_vrf" "test" {
 			vrf = "VRF1"

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -62,19 +61,19 @@ func TestAccIosxeInterfaceLoopback(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfaceLoopbackPrerequisitesConfig + testAccIosxeInterfaceLoopbackConfig_minimum(),
+				Config: testAccIosxeInterfaceLoopbackPrerequisitesConfig+testAccIosxeInterfaceLoopbackConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfaceLoopbackPrerequisitesConfig + testAccIosxeInterfaceLoopbackConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfaceLoopbackPrerequisitesConfig+testAccIosxeInterfaceLoopbackConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_loopback.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceLoopbackImportStateIdFunc("iosxe_interface_loopback.test"),
-				ImportStateVerifyIgnore: []string{"ipv4_address_dhcp", "ipv6_nd_ra_suppress_all", "ipv6_address_autoconfig_default", "ip_nat_inside", "ip_nat_outside"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_loopback.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceLoopbackImportStateIdFunc("iosxe_interface_loopback.test"),
+				ImportStateVerifyIgnore: []string{ "ipv4_address_dhcp","ipv6_nd_ra_suppress_all","ipv6_address_autoconfig_default","ip_nat_inside","ip_nat_outside", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -107,7 +106,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

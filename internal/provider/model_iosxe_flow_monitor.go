@@ -23,48 +23,48 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type FlowMonitor struct {
-	Device               types.String           `tfsdk:"device"`
-	Id                   types.String           `tfsdk:"id"`
-	DeleteMode           types.String           `tfsdk:"delete_mode"`
-	Name                 types.String           `tfsdk:"name"`
-	Description          types.String           `tfsdk:"description"`
-	Exporters            []FlowMonitorExporters `tfsdk:"exporters"`
-	CacheTimeoutActive   types.Int64            `tfsdk:"cache_timeout_active"`
-	CacheTimeoutInactive types.Int64            `tfsdk:"cache_timeout_inactive"`
-	Record               types.String           `tfsdk:"record"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Exporters []FlowMonitorExporters `tfsdk:"exporters"`
+	CacheTimeoutActive types.Int64 `tfsdk:"cache_timeout_active"`
+	CacheTimeoutInactive types.Int64 `tfsdk:"cache_timeout_inactive"`
+	Record types.String `tfsdk:"record"`
 }
 type FlowMonitorExporters struct {
 	Name types.String `tfsdk:"name"`
 }
 
 type FlowMonitorData struct {
-	Device               types.String               `tfsdk:"device"`
-	Id                   types.String               `tfsdk:"id"`
-	Name                 types.String               `tfsdk:"name"`
-	Description          types.String               `tfsdk:"description"`
-	Exporters            []FlowMonitorExportersData `tfsdk:"exporters"`
-	CacheTimeoutActive   types.Int64                `tfsdk:"cache_timeout_active"`
-	CacheTimeoutInactive types.Int64                `tfsdk:"cache_timeout_inactive"`
-	Record               types.String               `tfsdk:"record"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Exporters []FlowMonitorExportersData `tfsdk:"exporters"`
+	CacheTimeoutActive types.Int64 `tfsdk:"cache_timeout_active"`
+	CacheTimeoutInactive types.Int64 `tfsdk:"cache_timeout_inactive"`
+	Record types.String `tfsdk:"record"`
 }
 type FlowMonitorExportersData struct {
 	Name types.String `tfsdk:"name"`
@@ -145,10 +145,10 @@ func (data FlowMonitor) toBody(ctx context.Context, config FlowMonitor) string {
 func (data FlowMonitor) toBodyXML(ctx context.Context, config FlowMonitor) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if len(data.Exporters) > 0 {
 		for _, item := range data.Exporters {
@@ -160,13 +160,13 @@ func (data FlowMonitor) toBodyXML(ctx context.Context, config FlowMonitor) strin
 		}
 	}
 	if !data.CacheTimeoutActive.IsNull() && !data.CacheTimeoutActive.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/cache/timeout/active", strconv.FormatInt(data.CacheTimeoutActive.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/cache/timeout/active", strconv.FormatInt(data.CacheTimeoutActive.ValueInt64(), 10))
 	}
 	if !data.CacheTimeoutInactive.IsNull() && !data.CacheTimeoutInactive.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/cache/timeout/inactive", strconv.FormatInt(data.CacheTimeoutInactive.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/cache/timeout/inactive", strconv.FormatInt(data.CacheTimeoutInactive.ValueInt64(), 10))
 	}
 	if !data.Record.IsNull() && !data.Record.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/record/type", data.Record.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/record/type", data.Record.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -184,22 +184,22 @@ func (data *FlowMonitor) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
 	for i := range data.Exporters {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Exporters[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Exporters[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "exporter").ForEach(
+		res.Get(prefix+"exporter").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -223,17 +223,17 @@ func (data *FlowMonitor) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Exporters[i].Name = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "cache.timeout.active"); value.Exists() && !data.CacheTimeoutActive.IsNull() {
+	if value := res.Get(prefix+"cache.timeout.active"); value.Exists() && !data.CacheTimeoutActive.IsNull() {
 		data.CacheTimeoutActive = types.Int64Value(value.Int())
 	} else {
 		data.CacheTimeoutActive = types.Int64Null()
 	}
-	if value := res.Get(prefix + "cache.timeout.inactive"); value.Exists() && !data.CacheTimeoutInactive.IsNull() {
+	if value := res.Get(prefix+"cache.timeout.inactive"); value.Exists() && !data.CacheTimeoutInactive.IsNull() {
 		data.CacheTimeoutInactive = types.Int64Value(value.Int())
 	} else {
 		data.CacheTimeoutInactive = types.Int64Null()
 	}
-	if value := res.Get(prefix + "record.type"); value.Exists() && !data.Record.IsNull() {
+	if value := res.Get(prefix+"record.type"); value.Exists() && !data.Record.IsNull() {
 		data.Record = types.StringValue(value.String())
 	} else {
 		data.Record = types.StringNull()
@@ -245,22 +245,22 @@ func (data *FlowMonitor) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *FlowMonitor) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
 	for i := range data.Exporters {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Exporters[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Exporters[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/exporter").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/exporter").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -284,17 +284,17 @@ func (data *FlowMonitor) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			data.Exporters[i].Name = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cache/timeout/active"); value.Exists() && !data.CacheTimeoutActive.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cache/timeout/active"); value.Exists() && !data.CacheTimeoutActive.IsNull() {
 		data.CacheTimeoutActive = types.Int64Value(value.Int())
 	} else {
 		data.CacheTimeoutActive = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cache/timeout/inactive"); value.Exists() && !data.CacheTimeoutInactive.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cache/timeout/inactive"); value.Exists() && !data.CacheTimeoutInactive.IsNull() {
 		data.CacheTimeoutInactive = types.Int64Value(value.Int())
 	} else {
 		data.CacheTimeoutInactive = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/record/type"); value.Exists() && !data.Record.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/record/type"); value.Exists() && !data.Record.IsNull() {
 		data.Record = types.StringValue(value.String())
 	} else {
 		data.Record = types.StringNull()
@@ -310,10 +310,10 @@ func (data *FlowMonitor) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "exporter"); value.Exists() {
+	if value := res.Get(prefix+"exporter"); value.Exists() {
 		data.Exporters = make([]FlowMonitorExporters, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := FlowMonitorExporters{}
@@ -324,13 +324,13 @@ func (data *FlowMonitor) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "cache.timeout.active"); value.Exists() {
+	if value := res.Get(prefix+"cache.timeout.active"); value.Exists() {
 		data.CacheTimeoutActive = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "cache.timeout.inactive"); value.Exists() {
+	if value := res.Get(prefix+"cache.timeout.inactive"); value.Exists() {
 		data.CacheTimeoutInactive = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "record.type"); value.Exists() {
+	if value := res.Get(prefix+"record.type"); value.Exists() {
 		data.Record = types.StringValue(value.String())
 	}
 }
@@ -344,10 +344,10 @@ func (data *FlowMonitorData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "exporter"); value.Exists() {
+	if value := res.Get(prefix+"exporter"); value.Exists() {
 		data.Exporters = make([]FlowMonitorExportersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := FlowMonitorExportersData{}
@@ -358,13 +358,13 @@ func (data *FlowMonitorData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "cache.timeout.active"); value.Exists() {
+	if value := res.Get(prefix+"cache.timeout.active"); value.Exists() {
 		data.CacheTimeoutActive = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "cache.timeout.inactive"); value.Exists() {
+	if value := res.Get(prefix+"cache.timeout.inactive"); value.Exists() {
 		data.CacheTimeoutInactive = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "record.type"); value.Exists() {
+	if value := res.Get(prefix+"record.type"); value.Exists() {
 		data.Record = types.StringValue(value.String())
 	}
 }
@@ -374,10 +374,10 @@ func (data *FlowMonitorData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *FlowMonitor) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/exporter"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/exporter"); value.Exists() {
 		data.Exporters = make([]FlowMonitorExporters, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := FlowMonitorExporters{}
@@ -388,13 +388,13 @@ func (data *FlowMonitor) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cache/timeout/active"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cache/timeout/active"); value.Exists() {
 		data.CacheTimeoutActive = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cache/timeout/inactive"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cache/timeout/inactive"); value.Exists() {
 		data.CacheTimeoutInactive = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/record/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/record/type"); value.Exists() {
 		data.Record = types.StringValue(value.String())
 	}
 }
@@ -404,10 +404,10 @@ func (data *FlowMonitor) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *FlowMonitorData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/exporter"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/exporter"); value.Exists() {
 		data.Exporters = make([]FlowMonitorExportersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := FlowMonitorExportersData{}
@@ -418,13 +418,13 @@ func (data *FlowMonitorData) fromBodyXML(ctx context.Context, res xmldot.Result)
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cache/timeout/active"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cache/timeout/active"); value.Exists() {
 		data.CacheTimeoutActive = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/cache/timeout/inactive"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/cache/timeout/inactive"); value.Exists() {
 		data.CacheTimeoutInactive = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/record/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/record/type"); value.Exists() {
 		data.Record = types.StringValue(value.String())
 	}
 }
@@ -445,8 +445,8 @@ func (data *FlowMonitor) getDeletedItems(ctx context.Context, state FlowMonitor)
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/cache/timeout/active", state.getPath()))
 	}
 	for i := range state.Exporters {
-		stateKeyValues := [...]string{state.Exporters[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Exporters[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Exporters[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -492,13 +492,13 @@ func (data *FlowMonitor) addDeletedItemsXML(ctx context.Context, state FlowMonit
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/cache/timeout/active")
 	}
 	for i := range state.Exporters {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Exporters[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Exporters[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Exporters[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -535,6 +535,8 @@ func (data *FlowMonitor) addDeletedItemsXML(ctx context.Context, state FlowMonit
 
 func (data *FlowMonitor) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -555,7 +557,7 @@ func (data *FlowMonitor) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/cache/timeout/active", data.getPath()))
 	}
 	for i := range data.Exporters {
-		keyValues := [...]string{data.Exporters[i].Name.ValueString()}
+		keyValues := [...]string{ data.Exporters[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/exporter=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -582,8 +584,8 @@ func (data *FlowMonitor) addDeletePathsXML(ctx context.Context, body string) str
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/cache/timeout/active")
 	}
 	for i := range data.Exporters {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Exporters[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Exporters[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

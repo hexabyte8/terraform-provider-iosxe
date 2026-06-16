@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeVTP(t *testing.T) {
 	if os.Getenv("VTP") == "" {
-		t.Skip("skipping test, set environment variable VTP")
-	}
+        t.Skip("skipping test, set environment variable VTP")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_vtp.test", "file", "TEST"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_vtp.test", "version", "3"))
@@ -48,7 +47,7 @@ func TestAccDataSourceIosxeVTP(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeVTPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -72,7 +71,7 @@ func testAccDataSourceIosxeVTPConfig() string {
 	config += `	domain = "TESTDOMAIN"` + "\n"
 	config += `	mode_transparent = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_vtp" "test" {
 			depends_on = [iosxe_vtp.test]

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeCommunityListStandard(t *testing.T) {
 	if os.Getenv("IOSXE1712") == "" {
-		t.Skip("skipping test, set environment variable IOSXE1712")
-	}
+        t.Skip("skipping test, set environment variable IOSXE1712")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_community_list_standard.test", "name", "CLS1"))
 	resource.Test(t, resource.TestCase{
@@ -45,15 +43,15 @@ func TestAccIosxeCommunityListStandard(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccIosxeCommunityListStandardConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_community_list_standard.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeCommunityListStandardImportStateIdFunc("iosxe_community_list_standard.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_community_list_standard.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeCommunityListStandardImportStateIdFunc("iosxe_community_list_standard.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

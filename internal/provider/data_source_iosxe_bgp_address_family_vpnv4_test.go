@@ -37,8 +37,8 @@ func TestAccDataSourceIosxeBGPAddressFamilyVPNv4(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPAddressFamilyVPNv4PrerequisitesConfig + testAccDataSourceIosxeBGPAddressFamilyVPNv4Config(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPAddressFamilyVPNv4PrerequisitesConfig+testAccDataSourceIosxeBGPAddressFamilyVPNv4Config(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -56,7 +56,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -68,7 +67,7 @@ func testAccDataSourceIosxeBGPAddressFamilyVPNv4Config() string {
 	config += `	af_name = "unicast"` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_address_family_vpnv4" "test" {
 			asn = "65000"

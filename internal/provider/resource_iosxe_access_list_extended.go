@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -107,10 +107,10 @@ func (r *AccessListExtendedResource) Schema(ctx context.Context, req resource.Sc
 							},
 						},
 						"ace_rule_action": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("deny", "permit").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("deny", "permit", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("deny", "permit"),
+								stringvalidator.OneOf("deny", "permit", ),
 							},
 						},
 						"ace_rule_protocol": schema.StringAttribute{
@@ -316,10 +316,10 @@ func (r *AccessListExtendedResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"icmp_named_msg_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("administratively-prohibited", "alternate-address", "conversion-error", "dod-host-prohibited", "dod-net-prohibited", "echo", "echo-reply", "general-parameter-problem", "host-isolated", "host-precedence-unreachable", "host-redirect", "host-tos-redirect", "host-tos-unreachable", "host-unknown", "host-unreachable", "information-reply", "information-request", "mask-reply", "mask-request", "mobile-redirect", "net-redirect", "net-tos-redirect", "net-tos-unreachable", "net-unreachable", "network-unknown", "no-room-for-option", "option-missing", "packet-too-big", "parameter-problem", "port-unreachable", "precedence-unreachable", "protocol-unreachable", "reassembly-timeout", "redirect", "router-advertisement", "router-solicitation", "source-quench", "source-route-failed", "time-exceeded", "timestamp-reply", "timestamp-request", "traceroute", "ttl-exceeded", "unreachable").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("administratively-prohibited", "alternate-address", "conversion-error", "dod-host-prohibited", "dod-net-prohibited", "echo", "echo-reply", "general-parameter-problem", "host-isolated", "host-precedence-unreachable", "host-redirect", "host-tos-redirect", "host-tos-unreachable", "host-unknown", "host-unreachable", "information-reply", "information-request", "mask-reply", "mask-request", "mobile-redirect", "net-redirect", "net-tos-redirect", "net-tos-unreachable", "net-unreachable", "network-unknown", "no-room-for-option", "option-missing", "packet-too-big", "parameter-problem", "port-unreachable", "precedence-unreachable", "protocol-unreachable", "reassembly-timeout", "redirect", "router-advertisement", "router-solicitation", "source-quench", "source-route-failed", "time-exceeded", "timestamp-reply", "timestamp-request", "traceroute", "ttl-exceeded", "unreachable", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("administratively-prohibited", "alternate-address", "conversion-error", "dod-host-prohibited", "dod-net-prohibited", "echo", "echo-reply", "general-parameter-problem", "host-isolated", "host-precedence-unreachable", "host-redirect", "host-tos-redirect", "host-tos-unreachable", "host-unknown", "host-unreachable", "information-reply", "information-request", "mask-reply", "mask-request", "mobile-redirect", "net-redirect", "net-tos-redirect", "net-tos-unreachable", "net-unreachable", "network-unknown", "no-room-for-option", "option-missing", "packet-too-big", "parameter-problem", "port-unreachable", "precedence-unreachable", "protocol-unreachable", "reassembly-timeout", "redirect", "router-advertisement", "router-solicitation", "source-quench", "source-route-failed", "time-exceeded", "timestamp-reply", "timestamp-request", "traceroute", "ttl-exceeded", "unreachable"),
+								stringvalidator.OneOf("administratively-prohibited", "alternate-address", "conversion-error", "dod-host-prohibited", "dod-net-prohibited", "echo", "echo-reply", "general-parameter-problem", "host-isolated", "host-precedence-unreachable", "host-redirect", "host-tos-redirect", "host-tos-unreachable", "host-unknown", "host-unreachable", "information-reply", "information-request", "mask-reply", "mask-request", "mobile-redirect", "net-redirect", "net-tos-redirect", "net-tos-unreachable", "net-unreachable", "network-unknown", "no-room-for-option", "option-missing", "packet-too-big", "parameter-problem", "port-unreachable", "precedence-unreachable", "protocol-unreachable", "reassembly-timeout", "redirect", "router-advertisement", "router-solicitation", "source-quench", "source-route-failed", "time-exceeded", "timestamp-reply", "timestamp-request", "traceroute", "ttl-exceeded", "unreachable", ),
 							},
 						},
 						"destination_port_equal_2": schema.StringAttribute{
@@ -467,7 +467,7 @@ func (r *AccessListExtendedResource) Create(ctx context.Context, req resource.Cr
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -515,7 +515,7 @@ func (r *AccessListExtendedResource) Read(ctx context.Context, req resource.Read
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

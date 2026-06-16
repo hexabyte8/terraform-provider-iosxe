@@ -23,93 +23,93 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type DeviceTrackingPolicy struct {
-	Device                                  types.String `tfsdk:"device"`
-	Id                                      types.String `tfsdk:"id"`
-	DeleteMode                              types.String `tfsdk:"delete_mode"`
-	Name                                    types.String `tfsdk:"name"`
-	TrustedPort                             types.Bool   `tfsdk:"trusted_port"`
-	DeviceRole                              types.String `tfsdk:"device_role"`
-	DeviceRoleNodeLegacy                    types.Bool   `tfsdk:"device_role_node_legacy"`
-	DeviceRoleSwitchLegacy                  types.Bool   `tfsdk:"device_role_switch_legacy"`
-	DeviceRoleRouterLegacy                  types.Bool   `tfsdk:"device_role_router_legacy"`
-	DataGleanLogOnly                        types.Bool   `tfsdk:"data_glean_log_only"`
-	DataGleanRecoveryDhcp                   types.Bool   `tfsdk:"data_glean_recovery_dhcp"`
-	DataGleanRecoveryNdp                    types.Bool   `tfsdk:"data_glean_recovery_ndp"`
-	PrefixGlean                             types.Bool   `tfsdk:"prefix_glean"`
-	PrefixGleanOnly                         types.Bool   `tfsdk:"prefix_glean_only"`
-	DestinationGleanLogOnly                 types.Bool   `tfsdk:"destination_glean_log_only"`
-	DestinationGleanRecoveryDhcp            types.Bool   `tfsdk:"destination_glean_recovery_dhcp"`
-	ProtocolArp                             types.Bool   `tfsdk:"protocol_arp"`
-	ProtocolArpPrefixList                   types.String `tfsdk:"protocol_arp_prefix_list"`
-	ProtocolDhcp4                           types.Bool   `tfsdk:"protocol_dhcp4"`
-	ProtocolDhcp4PrefixList                 types.String `tfsdk:"protocol_dhcp4_prefix_list"`
-	ProtocolDhcp6                           types.Bool   `tfsdk:"protocol_dhcp6"`
-	ProtocolDhcp6PrefixList                 types.String `tfsdk:"protocol_dhcp6_prefix_list"`
-	ProtocolNdp                             types.Bool   `tfsdk:"protocol_ndp"`
-	ProtocolNdpPrefixList                   types.String `tfsdk:"protocol_ndp_prefix_list"`
-	TrackingEnable                          types.Bool   `tfsdk:"tracking_enable"`
-	TrackingEnableReachableLifetimeSeconds  types.Int64  `tfsdk:"tracking_enable_reachable_lifetime_seconds"`
-	TrackingEnableReachableLifetimeInfinite types.Bool   `tfsdk:"tracking_enable_reachable_lifetime_infinite"`
-	TrackingDisable                         types.Bool   `tfsdk:"tracking_disable"`
-	TrackingDisableStaleLifetime            types.String `tfsdk:"tracking_disable_stale_lifetime"`
-	LimitAddressCount                       types.Int64  `tfsdk:"limit_address_count"`
-	SecurityLevelGlean                      types.Bool   `tfsdk:"security_level_glean"`
-	SecurityLevelGuard                      types.Bool   `tfsdk:"security_level_guard"`
-	SecurityLevelInspect                    types.Bool   `tfsdk:"security_level_inspect"`
-	MediumTypeWireless                      types.Bool   `tfsdk:"medium_type_wireless"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	TrustedPort types.Bool `tfsdk:"trusted_port"`
+	DeviceRole types.String `tfsdk:"device_role"`
+	DeviceRoleNodeLegacy types.Bool `tfsdk:"device_role_node_legacy"`
+	DeviceRoleSwitchLegacy types.Bool `tfsdk:"device_role_switch_legacy"`
+	DeviceRoleRouterLegacy types.Bool `tfsdk:"device_role_router_legacy"`
+	DataGleanLogOnly types.Bool `tfsdk:"data_glean_log_only"`
+	DataGleanRecoveryDhcp types.Bool `tfsdk:"data_glean_recovery_dhcp"`
+	DataGleanRecoveryNdp types.Bool `tfsdk:"data_glean_recovery_ndp"`
+	PrefixGlean types.Bool `tfsdk:"prefix_glean"`
+	PrefixGleanOnly types.Bool `tfsdk:"prefix_glean_only"`
+	DestinationGleanLogOnly types.Bool `tfsdk:"destination_glean_log_only"`
+	DestinationGleanRecoveryDhcp types.Bool `tfsdk:"destination_glean_recovery_dhcp"`
+	ProtocolArp types.Bool `tfsdk:"protocol_arp"`
+	ProtocolArpPrefixList types.String `tfsdk:"protocol_arp_prefix_list"`
+	ProtocolDhcp4 types.Bool `tfsdk:"protocol_dhcp4"`
+	ProtocolDhcp4PrefixList types.String `tfsdk:"protocol_dhcp4_prefix_list"`
+	ProtocolDhcp6 types.Bool `tfsdk:"protocol_dhcp6"`
+	ProtocolDhcp6PrefixList types.String `tfsdk:"protocol_dhcp6_prefix_list"`
+	ProtocolNdp types.Bool `tfsdk:"protocol_ndp"`
+	ProtocolNdpPrefixList types.String `tfsdk:"protocol_ndp_prefix_list"`
+	TrackingEnable types.Bool `tfsdk:"tracking_enable"`
+	TrackingEnableReachableLifetimeSeconds types.Int64 `tfsdk:"tracking_enable_reachable_lifetime_seconds"`
+	TrackingEnableReachableLifetimeInfinite types.Bool `tfsdk:"tracking_enable_reachable_lifetime_infinite"`
+	TrackingDisable types.Bool `tfsdk:"tracking_disable"`
+	TrackingDisableStaleLifetime types.String `tfsdk:"tracking_disable_stale_lifetime"`
+	LimitAddressCount types.Int64 `tfsdk:"limit_address_count"`
+	SecurityLevelGlean types.Bool `tfsdk:"security_level_glean"`
+	SecurityLevelGuard types.Bool `tfsdk:"security_level_guard"`
+	SecurityLevelInspect types.Bool `tfsdk:"security_level_inspect"`
+	MediumTypeWireless types.Bool `tfsdk:"medium_type_wireless"`
 }
 
 type DeviceTrackingPolicyData struct {
-	Device                                  types.String `tfsdk:"device"`
-	Id                                      types.String `tfsdk:"id"`
-	Name                                    types.String `tfsdk:"name"`
-	TrustedPort                             types.Bool   `tfsdk:"trusted_port"`
-	DeviceRole                              types.String `tfsdk:"device_role"`
-	DeviceRoleNodeLegacy                    types.Bool   `tfsdk:"device_role_node_legacy"`
-	DeviceRoleSwitchLegacy                  types.Bool   `tfsdk:"device_role_switch_legacy"`
-	DeviceRoleRouterLegacy                  types.Bool   `tfsdk:"device_role_router_legacy"`
-	DataGleanLogOnly                        types.Bool   `tfsdk:"data_glean_log_only"`
-	DataGleanRecoveryDhcp                   types.Bool   `tfsdk:"data_glean_recovery_dhcp"`
-	DataGleanRecoveryNdp                    types.Bool   `tfsdk:"data_glean_recovery_ndp"`
-	PrefixGlean                             types.Bool   `tfsdk:"prefix_glean"`
-	PrefixGleanOnly                         types.Bool   `tfsdk:"prefix_glean_only"`
-	DestinationGleanLogOnly                 types.Bool   `tfsdk:"destination_glean_log_only"`
-	DestinationGleanRecoveryDhcp            types.Bool   `tfsdk:"destination_glean_recovery_dhcp"`
-	ProtocolArp                             types.Bool   `tfsdk:"protocol_arp"`
-	ProtocolArpPrefixList                   types.String `tfsdk:"protocol_arp_prefix_list"`
-	ProtocolDhcp4                           types.Bool   `tfsdk:"protocol_dhcp4"`
-	ProtocolDhcp4PrefixList                 types.String `tfsdk:"protocol_dhcp4_prefix_list"`
-	ProtocolDhcp6                           types.Bool   `tfsdk:"protocol_dhcp6"`
-	ProtocolDhcp6PrefixList                 types.String `tfsdk:"protocol_dhcp6_prefix_list"`
-	ProtocolNdp                             types.Bool   `tfsdk:"protocol_ndp"`
-	ProtocolNdpPrefixList                   types.String `tfsdk:"protocol_ndp_prefix_list"`
-	TrackingEnable                          types.Bool   `tfsdk:"tracking_enable"`
-	TrackingEnableReachableLifetimeSeconds  types.Int64  `tfsdk:"tracking_enable_reachable_lifetime_seconds"`
-	TrackingEnableReachableLifetimeInfinite types.Bool   `tfsdk:"tracking_enable_reachable_lifetime_infinite"`
-	TrackingDisable                         types.Bool   `tfsdk:"tracking_disable"`
-	TrackingDisableStaleLifetime            types.String `tfsdk:"tracking_disable_stale_lifetime"`
-	LimitAddressCount                       types.Int64  `tfsdk:"limit_address_count"`
-	SecurityLevelGlean                      types.Bool   `tfsdk:"security_level_glean"`
-	SecurityLevelGuard                      types.Bool   `tfsdk:"security_level_guard"`
-	SecurityLevelInspect                    types.Bool   `tfsdk:"security_level_inspect"`
-	MediumTypeWireless                      types.Bool   `tfsdk:"medium_type_wireless"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	TrustedPort types.Bool `tfsdk:"trusted_port"`
+	DeviceRole types.String `tfsdk:"device_role"`
+	DeviceRoleNodeLegacy types.Bool `tfsdk:"device_role_node_legacy"`
+	DeviceRoleSwitchLegacy types.Bool `tfsdk:"device_role_switch_legacy"`
+	DeviceRoleRouterLegacy types.Bool `tfsdk:"device_role_router_legacy"`
+	DataGleanLogOnly types.Bool `tfsdk:"data_glean_log_only"`
+	DataGleanRecoveryDhcp types.Bool `tfsdk:"data_glean_recovery_dhcp"`
+	DataGleanRecoveryNdp types.Bool `tfsdk:"data_glean_recovery_ndp"`
+	PrefixGlean types.Bool `tfsdk:"prefix_glean"`
+	PrefixGleanOnly types.Bool `tfsdk:"prefix_glean_only"`
+	DestinationGleanLogOnly types.Bool `tfsdk:"destination_glean_log_only"`
+	DestinationGleanRecoveryDhcp types.Bool `tfsdk:"destination_glean_recovery_dhcp"`
+	ProtocolArp types.Bool `tfsdk:"protocol_arp"`
+	ProtocolArpPrefixList types.String `tfsdk:"protocol_arp_prefix_list"`
+	ProtocolDhcp4 types.Bool `tfsdk:"protocol_dhcp4"`
+	ProtocolDhcp4PrefixList types.String `tfsdk:"protocol_dhcp4_prefix_list"`
+	ProtocolDhcp6 types.Bool `tfsdk:"protocol_dhcp6"`
+	ProtocolDhcp6PrefixList types.String `tfsdk:"protocol_dhcp6_prefix_list"`
+	ProtocolNdp types.Bool `tfsdk:"protocol_ndp"`
+	ProtocolNdpPrefixList types.String `tfsdk:"protocol_ndp_prefix_list"`
+	TrackingEnable types.Bool `tfsdk:"tracking_enable"`
+	TrackingEnableReachableLifetimeSeconds types.Int64 `tfsdk:"tracking_enable_reachable_lifetime_seconds"`
+	TrackingEnableReachableLifetimeInfinite types.Bool `tfsdk:"tracking_enable_reachable_lifetime_infinite"`
+	TrackingDisable types.Bool `tfsdk:"tracking_disable"`
+	TrackingDisableStaleLifetime types.String `tfsdk:"tracking_disable_stale_lifetime"`
+	LimitAddressCount types.Int64 `tfsdk:"limit_address_count"`
+	SecurityLevelGlean types.Bool `tfsdk:"security_level_glean"`
+	SecurityLevelGuard types.Bool `tfsdk:"security_level_guard"`
+	SecurityLevelInspect types.Bool `tfsdk:"security_level_inspect"`
+	MediumTypeWireless types.Bool `tfsdk:"medium_type_wireless"`
 }
 
 // End of section. //template:end types
@@ -291,164 +291,164 @@ func (data DeviceTrackingPolicy) toBody(ctx context.Context, config DeviceTracki
 func (data DeviceTrackingPolicy) toBodyXML(ctx context.Context, config DeviceTrackingPolicy) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/word", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/word", data.Name.ValueString())
 	}
 	if !data.TrustedPort.IsNull() && !data.TrustedPort.IsUnknown() {
 		if data.TrustedPort.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/trusted-port", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/trusted-port", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/trusted-port")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/trusted-port")
 		}
 	}
 	if !data.DeviceRole.IsNull() && !data.DeviceRole.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/device-role-config", data.DeviceRole.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/device-role-config", data.DeviceRole.ValueString())
 	}
 	if !data.DeviceRoleNodeLegacy.IsNull() && !data.DeviceRoleNodeLegacy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/device-role/node", data.DeviceRoleNodeLegacy.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/device-role/node", data.DeviceRoleNodeLegacy.ValueBool())
 	}
 	if !data.DeviceRoleSwitchLegacy.IsNull() && !data.DeviceRoleSwitchLegacy.IsUnknown() {
 		if data.DeviceRoleSwitchLegacy.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/device-role/switch", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/device-role/switch", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/device-role/switch")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/device-role/switch")
 		}
 	}
 	if !data.DeviceRoleRouterLegacy.IsNull() && !data.DeviceRoleRouterLegacy.IsUnknown() {
 		if data.DeviceRoleRouterLegacy.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/device-role/router", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/device-role/router", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/device-role/router")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/device-role/router")
 		}
 	}
 	if !data.DataGleanLogOnly.IsNull() && !data.DataGleanLogOnly.IsUnknown() {
 		if data.DataGleanLogOnly.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/data-glean/log-only", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/data-glean/log-only", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/data-glean/log-only")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/data-glean/log-only")
 		}
 	}
 	if !data.DataGleanRecoveryDhcp.IsNull() && !data.DataGleanRecoveryDhcp.IsUnknown() {
 		if data.DataGleanRecoveryDhcp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/data-glean/recovery/dhcp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/data-glean/recovery/dhcp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/data-glean/recovery/dhcp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/data-glean/recovery/dhcp")
 		}
 	}
 	if !data.DataGleanRecoveryNdp.IsNull() && !data.DataGleanRecoveryNdp.IsUnknown() {
 		if data.DataGleanRecoveryNdp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/data-glean/recovery/ndp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/data-glean/recovery/ndp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/data-glean/recovery/ndp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/data-glean/recovery/ndp")
 		}
 	}
 	if !data.PrefixGlean.IsNull() && !data.PrefixGlean.IsUnknown() {
 		if data.PrefixGlean.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/prefix-glean", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/prefix-glean", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/prefix-glean")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/prefix-glean")
 		}
 	}
 	if !data.PrefixGleanOnly.IsNull() && !data.PrefixGleanOnly.IsUnknown() {
 		if data.PrefixGleanOnly.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/prefix-glean/only", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/prefix-glean/only", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/prefix-glean/only")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/prefix-glean/only")
 		}
 	}
 	if !data.DestinationGleanLogOnly.IsNull() && !data.DestinationGleanLogOnly.IsUnknown() {
 		if data.DestinationGleanLogOnly.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/destination-glean/log-only", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/destination-glean/log-only", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/destination-glean/log-only")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/destination-glean/log-only")
 		}
 	}
 	if !data.DestinationGleanRecoveryDhcp.IsNull() && !data.DestinationGleanRecoveryDhcp.IsUnknown() {
 		if data.DestinationGleanRecoveryDhcp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/destination-glean/recovery/dhcp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/destination-glean/recovery/dhcp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/destination-glean/recovery/dhcp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/destination-glean/recovery/dhcp")
 		}
 	}
 	if !data.ProtocolArp.IsNull() && !data.ProtocolArp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-arp/arp", data.ProtocolArp.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-arp/arp", data.ProtocolArp.ValueBool())
 	}
 	if !data.ProtocolArpPrefixList.IsNull() && !data.ProtocolArpPrefixList.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-arp/prefix-list", data.ProtocolArpPrefixList.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-arp/prefix-list", data.ProtocolArpPrefixList.ValueString())
 	}
 	if !data.ProtocolDhcp4.IsNull() && !data.ProtocolDhcp4.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-dhcp4/dhcp4", data.ProtocolDhcp4.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-dhcp4/dhcp4", data.ProtocolDhcp4.ValueBool())
 	}
 	if !data.ProtocolDhcp4PrefixList.IsNull() && !data.ProtocolDhcp4PrefixList.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-dhcp4/prefix-list", data.ProtocolDhcp4PrefixList.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-dhcp4/prefix-list", data.ProtocolDhcp4PrefixList.ValueString())
 	}
 	if !data.ProtocolDhcp6.IsNull() && !data.ProtocolDhcp6.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-dhcp6/dhcp6", data.ProtocolDhcp6.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-dhcp6/dhcp6", data.ProtocolDhcp6.ValueBool())
 	}
 	if !data.ProtocolDhcp6PrefixList.IsNull() && !data.ProtocolDhcp6PrefixList.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-dhcp6/prefix-list", data.ProtocolDhcp6PrefixList.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-dhcp6/prefix-list", data.ProtocolDhcp6PrefixList.ValueString())
 	}
 	if !data.ProtocolNdp.IsNull() && !data.ProtocolNdp.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-ndp/ndp", data.ProtocolNdp.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-ndp/ndp", data.ProtocolNdp.ValueBool())
 	}
 	if !data.ProtocolNdpPrefixList.IsNull() && !data.ProtocolNdpPrefixList.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protocol/proto-ndp/prefix-list", data.ProtocolNdpPrefixList.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protocol/proto-ndp/prefix-list", data.ProtocolNdpPrefixList.ValueString())
 	}
 	if !data.TrackingEnable.IsNull() && !data.TrackingEnable.IsUnknown() {
 		if data.TrackingEnable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/tracking/enable-tracking", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/tracking/enable-tracking", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/tracking/enable-tracking")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/tracking/enable-tracking")
 		}
 	}
 	if !data.TrackingEnableReachableLifetimeSeconds.IsNull() && !data.TrackingEnableReachableLifetimeSeconds.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/seconds", strconv.FormatInt(data.TrackingEnableReachableLifetimeSeconds.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/seconds", strconv.FormatInt(data.TrackingEnableReachableLifetimeSeconds.ValueInt64(), 10))
 	}
 	if !data.TrackingEnableReachableLifetimeInfinite.IsNull() && !data.TrackingEnableReachableLifetimeInfinite.IsUnknown() {
 		if data.TrackingEnableReachableLifetimeInfinite.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/infinite", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/infinite", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/infinite")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/infinite")
 		}
 	}
 	if !data.TrackingDisable.IsNull() && !data.TrackingDisable.IsUnknown() {
 		if data.TrackingDisable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/tracking/disable-tracking", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/tracking/disable-tracking", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/tracking/disable-tracking")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/tracking/disable-tracking")
 		}
 	}
 	if !data.TrackingDisableStaleLifetime.IsNull() && !data.TrackingDisableStaleLifetime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/tracking/disable-tracking/stale-lifetime", data.TrackingDisableStaleLifetime.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/tracking/disable-tracking/stale-lifetime", data.TrackingDisableStaleLifetime.ValueString())
 	}
 	if !data.LimitAddressCount.IsNull() && !data.LimitAddressCount.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/limit/address-count", strconv.FormatInt(data.LimitAddressCount.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/limit/address-count", strconv.FormatInt(data.LimitAddressCount.ValueInt64(), 10))
 	}
 	if !data.SecurityLevelGlean.IsNull() && !data.SecurityLevelGlean.IsUnknown() {
 		if data.SecurityLevelGlean.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/security-level/glean", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/security-level/glean", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/security-level/glean")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/security-level/glean")
 		}
 	}
 	if !data.SecurityLevelGuard.IsNull() && !data.SecurityLevelGuard.IsUnknown() {
 		if data.SecurityLevelGuard.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/security-level/guard", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/security-level/guard", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/security-level/guard")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/security-level/guard")
 		}
 	}
 	if !data.SecurityLevelInspect.IsNull() && !data.SecurityLevelInspect.IsUnknown() {
 		if data.SecurityLevelInspect.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/security-level/inspect", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/security-level/inspect", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/security-level/inspect")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/security-level/inspect")
 		}
 	}
 	if !data.MediumTypeWireless.IsNull() && !data.MediumTypeWireless.IsUnknown() {
 		if data.MediumTypeWireless.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/medium-type-wireless", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/medium-type-wireless", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/medium-type-wireless")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/medium-type-wireless")
 		}
 	}
 	bodyString, err := body.String()
@@ -467,12 +467,12 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "word"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"word"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "trusted-port"); !data.TrustedPort.IsNull() {
+	if value := res.Get(prefix+"trusted-port"); !data.TrustedPort.IsNull() {
 		if value.Exists() {
 			data.TrustedPort = types.BoolValue(true)
 		} else {
@@ -481,19 +481,19 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.TrustedPort = types.BoolNull()
 	}
-	if value := res.Get(prefix + "device-role-config"); value.Exists() && !data.DeviceRole.IsNull() {
+	if value := res.Get(prefix+"device-role-config"); value.Exists() && !data.DeviceRole.IsNull() {
 		data.DeviceRole = types.StringValue(value.String())
 	} else {
 		data.DeviceRole = types.StringNull()
 	}
-	if value := res.Get(prefix + "device-role.node"); !data.DeviceRoleNodeLegacy.IsNull() {
+	if value := res.Get(prefix+"device-role.node"); !data.DeviceRoleNodeLegacy.IsNull() {
 		if value.Exists() {
 			data.DeviceRoleNodeLegacy = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.DeviceRoleNodeLegacy = types.BoolNull()
 	}
-	if value := res.Get(prefix + "device-role.switch"); !data.DeviceRoleSwitchLegacy.IsNull() {
+	if value := res.Get(prefix+"device-role.switch"); !data.DeviceRoleSwitchLegacy.IsNull() {
 		if value.Exists() {
 			data.DeviceRoleSwitchLegacy = types.BoolValue(true)
 		} else {
@@ -502,7 +502,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DeviceRoleSwitchLegacy = types.BoolNull()
 	}
-	if value := res.Get(prefix + "device-role.router"); !data.DeviceRoleRouterLegacy.IsNull() {
+	if value := res.Get(prefix+"device-role.router"); !data.DeviceRoleRouterLegacy.IsNull() {
 		if value.Exists() {
 			data.DeviceRoleRouterLegacy = types.BoolValue(true)
 		} else {
@@ -511,7 +511,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DeviceRoleRouterLegacy = types.BoolNull()
 	}
-	if value := res.Get(prefix + "data-glean.log-only"); !data.DataGleanLogOnly.IsNull() {
+	if value := res.Get(prefix+"data-glean.log-only"); !data.DataGleanLogOnly.IsNull() {
 		if value.Exists() {
 			data.DataGleanLogOnly = types.BoolValue(true)
 		} else {
@@ -520,7 +520,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DataGleanLogOnly = types.BoolNull()
 	}
-	if value := res.Get(prefix + "data-glean.recovery.dhcp"); !data.DataGleanRecoveryDhcp.IsNull() {
+	if value := res.Get(prefix+"data-glean.recovery.dhcp"); !data.DataGleanRecoveryDhcp.IsNull() {
 		if value.Exists() {
 			data.DataGleanRecoveryDhcp = types.BoolValue(true)
 		} else {
@@ -529,7 +529,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DataGleanRecoveryDhcp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "data-glean.recovery.ndp"); !data.DataGleanRecoveryNdp.IsNull() {
+	if value := res.Get(prefix+"data-glean.recovery.ndp"); !data.DataGleanRecoveryNdp.IsNull() {
 		if value.Exists() {
 			data.DataGleanRecoveryNdp = types.BoolValue(true)
 		} else {
@@ -538,7 +538,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DataGleanRecoveryNdp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "prefix-glean"); !data.PrefixGlean.IsNull() {
+	if value := res.Get(prefix+"prefix-glean"); !data.PrefixGlean.IsNull() {
 		if value.Exists() {
 			data.PrefixGlean = types.BoolValue(true)
 		} else {
@@ -547,7 +547,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.PrefixGlean = types.BoolNull()
 	}
-	if value := res.Get(prefix + "prefix-glean.only"); !data.PrefixGleanOnly.IsNull() {
+	if value := res.Get(prefix+"prefix-glean.only"); !data.PrefixGleanOnly.IsNull() {
 		if value.Exists() {
 			data.PrefixGleanOnly = types.BoolValue(true)
 		} else {
@@ -556,7 +556,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.PrefixGleanOnly = types.BoolNull()
 	}
-	if value := res.Get(prefix + "destination-glean.log-only"); !data.DestinationGleanLogOnly.IsNull() {
+	if value := res.Get(prefix+"destination-glean.log-only"); !data.DestinationGleanLogOnly.IsNull() {
 		if value.Exists() {
 			data.DestinationGleanLogOnly = types.BoolValue(true)
 		} else {
@@ -565,7 +565,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DestinationGleanLogOnly = types.BoolNull()
 	}
-	if value := res.Get(prefix + "destination-glean.recovery.dhcp"); !data.DestinationGleanRecoveryDhcp.IsNull() {
+	if value := res.Get(prefix+"destination-glean.recovery.dhcp"); !data.DestinationGleanRecoveryDhcp.IsNull() {
 		if value.Exists() {
 			data.DestinationGleanRecoveryDhcp = types.BoolValue(true)
 		} else {
@@ -574,55 +574,55 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.DestinationGleanRecoveryDhcp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-arp.arp"); !data.ProtocolArp.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-arp.arp"); !data.ProtocolArp.IsNull() {
 		if value.Exists() {
 			data.ProtocolArp = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolArp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-arp.prefix-list"); value.Exists() && !data.ProtocolArpPrefixList.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-arp.prefix-list"); value.Exists() && !data.ProtocolArpPrefixList.IsNull() {
 		data.ProtocolArpPrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolArpPrefixList = types.StringNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp4.dhcp4"); !data.ProtocolDhcp4.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-dhcp4.dhcp4"); !data.ProtocolDhcp4.IsNull() {
 		if value.Exists() {
 			data.ProtocolDhcp4 = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolDhcp4 = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp4.prefix-list"); value.Exists() && !data.ProtocolDhcp4PrefixList.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-dhcp4.prefix-list"); value.Exists() && !data.ProtocolDhcp4PrefixList.IsNull() {
 		data.ProtocolDhcp4PrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolDhcp4PrefixList = types.StringNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp6.dhcp6"); !data.ProtocolDhcp6.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-dhcp6.dhcp6"); !data.ProtocolDhcp6.IsNull() {
 		if value.Exists() {
 			data.ProtocolDhcp6 = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolDhcp6 = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp6.prefix-list"); value.Exists() && !data.ProtocolDhcp6PrefixList.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-dhcp6.prefix-list"); value.Exists() && !data.ProtocolDhcp6PrefixList.IsNull() {
 		data.ProtocolDhcp6PrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolDhcp6PrefixList = types.StringNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-ndp.ndp"); !data.ProtocolNdp.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-ndp.ndp"); !data.ProtocolNdp.IsNull() {
 		if value.Exists() {
 			data.ProtocolNdp = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolNdp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-ndp.prefix-list"); value.Exists() && !data.ProtocolNdpPrefixList.IsNull() {
+	if value := res.Get(prefix+"protocol.proto-ndp.prefix-list"); value.Exists() && !data.ProtocolNdpPrefixList.IsNull() {
 		data.ProtocolNdpPrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolNdpPrefixList = types.StringNull()
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking"); !data.TrackingEnable.IsNull() {
+	if value := res.Get(prefix+"tracking.enable-tracking"); !data.TrackingEnable.IsNull() {
 		if value.Exists() {
 			data.TrackingEnable = types.BoolValue(true)
 		} else {
@@ -631,12 +631,12 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.TrackingEnable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking.reachable-lifetime.seconds"); value.Exists() && !data.TrackingEnableReachableLifetimeSeconds.IsNull() {
+	if value := res.Get(prefix+"tracking.enable-tracking.reachable-lifetime.seconds"); value.Exists() && !data.TrackingEnableReachableLifetimeSeconds.IsNull() {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Value(value.Int())
 	} else {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Null()
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking.reachable-lifetime.infinite"); !data.TrackingEnableReachableLifetimeInfinite.IsNull() {
+	if value := res.Get(prefix+"tracking.enable-tracking.reachable-lifetime.infinite"); !data.TrackingEnableReachableLifetimeInfinite.IsNull() {
 		if value.Exists() {
 			data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(true)
 		} else {
@@ -645,7 +645,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolNull()
 	}
-	if value := res.Get(prefix + "tracking.disable-tracking"); !data.TrackingDisable.IsNull() {
+	if value := res.Get(prefix+"tracking.disable-tracking"); !data.TrackingDisable.IsNull() {
 		if value.Exists() {
 			data.TrackingDisable = types.BoolValue(true)
 		} else {
@@ -654,17 +654,17 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.TrackingDisable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "tracking.disable-tracking.stale-lifetime"); value.Exists() && !data.TrackingDisableStaleLifetime.IsNull() {
+	if value := res.Get(prefix+"tracking.disable-tracking.stale-lifetime"); value.Exists() && !data.TrackingDisableStaleLifetime.IsNull() {
 		data.TrackingDisableStaleLifetime = types.StringValue(value.String())
 	} else {
 		data.TrackingDisableStaleLifetime = types.StringNull()
 	}
-	if value := res.Get(prefix + "limit.address-count"); value.Exists() && !data.LimitAddressCount.IsNull() {
+	if value := res.Get(prefix+"limit.address-count"); value.Exists() && !data.LimitAddressCount.IsNull() {
 		data.LimitAddressCount = types.Int64Value(value.Int())
 	} else {
 		data.LimitAddressCount = types.Int64Null()
 	}
-	if value := res.Get(prefix + "security-level.glean"); !data.SecurityLevelGlean.IsNull() {
+	if value := res.Get(prefix+"security-level.glean"); !data.SecurityLevelGlean.IsNull() {
 		if value.Exists() {
 			data.SecurityLevelGlean = types.BoolValue(true)
 		} else {
@@ -673,7 +673,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SecurityLevelGlean = types.BoolNull()
 	}
-	if value := res.Get(prefix + "security-level.guard"); !data.SecurityLevelGuard.IsNull() {
+	if value := res.Get(prefix+"security-level.guard"); !data.SecurityLevelGuard.IsNull() {
 		if value.Exists() {
 			data.SecurityLevelGuard = types.BoolValue(true)
 		} else {
@@ -682,7 +682,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SecurityLevelGuard = types.BoolNull()
 	}
-	if value := res.Get(prefix + "security-level.inspect"); !data.SecurityLevelInspect.IsNull() {
+	if value := res.Get(prefix+"security-level.inspect"); !data.SecurityLevelInspect.IsNull() {
 		if value.Exists() {
 			data.SecurityLevelInspect = types.BoolValue(true)
 		} else {
@@ -691,7 +691,7 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 	} else {
 		data.SecurityLevelInspect = types.BoolNull()
 	}
-	if value := res.Get(prefix + "medium-type-wireless"); !data.MediumTypeWireless.IsNull() {
+	if value := res.Get(prefix+"medium-type-wireless"); !data.MediumTypeWireless.IsNull() {
 		if value.Exists() {
 			data.MediumTypeWireless = types.BoolValue(true)
 		} else {
@@ -707,12 +707,12 @@ func (data *DeviceTrackingPolicy) updateFromBody(ctx context.Context, res gjson.
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/word"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/word"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trusted-port"); !data.TrustedPort.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trusted-port"); !data.TrustedPort.IsNull() {
 		if value.Exists() {
 			data.TrustedPort = types.BoolValue(true)
 		} else {
@@ -721,19 +721,19 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.TrustedPort = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role-config"); value.Exists() && !data.DeviceRole.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role-config"); value.Exists() && !data.DeviceRole.IsNull() {
 		data.DeviceRole = types.StringValue(value.String())
 	} else {
 		data.DeviceRole = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/node"); !data.DeviceRoleNodeLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/node"); !data.DeviceRoleNodeLegacy.IsNull() {
 		if value.Exists() {
 			data.DeviceRoleNodeLegacy = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.DeviceRoleNodeLegacy = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/switch"); !data.DeviceRoleSwitchLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/switch"); !data.DeviceRoleSwitchLegacy.IsNull() {
 		if value.Exists() {
 			data.DeviceRoleSwitchLegacy = types.BoolValue(true)
 		} else {
@@ -742,7 +742,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DeviceRoleSwitchLegacy = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/router"); !data.DeviceRoleRouterLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/router"); !data.DeviceRoleRouterLegacy.IsNull() {
 		if value.Exists() {
 			data.DeviceRoleRouterLegacy = types.BoolValue(true)
 		} else {
@@ -751,7 +751,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DeviceRoleRouterLegacy = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/log-only"); !data.DataGleanLogOnly.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/log-only"); !data.DataGleanLogOnly.IsNull() {
 		if value.Exists() {
 			data.DataGleanLogOnly = types.BoolValue(true)
 		} else {
@@ -760,7 +760,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DataGleanLogOnly = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/recovery/dhcp"); !data.DataGleanRecoveryDhcp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/recovery/dhcp"); !data.DataGleanRecoveryDhcp.IsNull() {
 		if value.Exists() {
 			data.DataGleanRecoveryDhcp = types.BoolValue(true)
 		} else {
@@ -769,7 +769,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DataGleanRecoveryDhcp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/recovery/ndp"); !data.DataGleanRecoveryNdp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/recovery/ndp"); !data.DataGleanRecoveryNdp.IsNull() {
 		if value.Exists() {
 			data.DataGleanRecoveryNdp = types.BoolValue(true)
 		} else {
@@ -778,7 +778,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DataGleanRecoveryNdp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-glean"); !data.PrefixGlean.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-glean"); !data.PrefixGlean.IsNull() {
 		if value.Exists() {
 			data.PrefixGlean = types.BoolValue(true)
 		} else {
@@ -787,7 +787,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.PrefixGlean = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-glean/only"); !data.PrefixGleanOnly.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-glean/only"); !data.PrefixGleanOnly.IsNull() {
 		if value.Exists() {
 			data.PrefixGleanOnly = types.BoolValue(true)
 		} else {
@@ -796,7 +796,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.PrefixGleanOnly = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination-glean/log-only"); !data.DestinationGleanLogOnly.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination-glean/log-only"); !data.DestinationGleanLogOnly.IsNull() {
 		if value.Exists() {
 			data.DestinationGleanLogOnly = types.BoolValue(true)
 		} else {
@@ -805,7 +805,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DestinationGleanLogOnly = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination-glean/recovery/dhcp"); !data.DestinationGleanRecoveryDhcp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination-glean/recovery/dhcp"); !data.DestinationGleanRecoveryDhcp.IsNull() {
 		if value.Exists() {
 			data.DestinationGleanRecoveryDhcp = types.BoolValue(true)
 		} else {
@@ -814,55 +814,55 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.DestinationGleanRecoveryDhcp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-arp/arp"); !data.ProtocolArp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-arp/arp"); !data.ProtocolArp.IsNull() {
 		if value.Exists() {
 			data.ProtocolArp = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolArp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-arp/prefix-list"); value.Exists() && !data.ProtocolArpPrefixList.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-arp/prefix-list"); value.Exists() && !data.ProtocolArpPrefixList.IsNull() {
 		data.ProtocolArpPrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolArpPrefixList = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp4/dhcp4"); !data.ProtocolDhcp4.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp4/dhcp4"); !data.ProtocolDhcp4.IsNull() {
 		if value.Exists() {
 			data.ProtocolDhcp4 = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolDhcp4 = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp4/prefix-list"); value.Exists() && !data.ProtocolDhcp4PrefixList.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp4/prefix-list"); value.Exists() && !data.ProtocolDhcp4PrefixList.IsNull() {
 		data.ProtocolDhcp4PrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolDhcp4PrefixList = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp6/dhcp6"); !data.ProtocolDhcp6.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp6/dhcp6"); !data.ProtocolDhcp6.IsNull() {
 		if value.Exists() {
 			data.ProtocolDhcp6 = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolDhcp6 = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp6/prefix-list"); value.Exists() && !data.ProtocolDhcp6PrefixList.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp6/prefix-list"); value.Exists() && !data.ProtocolDhcp6PrefixList.IsNull() {
 		data.ProtocolDhcp6PrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolDhcp6PrefixList = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-ndp/ndp"); !data.ProtocolNdp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-ndp/ndp"); !data.ProtocolNdp.IsNull() {
 		if value.Exists() {
 			data.ProtocolNdp = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.ProtocolNdp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-ndp/prefix-list"); value.Exists() && !data.ProtocolNdpPrefixList.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-ndp/prefix-list"); value.Exists() && !data.ProtocolNdpPrefixList.IsNull() {
 		data.ProtocolNdpPrefixList = types.StringValue(value.String())
 	} else {
 		data.ProtocolNdpPrefixList = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking"); !data.TrackingEnable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking"); !data.TrackingEnable.IsNull() {
 		if value.Exists() {
 			data.TrackingEnable = types.BoolValue(true)
 		} else {
@@ -871,12 +871,12 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.TrackingEnable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/seconds"); value.Exists() && !data.TrackingEnableReachableLifetimeSeconds.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/seconds"); value.Exists() && !data.TrackingEnableReachableLifetimeSeconds.IsNull() {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Value(value.Int())
 	} else {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/infinite"); !data.TrackingEnableReachableLifetimeInfinite.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/infinite"); !data.TrackingEnableReachableLifetimeInfinite.IsNull() {
 		if value.Exists() {
 			data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(true)
 		} else {
@@ -885,7 +885,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/disable-tracking"); !data.TrackingDisable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/disable-tracking"); !data.TrackingDisable.IsNull() {
 		if value.Exists() {
 			data.TrackingDisable = types.BoolValue(true)
 		} else {
@@ -894,17 +894,17 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.TrackingDisable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/disable-tracking/stale-lifetime"); value.Exists() && !data.TrackingDisableStaleLifetime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/disable-tracking/stale-lifetime"); value.Exists() && !data.TrackingDisableStaleLifetime.IsNull() {
 		data.TrackingDisableStaleLifetime = types.StringValue(value.String())
 	} else {
 		data.TrackingDisableStaleLifetime = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/limit/address-count"); value.Exists() && !data.LimitAddressCount.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/limit/address-count"); value.Exists() && !data.LimitAddressCount.IsNull() {
 		data.LimitAddressCount = types.Int64Value(value.Int())
 	} else {
 		data.LimitAddressCount = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/glean"); !data.SecurityLevelGlean.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/glean"); !data.SecurityLevelGlean.IsNull() {
 		if value.Exists() {
 			data.SecurityLevelGlean = types.BoolValue(true)
 		} else {
@@ -913,7 +913,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SecurityLevelGlean = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/guard"); !data.SecurityLevelGuard.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/guard"); !data.SecurityLevelGuard.IsNull() {
 		if value.Exists() {
 			data.SecurityLevelGuard = types.BoolValue(true)
 		} else {
@@ -922,7 +922,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SecurityLevelGuard = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/inspect"); !data.SecurityLevelInspect.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/inspect"); !data.SecurityLevelInspect.IsNull() {
 		if value.Exists() {
 			data.SecurityLevelInspect = types.BoolValue(true)
 		} else {
@@ -931,7 +931,7 @@ func (data *DeviceTrackingPolicy) updateFromBodyXML(ctx context.Context, res xml
 	} else {
 		data.SecurityLevelInspect = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/medium-type-wireless"); !data.MediumTypeWireless.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/medium-type-wireless"); !data.MediumTypeWireless.IsNull() {
 		if value.Exists() {
 			data.MediumTypeWireless = types.BoolValue(true)
 		} else {
@@ -951,136 +951,136 @@ func (data *DeviceTrackingPolicy) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "trusted-port"); value.Exists() {
+	if value := res.Get(prefix+"trusted-port"); value.Exists() {
 		data.TrustedPort = types.BoolValue(true)
 	} else {
 		data.TrustedPort = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "device-role-config"); value.Exists() {
+	if value := res.Get(prefix+"device-role-config"); value.Exists() {
 		data.DeviceRole = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "device-role.node"); value.Exists() {
+	if value := res.Get(prefix+"device-role.node"); value.Exists() {
 		data.DeviceRoleNodeLegacy = types.BoolValue(value.Bool())
 	} else {
 		data.DeviceRoleNodeLegacy = types.BoolNull()
 	}
-	if value := res.Get(prefix + "device-role.switch"); value.Exists() {
+	if value := res.Get(prefix+"device-role.switch"); value.Exists() {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "device-role.router"); value.Exists() {
+	if value := res.Get(prefix+"device-role.router"); value.Exists() {
 		data.DeviceRoleRouterLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleRouterLegacy = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "data-glean.log-only"); value.Exists() {
+	if value := res.Get(prefix+"data-glean.log-only"); value.Exists() {
 		data.DataGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DataGleanLogOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "data-glean.recovery.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"data-glean.recovery.dhcp"); value.Exists() {
 		data.DataGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "data-glean.recovery.ndp"); value.Exists() {
+	if value := res.Get(prefix+"data-glean.recovery.ndp"); value.Exists() {
 		data.DataGleanRecoveryNdp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryNdp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "prefix-glean"); value.Exists() {
+	if value := res.Get(prefix+"prefix-glean"); value.Exists() {
 		data.PrefixGlean = types.BoolValue(true)
 	} else {
 		data.PrefixGlean = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "prefix-glean.only"); value.Exists() {
+	if value := res.Get(prefix+"prefix-glean.only"); value.Exists() {
 		data.PrefixGleanOnly = types.BoolValue(true)
 	} else {
 		data.PrefixGleanOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "destination-glean.log-only"); value.Exists() {
+	if value := res.Get(prefix+"destination-glean.log-only"); value.Exists() {
 		data.DestinationGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DestinationGleanLogOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "destination-glean.recovery.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"destination-glean.recovery.dhcp"); value.Exists() {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "protocol.proto-arp.arp"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-arp.arp"); value.Exists() {
 		data.ProtocolArp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolArp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-arp.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-arp.prefix-list"); value.Exists() {
 		data.ProtocolArpPrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp4.dhcp4"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp4.dhcp4"); value.Exists() {
 		data.ProtocolDhcp4 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp4 = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp4.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp4.prefix-list"); value.Exists() {
 		data.ProtocolDhcp4PrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp6.dhcp6"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp6.dhcp6"); value.Exists() {
 		data.ProtocolDhcp6 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp6 = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp6.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp6.prefix-list"); value.Exists() {
 		data.ProtocolDhcp6PrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protocol.proto-ndp.ndp"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-ndp.ndp"); value.Exists() {
 		data.ProtocolNdp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolNdp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-ndp.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-ndp.prefix-list"); value.Exists() {
 		data.ProtocolNdpPrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking"); value.Exists() {
+	if value := res.Get(prefix+"tracking.enable-tracking"); value.Exists() {
 		data.TrackingEnable = types.BoolValue(true)
 	} else {
 		data.TrackingEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking.reachable-lifetime.seconds"); value.Exists() {
+	if value := res.Get(prefix+"tracking.enable-tracking.reachable-lifetime.seconds"); value.Exists() {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking.reachable-lifetime.infinite"); value.Exists() {
+	if value := res.Get(prefix+"tracking.enable-tracking.reachable-lifetime.infinite"); value.Exists() {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(true)
 	} else {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tracking.disable-tracking"); value.Exists() {
+	if value := res.Get(prefix+"tracking.disable-tracking"); value.Exists() {
 		data.TrackingDisable = types.BoolValue(true)
 	} else {
 		data.TrackingDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tracking.disable-tracking.stale-lifetime"); value.Exists() {
+	if value := res.Get(prefix+"tracking.disable-tracking.stale-lifetime"); value.Exists() {
 		data.TrackingDisableStaleLifetime = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "limit.address-count"); value.Exists() {
+	if value := res.Get(prefix+"limit.address-count"); value.Exists() {
 		data.LimitAddressCount = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "security-level.glean"); value.Exists() {
+	if value := res.Get(prefix+"security-level.glean"); value.Exists() {
 		data.SecurityLevelGlean = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGlean = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "security-level.guard"); value.Exists() {
+	if value := res.Get(prefix+"security-level.guard"); value.Exists() {
 		data.SecurityLevelGuard = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGuard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "security-level.inspect"); value.Exists() {
+	if value := res.Get(prefix+"security-level.inspect"); value.Exists() {
 		data.SecurityLevelInspect = types.BoolValue(true)
 	} else {
 		data.SecurityLevelInspect = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "medium-type-wireless"); value.Exists() {
+	if value := res.Get(prefix+"medium-type-wireless"); value.Exists() {
 		data.MediumTypeWireless = types.BoolValue(true)
 	} else {
 		data.MediumTypeWireless = types.BoolValue(false)
@@ -1096,136 +1096,136 @@ func (data *DeviceTrackingPolicyData) fromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "trusted-port"); value.Exists() {
+	if value := res.Get(prefix+"trusted-port"); value.Exists() {
 		data.TrustedPort = types.BoolValue(true)
 	} else {
 		data.TrustedPort = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "device-role-config"); value.Exists() {
+	if value := res.Get(prefix+"device-role-config"); value.Exists() {
 		data.DeviceRole = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "device-role.node"); value.Exists() {
+	if value := res.Get(prefix+"device-role.node"); value.Exists() {
 		data.DeviceRoleNodeLegacy = types.BoolValue(value.Bool())
 	} else {
 		data.DeviceRoleNodeLegacy = types.BoolNull()
 	}
-	if value := res.Get(prefix + "device-role.switch"); value.Exists() {
+	if value := res.Get(prefix+"device-role.switch"); value.Exists() {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "device-role.router"); value.Exists() {
+	if value := res.Get(prefix+"device-role.router"); value.Exists() {
 		data.DeviceRoleRouterLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleRouterLegacy = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "data-glean.log-only"); value.Exists() {
+	if value := res.Get(prefix+"data-glean.log-only"); value.Exists() {
 		data.DataGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DataGleanLogOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "data-glean.recovery.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"data-glean.recovery.dhcp"); value.Exists() {
 		data.DataGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "data-glean.recovery.ndp"); value.Exists() {
+	if value := res.Get(prefix+"data-glean.recovery.ndp"); value.Exists() {
 		data.DataGleanRecoveryNdp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryNdp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "prefix-glean"); value.Exists() {
+	if value := res.Get(prefix+"prefix-glean"); value.Exists() {
 		data.PrefixGlean = types.BoolValue(true)
 	} else {
 		data.PrefixGlean = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "prefix-glean.only"); value.Exists() {
+	if value := res.Get(prefix+"prefix-glean.only"); value.Exists() {
 		data.PrefixGleanOnly = types.BoolValue(true)
 	} else {
 		data.PrefixGleanOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "destination-glean.log-only"); value.Exists() {
+	if value := res.Get(prefix+"destination-glean.log-only"); value.Exists() {
 		data.DestinationGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DestinationGleanLogOnly = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "destination-glean.recovery.dhcp"); value.Exists() {
+	if value := res.Get(prefix+"destination-glean.recovery.dhcp"); value.Exists() {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "protocol.proto-arp.arp"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-arp.arp"); value.Exists() {
 		data.ProtocolArp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolArp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-arp.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-arp.prefix-list"); value.Exists() {
 		data.ProtocolArpPrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp4.dhcp4"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp4.dhcp4"); value.Exists() {
 		data.ProtocolDhcp4 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp4 = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp4.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp4.prefix-list"); value.Exists() {
 		data.ProtocolDhcp4PrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp6.dhcp6"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp6.dhcp6"); value.Exists() {
 		data.ProtocolDhcp6 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp6 = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-dhcp6.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-dhcp6.prefix-list"); value.Exists() {
 		data.ProtocolDhcp6PrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protocol.proto-ndp.ndp"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-ndp.ndp"); value.Exists() {
 		data.ProtocolNdp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolNdp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "protocol.proto-ndp.prefix-list"); value.Exists() {
+	if value := res.Get(prefix+"protocol.proto-ndp.prefix-list"); value.Exists() {
 		data.ProtocolNdpPrefixList = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking"); value.Exists() {
+	if value := res.Get(prefix+"tracking.enable-tracking"); value.Exists() {
 		data.TrackingEnable = types.BoolValue(true)
 	} else {
 		data.TrackingEnable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking.reachable-lifetime.seconds"); value.Exists() {
+	if value := res.Get(prefix+"tracking.enable-tracking.reachable-lifetime.seconds"); value.Exists() {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "tracking.enable-tracking.reachable-lifetime.infinite"); value.Exists() {
+	if value := res.Get(prefix+"tracking.enable-tracking.reachable-lifetime.infinite"); value.Exists() {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(true)
 	} else {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tracking.disable-tracking"); value.Exists() {
+	if value := res.Get(prefix+"tracking.disable-tracking"); value.Exists() {
 		data.TrackingDisable = types.BoolValue(true)
 	} else {
 		data.TrackingDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "tracking.disable-tracking.stale-lifetime"); value.Exists() {
+	if value := res.Get(prefix+"tracking.disable-tracking.stale-lifetime"); value.Exists() {
 		data.TrackingDisableStaleLifetime = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "limit.address-count"); value.Exists() {
+	if value := res.Get(prefix+"limit.address-count"); value.Exists() {
 		data.LimitAddressCount = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "security-level.glean"); value.Exists() {
+	if value := res.Get(prefix+"security-level.glean"); value.Exists() {
 		data.SecurityLevelGlean = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGlean = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "security-level.guard"); value.Exists() {
+	if value := res.Get(prefix+"security-level.guard"); value.Exists() {
 		data.SecurityLevelGuard = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGuard = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "security-level.inspect"); value.Exists() {
+	if value := res.Get(prefix+"security-level.inspect"); value.Exists() {
 		data.SecurityLevelInspect = types.BoolValue(true)
 	} else {
 		data.SecurityLevelInspect = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "medium-type-wireless"); value.Exists() {
+	if value := res.Get(prefix+"medium-type-wireless"); value.Exists() {
 		data.MediumTypeWireless = types.BoolValue(true)
 	} else {
 		data.MediumTypeWireless = types.BoolValue(false)
@@ -1237,136 +1237,136 @@ func (data *DeviceTrackingPolicyData) fromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *DeviceTrackingPolicy) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trusted-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trusted-port"); value.Exists() {
 		data.TrustedPort = types.BoolValue(true)
 	} else {
 		data.TrustedPort = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role-config"); value.Exists() {
 		data.DeviceRole = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/node"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/node"); value.Exists() {
 		data.DeviceRoleNodeLegacy = types.BoolValue(value.Bool())
 	} else {
 		data.DeviceRoleNodeLegacy = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/switch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/switch"); value.Exists() {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/router"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/router"); value.Exists() {
 		data.DeviceRoleRouterLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleRouterLegacy = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/log-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/log-only"); value.Exists() {
 		data.DataGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DataGleanLogOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/recovery/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/recovery/dhcp"); value.Exists() {
 		data.DataGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/recovery/ndp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/recovery/ndp"); value.Exists() {
 		data.DataGleanRecoveryNdp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryNdp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-glean"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-glean"); value.Exists() {
 		data.PrefixGlean = types.BoolValue(true)
 	} else {
 		data.PrefixGlean = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-glean/only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-glean/only"); value.Exists() {
 		data.PrefixGleanOnly = types.BoolValue(true)
 	} else {
 		data.PrefixGleanOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination-glean/log-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination-glean/log-only"); value.Exists() {
 		data.DestinationGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DestinationGleanLogOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination-glean/recovery/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination-glean/recovery/dhcp"); value.Exists() {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-arp/arp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-arp/arp"); value.Exists() {
 		data.ProtocolArp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolArp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-arp/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-arp/prefix-list"); value.Exists() {
 		data.ProtocolArpPrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp4/dhcp4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp4/dhcp4"); value.Exists() {
 		data.ProtocolDhcp4 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp4 = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp4/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp4/prefix-list"); value.Exists() {
 		data.ProtocolDhcp4PrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp6/dhcp6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp6/dhcp6"); value.Exists() {
 		data.ProtocolDhcp6 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp6 = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp6/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp6/prefix-list"); value.Exists() {
 		data.ProtocolDhcp6PrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-ndp/ndp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-ndp/ndp"); value.Exists() {
 		data.ProtocolNdp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolNdp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-ndp/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-ndp/prefix-list"); value.Exists() {
 		data.ProtocolNdpPrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking"); value.Exists() {
 		data.TrackingEnable = types.BoolValue(true)
 	} else {
 		data.TrackingEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/seconds"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/seconds"); value.Exists() {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/infinite"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/infinite"); value.Exists() {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(true)
 	} else {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/disable-tracking"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/disable-tracking"); value.Exists() {
 		data.TrackingDisable = types.BoolValue(true)
 	} else {
 		data.TrackingDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/disable-tracking/stale-lifetime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/disable-tracking/stale-lifetime"); value.Exists() {
 		data.TrackingDisableStaleLifetime = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/limit/address-count"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/limit/address-count"); value.Exists() {
 		data.LimitAddressCount = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/glean"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/glean"); value.Exists() {
 		data.SecurityLevelGlean = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGlean = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/guard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/guard"); value.Exists() {
 		data.SecurityLevelGuard = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGuard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/inspect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/inspect"); value.Exists() {
 		data.SecurityLevelInspect = types.BoolValue(true)
 	} else {
 		data.SecurityLevelInspect = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/medium-type-wireless"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/medium-type-wireless"); value.Exists() {
 		data.MediumTypeWireless = types.BoolValue(true)
 	} else {
 		data.MediumTypeWireless = types.BoolValue(false)
@@ -1378,136 +1378,136 @@ func (data *DeviceTrackingPolicy) fromBodyXML(ctx context.Context, res xmldot.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *DeviceTrackingPolicyData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trusted-port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trusted-port"); value.Exists() {
 		data.TrustedPort = types.BoolValue(true)
 	} else {
 		data.TrustedPort = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role-config"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role-config"); value.Exists() {
 		data.DeviceRole = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/node"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/node"); value.Exists() {
 		data.DeviceRoleNodeLegacy = types.BoolValue(value.Bool())
 	} else {
 		data.DeviceRoleNodeLegacy = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/switch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/switch"); value.Exists() {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleSwitchLegacy = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/device-role/router"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/device-role/router"); value.Exists() {
 		data.DeviceRoleRouterLegacy = types.BoolValue(true)
 	} else {
 		data.DeviceRoleRouterLegacy = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/log-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/log-only"); value.Exists() {
 		data.DataGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DataGleanLogOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/recovery/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/recovery/dhcp"); value.Exists() {
 		data.DataGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/data-glean/recovery/ndp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/data-glean/recovery/ndp"); value.Exists() {
 		data.DataGleanRecoveryNdp = types.BoolValue(true)
 	} else {
 		data.DataGleanRecoveryNdp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-glean"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-glean"); value.Exists() {
 		data.PrefixGlean = types.BoolValue(true)
 	} else {
 		data.PrefixGlean = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-glean/only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-glean/only"); value.Exists() {
 		data.PrefixGleanOnly = types.BoolValue(true)
 	} else {
 		data.PrefixGleanOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination-glean/log-only"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination-glean/log-only"); value.Exists() {
 		data.DestinationGleanLogOnly = types.BoolValue(true)
 	} else {
 		data.DestinationGleanLogOnly = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/destination-glean/recovery/dhcp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/destination-glean/recovery/dhcp"); value.Exists() {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(true)
 	} else {
 		data.DestinationGleanRecoveryDhcp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-arp/arp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-arp/arp"); value.Exists() {
 		data.ProtocolArp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolArp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-arp/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-arp/prefix-list"); value.Exists() {
 		data.ProtocolArpPrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp4/dhcp4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp4/dhcp4"); value.Exists() {
 		data.ProtocolDhcp4 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp4 = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp4/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp4/prefix-list"); value.Exists() {
 		data.ProtocolDhcp4PrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp6/dhcp6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp6/dhcp6"); value.Exists() {
 		data.ProtocolDhcp6 = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolDhcp6 = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-dhcp6/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-dhcp6/prefix-list"); value.Exists() {
 		data.ProtocolDhcp6PrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-ndp/ndp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-ndp/ndp"); value.Exists() {
 		data.ProtocolNdp = types.BoolValue(value.Bool())
 	} else {
 		data.ProtocolNdp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protocol/proto-ndp/prefix-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protocol/proto-ndp/prefix-list"); value.Exists() {
 		data.ProtocolNdpPrefixList = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking"); value.Exists() {
 		data.TrackingEnable = types.BoolValue(true)
 	} else {
 		data.TrackingEnable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/seconds"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/seconds"); value.Exists() {
 		data.TrackingEnableReachableLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/enable-tracking/reachable-lifetime/infinite"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/enable-tracking/reachable-lifetime/infinite"); value.Exists() {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(true)
 	} else {
 		data.TrackingEnableReachableLifetimeInfinite = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/disable-tracking"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/disable-tracking"); value.Exists() {
 		data.TrackingDisable = types.BoolValue(true)
 	} else {
 		data.TrackingDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/tracking/disable-tracking/stale-lifetime"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/tracking/disable-tracking/stale-lifetime"); value.Exists() {
 		data.TrackingDisableStaleLifetime = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/limit/address-count"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/limit/address-count"); value.Exists() {
 		data.LimitAddressCount = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/glean"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/glean"); value.Exists() {
 		data.SecurityLevelGlean = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGlean = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/guard"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/guard"); value.Exists() {
 		data.SecurityLevelGuard = types.BoolValue(true)
 	} else {
 		data.SecurityLevelGuard = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/security-level/inspect"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/security-level/inspect"); value.Exists() {
 		data.SecurityLevelInspect = types.BoolValue(true)
 	} else {
 		data.SecurityLevelInspect = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/medium-type-wireless"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/medium-type-wireless"); value.Exists() {
 		data.MediumTypeWireless = types.BoolValue(true)
 	} else {
 		data.MediumTypeWireless = types.BoolValue(false)

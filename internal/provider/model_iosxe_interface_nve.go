@@ -23,67 +23,67 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type InterfaceNVE struct {
-	Device                      types.String          `tfsdk:"device"`
-	Id                          types.String          `tfsdk:"id"`
-	DeleteMode                  types.String          `tfsdk:"delete_mode"`
-	Name                        types.Int64           `tfsdk:"name"`
-	Description                 types.String          `tfsdk:"description"`
-	Shutdown                    types.Bool            `tfsdk:"shutdown"`
-	HostReachabilityProtocolBgp types.Bool            `tfsdk:"host_reachability_protocol_bgp"`
-	SourceInterfaceLoopback     types.Int64           `tfsdk:"source_interface_loopback"`
-	VniVrfs                     []InterfaceNVEVniVrfs `tfsdk:"vni_vrfs"`
-	Vnis                        []InterfaceNVEVnis    `tfsdk:"vnis"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.Int64 `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	HostReachabilityProtocolBgp types.Bool `tfsdk:"host_reachability_protocol_bgp"`
+	SourceInterfaceLoopback types.Int64 `tfsdk:"source_interface_loopback"`
+	VniVrfs []InterfaceNVEVniVrfs `tfsdk:"vni_vrfs"`
+	Vnis []InterfaceNVEVnis `tfsdk:"vnis"`
 }
 type InterfaceNVEVniVrfs struct {
 	VniRange types.String `tfsdk:"vni_range"`
-	Vrf      types.String `tfsdk:"vrf"`
+	Vrf types.String `tfsdk:"vrf"`
 }
 type InterfaceNVEVnis struct {
-	VniRange           types.String `tfsdk:"vni_range"`
+	VniRange types.String `tfsdk:"vni_range"`
 	Ipv4MulticastGroup types.String `tfsdk:"ipv4_multicast_group"`
-	IngressReplication types.Bool   `tfsdk:"ingress_replication"`
-	LocalRouting       types.Bool   `tfsdk:"local_routing"`
+	IngressReplication types.Bool `tfsdk:"ingress_replication"`
+	LocalRouting types.Bool `tfsdk:"local_routing"`
 }
 
 type InterfaceNVEData struct {
-	Device                      types.String              `tfsdk:"device"`
-	Id                          types.String              `tfsdk:"id"`
-	Name                        types.Int64               `tfsdk:"name"`
-	Description                 types.String              `tfsdk:"description"`
-	Shutdown                    types.Bool                `tfsdk:"shutdown"`
-	HostReachabilityProtocolBgp types.Bool                `tfsdk:"host_reachability_protocol_bgp"`
-	SourceInterfaceLoopback     types.Int64               `tfsdk:"source_interface_loopback"`
-	VniVrfs                     []InterfaceNVEVniVrfsData `tfsdk:"vni_vrfs"`
-	Vnis                        []InterfaceNVEVnisData    `tfsdk:"vnis"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.Int64 `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Shutdown types.Bool `tfsdk:"shutdown"`
+	HostReachabilityProtocolBgp types.Bool `tfsdk:"host_reachability_protocol_bgp"`
+	SourceInterfaceLoopback types.Int64 `tfsdk:"source_interface_loopback"`
+	VniVrfs []InterfaceNVEVniVrfsData `tfsdk:"vni_vrfs"`
+	Vnis []InterfaceNVEVnisData `tfsdk:"vnis"`
 }
 type InterfaceNVEVniVrfsData struct {
 	VniRange types.String `tfsdk:"vni_range"`
-	Vrf      types.String `tfsdk:"vrf"`
+	Vrf types.String `tfsdk:"vrf"`
 }
 type InterfaceNVEVnisData struct {
-	VniRange           types.String `tfsdk:"vni_range"`
+	VniRange types.String `tfsdk:"vni_range"`
 	Ipv4MulticastGroup types.String `tfsdk:"ipv4_multicast_group"`
-	IngressReplication types.Bool   `tfsdk:"ingress_replication"`
-	LocalRouting       types.Bool   `tfsdk:"local_routing"`
+	IngressReplication types.Bool `tfsdk:"ingress_replication"`
+	LocalRouting types.Bool `tfsdk:"local_routing"`
 }
 
 // End of section. //template:end types
@@ -189,27 +189,27 @@ func (data InterfaceNVE) toBody(ctx context.Context, config InterfaceNVE) string
 func (data InterfaceNVE) toBodyXML(ctx context.Context, config InterfaceNVE) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", strconv.FormatInt(data.Name.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", strconv.FormatInt(data.Name.ValueInt64(), 10))
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.Shutdown.IsNull() && !data.Shutdown.IsUnknown() {
 		if data.Shutdown.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/shutdown", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/shutdown", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/shutdown")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/shutdown")
 		}
 	}
 	if !data.HostReachabilityProtocolBgp.IsNull() && !data.HostReachabilityProtocolBgp.IsUnknown() {
 		if data.HostReachabilityProtocolBgp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/host-reachability/protocol/bgp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/host-reachability/protocol/bgp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/host-reachability/protocol/bgp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/host-reachability/protocol/bgp")
 		}
 	}
 	if !data.SourceInterfaceLoopback.IsNull() && !data.SourceInterfaceLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/source-interface/Loopback", strconv.FormatInt(data.SourceInterfaceLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/source-interface/Loopback", strconv.FormatInt(data.SourceInterfaceLoopback.ValueInt64(), 10))
 	}
 	if len(data.VniVrfs) > 0 {
 		for _, item := range data.VniVrfs {
@@ -265,17 +265,17 @@ func (data *InterfaceNVE) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.Int64Value(value.Int())
 	} else {
 		data.Name = types.Int64Null()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "shutdown"); !data.Shutdown.IsNull() {
+	if value := res.Get(prefix+"shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(true)
 		} else {
@@ -284,7 +284,7 @@ func (data *InterfaceNVE) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := res.Get(prefix + "host-reachability.protocol.bgp"); !data.HostReachabilityProtocolBgp.IsNull() {
+	if value := res.Get(prefix+"host-reachability.protocol.bgp"); !data.HostReachabilityProtocolBgp.IsNull() {
 		if value.Exists() {
 			data.HostReachabilityProtocolBgp = types.BoolValue(true)
 		} else {
@@ -293,17 +293,17 @@ func (data *InterfaceNVE) updateFromBody(ctx context.Context, res gjson.Result) 
 	} else {
 		data.HostReachabilityProtocolBgp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "source-interface.Loopback"); value.Exists() && !data.SourceInterfaceLoopback.IsNull() {
+	if value := res.Get(prefix+"source-interface.Loopback"); value.Exists() && !data.SourceInterfaceLoopback.IsNull() {
 		data.SourceInterfaceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.SourceInterfaceLoopback = types.Int64Null()
 	}
 	for i := range data.VniVrfs {
-		keys := [...]string{"vni-range"}
-		keyValues := [...]string{data.VniVrfs[i].VniRange.ValueString()}
+		keys := [...]string{ "vni-range",  }
+		keyValues := [...]string{ data.VniVrfs[i].VniRange.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "member-in-one-line.member.vni").ForEach(
+		res.Get(prefix+"member-in-one-line.member.vni").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -333,11 +333,11 @@ func (data *InterfaceNVE) updateFromBody(ctx context.Context, res gjson.Result) 
 		}
 	}
 	for i := range data.Vnis {
-		keys := [...]string{"vni-range"}
-		keyValues := [...]string{data.Vnis[i].VniRange.ValueString()}
+		keys := [...]string{ "vni-range",  }
+		keyValues := [...]string{ data.Vnis[i].VniRange.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "member.vni").ForEach(
+		res.Get(prefix+"member.vni").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -391,17 +391,17 @@ func (data *InterfaceNVE) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *InterfaceNVE) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.Int64Value(value.Int())
 	} else {
 		data.Name = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); !data.Shutdown.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); !data.Shutdown.IsNull() {
 		if value.Exists() {
 			data.Shutdown = types.BoolValue(true)
 		} else {
@@ -410,7 +410,7 @@ func (data *InterfaceNVE) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.Shutdown = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host-reachability/protocol/bgp"); !data.HostReachabilityProtocolBgp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host-reachability/protocol/bgp"); !data.HostReachabilityProtocolBgp.IsNull() {
 		if value.Exists() {
 			data.HostReachabilityProtocolBgp = types.BoolValue(true)
 		} else {
@@ -419,17 +419,17 @@ func (data *InterfaceNVE) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 	} else {
 		data.HostReachabilityProtocolBgp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source-interface/Loopback"); value.Exists() && !data.SourceInterfaceLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source-interface/Loopback"); value.Exists() && !data.SourceInterfaceLoopback.IsNull() {
 		data.SourceInterfaceLoopback = types.Int64Value(value.Int())
 	} else {
 		data.SourceInterfaceLoopback = types.Int64Null()
 	}
 	for i := range data.VniVrfs {
-		keys := [...]string{"vni-range"}
-		keyValues := [...]string{data.VniVrfs[i].VniRange.ValueString()}
+		keys := [...]string{ "vni-range",  }
+		keyValues := [...]string{ data.VniVrfs[i].VniRange.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/member-in-one-line/member/vni").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/member-in-one-line/member/vni").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -459,11 +459,11 @@ func (data *InterfaceNVE) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 		}
 	}
 	for i := range data.Vnis {
-		keys := [...]string{"vni-range"}
-		keyValues := [...]string{data.Vnis[i].VniRange.ValueString()}
+		keys := [...]string{ "vni-range",  }
+		keyValues := [...]string{ data.Vnis[i].VniRange.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -521,23 +521,23 @@ func (data *InterfaceNVE) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "host-reachability.protocol.bgp"); value.Exists() {
+	if value := res.Get(prefix+"host-reachability.protocol.bgp"); value.Exists() {
 		data.HostReachabilityProtocolBgp = types.BoolValue(true)
 	} else {
 		data.HostReachabilityProtocolBgp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "source-interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"source-interface.Loopback"); value.Exists() {
 		data.SourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member-in-one-line.member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member-in-one-line.member.vni"); value.Exists() {
 		data.VniVrfs = make([]InterfaceNVEVniVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfaceNVEVniVrfs{}
@@ -551,7 +551,7 @@ func (data *InterfaceNVE) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() {
 		data.Vnis = make([]InterfaceNVEVnis, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfaceNVEVnis{}
@@ -586,23 +586,23 @@ func (data *InterfaceNVEData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "shutdown"); value.Exists() {
+	if value := res.Get(prefix+"shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "host-reachability.protocol.bgp"); value.Exists() {
+	if value := res.Get(prefix+"host-reachability.protocol.bgp"); value.Exists() {
 		data.HostReachabilityProtocolBgp = types.BoolValue(true)
 	} else {
 		data.HostReachabilityProtocolBgp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "source-interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"source-interface.Loopback"); value.Exists() {
 		data.SourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member-in-one-line.member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member-in-one-line.member.vni"); value.Exists() {
 		data.VniVrfs = make([]InterfaceNVEVniVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfaceNVEVniVrfsData{}
@@ -616,7 +616,7 @@ func (data *InterfaceNVEData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() {
 		data.Vnis = make([]InterfaceNVEVnisData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := InterfaceNVEVnisData{}
@@ -647,23 +647,23 @@ func (data *InterfaceNVEData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *InterfaceNVE) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host-reachability/protocol/bgp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host-reachability/protocol/bgp"); value.Exists() {
 		data.HostReachabilityProtocolBgp = types.BoolValue(true)
 	} else {
 		data.HostReachabilityProtocolBgp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source-interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source-interface/Loopback"); value.Exists() {
 		data.SourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member-in-one-line/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member-in-one-line/member/vni"); value.Exists() {
 		data.VniVrfs = make([]InterfaceNVEVniVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfaceNVEVniVrfs{}
@@ -677,7 +677,7 @@ func (data *InterfaceNVE) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() {
 		data.Vnis = make([]InterfaceNVEVnis, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfaceNVEVnis{}
@@ -708,23 +708,23 @@ func (data *InterfaceNVE) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *InterfaceNVEData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/shutdown"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/shutdown"); value.Exists() {
 		data.Shutdown = types.BoolValue(true)
 	} else {
 		data.Shutdown = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/host-reachability/protocol/bgp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/host-reachability/protocol/bgp"); value.Exists() {
 		data.HostReachabilityProtocolBgp = types.BoolValue(true)
 	} else {
 		data.HostReachabilityProtocolBgp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/source-interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/source-interface/Loopback"); value.Exists() {
 		data.SourceInterfaceLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member-in-one-line/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member-in-one-line/member/vni"); value.Exists() {
 		data.VniVrfs = make([]InterfaceNVEVniVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfaceNVEVniVrfsData{}
@@ -738,7 +738,7 @@ func (data *InterfaceNVEData) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() {
 		data.Vnis = make([]InterfaceNVEVnisData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := InterfaceNVEVnisData{}
@@ -771,8 +771,8 @@ func (data *InterfaceNVEData) fromBodyXML(ctx context.Context, res xmldot.Result
 func (data *InterfaceNVE) getDeletedItems(ctx context.Context, state InterfaceNVE) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Vnis {
-		stateKeyValues := [...]string{state.Vnis[i].VniRange.ValueString()}
-
+		stateKeyValues := [...]string{ state.Vnis[i].VniRange.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vnis[i].VniRange.ValueString()).IsZero() {
 			emptyKeys = false
@@ -805,8 +805,8 @@ func (data *InterfaceNVE) getDeletedItems(ctx context.Context, state InterfaceNV
 		}
 	}
 	for i := range state.VniVrfs {
-		stateKeyValues := [...]string{state.VniVrfs[i].VniRange.ValueString()}
-
+		stateKeyValues := [...]string{ state.VniVrfs[i].VniRange.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.VniVrfs[i].VniRange.ValueString()).IsZero() {
 			emptyKeys = false
@@ -852,13 +852,13 @@ func (data *InterfaceNVE) getDeletedItems(ctx context.Context, state InterfaceNV
 func (data *InterfaceNVE) addDeletedItemsXML(ctx context.Context, state InterfaceNVE, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Vnis {
-		stateKeys := [...]string{"vni-range"}
-		stateKeyValues := [...]string{state.Vnis[i].VniRange.ValueString()}
+		stateKeys := [...]string{ "vni-range",  }
+		stateKeyValues := [...]string{ state.Vnis[i].VniRange.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vnis[i].VniRange.ValueString()).IsZero() {
 			emptyKeys = false
@@ -891,13 +891,13 @@ func (data *InterfaceNVE) addDeletedItemsXML(ctx context.Context, state Interfac
 		}
 	}
 	for i := range state.VniVrfs {
-		stateKeys := [...]string{"vni-range"}
-		stateKeyValues := [...]string{state.VniVrfs[i].VniRange.ValueString()}
+		stateKeys := [...]string{ "vni-range",  }
+		stateKeyValues := [...]string{ state.VniVrfs[i].VniRange.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.VniVrfs[i].VniRange.ValueString()).IsZero() {
 			emptyKeys = false
@@ -943,9 +943,10 @@ func (data *InterfaceNVE) addDeletedItemsXML(ctx context.Context, state Interfac
 
 func (data *InterfaceNVE) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Vnis {
-		keyValues := [...]string{data.Vnis[i].VniRange.ValueString()}
+		keyValues := [...]string{ data.Vnis[i].VniRange.ValueString(),  }
 		if !data.Vnis[i].LocalRouting.IsNull() && !data.Vnis[i].LocalRouting.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/member/vni=%v/ir-cp-config/local-routing", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -953,7 +954,8 @@ func (data *InterfaceNVE) getEmptyLeafsDelete(ctx context.Context) []string {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/member/vni=%v/ir-cp-config/ingress-replication", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	if !data.HostReachabilityProtocolBgp.IsNull() && !data.HostReachabilityProtocolBgp.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/host-reachability/protocol/bgp", data.getPath()))
 	}
@@ -971,12 +973,12 @@ func (data *InterfaceNVE) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *InterfaceNVE) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Vnis {
-		keyValues := [...]string{data.Vnis[i].VniRange.ValueString()}
+		keyValues := [...]string{ data.Vnis[i].VniRange.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/member/vni=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.VniVrfs {
-		keyValues := [...]string{data.VniVrfs[i].VniRange.ValueString()}
+		keyValues := [...]string{ data.VniVrfs[i].VniRange.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/member-in-one-line/member/vni=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1000,8 +1002,8 @@ func (data *InterfaceNVE) getDeletePaths(ctx context.Context) []string {
 func (data *InterfaceNVE) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Vnis {
-		keys := [...]string{"vni-range"}
-		keyValues := [...]string{data.Vnis[i].VniRange.ValueString()}
+		keys := [...]string{ "vni-range",  }
+		keyValues := [...]string{ data.Vnis[i].VniRange.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1010,8 +1012,8 @@ func (data *InterfaceNVE) addDeletePathsXML(ctx context.Context, body string) st
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/member/vni%v", predicates))
 	}
 	for i := range data.VniVrfs {
-		keys := [...]string{"vni-range"}
-		keyValues := [...]string{data.VniVrfs[i].VniRange.ValueString()}
+		keys := [...]string{ "vni-range",  }
+		keyValues := [...]string{ data.VniVrfs[i].VniRange.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

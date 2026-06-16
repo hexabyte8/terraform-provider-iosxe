@@ -44,7 +44,7 @@ func TestAccDataSourceIosxeFlowExporter(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeFlowExporterConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,7 +68,7 @@ func testAccDataSourceIosxeFlowExporterConfig() string {
 	config += `	ttl = 64` + "\n"
 	config += `	template_data_timeout = 60` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_flow_exporter" "test" {
 			name = "EXPORTER1"

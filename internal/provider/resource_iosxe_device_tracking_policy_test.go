@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -61,15 +59,15 @@ func TestAccIosxeDeviceTrackingPolicy(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeDeviceTrackingPolicyConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_device_tracking_policy.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeDeviceTrackingPolicyImportStateIdFunc("iosxe_device_tracking_policy.test"),
-				ImportStateVerifyIgnore: []string{"device_role_node_legacy", "device_role_switch_legacy", "device_role_router_legacy", "data_glean_log_only", "prefix_glean_only", "destination_glean_log_only", "tracking_enable_reachable_lifetime_infinite", "tracking_disable", "security_level_guard", "security_level_inspect", "medium_type_wireless"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_device_tracking_policy.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeDeviceTrackingPolicyImportStateIdFunc("iosxe_device_tracking_policy.test"),
+				ImportStateVerifyIgnore: []string{ "device_role_node_legacy","device_role_switch_legacy","device_role_router_legacy","data_glean_log_only","prefix_glean_only","destination_glean_log_only","tracking_enable_reachable_lifetime_infinite","tracking_disable","security_level_guard","security_level_inspect","medium_type_wireless", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

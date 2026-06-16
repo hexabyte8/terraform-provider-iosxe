@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -53,15 +52,15 @@ func TestAccIosxeBFDTemplateMultiHop(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeBFDTemplateMultiHopConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bfd_template_multi_hop.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBFDTemplateMultiHopImportStateIdFunc("iosxe_bfd_template_multi_hop.test"),
-				ImportStateVerifyIgnore: []string{"interval_microseconds", "dampening_down_monitoring"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bfd_template_multi_hop.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBFDTemplateMultiHopImportStateIdFunc("iosxe_bfd_template_multi_hop.test"),
+				ImportStateVerifyIgnore: []string{ "interval_microseconds","dampening_down_monitoring", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

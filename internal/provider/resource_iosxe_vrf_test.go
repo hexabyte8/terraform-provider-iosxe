@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -60,19 +59,19 @@ func TestAccIosxeVRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeVRFPrerequisitesConfig + testAccIosxeVRFConfig_minimum(),
+				Config: testAccIosxeVRFPrerequisitesConfig+testAccIosxeVRFConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeVRFPrerequisitesConfig + testAccIosxeVRFConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeVRFPrerequisitesConfig+testAccIosxeVRFConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_vrf.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeVRFImportStateIdFunc("iosxe_vrf.test"),
-				ImportStateVerifyIgnore: []string{"rd_auto", "ipv4_route_target_import_stitching.0.stitching", "ipv4_route_target_export_stitching.0.stitching", "ipv6_route_target_import_stitching.0.stitching", "ipv6_route_target_export_stitching.0.stitching", "ipv4_mdt_auto_discovery_vxlan", "ipv4_mdt_auto_discovery_vxlan_inter_as", "ipv4_mdt_auto_discovery_interworking_vxlan_pim", "ipv4_mdt_auto_discovery_interworking_vxlan_pim_inter_as", "ipv4_mdt_overlay_use_bgp", "ipv4_mdt_overlay_use_bgp_spt_only"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_vrf.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeVRFImportStateIdFunc("iosxe_vrf.test"),
+				ImportStateVerifyIgnore: []string{ "rd_auto","ipv4_route_target_import_stitching.0.stitching","ipv4_route_target_export_stitching.0.stitching","ipv6_route_target_import_stitching.0.stitching","ipv6_route_target_export_stitching.0.stitching","ipv4_mdt_auto_discovery_vxlan","ipv4_mdt_auto_discovery_vxlan_inter_as","ipv4_mdt_auto_discovery_interworking_vxlan_pim","ipv4_mdt_auto_discovery_interworking_vxlan_pim_inter_as","ipv4_mdt_overlay_use_bgp","ipv4_mdt_overlay_use_bgp_spt_only", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -112,7 +111,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -41,10 +40,10 @@ func TestAccDataSourceIosxeDHCP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_dhcp.test", "snooping_information_option", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_dhcp.test", "snooping_information_option_allow_untrusted", "true"))
 	if os.Getenv("IOSXE1712") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_dhcp.test", "snooping_vlans_legacy.0.vlan_id", "3-4"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_dhcp.test", "snooping_vlans_legacy.0.vlan_id", "3-4"))
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_dhcp.test", "snooping_vlans.0.vlan_id", "3"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_dhcp.test", "snooping_vlans.0.vlan_id", "3"))
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -52,7 +51,7 @@ func TestAccDataSourceIosxeDHCP(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeDHCPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -76,17 +75,17 @@ func testAccDataSourceIosxeDHCPConfig() string {
 	config += `	snooping_information_option = true` + "\n"
 	config += `	snooping_information_option_allow_untrusted = true` + "\n"
 	if os.Getenv("IOSXE1712") != "" {
-		config += `	snooping_vlans_legacy = [{` + "\n"
-		config += `		vlan_id = "3-4"` + "\n"
+	config += `	snooping_vlans_legacy = [{` + "\n"
+	config += `		vlan_id = "3-4"` + "\n"
 		config += `	}]` + "\n"
 	}
 	if os.Getenv("IOSXE1715") != "" {
-		config += `	snooping_vlans = [{` + "\n"
-		config += `		vlan_id = 3` + "\n"
+	config += `	snooping_vlans = [{` + "\n"
+	config += `		vlan_id = 3` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_dhcp" "test" {
 			depends_on = [iosxe_dhcp.test]

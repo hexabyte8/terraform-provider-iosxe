@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -56,19 +55,19 @@ func TestAccIosxeCryptoIKEv2Profile(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeCryptoIKEv2ProfilePrerequisitesConfig + testAccIosxeCryptoIKEv2ProfileConfig_minimum(),
+				Config: testAccIosxeCryptoIKEv2ProfilePrerequisitesConfig+testAccIosxeCryptoIKEv2ProfileConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeCryptoIKEv2ProfilePrerequisitesConfig + testAccIosxeCryptoIKEv2ProfileConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeCryptoIKEv2ProfilePrerequisitesConfig+testAccIosxeCryptoIKEv2ProfileConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_crypto_ikev2_profile.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeCryptoIKEv2ProfileImportStateIdFunc("iosxe_crypto_ikev2_profile.test"),
-				ImportStateVerifyIgnore: []string{"match_inbound_only"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_crypto_ikev2_profile.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeCryptoIKEv2ProfileImportStateIdFunc("iosxe_crypto_ikev2_profile.test"),
+				ImportStateVerifyIgnore: []string{ "match_inbound_only", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -108,7 +107,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

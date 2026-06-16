@@ -44,7 +44,7 @@ func TestAccDataSourceIosxeStaticRoute(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeStaticRouteConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,9 +68,9 @@ func testAccDataSourceIosxeStaticRouteConfig() string {
 	config += `		name = "Route1"` + "\n"
 	config += `		permanent = true` + "\n"
 	config += `		tag = 100` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_static_route" "test" {
 			prefix = "5.5.5.5"

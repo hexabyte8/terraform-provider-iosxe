@@ -23,44 +23,44 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ZoneSecurity struct {
-	Device      types.String       `tfsdk:"device"`
-	Id          types.String       `tfsdk:"id"`
-	DeleteMode  types.String       `tfsdk:"delete_mode"`
-	Name        types.String       `tfsdk:"name"`
-	Description types.String       `tfsdk:"description"`
-	Protection  types.String       `tfsdk:"protection"`
-	Vpns        []ZoneSecurityVpns `tfsdk:"vpns"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Protection types.String `tfsdk:"protection"`
+	Vpns []ZoneSecurityVpns `tfsdk:"vpns"`
 }
 type ZoneSecurityVpns struct {
 	Id types.Int64 `tfsdk:"id"`
 }
 
 type ZoneSecurityData struct {
-	Device      types.String           `tfsdk:"device"`
-	Id          types.String           `tfsdk:"id"`
-	Name        types.String           `tfsdk:"name"`
-	Description types.String           `tfsdk:"description"`
-	Protection  types.String           `tfsdk:"protection"`
-	Vpns        []ZoneSecurityVpnsData `tfsdk:"vpns"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Protection types.String `tfsdk:"protection"`
+	Vpns []ZoneSecurityVpnsData `tfsdk:"vpns"`
 }
 type ZoneSecurityVpnsData struct {
 	Id types.Int64 `tfsdk:"id"`
@@ -135,13 +135,13 @@ func (data ZoneSecurity) toBody(ctx context.Context, config ZoneSecurity) string
 func (data ZoneSecurity) toBodyXML(ctx context.Context, config ZoneSecurity) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Name.ValueString())
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.Protection.IsNull() && !data.Protection.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/protection", data.Protection.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/protection", data.Protection.ValueString())
 	}
 	if len(data.Vpns) > 0 {
 		for _, item := range data.Vpns {
@@ -168,27 +168,27 @@ func (data *ZoneSecurity) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "protection"); value.Exists() && !data.Protection.IsNull() {
+	if value := res.Get(prefix+"protection"); value.Exists() && !data.Protection.IsNull() {
 		data.Protection = types.StringValue(value.String())
 	} else {
 		data.Protection = types.StringNull()
 	}
 	for i := range data.Vpns {
-		keys := [...]string{"id"}
-		keyValues := [...]string{strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10)}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "vpn").ForEach(
+		res.Get(prefix+"vpn").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -219,27 +219,27 @@ func (data *ZoneSecurity) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ZoneSecurity) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protection"); value.Exists() && !data.Protection.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protection"); value.Exists() && !data.Protection.IsNull() {
 		data.Protection = types.StringValue(value.String())
 	} else {
 		data.Protection = types.StringNull()
 	}
 	for i := range data.Vpns {
-		keys := [...]string{"id"}
-		keyValues := [...]string{strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10)}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/vpn").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/vpn").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -274,13 +274,13 @@ func (data *ZoneSecurity) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protection"); value.Exists() {
+	if value := res.Get(prefix+"protection"); value.Exists() {
 		data.Protection = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "vpn"); value.Exists() {
+	if value := res.Get(prefix+"vpn"); value.Exists() {
 		data.Vpns = make([]ZoneSecurityVpns, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ZoneSecurityVpns{}
@@ -302,13 +302,13 @@ func (data *ZoneSecurityData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "protection"); value.Exists() {
+	if value := res.Get(prefix+"protection"); value.Exists() {
 		data.Protection = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "vpn"); value.Exists() {
+	if value := res.Get(prefix+"vpn"); value.Exists() {
 		data.Vpns = make([]ZoneSecurityVpnsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ZoneSecurityVpnsData{}
@@ -326,13 +326,13 @@ func (data *ZoneSecurityData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ZoneSecurity) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protection"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protection"); value.Exists() {
 		data.Protection = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vpn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vpn"); value.Exists() {
 		data.Vpns = make([]ZoneSecurityVpns, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ZoneSecurityVpns{}
@@ -350,13 +350,13 @@ func (data *ZoneSecurity) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ZoneSecurityData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/protection"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/protection"); value.Exists() {
 		data.Protection = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/vpn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/vpn"); value.Exists() {
 		data.Vpns = make([]ZoneSecurityVpnsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ZoneSecurityVpnsData{}
@@ -376,8 +376,8 @@ func (data *ZoneSecurityData) fromBodyXML(ctx context.Context, res xmldot.Result
 func (data *ZoneSecurity) getDeletedItems(ctx context.Context, state ZoneSecurity) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Vpns {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Vpns[i].Id.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Vpns[i].Id.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vpns[i].Id.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -417,13 +417,13 @@ func (data *ZoneSecurity) getDeletedItems(ctx context.Context, state ZoneSecurit
 func (data *ZoneSecurity) addDeletedItemsXML(ctx context.Context, state ZoneSecurity, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Vpns {
-		stateKeys := [...]string{"id"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Vpns[i].Id.ValueInt64(), 10)}
+		stateKeys := [...]string{ "id",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Vpns[i].Id.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Vpns[i].Id.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -463,6 +463,8 @@ func (data *ZoneSecurity) addDeletedItemsXML(ctx context.Context, state ZoneSecu
 
 func (data *ZoneSecurity) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -474,7 +476,7 @@ func (data *ZoneSecurity) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *ZoneSecurity) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Vpns {
-		keyValues := [...]string{strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/vpn=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -495,8 +497,8 @@ func (data *ZoneSecurity) getDeletePaths(ctx context.Context) []string {
 func (data *ZoneSecurity) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Vpns {
-		keys := [...]string{"id"}
-		keyValues := [...]string{strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10)}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Vpns[i].Id.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

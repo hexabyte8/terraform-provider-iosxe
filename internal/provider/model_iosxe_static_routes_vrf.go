@@ -23,80 +23,80 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type StaticRoutesVRF struct {
-	Device types.String            `tfsdk:"device"`
-	Id     types.String            `tfsdk:"id"`
-	Vrf    types.String            `tfsdk:"vrf"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Vrf types.String `tfsdk:"vrf"`
 	Routes []StaticRoutesVRFRoutes `tfsdk:"routes"`
 }
 type StaticRoutesVRFRoutes struct {
-	Prefix            types.String                             `tfsdk:"prefix"`
-	Mask              types.String                             `tfsdk:"mask"`
-	NextHops          []StaticRoutesVRFRoutesNextHops          `tfsdk:"next_hops"`
+	Prefix types.String `tfsdk:"prefix"`
+	Mask types.String `tfsdk:"mask"`
+	NextHops []StaticRoutesVRFRoutesNextHops `tfsdk:"next_hops"`
 	NextHopsWithTrack []StaticRoutesVRFRoutesNextHopsWithTrack `tfsdk:"next_hops_with_track"`
 }
 type StaticRoutesVRFRoutesNextHops struct {
-	NextHop   types.String `tfsdk:"next_hop"`
-	Distance  types.Int64  `tfsdk:"distance"`
-	Global    types.Bool   `tfsdk:"global"`
-	Name      types.String `tfsdk:"name"`
-	Permanent types.Bool   `tfsdk:"permanent"`
-	Tag       types.Int64  `tfsdk:"tag"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Global types.Bool `tfsdk:"global"`
+	Name types.String `tfsdk:"name"`
+	Permanent types.Bool `tfsdk:"permanent"`
+	Tag types.Int64 `tfsdk:"tag"`
 }
 type StaticRoutesVRFRoutesNextHopsWithTrack struct {
-	NextHop     types.String `tfsdk:"next_hop"`
-	Name        types.String `tfsdk:"name"`
-	TrackIdName types.Int64  `tfsdk:"track_id_name"`
-	Distance    types.Int64  `tfsdk:"distance"`
-	Tag         types.Int64  `tfsdk:"tag"`
-	Permanent   types.Bool   `tfsdk:"permanent"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Name types.String `tfsdk:"name"`
+	TrackIdName types.Int64 `tfsdk:"track_id_name"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Tag types.Int64 `tfsdk:"tag"`
+	Permanent types.Bool `tfsdk:"permanent"`
 }
 
 type StaticRoutesVRFData struct {
-	Device types.String                `tfsdk:"device"`
-	Id     types.String                `tfsdk:"id"`
-	Vrf    types.String                `tfsdk:"vrf"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Vrf types.String `tfsdk:"vrf"`
 	Routes []StaticRoutesVRFRoutesData `tfsdk:"routes"`
 }
 type StaticRoutesVRFRoutesData struct {
-	Prefix            types.String                                 `tfsdk:"prefix"`
-	Mask              types.String                                 `tfsdk:"mask"`
-	NextHops          []StaticRoutesVRFRoutesNextHopsData          `tfsdk:"next_hops"`
+	Prefix types.String `tfsdk:"prefix"`
+	Mask types.String `tfsdk:"mask"`
+	NextHops []StaticRoutesVRFRoutesNextHopsData `tfsdk:"next_hops"`
 	NextHopsWithTrack []StaticRoutesVRFRoutesNextHopsWithTrackData `tfsdk:"next_hops_with_track"`
 }
 type StaticRoutesVRFRoutesNextHopsData struct {
-	NextHop   types.String `tfsdk:"next_hop"`
-	Distance  types.Int64  `tfsdk:"distance"`
-	Global    types.Bool   `tfsdk:"global"`
-	Name      types.String `tfsdk:"name"`
-	Permanent types.Bool   `tfsdk:"permanent"`
-	Tag       types.Int64  `tfsdk:"tag"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Global types.Bool `tfsdk:"global"`
+	Name types.String `tfsdk:"name"`
+	Permanent types.Bool `tfsdk:"permanent"`
+	Tag types.Int64 `tfsdk:"tag"`
 }
 type StaticRoutesVRFRoutesNextHopsWithTrackData struct {
-	NextHop     types.String `tfsdk:"next_hop"`
-	Name        types.String `tfsdk:"name"`
-	TrackIdName types.Int64  `tfsdk:"track_id_name"`
-	Distance    types.Int64  `tfsdk:"distance"`
-	Tag         types.Int64  `tfsdk:"tag"`
-	Permanent   types.Bool   `tfsdk:"permanent"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Name types.String `tfsdk:"name"`
+	TrackIdName types.Int64 `tfsdk:"track_id_name"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Tag types.Int64 `tfsdk:"tag"`
+	Permanent types.Bool `tfsdk:"permanent"`
 }
 
 // End of section. //template:end types
@@ -217,7 +217,7 @@ func (data StaticRoutesVRF) toBody(ctx context.Context, config StaticRoutesVRF) 
 func (data StaticRoutesVRF) toBodyXML(ctx context.Context, config StaticRoutesVRF) string {
 	body := netconf.Body{}
 	if !data.Vrf.IsNull() && !data.Vrf.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Vrf.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Vrf.ValueString())
 	}
 	if len(data.Routes) > 0 {
 		for _, item := range data.Routes {
@@ -307,17 +307,17 @@ func (data *StaticRoutesVRF) updateFromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Vrf.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Vrf.IsNull() {
 		data.Vrf = types.StringValue(value.String())
 	} else {
 		data.Vrf = types.StringNull()
 	}
 	for i := range data.Routes {
-		keys := [...]string{"prefix", "mask"}
-		keyValues := [...]string{data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString()}
+		keys := [...]string{ "prefix", "mask",  }
+		keyValues := [...]string{ data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "ip-route-interface-forwarding-list").ForEach(
+		res.Get(prefix+"ip-route-interface-forwarding-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -346,8 +346,8 @@ func (data *StaticRoutesVRF) updateFromBody(ctx context.Context, res gjson.Resul
 			data.Routes[i].Mask = types.StringNull()
 		}
 		for ci := range data.Routes[i].NextHops {
-			keys := [...]string{"fwd"}
-			keyValues := [...]string{data.Routes[i].NextHops[ci].NextHop.ValueString()}
+			keys := [...]string{ "fwd",  }
+			keyValues := [...]string{ data.Routes[i].NextHops[ci].NextHop.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("fwd-list").ForEach(
@@ -408,8 +408,8 @@ func (data *StaticRoutesVRF) updateFromBody(ctx context.Context, res gjson.Resul
 			}
 		}
 		for ci := range data.Routes[i].NextHopsWithTrack {
-			keys := [...]string{"fwd"}
-			keyValues := [...]string{data.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString()}
+			keys := [...]string{ "fwd",  }
+			keyValues := [...]string{ data.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("fwd-list-with-track").ForEach(
@@ -473,17 +473,17 @@ func (data *StaticRoutesVRF) updateFromBody(ctx context.Context, res gjson.Resul
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *StaticRoutesVRF) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Vrf.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Vrf.IsNull() {
 		data.Vrf = types.StringValue(value.String())
 	} else {
 		data.Vrf = types.StringNull()
 	}
 	for i := range data.Routes {
-		keys := [...]string{"prefix", "mask"}
-		keyValues := [...]string{data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString()}
+		keys := [...]string{ "prefix", "mask",  }
+		keyValues := [...]string{ data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip-route-interface-forwarding-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip-route-interface-forwarding-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -512,8 +512,8 @@ func (data *StaticRoutesVRF) updateFromBodyXML(ctx context.Context, res xmldot.R
 			data.Routes[i].Mask = types.StringNull()
 		}
 		for ci := range data.Routes[i].NextHops {
-			keys := [...]string{"fwd"}
-			keyValues := [...]string{data.Routes[i].NextHops[ci].NextHop.ValueString()}
+			keys := [...]string{ "fwd",  }
+			keyValues := [...]string{ data.Routes[i].NextHops[ci].NextHop.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "fwd-list").ForEach(
@@ -574,8 +574,8 @@ func (data *StaticRoutesVRF) updateFromBodyXML(ctx context.Context, res xmldot.R
 			}
 		}
 		for ci := range data.Routes[i].NextHopsWithTrack {
-			keys := [...]string{"fwd"}
-			keyValues := [...]string{data.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString()}
+			keys := [...]string{ "fwd",  }
+			keyValues := [...]string{ data.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "fwd-list-with-track").ForEach(
@@ -643,7 +643,7 @@ func (data *StaticRoutesVRF) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "ip-route-interface-forwarding-list"); value.Exists() {
+	if value := res.Get(prefix+"ip-route-interface-forwarding-list"); value.Exists() {
 		data.Routes = make([]StaticRoutesVRFRoutes, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := StaticRoutesVRFRoutes{}
@@ -726,7 +726,7 @@ func (data *StaticRoutesVRFData) fromBody(ctx context.Context, res gjson.Result)
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "ip-route-interface-forwarding-list"); value.Exists() {
+	if value := res.Get(prefix+"ip-route-interface-forwarding-list"); value.Exists() {
 		data.Routes = make([]StaticRoutesVRFRoutesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := StaticRoutesVRFRoutesData{}
@@ -805,7 +805,7 @@ func (data *StaticRoutesVRFData) fromBody(ctx context.Context, res gjson.Result)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *StaticRoutesVRF) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip-route-interface-forwarding-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip-route-interface-forwarding-list"); value.Exists() {
 		data.Routes = make([]StaticRoutesVRFRoutes, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := StaticRoutesVRFRoutes{}
@@ -884,7 +884,7 @@ func (data *StaticRoutesVRF) fromBodyXML(ctx context.Context, res xmldot.Result)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *StaticRoutesVRFData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip-route-interface-forwarding-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip-route-interface-forwarding-list"); value.Exists() {
 		data.Routes = make([]StaticRoutesVRFRoutesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := StaticRoutesVRFRoutesData{}
@@ -965,8 +965,8 @@ func (data *StaticRoutesVRFData) fromBodyXML(ctx context.Context, res xmldot.Res
 func (data *StaticRoutesVRF) getDeletedItems(ctx context.Context, state StaticRoutesVRF) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Routes {
-		stateKeyValues := [...]string{state.Routes[i].Prefix.ValueString(), state.Routes[i].Mask.ValueString()}
-
+		stateKeyValues := [...]string{ state.Routes[i].Prefix.ValueString(), state.Routes[i].Mask.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Routes[i].Prefix.ValueString()).IsZero() {
 			emptyKeys = false
@@ -989,8 +989,8 @@ func (data *StaticRoutesVRF) getDeletedItems(ctx context.Context, state StaticRo
 			}
 			if found {
 				for ci := range state.Routes[i].NextHopsWithTrack {
-					cstateKeyValues := [...]string{state.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1029,8 +1029,8 @@ func (data *StaticRoutesVRF) getDeletedItems(ctx context.Context, state StaticRo
 					}
 				}
 				for ci := range state.Routes[i].NextHops {
-					cstateKeyValues := [...]string{state.Routes[i].NextHops[ci].NextHop.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Routes[i].NextHops[ci].NextHop.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Routes[i].NextHops[ci].NextHop.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1086,13 +1086,13 @@ func (data *StaticRoutesVRF) getDeletedItems(ctx context.Context, state StaticRo
 func (data *StaticRoutesVRF) addDeletedItemsXML(ctx context.Context, state StaticRoutesVRF, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Routes {
-		stateKeys := [...]string{"prefix", "mask"}
-		stateKeyValues := [...]string{state.Routes[i].Prefix.ValueString(), state.Routes[i].Mask.ValueString()}
+		stateKeys := [...]string{ "prefix", "mask",  }
+		stateKeyValues := [...]string{ state.Routes[i].Prefix.ValueString(), state.Routes[i].Mask.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Routes[i].Prefix.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1115,8 +1115,8 @@ func (data *StaticRoutesVRF) addDeletedItemsXML(ctx context.Context, state Stati
 			}
 			if found {
 				for ci := range state.Routes[i].NextHopsWithTrack {
-					cstateKeys := [...]string{"fwd"}
-					cstateKeyValues := [...]string{state.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString()}
+					cstateKeys := [...]string{ "fwd",  }
+					cstateKeyValues := [...]string{ state.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1160,8 +1160,8 @@ func (data *StaticRoutesVRF) addDeletedItemsXML(ctx context.Context, state Stati
 					}
 				}
 				for ci := range state.Routes[i].NextHops {
-					cstateKeys := [...]string{"fwd"}
-					cstateKeyValues := [...]string{state.Routes[i].NextHops[ci].NextHop.ValueString()}
+					cstateKeys := [...]string{ "fwd",  }
+					cstateKeyValues := [...]string{ state.Routes[i].NextHops[ci].NextHop.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1222,19 +1222,20 @@ func (data *StaticRoutesVRF) addDeletedItemsXML(ctx context.Context, state Stati
 
 func (data *StaticRoutesVRF) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Routes {
-		keyValues := [...]string{data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString()}
-
+		keyValues := [...]string{ data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString(),  }
+		
 		for ci := range data.Routes[i].NextHopsWithTrack {
-			ckeyValues := [...]string{data.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString()}
+			ckeyValues := [...]string{ data.Routes[i].NextHopsWithTrack[ci].NextHop.ValueString(),  }
 			if !data.Routes[i].NextHopsWithTrack[ci].Permanent.IsNull() && !data.Routes[i].NextHopsWithTrack[ci].Permanent.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ip-route-interface-forwarding-list=%v/fwd-list-with-track=%v/permanent", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
 		}
-
+		
 		for ci := range data.Routes[i].NextHops {
-			ckeyValues := [...]string{data.Routes[i].NextHops[ci].NextHop.ValueString()}
+			ckeyValues := [...]string{ data.Routes[i].NextHops[ci].NextHop.ValueString(),  }
 			if !data.Routes[i].NextHops[ci].Permanent.IsNull() && !data.Routes[i].NextHops[ci].Permanent.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/ip-route-interface-forwarding-list=%v/fwd-list=%v/permanent", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -1254,7 +1255,7 @@ func (data *StaticRoutesVRF) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *StaticRoutesVRF) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Routes {
-		keyValues := [...]string{data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString()}
+		keyValues := [...]string{ data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/ip-route-interface-forwarding-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1269,8 +1270,8 @@ func (data *StaticRoutesVRF) getDeletePaths(ctx context.Context) []string {
 func (data *StaticRoutesVRF) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Routes {
-		keys := [...]string{"prefix", "mask"}
-		keyValues := [...]string{data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString()}
+		keys := [...]string{ "prefix", "mask",  }
+		keyValues := [...]string{ data.Routes[i].Prefix.ValueString(), data.Routes[i].Mask.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

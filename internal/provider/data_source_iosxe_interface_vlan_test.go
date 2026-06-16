@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeInterfaceVLAN(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_vlan.test", "autostate", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_vlan.test", "description", "My Interface Description"))
@@ -75,8 +74,8 @@ func TestAccDataSourceIosxeInterfaceVLAN(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfaceVLANPrerequisitesConfig + testAccDataSourceIosxeInterfaceVLANConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfaceVLANPrerequisitesConfig+testAccDataSourceIosxeInterfaceVLANConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -97,7 +96,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -126,7 +124,7 @@ func testAccDataSourceIosxeInterfaceVLANConfig() string {
 	config += `		address = "10.10.10.10"` + "\n"
 	config += `		global = false` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	bfd_template = "bfd_template1"` + "\n"
 	config += `	bfd_enable = true` + "\n"
 	config += `	bfd_local_address = "1.2.3.4"` + "\n"
@@ -137,18 +135,18 @@ func testAccDataSourceIosxeInterfaceVLANConfig() string {
 	config += `	ipv6_link_local_addresses = [{` + "\n"
 	config += `		address = "fe80::9656:d028:8652:66bb"` + "\n"
 	config += `		link_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_addresses = [{` + "\n"
 	config += `		prefix = "2006:DB8::/32"` + "\n"
 	config += `		eui_64 = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	load_interval = 30` + "\n"
 	config += `	mac_address = "0000.dead.beef"` + "\n"
 	config += `	ip_dhcp_relay_information_option_vpn_id = true` + "\n"
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_vlan" "test" {
 			name = 10

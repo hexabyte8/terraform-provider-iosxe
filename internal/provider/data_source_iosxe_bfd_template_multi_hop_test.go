@@ -47,7 +47,7 @@ func TestAccDataSourceIosxeBFDTemplateMultiHop(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeBFDTemplateMultiHopConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -73,7 +73,7 @@ func testAccDataSourceIosxeBFDTemplateMultiHopConfig() string {
 	config += `	dampening_suppress_time = 1900` + "\n"
 	config += `	dampening_max_suppressing_time = 70` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bfd_template_multi_hop" "test" {
 			name = "T11"

@@ -23,23 +23,23 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
+	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -153,10 +153,10 @@ func (r *BGPBMPServerResource) Schema(ctx context.Context, req resource.SchemaRe
 				},
 			},
 			"ip_dscp": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("DSCP value").AddStringEnumDescription("0", "1", "2", "3", "4", "5", "6", "7").String,
+				MarkdownDescription: helpers.NewAttributeDescription("DSCP value").AddStringEnumDescription("0", "1", "2", "3", "4", "5", "6", "7", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("0", "1", "2", "3", "4", "5", "6", "7"),
+					stringvalidator.OneOf("0", "1", "2", "3", "4", "5", "6", "7", ),
 				},
 			},
 			"update_source_loopback": schema.Int64Attribute{
@@ -267,7 +267,7 @@ func (r *BGPBMPServerResource) Create(ctx context.Context, req resource.CreateRe
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -315,7 +315,7 @@ func (r *BGPBMPServerResource) Read(ctx context.Context, req resource.ReadReques
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

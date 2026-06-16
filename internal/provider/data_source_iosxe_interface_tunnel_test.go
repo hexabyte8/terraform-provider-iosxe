@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeInterfaceTunnel(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "description", "My Interface Description"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "shutdown", "false"))
@@ -79,8 +78,8 @@ func TestAccDataSourceIosxeInterfaceTunnel(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "ip_igmp_version", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "ip_tcp_adjust_mss", "1400"))
 	if os.Getenv("C8000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "ip_flow_monitors.0.name", "MON1"))
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "ip_flow_monitors.0.direction", "input"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "ip_flow_monitors.0.name", "MON1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "ip_flow_monitors.0.direction", "input"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "bandwidth", "1000000"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_tunnel.test", "tunnel_bandwidth_transmit", "1000"))
@@ -90,8 +89,8 @@ func TestAccDataSourceIosxeInterfaceTunnel(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeInterfaceTunnelPrerequisitesConfig + testAccDataSourceIosxeInterfaceTunnelConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeInterfaceTunnelPrerequisitesConfig+testAccDataSourceIosxeInterfaceTunnelConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -130,7 +129,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -152,11 +150,11 @@ func testAccDataSourceIosxeInterfaceTunnelConfig() string {
 	config += `	ipv6_link_local_addresses = [{` + "\n"
 	config += `		address = "fe80::9656:d028:8652:66ba"` + "\n"
 	config += `		link_local = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ipv6_addresses = [{` + "\n"
 	config += `		prefix = "2005:DB8::/32"` + "\n"
 	config += `		eui_64 = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	tunnel_destination_ipv4 = "2.2.2.2"` + "\n"
 	if os.Getenv("C8000V") != "" {
 		config += `	crypto_ipsec_df_bit = "clear"` + "\n"
@@ -174,7 +172,7 @@ func testAccDataSourceIosxeInterfaceTunnelConfig() string {
 	config += `		address = "10.10.10.10"` + "\n"
 	config += `		global = false` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	if os.Getenv("C8000V") != "" {
 		config += `	tunnel_mode_ipsec_ipv4 = true` + "\n"
 	}
@@ -188,9 +186,9 @@ func testAccDataSourceIosxeInterfaceTunnelConfig() string {
 	config += `	ip_igmp_version = 3` + "\n"
 	config += `	ip_tcp_adjust_mss = 1400` + "\n"
 	if os.Getenv("C8000V") != "" {
-		config += `	ip_flow_monitors = [{` + "\n"
-		config += `		name = "MON1"` + "\n"
-		config += `		direction = "input"` + "\n"
+	config += `	ip_flow_monitors = [{` + "\n"
+	config += `		name = "MON1"` + "\n"
+	config += `		direction = "input"` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `	bandwidth = 1000000` + "\n"
@@ -198,7 +196,7 @@ func testAccDataSourceIosxeInterfaceTunnelConfig() string {
 	config += `	tunnel_bandwidth_receive = 1000` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_tunnel" "test" {
 			name = 90

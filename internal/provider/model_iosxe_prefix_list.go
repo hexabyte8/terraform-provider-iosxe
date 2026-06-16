@@ -23,58 +23,58 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type PrefixList struct {
-	Device                types.String                      `tfsdk:"device"`
-	Id                    types.String                      `tfsdk:"id"`
-	Prefixes              []PrefixListPrefixes              `tfsdk:"prefixes"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Prefixes []PrefixListPrefixes `tfsdk:"prefixes"`
 	PrefixListDescription []PrefixListPrefixListDescription `tfsdk:"prefix_list_description"`
 }
 type PrefixListPrefixes struct {
-	Name   types.String `tfsdk:"name"`
-	Seq    types.Int64  `tfsdk:"seq"`
+	Name types.String `tfsdk:"name"`
+	Seq types.Int64 `tfsdk:"seq"`
 	Action types.String `tfsdk:"action"`
-	Ip     types.String `tfsdk:"ip"`
-	Ge     types.Int64  `tfsdk:"ge"`
-	Le     types.Int64  `tfsdk:"le"`
+	Ip types.String `tfsdk:"ip"`
+	Ge types.Int64 `tfsdk:"ge"`
+	Le types.Int64 `tfsdk:"le"`
 }
 type PrefixListPrefixListDescription struct {
-	Name        types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
 }
 
 type PrefixListData struct {
-	Device                types.String                          `tfsdk:"device"`
-	Id                    types.String                          `tfsdk:"id"`
-	Prefixes              []PrefixListPrefixesData              `tfsdk:"prefixes"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Prefixes []PrefixListPrefixesData `tfsdk:"prefixes"`
 	PrefixListDescription []PrefixListPrefixListDescriptionData `tfsdk:"prefix_list_description"`
 }
 type PrefixListPrefixesData struct {
-	Name   types.String `tfsdk:"name"`
-	Seq    types.Int64  `tfsdk:"seq"`
+	Name types.String `tfsdk:"name"`
+	Seq types.Int64 `tfsdk:"seq"`
 	Action types.String `tfsdk:"action"`
-	Ip     types.String `tfsdk:"ip"`
-	Ge     types.Int64  `tfsdk:"ge"`
-	Le     types.Int64  `tfsdk:"le"`
+	Ip types.String `tfsdk:"ip"`
+	Ge types.Int64 `tfsdk:"ge"`
+	Le types.Int64 `tfsdk:"le"`
 }
 type PrefixListPrefixListDescriptionData struct {
-	Name        types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
 }
 
@@ -214,11 +214,11 @@ func (data *PrefixList) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.Prefixes {
-		keys := [...]string{"name", "no"}
-		keyValues := [...]string{data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10)}
+		keys := [...]string{ "name", "no",  }
+		keyValues := [...]string{ data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "prefixes").ForEach(
+		res.Get(prefix+"prefixes").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -268,11 +268,11 @@ func (data *PrefixList) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.PrefixListDescription {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PrefixListDescription[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PrefixListDescription[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "prefix-list-description").ForEach(
+		res.Get(prefix+"prefix-list-description").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -309,11 +309,11 @@ func (data *PrefixList) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *PrefixList) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.Prefixes {
-		keys := [...]string{"name", "no"}
-		keyValues := [...]string{data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10)}
+		keys := [...]string{ "name", "no",  }
+		keyValues := [...]string{ data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefixes").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefixes").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -363,11 +363,11 @@ func (data *PrefixList) updateFromBodyXML(ctx context.Context, res xmldot.Result
 		}
 	}
 	for i := range data.PrefixListDescription {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PrefixListDescription[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PrefixListDescription[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-list-description").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-list-description").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -407,7 +407,7 @@ func (data *PrefixList) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "prefixes"); value.Exists() {
+	if value := res.Get(prefix+"prefixes"); value.Exists() {
 		data.Prefixes = make([]PrefixListPrefixes, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PrefixListPrefixes{}
@@ -433,7 +433,7 @@ func (data *PrefixList) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "prefix-list-description"); value.Exists() {
+	if value := res.Get(prefix+"prefix-list-description"); value.Exists() {
 		data.PrefixListDescription = make([]PrefixListPrefixListDescription, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PrefixListPrefixListDescription{}
@@ -458,7 +458,7 @@ func (data *PrefixListData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "prefixes"); value.Exists() {
+	if value := res.Get(prefix+"prefixes"); value.Exists() {
 		data.Prefixes = make([]PrefixListPrefixesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PrefixListPrefixesData{}
@@ -484,7 +484,7 @@ func (data *PrefixListData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "prefix-list-description"); value.Exists() {
+	if value := res.Get(prefix+"prefix-list-description"); value.Exists() {
 		data.PrefixListDescription = make([]PrefixListPrefixListDescriptionData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PrefixListPrefixListDescriptionData{}
@@ -505,7 +505,7 @@ func (data *PrefixListData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *PrefixList) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefixes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefixes"); value.Exists() {
 		data.Prefixes = make([]PrefixListPrefixes, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PrefixListPrefixes{}
@@ -531,7 +531,7 @@ func (data *PrefixList) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-list-description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-list-description"); value.Exists() {
 		data.PrefixListDescription = make([]PrefixListPrefixListDescription, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PrefixListPrefixListDescription{}
@@ -552,7 +552,7 @@ func (data *PrefixList) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *PrefixListData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefixes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefixes"); value.Exists() {
 		data.Prefixes = make([]PrefixListPrefixesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PrefixListPrefixesData{}
@@ -578,7 +578,7 @@ func (data *PrefixListData) fromBodyXML(ctx context.Context, res xmldot.Result) 
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-list-description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-list-description"); value.Exists() {
 		data.PrefixListDescription = make([]PrefixListPrefixListDescriptionData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PrefixListPrefixListDescriptionData{}
@@ -601,8 +601,8 @@ func (data *PrefixListData) fromBodyXML(ctx context.Context, res xmldot.Result) 
 func (data *PrefixList) getDeletedItems(ctx context.Context, state PrefixList) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.PrefixListDescription {
-		stateKeyValues := [...]string{state.PrefixListDescription[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.PrefixListDescription[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PrefixListDescription[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -629,8 +629,8 @@ func (data *PrefixList) getDeletedItems(ctx context.Context, state PrefixList) [
 		}
 	}
 	for i := range state.Prefixes {
-		stateKeyValues := [...]string{state.Prefixes[i].Name.ValueString(), strconv.FormatInt(state.Prefixes[i].Seq.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ state.Prefixes[i].Name.ValueString(), strconv.FormatInt(state.Prefixes[i].Seq.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Prefixes[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -682,13 +682,13 @@ func (data *PrefixList) getDeletedItems(ctx context.Context, state PrefixList) [
 func (data *PrefixList) addDeletedItemsXML(ctx context.Context, state PrefixList, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.PrefixListDescription {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.PrefixListDescription[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.PrefixListDescription[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.PrefixListDescription[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -715,13 +715,13 @@ func (data *PrefixList) addDeletedItemsXML(ctx context.Context, state PrefixList
 		}
 	}
 	for i := range state.Prefixes {
-		stateKeys := [...]string{"name", "no"}
-		stateKeyValues := [...]string{state.Prefixes[i].Name.ValueString(), strconv.FormatInt(state.Prefixes[i].Seq.ValueInt64(), 10)}
+		stateKeys := [...]string{ "name", "no",  }
+		stateKeyValues := [...]string{ state.Prefixes[i].Name.ValueString(), strconv.FormatInt(state.Prefixes[i].Seq.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Prefixes[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -773,6 +773,10 @@ func (data *PrefixList) addDeletedItemsXML(ctx context.Context, state PrefixList
 
 func (data *PrefixList) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -784,12 +788,12 @@ func (data *PrefixList) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *PrefixList) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.PrefixListDescription {
-		keyValues := [...]string{data.PrefixListDescription[i].Name.ValueString()}
+		keyValues := [...]string{ data.PrefixListDescription[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/prefix-list-description=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Prefixes {
-		keyValues := [...]string{data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10)}
+		keyValues := [...]string{ data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/prefixes=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -804,8 +808,8 @@ func (data *PrefixList) getDeletePaths(ctx context.Context) []string {
 func (data *PrefixList) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.PrefixListDescription {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.PrefixListDescription[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.PrefixListDescription[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -814,8 +818,8 @@ func (data *PrefixList) addDeletePathsXML(ctx context.Context, body string) stri
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/prefix-list-description%v", predicates))
 	}
 	for i := range data.Prefixes {
-		keys := [...]string{"name", "no"}
-		keyValues := [...]string{data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10)}
+		keys := [...]string{ "name", "no",  }
+		keyValues := [...]string{ data.Prefixes[i].Name.ValueString(), strconv.FormatInt(data.Prefixes[i].Seq.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

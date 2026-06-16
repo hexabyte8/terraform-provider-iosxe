@@ -23,42 +23,42 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type InterfacePIMIPv6 struct {
-	Device     types.String `tfsdk:"device"`
-	Id         types.String `tfsdk:"id"`
-	Type       types.String `tfsdk:"type"`
-	Name       types.String `tfsdk:"name"`
-	Pim        types.Bool   `tfsdk:"pim"`
-	Bfd        types.Bool   `tfsdk:"bfd"`
-	BsrBorder  types.Bool   `tfsdk:"bsr_border"`
-	DrPriority types.Int64  `tfsdk:"dr_priority"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Type types.String `tfsdk:"type"`
+	Name types.String `tfsdk:"name"`
+	Pim types.Bool `tfsdk:"pim"`
+	Bfd types.Bool `tfsdk:"bfd"`
+	BsrBorder types.Bool `tfsdk:"bsr_border"`
+	DrPriority types.Int64 `tfsdk:"dr_priority"`
 }
 
 type InterfacePIMIPv6Data struct {
-	Device     types.String `tfsdk:"device"`
-	Id         types.String `tfsdk:"id"`
-	Type       types.String `tfsdk:"type"`
-	Name       types.String `tfsdk:"name"`
-	Pim        types.Bool   `tfsdk:"pim"`
-	Bfd        types.Bool   `tfsdk:"bfd"`
-	BsrBorder  types.Bool   `tfsdk:"bsr_border"`
-	DrPriority types.Int64  `tfsdk:"dr_priority"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Type types.String `tfsdk:"type"`
+	Name types.String `tfsdk:"name"`
+	Pim types.Bool `tfsdk:"pim"`
+	Bfd types.Bool `tfsdk:"bfd"`
+	BsrBorder types.Bool `tfsdk:"bsr_border"`
+	DrPriority types.Int64 `tfsdk:"dr_priority"`
 }
 
 // End of section. //template:end types
@@ -129,24 +129,24 @@ func (data InterfacePIMIPv6) toBody(ctx context.Context, config InterfacePIMIPv6
 func (data InterfacePIMIPv6) toBodyXML(ctx context.Context, config InterfacePIMIPv6) string {
 	body := netconf.Body{}
 	if !data.Pim.IsNull() && !data.Pim.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:pim-conf/pim", data.Pim.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:pim-conf/pim", data.Pim.ValueBool())
 	}
 	if !data.Bfd.IsNull() && !data.Bfd.IsUnknown() {
 		if data.Bfd.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bfd", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bfd", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bfd")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bfd")
 		}
 	}
 	if !data.BsrBorder.IsNull() && !data.BsrBorder.IsUnknown() {
 		if data.BsrBorder.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bsr/border", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bsr/border", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bsr/border")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bsr/border")
 		}
 	}
 	if !data.DrPriority.IsNull() && !data.DrPriority.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/dr-priority", strconv.FormatInt(data.DrPriority.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/dr-priority", strconv.FormatInt(data.DrPriority.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -164,14 +164,14 @@ func (data *InterfacePIMIPv6) updateFromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-conf.pim"); !data.Pim.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-conf.pim"); !data.Pim.IsNull() {
 		if value.Exists() {
 			data.Pim = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.Pim = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.bfd"); !data.Bfd.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.bfd"); !data.Bfd.IsNull() {
 		if value.Exists() {
 			data.Bfd = types.BoolValue(true)
 		} else {
@@ -180,7 +180,7 @@ func (data *InterfacePIMIPv6) updateFromBody(ctx context.Context, res gjson.Resu
 	} else {
 		data.Bfd = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.bsr.border"); !data.BsrBorder.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.bsr.border"); !data.BsrBorder.IsNull() {
 		if value.Exists() {
 			data.BsrBorder = types.BoolValue(true)
 		} else {
@@ -189,7 +189,7 @@ func (data *InterfacePIMIPv6) updateFromBody(ctx context.Context, res gjson.Resu
 	} else {
 		data.BsrBorder = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.dr-priority"); value.Exists() && !data.DrPriority.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.dr-priority"); value.Exists() && !data.DrPriority.IsNull() {
 		data.DrPriority = types.Int64Value(value.Int())
 	} else {
 		data.DrPriority = types.Int64Null()
@@ -201,14 +201,14 @@ func (data *InterfacePIMIPv6) updateFromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *InterfacePIMIPv6) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-conf/pim"); !data.Pim.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-conf/pim"); !data.Pim.IsNull() {
 		if value.Exists() {
 			data.Pim = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.Pim = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bfd"); !data.Bfd.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bfd"); !data.Bfd.IsNull() {
 		if value.Exists() {
 			data.Bfd = types.BoolValue(true)
 		} else {
@@ -217,7 +217,7 @@ func (data *InterfacePIMIPv6) updateFromBodyXML(ctx context.Context, res xmldot.
 	} else {
 		data.Bfd = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bsr/border"); !data.BsrBorder.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bsr/border"); !data.BsrBorder.IsNull() {
 		if value.Exists() {
 			data.BsrBorder = types.BoolValue(true)
 		} else {
@@ -226,7 +226,7 @@ func (data *InterfacePIMIPv6) updateFromBodyXML(ctx context.Context, res xmldot.
 	} else {
 		data.BsrBorder = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/dr-priority"); value.Exists() && !data.DrPriority.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/dr-priority"); value.Exists() && !data.DrPriority.IsNull() {
 		data.DrPriority = types.Int64Value(value.Int())
 	} else {
 		data.DrPriority = types.Int64Null()
@@ -242,22 +242,22 @@ func (data *InterfacePIMIPv6) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-conf.pim"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-conf.pim"); value.Exists() {
 		data.Pim = types.BoolValue(value.Bool())
 	} else {
 		data.Pim = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.bfd"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.bfd"); value.Exists() {
 		data.Bfd = types.BoolValue(true)
 	} else {
 		data.Bfd = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.bsr.border"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.bsr.border"); value.Exists() {
 		data.BsrBorder = types.BoolValue(true)
 	} else {
 		data.BsrBorder = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.dr-priority"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.dr-priority"); value.Exists() {
 		data.DrPriority = types.Int64Value(value.Int())
 	}
 }
@@ -271,22 +271,22 @@ func (data *InterfacePIMIPv6Data) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-conf.pim"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-conf.pim"); value.Exists() {
 		data.Pim = types.BoolValue(value.Bool())
 	} else {
 		data.Pim = types.BoolNull()
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.bfd"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.bfd"); value.Exists() {
 		data.Bfd = types.BoolValue(true)
 	} else {
 		data.Bfd = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.bsr.border"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.bsr.border"); value.Exists() {
 		data.BsrBorder = types.BoolValue(true)
 	} else {
 		data.BsrBorder = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-multicast:pim-container.dr-priority"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-multicast:pim-container.dr-priority"); value.Exists() {
 		data.DrPriority = types.Int64Value(value.Int())
 	}
 }
@@ -296,22 +296,22 @@ func (data *InterfacePIMIPv6Data) fromBody(ctx context.Context, res gjson.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *InterfacePIMIPv6) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-conf/pim"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-conf/pim"); value.Exists() {
 		data.Pim = types.BoolValue(value.Bool())
 	} else {
 		data.Pim = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bfd"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bfd"); value.Exists() {
 		data.Bfd = types.BoolValue(true)
 	} else {
 		data.Bfd = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bsr/border"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bsr/border"); value.Exists() {
 		data.BsrBorder = types.BoolValue(true)
 	} else {
 		data.BsrBorder = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/dr-priority"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/dr-priority"); value.Exists() {
 		data.DrPriority = types.Int64Value(value.Int())
 	}
 }
@@ -321,22 +321,22 @@ func (data *InterfacePIMIPv6) fromBodyXML(ctx context.Context, res xmldot.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *InterfacePIMIPv6Data) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-conf/pim"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-conf/pim"); value.Exists() {
 		data.Pim = types.BoolValue(value.Bool())
 	} else {
 		data.Pim = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bfd"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bfd"); value.Exists() {
 		data.Bfd = types.BoolValue(true)
 	} else {
 		data.Bfd = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/bsr/border"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/bsr/border"); value.Exists() {
 		data.BsrBorder = types.BoolValue(true)
 	} else {
 		data.BsrBorder = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-multicast:pim-container/dr-priority"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-multicast:pim-container/dr-priority"); value.Exists() {
 		data.DrPriority = types.Int64Value(value.Int())
 	}
 }

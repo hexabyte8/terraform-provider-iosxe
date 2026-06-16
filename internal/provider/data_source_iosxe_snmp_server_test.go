@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -311,8 +310,8 @@ func TestAccDataSourceIosxeSNMPServer(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeSNMPServerPrerequisitesConfig + testAccDataSourceIosxeSNMPServerConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeSNMPServerPrerequisitesConfig+testAccDataSourceIosxeSNMPServerConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -339,7 +338,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -367,14 +365,14 @@ func testAccDataSourceIosxeSNMPServerConfig() string {
 	config += `		community_or_user = "08116C5D1A0E550518"` + "\n"
 	config += `		version = "2c"` + "\n"
 	config += `		encryption = "7"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	vrf_hosts = [{` + "\n"
 	config += `		ip_address = "11.1.1.1"` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
 	config += `		community_or_user = "08116C5D1A0E550518"` + "\n"
 	config += `		version = "2c"` + "\n"
 	config += `		encryption = "7"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	system_shutdown = true` + "\n"
 	config += `	enable_traps_flowmon = true` + "\n"
 	config += `	enable_traps_entity_perf_throughput_notif = true` + "\n"
@@ -619,15 +617,15 @@ func testAccDataSourceIosxeSNMPServerConfig() string {
 	config += `		permission = "ro"` + "\n"
 	config += `		ipv6 = "ACL1"` + "\n"
 	config += `		access_list_name = "1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	contexts = [{` + "\n"
 	config += `		name = "CON1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	views = [{` + "\n"
 	config += `		name = "VIEW1"` + "\n"
 	config += `		mib = "interfaces"` + "\n"
 	config += `		inc_exl = "included"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	groups = [{` + "\n"
 	config += `		name = "GROUP1"` + "\n"
 	config += `		v3_security = [{` + "\n"
@@ -638,7 +636,7 @@ func testAccDataSourceIosxeSNMPServerConfig() string {
 	config += `			notify_node = "VIEW3"` + "\n"
 	config += `			access_ipv6_acl = "V6ACL1"` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	users = [{` + "\n"
 	config += `		username = "USER1"` + "\n"
 	config += `		grpname = "GROUP1"` + "\n"
@@ -648,10 +646,10 @@ func testAccDataSourceIosxeSNMPServerConfig() string {
 	config += `		v3_auth_priv_aes_password = "Cisco123"` + "\n"
 	config += `		v3_auth_priv_aes_access_ipv6_acl = "V6ACL1"` + "\n"
 	config += `		v3_auth_priv_aes_access_acl_name = "ACL123"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_snmp_server" "test" {
 			depends_on = [iosxe_snmp_server.test]

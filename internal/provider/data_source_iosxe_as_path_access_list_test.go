@@ -40,7 +40,7 @@ func TestAccDataSourceIosxeASPathAccessList(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeASPathAccessListConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -59,9 +59,9 @@ func testAccDataSourceIosxeASPathAccessListConfig() string {
 	config += `	entries = [{` + "\n"
 	config += `		action = "permit"` + "\n"
 	config += `		regex = "^100$"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_as_path_access_list" "test" {
 			name = 10

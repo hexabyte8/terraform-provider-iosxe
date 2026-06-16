@@ -46,8 +46,8 @@ func TestAccDataSourceIosxeBGPIPv4UnicastNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPIPv4UnicastNeighborPrerequisitesConfig + testAccDataSourceIosxeBGPIPv4UnicastNeighborConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPIPv4UnicastNeighborPrerequisitesConfig+testAccDataSourceIosxeBGPIPv4UnicastNeighborConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -97,7 +97,6 @@ resource "iosxe_yang" "PreReq4" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -116,11 +115,11 @@ func testAccDataSourceIosxeBGPIPv4UnicastNeighborConfig() string {
 	config += `	route_maps = [{` + "\n"
 	config += `		in_out = "in"` + "\n"
 	config += `		route_map_name = "RM1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	inherit_peer_policy = "PEER_POLICY_TEMPLATE_1"` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, iosxe_yang.PreReq3, iosxe_yang.PreReq4, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_ipv4_unicast_neighbor" "test" {
 			asn = "65000"

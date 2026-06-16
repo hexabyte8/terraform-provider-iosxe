@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -55,15 +54,15 @@ func TestAccIosxeKeyChain(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeKeyChainConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_key_chain.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeKeyChainImportStateIdFunc("iosxe_key_chain.test"),
-				ImportStateVerifyIgnore: []string{"macsec", "tcp", "keys.0.accept_lifetime_local", "keys.0.send_lifetime_local", "keys.0.macsec_lifetime_local", "keys.0.macsec_lifetime_infinite"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_key_chain.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeKeyChainImportStateIdFunc("iosxe_key_chain.test"),
+				ImportStateVerifyIgnore: []string{ "macsec","tcp","keys.0.accept_lifetime_local","keys.0.send_lifetime_local","keys.0.macsec_lifetime_local","keys.0.macsec_lifetime_infinite", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

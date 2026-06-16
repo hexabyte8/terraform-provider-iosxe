@@ -59,7 +59,7 @@ func TestAccDataSourceIosxeServiceTemplate(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeServiceTemplateConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -77,7 +77,7 @@ func testAccDataSourceIosxeServiceTemplateConfig() string {
 	config += `	name = "MY_TEMPLATE"` + "\n"
 	config += `	access_groups = [{` + "\n"
 	config += `		name = "ag1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	inactivity_timer = 25` + "\n"
 	config += `	inactivity_timer_probe = false` + "\n"
 	config += `	vlan = 27` + "\n"
@@ -88,7 +88,7 @@ func testAccDataSourceIosxeServiceTemplateConfig() string {
 	config += `	description = "service_template_desc"` + "\n"
 	config += `	interface_templates = [{` + "\n"
 	config += `		name = "template1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	tunnel_capwap_name = "TUN1"` + "\n"
 	config += `	vnid = "12345"` + "\n"
 	config += `	redirect_append_client_mac = "00:01:00:01:00:01"` + "\n"
@@ -101,9 +101,9 @@ func testAccDataSourceIosxeServiceTemplateConfig() string {
 	config += `	service_policy_qos_output = "output_qos"` + "\n"
 	config += `	tags = [{` + "\n"
 	config += `		name = "tag_name"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_service_template" "test" {
 			name = "MY_TEMPLATE"

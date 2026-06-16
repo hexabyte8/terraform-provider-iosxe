@@ -65,8 +65,8 @@ func TestAccDataSourceIosxeBGPAddressFamilyIPv4VRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPAddressFamilyIPv4VRFPrerequisitesConfig + testAccDataSourceIosxeBGPAddressFamilyIPv4VRFConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPAddressFamilyIPv4VRFPrerequisitesConfig+testAccDataSourceIosxeBGPAddressFamilyIPv4VRFConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -106,7 +106,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -153,10 +152,10 @@ func testAccDataSourceIosxeBGPAddressFamilyIPv4VRFConfig() string {
 	config += `		ipv4_unicast_maximum_paths_ebgp = 2` + "\n"
 	config += `		ipv4_unicast_maximum_paths_ibgp = 2` + "\n"
 	config += `		ipv4_unicast_import_path_selection_all = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_address_family_ipv4_vrf" "test" {
 			asn = "65000"

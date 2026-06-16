@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeTemplate(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_template.test", "dot1x_pae", "both"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_template.test", "dot1x_max_reauth_req", "3"))
@@ -110,8 +109,8 @@ func TestAccDataSourceIosxeTemplate(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeTemplatePrerequisitesConfig + testAccDataSourceIosxeTemplateConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeTemplatePrerequisitesConfig+testAccDataSourceIosxeTemplateConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -131,7 +130,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -164,7 +162,7 @@ func testAccDataSourceIosxeTemplateConfig() string {
 	config += `		range = 100` + "\n"
 	config += `		vlan = true` + "\n"
 	config += `		vlan_access = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	switchport_port_security_violation_protect = false` + "\n"
 	config += `	switchport_port_security_violation_restrict = false` + "\n"
 	config += `	switchport_port_security_violation_shutdown = false` + "\n"
@@ -204,7 +202,7 @@ func testAccDataSourceIosxeTemplateConfig() string {
 	config += `	ip_access_group = [{` + "\n"
 	config += `		direction = "in"` + "\n"
 	config += `		access_list = "ACL1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	subscriber_aging_probe = true` + "\n"
 	config += `	device_tracking = true` + "\n"
 	config += `	device_tracking_vlan_range = "100-199"` + "\n"
@@ -215,7 +213,7 @@ func testAccDataSourceIosxeTemplateConfig() string {
 	config += `	cts_role_based_enforcement = false` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_template" "test" {
 			template_name = "TEMP1"

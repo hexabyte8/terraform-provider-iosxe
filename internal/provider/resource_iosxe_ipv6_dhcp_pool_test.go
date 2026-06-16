@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeIPv6DHCPPool(t *testing.T) {
 	if os.Getenv("ISR") == "" {
-		t.Skip("skipping test, set environment variable ISR")
-	}
+        t.Skip("skipping test, set environment variable ISR")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_ipv6_dhcp_pool.test", "name", "DHCPv6-PD"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_ipv6_dhcp_pool.test", "prefix_delegation_pool_name", "DHCPv6-PD"))
@@ -50,19 +48,19 @@ func TestAccIosxeIPv6DHCPPool(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeIPv6DHCPPoolPrerequisitesConfig + testAccIosxeIPv6DHCPPoolConfig_minimum(),
+				Config: testAccIosxeIPv6DHCPPoolPrerequisitesConfig+testAccIosxeIPv6DHCPPoolConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeIPv6DHCPPoolPrerequisitesConfig + testAccIosxeIPv6DHCPPoolConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeIPv6DHCPPoolPrerequisitesConfig+testAccIosxeIPv6DHCPPoolConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_ipv6_dhcp_pool.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeIPv6DHCPPoolImportStateIdFunc("iosxe_ipv6_dhcp_pool.test"),
-				ImportStateVerifyIgnore: []string{"option_include_all", "import_dns_server", "import_domain_name", "information_refresh_infinite"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_ipv6_dhcp_pool.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeIPv6DHCPPoolImportStateIdFunc("iosxe_ipv6_dhcp_pool.test"),
+				ImportStateVerifyIgnore: []string{ "option_include_all","import_dns_server","import_domain_name","information_refresh_infinite", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -105,7 +103,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

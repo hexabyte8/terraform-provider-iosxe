@@ -26,10 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -38,8 +34,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 )
 
 // End of section. //template:end imports
@@ -164,10 +164,10 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 							Required:            true,
 						},
 						"authorization": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Specify an authorization type for the applet").AddStringEnumDescription("bypass").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Specify an authorization type for the applet").AddStringEnumDescription("bypass", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("bypass"),
+								stringvalidator.OneOf("bypass", ),
 							},
 						},
 						"class": schema.StringAttribute{
@@ -186,17 +186,17 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 							Optional:            true,
 						},
 						"event_cli_sync": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("CLI and EEM policy execution sync or async").AddStringEnumDescription("no", "yes").String,
+							MarkdownDescription: helpers.NewAttributeDescription("CLI and EEM policy execution sync or async").AddStringEnumDescription("no", "yes", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("no", "yes"),
+								stringvalidator.OneOf("no", "yes", ),
 							},
 						},
 						"event_cli_skip": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("describes whether to skip CLI command execution").AddStringEnumDescription("no", "yes").String,
+							MarkdownDescription: helpers.NewAttributeDescription("describes whether to skip CLI command execution").AddStringEnumDescription("no", "yes", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("no", "yes"),
+								stringvalidator.OneOf("no", "yes", ),
 							},
 						},
 						"actions": schema.ListNestedAttribute{
@@ -261,10 +261,10 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 										Optional:            true,
 									},
 									"if_keyword": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("eq", "ge", "gt", "le", "lt", "ne").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("eq", "ge", "gt", "le", "lt", "ne", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("eq", "ge", "gt", "le", "lt", "ne"),
+											stringvalidator.OneOf("eq", "ge", "gt", "le", "lt", "ne", ),
 										},
 									},
 									"if_string_op_2": schema.StringAttribute{
@@ -280,10 +280,10 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 										Optional:            true,
 									},
 									"elseif_operation": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Operation of else if conditional").AddStringEnumDescription("eq", "ge", "gt", "le", "lt", "ne").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Operation of else if conditional").AddStringEnumDescription("eq", "ge", "gt", "le", "lt", "ne", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("eq", "ge", "gt", "le", "lt", "ne"),
+											stringvalidator.OneOf("eq", "ge", "gt", "le", "lt", "ne", ),
 										},
 									},
 									"elseif_operand2": schema.StringAttribute{
@@ -299,10 +299,10 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 										Optional:            true,
 									},
 									"while_operation": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Operation of while conditional").AddStringEnumDescription("eq", "ge", "gt", "le", "lt", "ne").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Operation of while conditional").AddStringEnumDescription("eq", "ge", "gt", "le", "lt", "ne", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("eq", "ge", "gt", "le", "lt", "ne"),
+											stringvalidator.OneOf("eq", "ge", "gt", "le", "lt", "ne", ),
 										},
 									},
 									"while_operand2": schema.StringAttribute{
@@ -435,10 +435,10 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 										Optional:            true,
 									},
 									"handle_error_type": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Error handle type of handle-error conditional").AddStringEnumDescription("exit", "ignore", "warn").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Error handle type of handle-error conditional").AddStringEnumDescription("exit", "ignore", "warn", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("exit", "ignore", "warn"),
+											stringvalidator.OneOf("exit", "ignore", "warn", ),
 										},
 									},
 									"counter_name": schema.StringAttribute{
@@ -495,10 +495,10 @@ func (r *EEMResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 										Optional:            true,
 									},
 									"info_type_snmp_var_oid_type": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("counter", "gauge", "int", "ipv4", "octet", "string", "uint").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("counter", "gauge", "int", "ipv4", "octet", "string", "uint", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("counter", "gauge", "int", "ipv4", "octet", "string", "uint"),
+											stringvalidator.OneOf("counter", "gauge", "int", "ipv4", "octet", "string", "uint", ),
 										},
 									},
 									"info_type_snmp_var_oid_type_value": schema.StringAttribute{
@@ -666,7 +666,7 @@ func (r *EEMResource) Create(ctx context.Context, req resource.CreateRequest, re
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -714,7 +714,7 @@ func (r *EEMResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

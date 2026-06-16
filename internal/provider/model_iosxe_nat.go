@@ -23,112 +23,112 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type NAT struct {
-	Device                     types.String                    `tfsdk:"device"`
-	Id                         types.String                    `tfsdk:"id"`
-	DeleteMode                 types.String                    `tfsdk:"delete_mode"`
-	InsideSourceInterfaces     []NATInsideSourceInterfaces     `tfsdk:"inside_source_interfaces"`
-	InsideSourceStaticEntries  []NATInsideSourceStaticEntries  `tfsdk:"inside_source_static_entries"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	InsideSourceInterfaces []NATInsideSourceInterfaces `tfsdk:"inside_source_interfaces"`
+	InsideSourceStaticEntries []NATInsideSourceStaticEntries `tfsdk:"inside_source_static_entries"`
 	OutsideSourceStaticEntries []NATOutsideSourceStaticEntries `tfsdk:"outside_source_static_entries"`
 }
 type NATInsideSourceInterfaces struct {
-	Id         types.String                          `tfsdk:"id"`
+	Id types.String `tfsdk:"id"`
 	Interfaces []NATInsideSourceInterfacesInterfaces `tfsdk:"interfaces"`
 }
 type NATInsideSourceStaticEntries struct {
-	LocalIp                 types.String `tfsdk:"local_ip"`
-	GlobalIp                types.String `tfsdk:"global_ip"`
-	Network                 types.String `tfsdk:"network"`
-	Mask                    types.String `tfsdk:"mask"`
-	Extendable              types.Bool   `tfsdk:"extendable"`
-	NoAlias                 types.Bool   `tfsdk:"no_alias"`
-	NoPayload               types.Bool   `tfsdk:"no_payload"`
-	RouteMap                types.String `tfsdk:"route_map"`
-	Reversible              types.Bool   `tfsdk:"reversible"`
-	Redundancy              types.String `tfsdk:"redundancy"`
-	MappingId               types.Int64  `tfsdk:"mapping_id"`
-	Stateless               types.Bool   `tfsdk:"stateless"`
-	Forced                  types.Bool   `tfsdk:"forced"`
-	InsideStaticOverload    types.Bool   `tfsdk:"inside_static_overload"`
-	InsideStaticPool        types.String `tfsdk:"inside_static_pool"`
+	LocalIp types.String `tfsdk:"local_ip"`
+	GlobalIp types.String `tfsdk:"global_ip"`
+	Network types.String `tfsdk:"network"`
+	Mask types.String `tfsdk:"mask"`
+	Extendable types.Bool `tfsdk:"extendable"`
+	NoAlias types.Bool `tfsdk:"no_alias"`
+	NoPayload types.Bool `tfsdk:"no_payload"`
+	RouteMap types.String `tfsdk:"route_map"`
+	Reversible types.Bool `tfsdk:"reversible"`
+	Redundancy types.String `tfsdk:"redundancy"`
+	MappingId types.Int64 `tfsdk:"mapping_id"`
+	Stateless types.Bool `tfsdk:"stateless"`
+	Forced types.Bool `tfsdk:"forced"`
+	InsideStaticOverload types.Bool `tfsdk:"inside_static_overload"`
+	InsideStaticPool types.String `tfsdk:"inside_static_pool"`
 	EgressInterfaceLoopback types.String `tfsdk:"egress_interface_loopback"`
 }
 type NATOutsideSourceStaticEntries struct {
-	GlobalIp          types.String `tfsdk:"global_ip"`
-	LocalIp           types.String `tfsdk:"local_ip"`
-	Network           types.String `tfsdk:"network"`
-	Mask              types.String `tfsdk:"mask"`
-	Extendable        types.Bool   `tfsdk:"extendable"`
-	NoPayload         types.Bool   `tfsdk:"no_payload"`
-	Redundancy        types.String `tfsdk:"redundancy"`
-	MatchInVrf        types.Bool   `tfsdk:"match_in_vrf"`
+	GlobalIp types.String `tfsdk:"global_ip"`
+	LocalIp types.String `tfsdk:"local_ip"`
+	Network types.String `tfsdk:"network"`
+	Mask types.String `tfsdk:"mask"`
+	Extendable types.Bool `tfsdk:"extendable"`
+	NoPayload types.Bool `tfsdk:"no_payload"`
+	Redundancy types.String `tfsdk:"redundancy"`
+	MatchInVrf types.Bool `tfsdk:"match_in_vrf"`
 	OutsideStaticPool types.String `tfsdk:"outside_static_pool"`
 }
 type NATInsideSourceInterfacesInterfaces struct {
 	Interface types.String `tfsdk:"interface"`
-	Overload  types.Bool   `tfsdk:"overload"`
+	Overload types.Bool `tfsdk:"overload"`
 }
 
 type NATData struct {
-	Device                     types.String                        `tfsdk:"device"`
-	Id                         types.String                        `tfsdk:"id"`
-	InsideSourceInterfaces     []NATInsideSourceInterfacesData     `tfsdk:"inside_source_interfaces"`
-	InsideSourceStaticEntries  []NATInsideSourceStaticEntriesData  `tfsdk:"inside_source_static_entries"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	InsideSourceInterfaces []NATInsideSourceInterfacesData `tfsdk:"inside_source_interfaces"`
+	InsideSourceStaticEntries []NATInsideSourceStaticEntriesData `tfsdk:"inside_source_static_entries"`
 	OutsideSourceStaticEntries []NATOutsideSourceStaticEntriesData `tfsdk:"outside_source_static_entries"`
 }
 type NATInsideSourceInterfacesData struct {
-	Id         types.String                              `tfsdk:"id"`
+	Id types.String `tfsdk:"id"`
 	Interfaces []NATInsideSourceInterfacesInterfacesData `tfsdk:"interfaces"`
 }
 type NATInsideSourceStaticEntriesData struct {
-	LocalIp                 types.String `tfsdk:"local_ip"`
-	GlobalIp                types.String `tfsdk:"global_ip"`
-	Network                 types.String `tfsdk:"network"`
-	Mask                    types.String `tfsdk:"mask"`
-	Extendable              types.Bool   `tfsdk:"extendable"`
-	NoAlias                 types.Bool   `tfsdk:"no_alias"`
-	NoPayload               types.Bool   `tfsdk:"no_payload"`
-	RouteMap                types.String `tfsdk:"route_map"`
-	Reversible              types.Bool   `tfsdk:"reversible"`
-	Redundancy              types.String `tfsdk:"redundancy"`
-	MappingId               types.Int64  `tfsdk:"mapping_id"`
-	Stateless               types.Bool   `tfsdk:"stateless"`
-	Forced                  types.Bool   `tfsdk:"forced"`
-	InsideStaticOverload    types.Bool   `tfsdk:"inside_static_overload"`
-	InsideStaticPool        types.String `tfsdk:"inside_static_pool"`
+	LocalIp types.String `tfsdk:"local_ip"`
+	GlobalIp types.String `tfsdk:"global_ip"`
+	Network types.String `tfsdk:"network"`
+	Mask types.String `tfsdk:"mask"`
+	Extendable types.Bool `tfsdk:"extendable"`
+	NoAlias types.Bool `tfsdk:"no_alias"`
+	NoPayload types.Bool `tfsdk:"no_payload"`
+	RouteMap types.String `tfsdk:"route_map"`
+	Reversible types.Bool `tfsdk:"reversible"`
+	Redundancy types.String `tfsdk:"redundancy"`
+	MappingId types.Int64 `tfsdk:"mapping_id"`
+	Stateless types.Bool `tfsdk:"stateless"`
+	Forced types.Bool `tfsdk:"forced"`
+	InsideStaticOverload types.Bool `tfsdk:"inside_static_overload"`
+	InsideStaticPool types.String `tfsdk:"inside_static_pool"`
 	EgressInterfaceLoopback types.String `tfsdk:"egress_interface_loopback"`
 }
 type NATOutsideSourceStaticEntriesData struct {
-	GlobalIp          types.String `tfsdk:"global_ip"`
-	LocalIp           types.String `tfsdk:"local_ip"`
-	Network           types.String `tfsdk:"network"`
-	Mask              types.String `tfsdk:"mask"`
-	Extendable        types.Bool   `tfsdk:"extendable"`
-	NoPayload         types.Bool   `tfsdk:"no_payload"`
-	Redundancy        types.String `tfsdk:"redundancy"`
-	MatchInVrf        types.Bool   `tfsdk:"match_in_vrf"`
+	GlobalIp types.String `tfsdk:"global_ip"`
+	LocalIp types.String `tfsdk:"local_ip"`
+	Network types.String `tfsdk:"network"`
+	Mask types.String `tfsdk:"mask"`
+	Extendable types.Bool `tfsdk:"extendable"`
+	NoPayload types.Bool `tfsdk:"no_payload"`
+	Redundancy types.String `tfsdk:"redundancy"`
+	MatchInVrf types.Bool `tfsdk:"match_in_vrf"`
 	OutsideStaticPool types.String `tfsdk:"outside_static_pool"`
 }
 type NATInsideSourceInterfacesInterfacesData struct {
 	Interface types.String `tfsdk:"interface"`
-	Overload  types.Bool   `tfsdk:"overload"`
+	Overload types.Bool `tfsdk:"overload"`
 }
 
 // End of section. //template:end types
@@ -475,11 +475,11 @@ func (data *NAT) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.InsideSourceInterfaces {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.InsideSourceInterfaces[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.InsideSourceInterfaces[i].Id.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "inside.source.list-interface.list").ForEach(
+		res.Get(prefix+"inside.source.list-interface.list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -503,8 +503,8 @@ func (data *NAT) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.InsideSourceInterfaces[i].Id = types.StringNull()
 		}
 		for ci := range data.InsideSourceInterfaces[i].Interfaces {
-			keys := [...]string{"name"}
-			keyValues := [...]string{data.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString()}
+			keys := [...]string{ "name",  }
+			keyValues := [...]string{ data.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("interface").ForEach(
@@ -542,11 +542,11 @@ func (data *NAT) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.InsideSourceStaticEntries {
-		keys := [...]string{"local-ip", "global-ip"}
-		keyValues := [...]string{data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
+		keys := [...]string{ "local-ip", "global-ip",  }
+		keyValues := [...]string{ data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "inside.source.static.nat-static-transport-list").ForEach(
+		res.Get(prefix+"inside.source.static.nat-static-transport-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -674,11 +674,11 @@ func (data *NAT) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.OutsideSourceStaticEntries {
-		keys := [...]string{"global-ip", "local-ip"}
-		keyValues := [...]string{data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
+		keys := [...]string{ "global-ip", "local-ip",  }
+		keyValues := [...]string{ data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "outside.source.static.nat-static-transport-list-no-vrf").ForEach(
+		res.Get(prefix+"outside.source.static.nat-static-transport-list-no-vrf").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -762,11 +762,11 @@ func (data *NAT) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *NAT) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.InsideSourceInterfaces {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.InsideSourceInterfaces[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.InsideSourceInterfaces[i].Id.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/inside/source/list-interface/list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/inside/source/list-interface/list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -790,8 +790,8 @@ func (data *NAT) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.InsideSourceInterfaces[i].Id = types.StringNull()
 		}
 		for ci := range data.InsideSourceInterfaces[i].Interfaces {
-			keys := [...]string{"name"}
-			keyValues := [...]string{data.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString()}
+			keys := [...]string{ "name",  }
+			keyValues := [...]string{ data.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "interface").ForEach(
@@ -829,11 +829,11 @@ func (data *NAT) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.InsideSourceStaticEntries {
-		keys := [...]string{"local-ip", "global-ip"}
-		keyValues := [...]string{data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
+		keys := [...]string{ "local-ip", "global-ip",  }
+		keyValues := [...]string{ data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/inside/source/static/nat-static-transport-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/inside/source/static/nat-static-transport-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -961,11 +961,11 @@ func (data *NAT) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.OutsideSourceStaticEntries {
-		keys := [...]string{"global-ip", "local-ip"}
-		keyValues := [...]string{data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
+		keys := [...]string{ "global-ip", "local-ip",  }
+		keyValues := [...]string{ data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/outside/source/static/nat-static-transport-list-no-vrf").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/outside/source/static/nat-static-transport-list-no-vrf").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1052,7 +1052,7 @@ func (data *NAT) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "inside.source.list-interface.list"); value.Exists() {
+	if value := res.Get(prefix+"inside.source.list-interface.list"); value.Exists() {
 		data.InsideSourceInterfaces = make([]NATInsideSourceInterfaces, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NATInsideSourceInterfaces{}
@@ -1079,7 +1079,7 @@ func (data *NAT) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inside.source.static.nat-static-transport-list"); value.Exists() {
+	if value := res.Get(prefix+"inside.source.static.nat-static-transport-list"); value.Exists() {
 		data.InsideSourceStaticEntries = make([]NATInsideSourceStaticEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NATInsideSourceStaticEntries{}
@@ -1149,7 +1149,7 @@ func (data *NAT) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "outside.source.static.nat-static-transport-list-no-vrf"); value.Exists() {
+	if value := res.Get(prefix+"outside.source.static.nat-static-transport-list-no-vrf"); value.Exists() {
 		data.OutsideSourceStaticEntries = make([]NATOutsideSourceStaticEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NATOutsideSourceStaticEntries{}
@@ -1201,7 +1201,7 @@ func (data *NATData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "inside.source.list-interface.list"); value.Exists() {
+	if value := res.Get(prefix+"inside.source.list-interface.list"); value.Exists() {
 		data.InsideSourceInterfaces = make([]NATInsideSourceInterfacesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NATInsideSourceInterfacesData{}
@@ -1228,7 +1228,7 @@ func (data *NATData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inside.source.static.nat-static-transport-list"); value.Exists() {
+	if value := res.Get(prefix+"inside.source.static.nat-static-transport-list"); value.Exists() {
 		data.InsideSourceStaticEntries = make([]NATInsideSourceStaticEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NATInsideSourceStaticEntriesData{}
@@ -1298,7 +1298,7 @@ func (data *NATData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "outside.source.static.nat-static-transport-list-no-vrf"); value.Exists() {
+	if value := res.Get(prefix+"outside.source.static.nat-static-transport-list-no-vrf"); value.Exists() {
 		data.OutsideSourceStaticEntries = make([]NATOutsideSourceStaticEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := NATOutsideSourceStaticEntriesData{}
@@ -1346,7 +1346,7 @@ func (data *NATData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *NAT) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inside/source/list-interface/list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inside/source/list-interface/list"); value.Exists() {
 		data.InsideSourceInterfaces = make([]NATInsideSourceInterfaces, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NATInsideSourceInterfaces{}
@@ -1373,7 +1373,7 @@ func (data *NAT) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inside/source/static/nat-static-transport-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inside/source/static/nat-static-transport-list"); value.Exists() {
 		data.InsideSourceStaticEntries = make([]NATInsideSourceStaticEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NATInsideSourceStaticEntries{}
@@ -1443,7 +1443,7 @@ func (data *NAT) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/outside/source/static/nat-static-transport-list-no-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/outside/source/static/nat-static-transport-list-no-vrf"); value.Exists() {
 		data.OutsideSourceStaticEntries = make([]NATOutsideSourceStaticEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NATOutsideSourceStaticEntries{}
@@ -1491,7 +1491,7 @@ func (data *NAT) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *NATData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inside/source/list-interface/list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inside/source/list-interface/list"); value.Exists() {
 		data.InsideSourceInterfaces = make([]NATInsideSourceInterfacesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NATInsideSourceInterfacesData{}
@@ -1518,7 +1518,7 @@ func (data *NATData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inside/source/static/nat-static-transport-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inside/source/static/nat-static-transport-list"); value.Exists() {
 		data.InsideSourceStaticEntries = make([]NATInsideSourceStaticEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NATInsideSourceStaticEntriesData{}
@@ -1588,7 +1588,7 @@ func (data *NATData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/outside/source/static/nat-static-transport-list-no-vrf"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/outside/source/static/nat-static-transport-list-no-vrf"); value.Exists() {
 		data.OutsideSourceStaticEntries = make([]NATOutsideSourceStaticEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := NATOutsideSourceStaticEntriesData{}
@@ -1638,8 +1638,8 @@ func (data *NATData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *NAT) getDeletedItems(ctx context.Context, state NAT) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.OutsideSourceStaticEntries {
-		stateKeyValues := [...]string{state.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), state.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
-
+		stateKeyValues := [...]string{ state.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), state.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.OutsideSourceStaticEntries[i].GlobalIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1690,8 +1690,8 @@ func (data *NAT) getDeletedItems(ctx context.Context, state NAT) []string {
 		}
 	}
 	for i := range state.InsideSourceStaticEntries {
-		stateKeyValues := [...]string{state.InsideSourceStaticEntries[i].LocalIp.ValueString(), state.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
-
+		stateKeyValues := [...]string{ state.InsideSourceStaticEntries[i].LocalIp.ValueString(), state.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InsideSourceStaticEntries[i].LocalIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1763,8 +1763,8 @@ func (data *NAT) getDeletedItems(ctx context.Context, state NAT) []string {
 		}
 	}
 	for i := range state.InsideSourceInterfaces {
-		stateKeyValues := [...]string{state.InsideSourceInterfaces[i].Id.ValueString()}
-
+		stateKeyValues := [...]string{ state.InsideSourceInterfaces[i].Id.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InsideSourceInterfaces[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1781,8 +1781,8 @@ func (data *NAT) getDeletedItems(ctx context.Context, state NAT) []string {
 			}
 			if found {
 				for ci := range state.InsideSourceInterfaces[i].Interfaces {
-					cstateKeyValues := [...]string{state.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString()}
-
+					cstateKeyValues := [...]string{ state.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1826,13 +1826,13 @@ func (data *NAT) getDeletedItems(ctx context.Context, state NAT) []string {
 func (data *NAT) addDeletedItemsXML(ctx context.Context, state NAT, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.OutsideSourceStaticEntries {
-		stateKeys := [...]string{"global-ip", "local-ip"}
-		stateKeyValues := [...]string{state.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), state.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
+		stateKeys := [...]string{ "global-ip", "local-ip",  }
+		stateKeyValues := [...]string{ state.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), state.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.OutsideSourceStaticEntries[i].GlobalIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1883,13 +1883,13 @@ func (data *NAT) addDeletedItemsXML(ctx context.Context, state NAT, body string)
 		}
 	}
 	for i := range state.InsideSourceStaticEntries {
-		stateKeys := [...]string{"local-ip", "global-ip"}
-		stateKeyValues := [...]string{state.InsideSourceStaticEntries[i].LocalIp.ValueString(), state.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
+		stateKeys := [...]string{ "local-ip", "global-ip",  }
+		stateKeyValues := [...]string{ state.InsideSourceStaticEntries[i].LocalIp.ValueString(), state.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InsideSourceStaticEntries[i].LocalIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1961,13 +1961,13 @@ func (data *NAT) addDeletedItemsXML(ctx context.Context, state NAT, body string)
 		}
 	}
 	for i := range state.InsideSourceInterfaces {
-		stateKeys := [...]string{"id"}
-		stateKeyValues := [...]string{state.InsideSourceInterfaces[i].Id.ValueString()}
+		stateKeys := [...]string{ "id",  }
+		stateKeyValues := [...]string{ state.InsideSourceInterfaces[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InsideSourceInterfaces[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1984,8 +1984,8 @@ func (data *NAT) addDeletedItemsXML(ctx context.Context, state NAT, body string)
 			}
 			if found {
 				for ci := range state.InsideSourceInterfaces[i].Interfaces {
-					cstateKeys := [...]string{"name"}
-					cstateKeyValues := [...]string{state.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString()}
+					cstateKeys := [...]string{ "name",  }
+					cstateKeyValues := [...]string{ state.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2034,9 +2034,10 @@ func (data *NAT) addDeletedItemsXML(ctx context.Context, state NAT, body string)
 
 func (data *NAT) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.OutsideSourceStaticEntries {
-		keyValues := [...]string{data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
+		keyValues := [...]string{ data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
 		if !data.OutsideSourceStaticEntries[i].MatchInVrf.IsNull() && !data.OutsideSourceStaticEntries[i].MatchInVrf.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/outside/source/static/nat-static-transport-list-no-vrf=%v/match-in-vrf", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -2047,9 +2048,10 @@ func (data *NAT) getEmptyLeafsDelete(ctx context.Context) []string {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/outside/source/static/nat-static-transport-list-no-vrf=%v/extendable", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.InsideSourceStaticEntries {
-		keyValues := [...]string{data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
+		keyValues := [...]string{ data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
 		if !data.InsideSourceStaticEntries[i].InsideStaticOverload.IsNull() && !data.InsideSourceStaticEntries[i].InsideStaticOverload.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/inside/source/static/nat-static-transport-list=%v/overload", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -2072,12 +2074,13 @@ func (data *NAT) getEmptyLeafsDelete(ctx context.Context) []string {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/inside/source/static/nat-static-transport-list=%v/extendable", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.InsideSourceInterfaces {
-		keyValues := [...]string{data.InsideSourceInterfaces[i].Id.ValueString()}
-
+		keyValues := [...]string{ data.InsideSourceInterfaces[i].Id.ValueString(),  }
+		
 		for ci := range data.InsideSourceInterfaces[i].Interfaces {
-			ckeyValues := [...]string{data.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString()}
+			ckeyValues := [...]string{ data.InsideSourceInterfaces[i].Interfaces[ci].Interface.ValueString(),  }
 			if !data.InsideSourceInterfaces[i].Interfaces[ci].Overload.IsNull() && !data.InsideSourceInterfaces[i].Interfaces[ci].Overload.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/inside/source/list-interface/list=%v/interface=%v/overload-new", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -2094,17 +2097,17 @@ func (data *NAT) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *NAT) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.OutsideSourceStaticEntries {
-		keyValues := [...]string{data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
+		keyValues := [...]string{ data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/outside/source/static/nat-static-transport-list-no-vrf=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.InsideSourceStaticEntries {
-		keyValues := [...]string{data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
+		keyValues := [...]string{ data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/inside/source/static/nat-static-transport-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.InsideSourceInterfaces {
-		keyValues := [...]string{data.InsideSourceInterfaces[i].Id.ValueString()}
+		keyValues := [...]string{ data.InsideSourceInterfaces[i].Id.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/inside/source/list-interface/list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2119,8 +2122,8 @@ func (data *NAT) getDeletePaths(ctx context.Context) []string {
 func (data *NAT) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.OutsideSourceStaticEntries {
-		keys := [...]string{"global-ip", "local-ip"}
-		keyValues := [...]string{data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString()}
+		keys := [...]string{ "global-ip", "local-ip",  }
+		keyValues := [...]string{ data.OutsideSourceStaticEntries[i].GlobalIp.ValueString(), data.OutsideSourceStaticEntries[i].LocalIp.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2129,8 +2132,8 @@ func (data *NAT) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/outside/source/static/nat-static-transport-list-no-vrf%v", predicates))
 	}
 	for i := range data.InsideSourceStaticEntries {
-		keys := [...]string{"local-ip", "global-ip"}
-		keyValues := [...]string{data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString()}
+		keys := [...]string{ "local-ip", "global-ip",  }
+		keyValues := [...]string{ data.InsideSourceStaticEntries[i].LocalIp.ValueString(), data.InsideSourceStaticEntries[i].GlobalIp.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2139,8 +2142,8 @@ func (data *NAT) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/inside/source/static/nat-static-transport-list%v", predicates))
 	}
 	for i := range data.InsideSourceInterfaces {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.InsideSourceInterfaces[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.InsideSourceInterfaces[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

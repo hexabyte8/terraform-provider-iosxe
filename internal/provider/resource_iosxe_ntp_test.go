@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -76,19 +75,19 @@ func TestAccIosxeNTP(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeNTPPrerequisitesConfig + testAccIosxeNTPConfig_minimum(),
+				Config: testAccIosxeNTPPrerequisitesConfig+testAccIosxeNTPConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeNTPPrerequisitesConfig + testAccIosxeNTPConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeNTPPrerequisitesConfig+testAccIosxeNTPConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_ntp.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeNTPImportStateIdFunc("iosxe_ntp.test"),
-				ImportStateVerifyIgnore: []string{"servers.0.periodic", "server_vrfs.0.servers.0.periodic"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_ntp.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeNTPImportStateIdFunc("iosxe_ntp.test"),
+				ImportStateVerifyIgnore: []string{ "servers.0.periodic","server_vrfs.0.servers.0.periodic", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -101,7 +100,7 @@ func TestAccIosxeNTP(t *testing.T) {
 func iosxeNTPImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 
@@ -133,7 +132,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

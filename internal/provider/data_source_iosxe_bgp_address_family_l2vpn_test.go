@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeBGPAddressFamilyL2VPN(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bgp_address_family_l2vpn.test", "rewrite_evpn_rt_asn", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_bgp_address_family_l2vpn.test", "bgp_nexthop_trigger_delay", "10"))
@@ -43,8 +42,8 @@ func TestAccDataSourceIosxeBGPAddressFamilyL2VPN(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPAddressFamilyL2VPNPrerequisitesConfig + testAccDataSourceIosxeBGPAddressFamilyL2VPNConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPAddressFamilyL2VPNPrerequisitesConfig+testAccDataSourceIosxeBGPAddressFamilyL2VPNConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -62,7 +61,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -76,7 +74,7 @@ func testAccDataSourceIosxeBGPAddressFamilyL2VPNConfig() string {
 	config += `	bgp_nexthop_trigger_delay = 10` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_address_family_l2vpn" "test" {
 			asn = "65000"

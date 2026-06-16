@@ -23,54 +23,54 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPPeerPolicyTemplate struct {
-	Device                 types.String                     `tfsdk:"device"`
-	Id                     types.String                     `tfsdk:"id"`
-	DeleteMode             types.String                     `tfsdk:"delete_mode"`
-	Asn                    types.String                     `tfsdk:"asn"`
-	Name                   types.String                     `tfsdk:"name"`
-	RouteReflectorClient   types.Bool                       `tfsdk:"route_reflector_client"`
-	SendCommunity          types.String                     `tfsdk:"send_community"`
-	RouteMaps              []BGPPeerPolicyTemplateRouteMaps `tfsdk:"route_maps"`
-	AllowasInAsNumber      types.Int64                      `tfsdk:"allowas_in_as_number"`
-	AsOverrideSplitHorizon types.Bool                       `tfsdk:"as_override_split_horizon"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	Name types.String `tfsdk:"name"`
+	RouteReflectorClient types.Bool `tfsdk:"route_reflector_client"`
+	SendCommunity types.String `tfsdk:"send_community"`
+	RouteMaps []BGPPeerPolicyTemplateRouteMaps `tfsdk:"route_maps"`
+	AllowasInAsNumber types.Int64 `tfsdk:"allowas_in_as_number"`
+	AsOverrideSplitHorizon types.Bool `tfsdk:"as_override_split_horizon"`
 }
 type BGPPeerPolicyTemplateRouteMaps struct {
-	InOut        types.String `tfsdk:"in_out"`
+	InOut types.String `tfsdk:"in_out"`
 	RouteMapName types.String `tfsdk:"route_map_name"`
 }
 
 type BGPPeerPolicyTemplateData struct {
-	Device                 types.String                         `tfsdk:"device"`
-	Id                     types.String                         `tfsdk:"id"`
-	Asn                    types.String                         `tfsdk:"asn"`
-	Name                   types.String                         `tfsdk:"name"`
-	RouteReflectorClient   types.Bool                           `tfsdk:"route_reflector_client"`
-	SendCommunity          types.String                         `tfsdk:"send_community"`
-	RouteMaps              []BGPPeerPolicyTemplateRouteMapsData `tfsdk:"route_maps"`
-	AllowasInAsNumber      types.Int64                          `tfsdk:"allowas_in_as_number"`
-	AsOverrideSplitHorizon types.Bool                           `tfsdk:"as_override_split_horizon"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	Name types.String `tfsdk:"name"`
+	RouteReflectorClient types.Bool `tfsdk:"route_reflector_client"`
+	SendCommunity types.String `tfsdk:"send_community"`
+	RouteMaps []BGPPeerPolicyTemplateRouteMapsData `tfsdk:"route_maps"`
+	AllowasInAsNumber types.Int64 `tfsdk:"allowas_in_as_number"`
+	AsOverrideSplitHorizon types.Bool `tfsdk:"as_override_split_horizon"`
 }
 type BGPPeerPolicyTemplateRouteMapsData struct {
-	InOut        types.String `tfsdk:"in_out"`
+	InOut types.String `tfsdk:"in_out"`
 	RouteMapName types.String `tfsdk:"route_map_name"`
 }
 
@@ -156,17 +156,17 @@ func (data BGPPeerPolicyTemplate) toBody(ctx context.Context, config BGPPeerPoli
 func (data BGPPeerPolicyTemplate) toBodyXML(ctx context.Context, config BGPPeerPolicyTemplate) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.RouteReflectorClient.IsNull() && !data.RouteReflectorClient.IsUnknown() {
 		if data.RouteReflectorClient.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/route-reflector-client", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/route-reflector-client", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/route-reflector-client")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/route-reflector-client")
 		}
 	}
 	if !data.SendCommunity.IsNull() && !data.SendCommunity.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/send-community/send-community-where", data.SendCommunity.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/send-community/send-community-where", data.SendCommunity.ValueString())
 	}
 	if len(data.RouteMaps) > 0 {
 		for _, item := range data.RouteMaps {
@@ -181,13 +181,13 @@ func (data BGPPeerPolicyTemplate) toBodyXML(ctx context.Context, config BGPPeerP
 		}
 	}
 	if !data.AllowasInAsNumber.IsNull() && !data.AllowasInAsNumber.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/allowas-in/as-number", strconv.FormatInt(data.AllowasInAsNumber.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/allowas-in/as-number", strconv.FormatInt(data.AllowasInAsNumber.ValueInt64(), 10))
 	}
 	if !data.AsOverrideSplitHorizon.IsNull() && !data.AsOverrideSplitHorizon.IsUnknown() {
 		if data.AsOverrideSplitHorizon.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/as-override/split-horizon", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/as-override/split-horizon", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/as-override/split-horizon")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/as-override/split-horizon")
 		}
 	}
 	bodyString, err := body.String()
@@ -206,12 +206,12 @@ func (data *BGPPeerPolicyTemplate) updateFromBody(ctx context.Context, res gjson
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "route-reflector-client"); !data.RouteReflectorClient.IsNull() {
+	if value := res.Get(prefix+"route-reflector-client"); !data.RouteReflectorClient.IsNull() {
 		if value.Exists() {
 			data.RouteReflectorClient = types.BoolValue(true)
 		} else {
@@ -220,17 +220,17 @@ func (data *BGPPeerPolicyTemplate) updateFromBody(ctx context.Context, res gjson
 	} else {
 		data.RouteReflectorClient = types.BoolNull()
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
 		data.SendCommunity = types.StringValue(value.String())
 	} else {
 		data.SendCommunity = types.StringNull()
 	}
 	for i := range data.RouteMaps {
-		keys := [...]string{"inout"}
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keys := [...]string{ "inout",  }
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "route-map1").ForEach(
+		res.Get(prefix+"route-map1").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -259,12 +259,12 @@ func (data *BGPPeerPolicyTemplate) updateFromBody(ctx context.Context, res gjson
 			data.RouteMaps[i].RouteMapName = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "allowas-in.as-number"); value.Exists() && !data.AllowasInAsNumber.IsNull() {
+	if value := res.Get(prefix+"allowas-in.as-number"); value.Exists() && !data.AllowasInAsNumber.IsNull() {
 		data.AllowasInAsNumber = types.Int64Value(value.Int())
 	} else {
 		data.AllowasInAsNumber = types.Int64Null()
 	}
-	if value := res.Get(prefix + "as-override.split-horizon"); !data.AsOverrideSplitHorizon.IsNull() {
+	if value := res.Get(prefix+"as-override.split-horizon"); !data.AsOverrideSplitHorizon.IsNull() {
 		if value.Exists() {
 			data.AsOverrideSplitHorizon = types.BoolValue(true)
 		} else {
@@ -280,12 +280,12 @@ func (data *BGPPeerPolicyTemplate) updateFromBody(ctx context.Context, res gjson
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPPeerPolicyTemplate) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-reflector-client"); !data.RouteReflectorClient.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-reflector-client"); !data.RouteReflectorClient.IsNull() {
 		if value.Exists() {
 			data.RouteReflectorClient = types.BoolValue(true)
 		} else {
@@ -294,17 +294,17 @@ func (data *BGPPeerPolicyTemplate) updateFromBodyXML(ctx context.Context, res xm
 	} else {
 		data.RouteReflectorClient = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
 		data.SendCommunity = types.StringValue(value.String())
 	} else {
 		data.SendCommunity = types.StringNull()
 	}
 	for i := range data.RouteMaps {
-		keys := [...]string{"inout"}
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keys := [...]string{ "inout",  }
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-map1").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-map1").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -333,12 +333,12 @@ func (data *BGPPeerPolicyTemplate) updateFromBodyXML(ctx context.Context, res xm
 			data.RouteMaps[i].RouteMapName = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/allowas-in/as-number"); value.Exists() && !data.AllowasInAsNumber.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/allowas-in/as-number"); value.Exists() && !data.AllowasInAsNumber.IsNull() {
 		data.AllowasInAsNumber = types.Int64Value(value.Int())
 	} else {
 		data.AllowasInAsNumber = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/as-override/split-horizon"); !data.AsOverrideSplitHorizon.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/as-override/split-horizon"); !data.AsOverrideSplitHorizon.IsNull() {
 		if value.Exists() {
 			data.AsOverrideSplitHorizon = types.BoolValue(true)
 		} else {
@@ -358,15 +358,15 @@ func (data *BGPPeerPolicyTemplate) fromBody(ctx context.Context, res gjson.Resul
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "route-reflector-client"); value.Exists() {
+	if value := res.Get(prefix+"route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "route-map1"); value.Exists() {
+	if value := res.Get(prefix+"route-map1"); value.Exists() {
 		data.RouteMaps = make([]BGPPeerPolicyTemplateRouteMaps, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BGPPeerPolicyTemplateRouteMaps{}
@@ -380,10 +380,10 @@ func (data *BGPPeerPolicyTemplate) fromBody(ctx context.Context, res gjson.Resul
 			return true
 		})
 	}
-	if value := res.Get(prefix + "allowas-in.as-number"); value.Exists() {
+	if value := res.Get(prefix+"allowas-in.as-number"); value.Exists() {
 		data.AllowasInAsNumber = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "as-override.split-horizon"); value.Exists() {
+	if value := res.Get(prefix+"as-override.split-horizon"); value.Exists() {
 		data.AsOverrideSplitHorizon = types.BoolValue(true)
 	} else {
 		data.AsOverrideSplitHorizon = types.BoolValue(false)
@@ -399,15 +399,15 @@ func (data *BGPPeerPolicyTemplateData) fromBody(ctx context.Context, res gjson.R
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "route-reflector-client"); value.Exists() {
+	if value := res.Get(prefix+"route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "route-map1"); value.Exists() {
+	if value := res.Get(prefix+"route-map1"); value.Exists() {
 		data.RouteMaps = make([]BGPPeerPolicyTemplateRouteMapsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BGPPeerPolicyTemplateRouteMapsData{}
@@ -421,10 +421,10 @@ func (data *BGPPeerPolicyTemplateData) fromBody(ctx context.Context, res gjson.R
 			return true
 		})
 	}
-	if value := res.Get(prefix + "allowas-in.as-number"); value.Exists() {
+	if value := res.Get(prefix+"allowas-in.as-number"); value.Exists() {
 		data.AllowasInAsNumber = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "as-override.split-horizon"); value.Exists() {
+	if value := res.Get(prefix+"as-override.split-horizon"); value.Exists() {
 		data.AsOverrideSplitHorizon = types.BoolValue(true)
 	} else {
 		data.AsOverrideSplitHorizon = types.BoolValue(false)
@@ -436,15 +436,15 @@ func (data *BGPPeerPolicyTemplateData) fromBody(ctx context.Context, res gjson.R
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPPeerPolicyTemplate) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-reflector-client"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-map1"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-map1"); value.Exists() {
 		data.RouteMaps = make([]BGPPeerPolicyTemplateRouteMaps, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BGPPeerPolicyTemplateRouteMaps{}
@@ -458,10 +458,10 @@ func (data *BGPPeerPolicyTemplate) fromBodyXML(ctx context.Context, res xmldot.R
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/allowas-in/as-number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/allowas-in/as-number"); value.Exists() {
 		data.AllowasInAsNumber = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/as-override/split-horizon"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/as-override/split-horizon"); value.Exists() {
 		data.AsOverrideSplitHorizon = types.BoolValue(true)
 	} else {
 		data.AsOverrideSplitHorizon = types.BoolValue(false)
@@ -473,15 +473,15 @@ func (data *BGPPeerPolicyTemplate) fromBodyXML(ctx context.Context, res xmldot.R
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPPeerPolicyTemplateData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-reflector-client"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-map1"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-map1"); value.Exists() {
 		data.RouteMaps = make([]BGPPeerPolicyTemplateRouteMapsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BGPPeerPolicyTemplateRouteMapsData{}
@@ -495,10 +495,10 @@ func (data *BGPPeerPolicyTemplateData) fromBodyXML(ctx context.Context, res xmld
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/allowas-in/as-number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/allowas-in/as-number"); value.Exists() {
 		data.AllowasInAsNumber = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/as-override/split-horizon"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/as-override/split-horizon"); value.Exists() {
 		data.AsOverrideSplitHorizon = types.BoolValue(true)
 	} else {
 		data.AsOverrideSplitHorizon = types.BoolValue(false)
@@ -518,8 +518,8 @@ func (data *BGPPeerPolicyTemplate) getDeletedItems(ctx context.Context, state BG
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/allowas-in/as-number", state.getPath()))
 	}
 	for i := range state.RouteMaps {
-		stateKeyValues := [...]string{state.RouteMaps[i].InOut.ValueString()}
-
+		stateKeyValues := [...]string{ state.RouteMaps[i].InOut.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.RouteMaps[i].InOut.ValueString()).IsZero() {
 			emptyKeys = false
@@ -568,13 +568,13 @@ func (data *BGPPeerPolicyTemplate) addDeletedItemsXML(ctx context.Context, state
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/allowas-in/as-number")
 	}
 	for i := range state.RouteMaps {
-		stateKeys := [...]string{"inout"}
-		stateKeyValues := [...]string{state.RouteMaps[i].InOut.ValueString()}
+		stateKeys := [...]string{ "inout",  }
+		stateKeyValues := [...]string{ state.RouteMaps[i].InOut.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.RouteMaps[i].InOut.ValueString()).IsZero() {
 			emptyKeys = false
@@ -620,7 +620,8 @@ func (data *BGPPeerPolicyTemplate) getEmptyLeafsDelete(ctx context.Context) []st
 	if !data.AsOverrideSplitHorizon.IsNull() && !data.AsOverrideSplitHorizon.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/as-override/split-horizon", data.getPath()))
 	}
-
+	
+	
 	if !data.RouteReflectorClient.IsNull() && !data.RouteReflectorClient.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/route-reflector-client", data.getPath()))
 	}
@@ -641,7 +642,7 @@ func (data *BGPPeerPolicyTemplate) getDeletePaths(ctx context.Context) []string 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/allowas-in/as-number", data.getPath()))
 	}
 	for i := range data.RouteMaps {
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/route-map1=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -668,8 +669,8 @@ func (data *BGPPeerPolicyTemplate) addDeletePathsXML(ctx context.Context, body s
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/allowas-in/as-number")
 	}
 	for i := range data.RouteMaps {
-		keys := [...]string{"inout"}
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keys := [...]string{ "inout",  }
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

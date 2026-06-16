@@ -23,44 +23,44 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type CryptoIPSecProfile struct {
-	Device                                      types.String `tfsdk:"device"`
-	Id                                          types.String `tfsdk:"id"`
-	Name                                        types.String `tfsdk:"name"`
-	SetTransformSet                             types.List   `tfsdk:"set_transform_set"`
-	SetIkev2Profile                             types.String `tfsdk:"set_ikev2_profile"`
-	SetIsakmpProfile                            types.String `tfsdk:"set_isakmp_profile"`
-	SetPfsGroup                                 types.String `tfsdk:"set_pfs_group"`
-	SetSecurityAssociationLifetimeSeconds       types.Int64  `tfsdk:"set_security_association_lifetime_seconds"`
-	SetSecurityAssociationLifetimeSecondsLegacy types.Int64  `tfsdk:"set_security_association_lifetime_seconds_legacy"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	SetTransformSet types.List `tfsdk:"set_transform_set"`
+	SetIkev2Profile types.String `tfsdk:"set_ikev2_profile"`
+	SetIsakmpProfile types.String `tfsdk:"set_isakmp_profile"`
+	SetPfsGroup types.String `tfsdk:"set_pfs_group"`
+	SetSecurityAssociationLifetimeSeconds types.Int64 `tfsdk:"set_security_association_lifetime_seconds"`
+	SetSecurityAssociationLifetimeSecondsLegacy types.Int64 `tfsdk:"set_security_association_lifetime_seconds_legacy"`
 }
 
 type CryptoIPSecProfileData struct {
-	Device                                      types.String `tfsdk:"device"`
-	Id                                          types.String `tfsdk:"id"`
-	Name                                        types.String `tfsdk:"name"`
-	SetTransformSet                             types.List   `tfsdk:"set_transform_set"`
-	SetIkev2Profile                             types.String `tfsdk:"set_ikev2_profile"`
-	SetIsakmpProfile                            types.String `tfsdk:"set_isakmp_profile"`
-	SetPfsGroup                                 types.String `tfsdk:"set_pfs_group"`
-	SetSecurityAssociationLifetimeSeconds       types.Int64  `tfsdk:"set_security_association_lifetime_seconds"`
-	SetSecurityAssociationLifetimeSecondsLegacy types.Int64  `tfsdk:"set_security_association_lifetime_seconds_legacy"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	SetTransformSet types.List `tfsdk:"set_transform_set"`
+	SetIkev2Profile types.String `tfsdk:"set_ikev2_profile"`
+	SetIsakmpProfile types.String `tfsdk:"set_isakmp_profile"`
+	SetPfsGroup types.String `tfsdk:"set_pfs_group"`
+	SetSecurityAssociationLifetimeSeconds types.Int64 `tfsdk:"set_security_association_lifetime_seconds"`
+	SetSecurityAssociationLifetimeSecondsLegacy types.Int64 `tfsdk:"set_security_association_lifetime_seconds_legacy"`
 }
 
 // End of section. //template:end types
@@ -138,29 +138,29 @@ func (data CryptoIPSecProfile) toBody(ctx context.Context, config CryptoIPSecPro
 func (data CryptoIPSecProfile) toBodyXML(ctx context.Context, config CryptoIPSecProfile) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.SetTransformSet.IsNull() && !data.SetTransformSet.IsUnknown() {
 		var values []string
 		data.SetTransformSet.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/set/transform-set", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/set/transform-set", v)
 		}
 	}
 	if !data.SetIkev2Profile.IsNull() && !data.SetIkev2Profile.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/set/ikev2-profile", data.SetIkev2Profile.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/set/ikev2-profile", data.SetIkev2Profile.ValueString())
 	}
 	if !data.SetIsakmpProfile.IsNull() && !data.SetIsakmpProfile.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/set/isakmp-profile", data.SetIsakmpProfile.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/set/isakmp-profile", data.SetIsakmpProfile.ValueString())
 	}
 	if !data.SetPfsGroup.IsNull() && !data.SetPfsGroup.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/set/pfs/group", data.SetPfsGroup.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/set/pfs/group", data.SetPfsGroup.ValueString())
 	}
 	if !data.SetSecurityAssociationLifetimeSeconds.IsNull() && !data.SetSecurityAssociationLifetimeSeconds.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/set/security-association/lifetime/seconds-case", strconv.FormatInt(data.SetSecurityAssociationLifetimeSeconds.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/set/security-association/lifetime/seconds-case", strconv.FormatInt(data.SetSecurityAssociationLifetimeSeconds.ValueInt64(), 10))
 	}
 	if !data.SetSecurityAssociationLifetimeSecondsLegacy.IsNull() && !data.SetSecurityAssociationLifetimeSecondsLegacy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/set/security-association/lifetime/seconds", strconv.FormatInt(data.SetSecurityAssociationLifetimeSecondsLegacy.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/set/security-association/lifetime/seconds", strconv.FormatInt(data.SetSecurityAssociationLifetimeSecondsLegacy.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -178,37 +178,37 @@ func (data *CryptoIPSecProfile) updateFromBody(ctx context.Context, res gjson.Re
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "set.transform-set"); value.Exists() && !data.SetTransformSet.IsNull() {
+	if value := res.Get(prefix+"set.transform-set"); value.Exists() && !data.SetTransformSet.IsNull() {
 		data.SetTransformSet = helpers.GetStringList(value.Array())
 	} else {
 		data.SetTransformSet = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "set.ikev2-profile"); value.Exists() && !data.SetIkev2Profile.IsNull() {
+	if value := res.Get(prefix+"set.ikev2-profile"); value.Exists() && !data.SetIkev2Profile.IsNull() {
 		data.SetIkev2Profile = types.StringValue(value.String())
 	} else {
 		data.SetIkev2Profile = types.StringNull()
 	}
-	if value := res.Get(prefix + "set.isakmp-profile"); value.Exists() && !data.SetIsakmpProfile.IsNull() {
+	if value := res.Get(prefix+"set.isakmp-profile"); value.Exists() && !data.SetIsakmpProfile.IsNull() {
 		data.SetIsakmpProfile = types.StringValue(value.String())
 	} else {
 		data.SetIsakmpProfile = types.StringNull()
 	}
-	if value := res.Get(prefix + "set.pfs.group"); value.Exists() && !data.SetPfsGroup.IsNull() {
+	if value := res.Get(prefix+"set.pfs.group"); value.Exists() && !data.SetPfsGroup.IsNull() {
 		data.SetPfsGroup = types.StringValue(value.String())
 	} else {
 		data.SetPfsGroup = types.StringNull()
 	}
-	if value := res.Get(prefix + "set.security-association.lifetime.seconds-case"); value.Exists() && !data.SetSecurityAssociationLifetimeSeconds.IsNull() {
+	if value := res.Get(prefix+"set.security-association.lifetime.seconds-case"); value.Exists() && !data.SetSecurityAssociationLifetimeSeconds.IsNull() {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Value(value.Int())
 	} else {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Null()
 	}
-	if value := res.Get(prefix + "set.security-association.lifetime.seconds"); value.Exists() && !data.SetSecurityAssociationLifetimeSecondsLegacy.IsNull() {
+	if value := res.Get(prefix+"set.security-association.lifetime.seconds"); value.Exists() && !data.SetSecurityAssociationLifetimeSecondsLegacy.IsNull() {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Value(value.Int())
 	} else {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Null()
@@ -220,37 +220,37 @@ func (data *CryptoIPSecProfile) updateFromBody(ctx context.Context, res gjson.Re
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *CryptoIPSecProfile) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/transform-set"); value.Exists() && !data.SetTransformSet.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/transform-set"); value.Exists() && !data.SetTransformSet.IsNull() {
 		data.SetTransformSet = helpers.GetStringListXML(value.Array())
 	} else {
 		data.SetTransformSet = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/ikev2-profile"); value.Exists() && !data.SetIkev2Profile.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/ikev2-profile"); value.Exists() && !data.SetIkev2Profile.IsNull() {
 		data.SetIkev2Profile = types.StringValue(value.String())
 	} else {
 		data.SetIkev2Profile = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/isakmp-profile"); value.Exists() && !data.SetIsakmpProfile.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/isakmp-profile"); value.Exists() && !data.SetIsakmpProfile.IsNull() {
 		data.SetIsakmpProfile = types.StringValue(value.String())
 	} else {
 		data.SetIsakmpProfile = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/pfs/group"); value.Exists() && !data.SetPfsGroup.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/pfs/group"); value.Exists() && !data.SetPfsGroup.IsNull() {
 		data.SetPfsGroup = types.StringValue(value.String())
 	} else {
 		data.SetPfsGroup = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/security-association/lifetime/seconds-case"); value.Exists() && !data.SetSecurityAssociationLifetimeSeconds.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/security-association/lifetime/seconds-case"); value.Exists() && !data.SetSecurityAssociationLifetimeSeconds.IsNull() {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Value(value.Int())
 	} else {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/security-association/lifetime/seconds"); value.Exists() && !data.SetSecurityAssociationLifetimeSecondsLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/security-association/lifetime/seconds"); value.Exists() && !data.SetSecurityAssociationLifetimeSecondsLegacy.IsNull() {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Value(value.Int())
 	} else {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Null()
@@ -266,24 +266,24 @@ func (data *CryptoIPSecProfile) fromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "set.transform-set"); value.Exists() {
+	if value := res.Get(prefix+"set.transform-set"); value.Exists() {
 		data.SetTransformSet = helpers.GetStringList(value.Array())
 	} else {
 		data.SetTransformSet = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "set.ikev2-profile"); value.Exists() {
+	if value := res.Get(prefix+"set.ikev2-profile"); value.Exists() {
 		data.SetIkev2Profile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "set.isakmp-profile"); value.Exists() {
+	if value := res.Get(prefix+"set.isakmp-profile"); value.Exists() {
 		data.SetIsakmpProfile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "set.pfs.group"); value.Exists() {
+	if value := res.Get(prefix+"set.pfs.group"); value.Exists() {
 		data.SetPfsGroup = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "set.security-association.lifetime.seconds-case"); value.Exists() {
+	if value := res.Get(prefix+"set.security-association.lifetime.seconds-case"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "set.security-association.lifetime.seconds"); value.Exists() {
+	if value := res.Get(prefix+"set.security-association.lifetime.seconds"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Value(value.Int())
 	}
 }
@@ -297,24 +297,24 @@ func (data *CryptoIPSecProfileData) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "set.transform-set"); value.Exists() {
+	if value := res.Get(prefix+"set.transform-set"); value.Exists() {
 		data.SetTransformSet = helpers.GetStringList(value.Array())
 	} else {
 		data.SetTransformSet = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "set.ikev2-profile"); value.Exists() {
+	if value := res.Get(prefix+"set.ikev2-profile"); value.Exists() {
 		data.SetIkev2Profile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "set.isakmp-profile"); value.Exists() {
+	if value := res.Get(prefix+"set.isakmp-profile"); value.Exists() {
 		data.SetIsakmpProfile = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "set.pfs.group"); value.Exists() {
+	if value := res.Get(prefix+"set.pfs.group"); value.Exists() {
 		data.SetPfsGroup = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "set.security-association.lifetime.seconds-case"); value.Exists() {
+	if value := res.Get(prefix+"set.security-association.lifetime.seconds-case"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "set.security-association.lifetime.seconds"); value.Exists() {
+	if value := res.Get(prefix+"set.security-association.lifetime.seconds"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Value(value.Int())
 	}
 }
@@ -324,24 +324,24 @@ func (data *CryptoIPSecProfileData) fromBody(ctx context.Context, res gjson.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *CryptoIPSecProfile) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/transform-set"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/transform-set"); value.Exists() {
 		data.SetTransformSet = helpers.GetStringListXML(value.Array())
 	} else {
 		data.SetTransformSet = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/ikev2-profile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/ikev2-profile"); value.Exists() {
 		data.SetIkev2Profile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/isakmp-profile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/isakmp-profile"); value.Exists() {
 		data.SetIsakmpProfile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/pfs/group"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/pfs/group"); value.Exists() {
 		data.SetPfsGroup = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/security-association/lifetime/seconds-case"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/security-association/lifetime/seconds-case"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/security-association/lifetime/seconds"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/security-association/lifetime/seconds"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Value(value.Int())
 	}
 }
@@ -351,24 +351,24 @@ func (data *CryptoIPSecProfile) fromBodyXML(ctx context.Context, res xmldot.Resu
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CryptoIPSecProfileData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/transform-set"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/transform-set"); value.Exists() {
 		data.SetTransformSet = helpers.GetStringListXML(value.Array())
 	} else {
 		data.SetTransformSet = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/ikev2-profile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/ikev2-profile"); value.Exists() {
 		data.SetIkev2Profile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/isakmp-profile"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/isakmp-profile"); value.Exists() {
 		data.SetIsakmpProfile = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/pfs/group"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/pfs/group"); value.Exists() {
 		data.SetPfsGroup = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/security-association/lifetime/seconds-case"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/security-association/lifetime/seconds-case"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSeconds = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/set/security-association/lifetime/seconds"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/set/security-association/lifetime/seconds"); value.Exists() {
 		data.SetSecurityAssociationLifetimeSecondsLegacy = types.Int64Value(value.Int())
 	}
 }

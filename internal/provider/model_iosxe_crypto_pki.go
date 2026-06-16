@@ -23,60 +23,60 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type CryptoPKI struct {
-	Device      types.String           `tfsdk:"device"`
-	Id          types.String           `tfsdk:"id"`
-	DeleteMode  types.String           `tfsdk:"delete_mode"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
 	Trustpoints []CryptoPKITrustpoints `tfsdk:"trustpoints"`
 }
 type CryptoPKITrustpoints struct {
-	Id                   types.String `tfsdk:"id"`
-	EnrollmentPkcs12     types.Bool   `tfsdk:"enrollment_pkcs12"`
-	EnrollmentSelfsigned types.Bool   `tfsdk:"enrollment_selfsigned"`
-	EnrollmentModeRa     types.Bool   `tfsdk:"enrollment_mode_ra"`
-	EnrollmentTerminal   types.Bool   `tfsdk:"enrollment_terminal"`
-	RevocationCheck      types.List   `tfsdk:"revocation_check"`
-	SubjectName          types.String `tfsdk:"subject_name"`
-	Rsakeypair           types.String `tfsdk:"rsakeypair"`
-	Usage                types.String `tfsdk:"usage"`
-	SourceInterface      types.String `tfsdk:"source_interface"`
-	Hash                 types.String `tfsdk:"hash"`
+	Id types.String `tfsdk:"id"`
+	EnrollmentPkcs12 types.Bool `tfsdk:"enrollment_pkcs12"`
+	EnrollmentSelfsigned types.Bool `tfsdk:"enrollment_selfsigned"`
+	EnrollmentModeRa types.Bool `tfsdk:"enrollment_mode_ra"`
+	EnrollmentTerminal types.Bool `tfsdk:"enrollment_terminal"`
+	RevocationCheck types.List `tfsdk:"revocation_check"`
+	SubjectName types.String `tfsdk:"subject_name"`
+	Rsakeypair types.String `tfsdk:"rsakeypair"`
+	Usage types.String `tfsdk:"usage"`
+	SourceInterface types.String `tfsdk:"source_interface"`
+	Hash types.String `tfsdk:"hash"`
 }
 
 type CryptoPKIData struct {
-	Device      types.String               `tfsdk:"device"`
-	Id          types.String               `tfsdk:"id"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
 	Trustpoints []CryptoPKITrustpointsData `tfsdk:"trustpoints"`
 }
 type CryptoPKITrustpointsData struct {
-	Id                   types.String `tfsdk:"id"`
-	EnrollmentPkcs12     types.Bool   `tfsdk:"enrollment_pkcs12"`
-	EnrollmentSelfsigned types.Bool   `tfsdk:"enrollment_selfsigned"`
-	EnrollmentModeRa     types.Bool   `tfsdk:"enrollment_mode_ra"`
-	EnrollmentTerminal   types.Bool   `tfsdk:"enrollment_terminal"`
-	RevocationCheck      types.List   `tfsdk:"revocation_check"`
-	SubjectName          types.String `tfsdk:"subject_name"`
-	Rsakeypair           types.String `tfsdk:"rsakeypair"`
-	Usage                types.String `tfsdk:"usage"`
-	SourceInterface      types.String `tfsdk:"source_interface"`
-	Hash                 types.String `tfsdk:"hash"`
+	Id types.String `tfsdk:"id"`
+	EnrollmentPkcs12 types.Bool `tfsdk:"enrollment_pkcs12"`
+	EnrollmentSelfsigned types.Bool `tfsdk:"enrollment_selfsigned"`
+	EnrollmentModeRa types.Bool `tfsdk:"enrollment_mode_ra"`
+	EnrollmentTerminal types.Bool `tfsdk:"enrollment_terminal"`
+	RevocationCheck types.List `tfsdk:"revocation_check"`
+	SubjectName types.String `tfsdk:"subject_name"`
+	Rsakeypair types.String `tfsdk:"rsakeypair"`
+	Usage types.String `tfsdk:"usage"`
+	SourceInterface types.String `tfsdk:"source_interface"`
+	Hash types.String `tfsdk:"hash"`
 }
 
 // End of section. //template:end types
@@ -252,11 +252,11 @@ func (data *CryptoPKI) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.Trustpoints {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Trustpoints[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Trustpoints[i].Id.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "trustpoint").ForEach(
+		res.Get(prefix+"trustpoint").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -354,11 +354,11 @@ func (data *CryptoPKI) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *CryptoPKI) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.Trustpoints {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Trustpoints[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Trustpoints[i].Id.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/trustpoint").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/trustpoint").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -459,7 +459,7 @@ func (data *CryptoPKI) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "trustpoint"); value.Exists() {
+	if value := res.Get(prefix+"trustpoint"); value.Exists() {
 		data.Trustpoints = make([]CryptoPKITrustpoints, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoPKITrustpoints{}
@@ -521,7 +521,7 @@ func (data *CryptoPKIData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "trustpoint"); value.Exists() {
+	if value := res.Get(prefix+"trustpoint"); value.Exists() {
 		data.Trustpoints = make([]CryptoPKITrustpointsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := CryptoPKITrustpointsData{}
@@ -579,7 +579,7 @@ func (data *CryptoPKIData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *CryptoPKI) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trustpoint"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trustpoint"); value.Exists() {
 		data.Trustpoints = make([]CryptoPKITrustpoints, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoPKITrustpoints{}
@@ -637,7 +637,7 @@ func (data *CryptoPKI) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *CryptoPKIData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/trustpoint"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/trustpoint"); value.Exists() {
 		data.Trustpoints = make([]CryptoPKITrustpointsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := CryptoPKITrustpointsData{}
@@ -697,8 +697,8 @@ func (data *CryptoPKIData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *CryptoPKI) getDeletedItems(ctx context.Context, state CryptoPKI) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Trustpoints {
-		stateKeyValues := [...]string{state.Trustpoints[i].Id.ValueString()}
-
+		stateKeyValues := [...]string{ state.Trustpoints[i].Id.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Trustpoints[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -780,13 +780,13 @@ func (data *CryptoPKI) getDeletedItems(ctx context.Context, state CryptoPKI) []s
 func (data *CryptoPKI) addDeletedItemsXML(ctx context.Context, state CryptoPKI, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Trustpoints {
-		stateKeys := [...]string{"id"}
-		stateKeyValues := [...]string{state.Trustpoints[i].Id.ValueString()}
+		stateKeys := [...]string{ "id",  }
+		stateKeyValues := [...]string{ state.Trustpoints[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Trustpoints[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -872,9 +872,10 @@ func (data *CryptoPKI) addDeletedItemsXML(ctx context.Context, state CryptoPKI, 
 
 func (data *CryptoPKI) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Trustpoints {
-		keyValues := [...]string{data.Trustpoints[i].Id.ValueString()}
+		keyValues := [...]string{ data.Trustpoints[i].Id.ValueString(),  }
 		if !data.Trustpoints[i].EnrollmentTerminal.IsNull() && !data.Trustpoints[i].EnrollmentTerminal.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/trustpoint=%v/enrollment/terminal", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -899,7 +900,7 @@ func (data *CryptoPKI) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *CryptoPKI) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Trustpoints {
-		keyValues := [...]string{data.Trustpoints[i].Id.ValueString()}
+		keyValues := [...]string{ data.Trustpoints[i].Id.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/trustpoint=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -914,8 +915,8 @@ func (data *CryptoPKI) getDeletePaths(ctx context.Context) []string {
 func (data *CryptoPKI) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Trustpoints {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Trustpoints[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Trustpoints[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

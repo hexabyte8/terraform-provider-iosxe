@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -44,19 +43,19 @@ func TestAccIosxePolicyMap(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxePolicyMapPrerequisitesConfig + testAccIosxePolicyMapConfig_minimum(),
+				Config: testAccIosxePolicyMapPrerequisitesConfig+testAccIosxePolicyMapConfig_minimum(),
 			},
 			{
-				Config: testAccIosxePolicyMapPrerequisitesConfig + testAccIosxePolicyMapConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxePolicyMapPrerequisitesConfig+testAccIosxePolicyMapConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_policy_map.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxePolicyMapImportStateIdFunc("iosxe_policy_map.test"),
-				ImportStateVerifyIgnore: []string{"subscriber", "classes.0.policy_log", "classes.0.actions.0.shape_average_ms", "classes.0.actions.0.police_target_bitrate_conform_transmit", "classes.0.actions.0.police_target_bitrate_exceed_transmit", "classes.0.actions.0.police_target_bitrate_exceed_drop", "classes.0.actions.0.police_cir_conform_transmit", "classes.0.actions.0.police_cir_exceed_drop"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_policy_map.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxePolicyMapImportStateIdFunc("iosxe_policy_map.test"),
+				ImportStateVerifyIgnore: []string{ "subscriber","classes.0.policy_log","classes.0.actions.0.shape_average_ms","classes.0.actions.0.police_target_bitrate_conform_transmit","classes.0.actions.0.police_target_bitrate_exceed_transmit","classes.0.actions.0.police_target_bitrate_exceed_drop","classes.0.actions.0.police_cir_conform_transmit","classes.0.actions.0.police_cir_exceed_drop", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -88,7 +87,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

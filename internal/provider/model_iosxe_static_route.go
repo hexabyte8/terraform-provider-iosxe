@@ -23,72 +23,72 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type StaticRoute struct {
-	Device            types.String                   `tfsdk:"device"`
-	Id                types.String                   `tfsdk:"id"`
-	Prefix            types.String                   `tfsdk:"prefix"`
-	Mask              types.String                   `tfsdk:"mask"`
-	NextHops          []StaticRouteNextHops          `tfsdk:"next_hops"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Prefix types.String `tfsdk:"prefix"`
+	Mask types.String `tfsdk:"mask"`
+	NextHops []StaticRouteNextHops `tfsdk:"next_hops"`
 	NextHopsWithTrack []StaticRouteNextHopsWithTrack `tfsdk:"next_hops_with_track"`
 }
 type StaticRouteNextHops struct {
-	NextHop   types.String `tfsdk:"next_hop"`
-	Distance  types.Int64  `tfsdk:"distance"`
-	Global    types.Bool   `tfsdk:"global"`
-	Name      types.String `tfsdk:"name"`
-	Permanent types.Bool   `tfsdk:"permanent"`
-	Tag       types.Int64  `tfsdk:"tag"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Global types.Bool `tfsdk:"global"`
+	Name types.String `tfsdk:"name"`
+	Permanent types.Bool `tfsdk:"permanent"`
+	Tag types.Int64 `tfsdk:"tag"`
 }
 type StaticRouteNextHopsWithTrack struct {
-	NextHop     types.String `tfsdk:"next_hop"`
-	Name        types.String `tfsdk:"name"`
-	TrackIdName types.Int64  `tfsdk:"track_id_name"`
-	Distance    types.Int64  `tfsdk:"distance"`
-	Tag         types.Int64  `tfsdk:"tag"`
-	Permanent   types.Bool   `tfsdk:"permanent"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Name types.String `tfsdk:"name"`
+	TrackIdName types.Int64 `tfsdk:"track_id_name"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Tag types.Int64 `tfsdk:"tag"`
+	Permanent types.Bool `tfsdk:"permanent"`
 }
 
 type StaticRouteData struct {
-	Device            types.String                       `tfsdk:"device"`
-	Id                types.String                       `tfsdk:"id"`
-	Prefix            types.String                       `tfsdk:"prefix"`
-	Mask              types.String                       `tfsdk:"mask"`
-	NextHops          []StaticRouteNextHopsData          `tfsdk:"next_hops"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Prefix types.String `tfsdk:"prefix"`
+	Mask types.String `tfsdk:"mask"`
+	NextHops []StaticRouteNextHopsData `tfsdk:"next_hops"`
 	NextHopsWithTrack []StaticRouteNextHopsWithTrackData `tfsdk:"next_hops_with_track"`
 }
 type StaticRouteNextHopsData struct {
-	NextHop   types.String `tfsdk:"next_hop"`
-	Distance  types.Int64  `tfsdk:"distance"`
-	Global    types.Bool   `tfsdk:"global"`
-	Name      types.String `tfsdk:"name"`
-	Permanent types.Bool   `tfsdk:"permanent"`
-	Tag       types.Int64  `tfsdk:"tag"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Global types.Bool `tfsdk:"global"`
+	Name types.String `tfsdk:"name"`
+	Permanent types.Bool `tfsdk:"permanent"`
+	Tag types.Int64 `tfsdk:"tag"`
 }
 type StaticRouteNextHopsWithTrackData struct {
-	NextHop     types.String `tfsdk:"next_hop"`
-	Name        types.String `tfsdk:"name"`
-	TrackIdName types.Int64  `tfsdk:"track_id_name"`
-	Distance    types.Int64  `tfsdk:"distance"`
-	Tag         types.Int64  `tfsdk:"tag"`
-	Permanent   types.Bool   `tfsdk:"permanent"`
+	NextHop types.String `tfsdk:"next_hop"`
+	Name types.String `tfsdk:"name"`
+	TrackIdName types.Int64 `tfsdk:"track_id_name"`
+	Distance types.Int64 `tfsdk:"distance"`
+	Tag types.Int64 `tfsdk:"tag"`
+	Permanent types.Bool `tfsdk:"permanent"`
 }
 
 // End of section. //template:end types
@@ -201,10 +201,10 @@ func (data StaticRoute) toBody(ctx context.Context, config StaticRoute) string {
 func (data StaticRoute) toBodyXML(ctx context.Context, config StaticRoute) string {
 	body := netconf.Body{}
 	if !data.Prefix.IsNull() && !data.Prefix.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prefix", data.Prefix.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prefix", data.Prefix.ValueString())
 	}
 	if !data.Mask.IsNull() && !data.Mask.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/mask", data.Mask.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/mask", data.Mask.ValueString())
 	}
 	if len(data.NextHops) > 0 {
 		for _, item := range data.NextHops {
@@ -282,22 +282,22 @@ func (data *StaticRoute) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "prefix"); value.Exists() && !data.Prefix.IsNull() {
+	if value := res.Get(prefix+"prefix"); value.Exists() && !data.Prefix.IsNull() {
 		data.Prefix = types.StringValue(value.String())
 	} else {
 		data.Prefix = types.StringNull()
 	}
-	if value := res.Get(prefix + "mask"); value.Exists() && !data.Mask.IsNull() {
+	if value := res.Get(prefix+"mask"); value.Exists() && !data.Mask.IsNull() {
 		data.Mask = types.StringValue(value.String())
 	} else {
 		data.Mask = types.StringNull()
 	}
 	for i := range data.NextHops {
-		keys := [...]string{"fwd"}
-		keyValues := [...]string{data.NextHops[i].NextHop.ValueString()}
+		keys := [...]string{ "fwd",  }
+		keyValues := [...]string{ data.NextHops[i].NextHop.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "fwd-list").ForEach(
+		res.Get(prefix+"fwd-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -355,11 +355,11 @@ func (data *StaticRoute) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.NextHopsWithTrack {
-		keys := [...]string{"fwd"}
-		keyValues := [...]string{data.NextHopsWithTrack[i].NextHop.ValueString()}
+		keys := [...]string{ "fwd",  }
+		keyValues := [...]string{ data.NextHopsWithTrack[i].NextHop.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "fwd-list-with-track").ForEach(
+		res.Get(prefix+"fwd-list-with-track").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -419,22 +419,22 @@ func (data *StaticRoute) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *StaticRoute) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix"); value.Exists() && !data.Prefix.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix"); value.Exists() && !data.Prefix.IsNull() {
 		data.Prefix = types.StringValue(value.String())
 	} else {
 		data.Prefix = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mask"); value.Exists() && !data.Mask.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mask"); value.Exists() && !data.Mask.IsNull() {
 		data.Mask = types.StringValue(value.String())
 	} else {
 		data.Mask = types.StringNull()
 	}
 	for i := range data.NextHops {
-		keys := [...]string{"fwd"}
-		keyValues := [...]string{data.NextHops[i].NextHop.ValueString()}
+		keys := [...]string{ "fwd",  }
+		keyValues := [...]string{ data.NextHops[i].NextHop.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/fwd-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/fwd-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -492,11 +492,11 @@ func (data *StaticRoute) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 		}
 	}
 	for i := range data.NextHopsWithTrack {
-		keys := [...]string{"fwd"}
-		keyValues := [...]string{data.NextHopsWithTrack[i].NextHop.ValueString()}
+		keys := [...]string{ "fwd",  }
+		keyValues := [...]string{ data.NextHopsWithTrack[i].NextHop.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/fwd-list-with-track").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/fwd-list-with-track").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -560,7 +560,7 @@ func (data *StaticRoute) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "fwd-list"); value.Exists() {
+	if value := res.Get(prefix+"fwd-list"); value.Exists() {
 		data.NextHops = make([]StaticRouteNextHops, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := StaticRouteNextHops{}
@@ -590,7 +590,7 @@ func (data *StaticRoute) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "fwd-list-with-track"); value.Exists() {
+	if value := res.Get(prefix+"fwd-list-with-track"); value.Exists() {
 		data.NextHopsWithTrack = make([]StaticRouteNextHopsWithTrack, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := StaticRouteNextHopsWithTrack{}
@@ -629,7 +629,7 @@ func (data *StaticRouteData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "fwd-list"); value.Exists() {
+	if value := res.Get(prefix+"fwd-list"); value.Exists() {
 		data.NextHops = make([]StaticRouteNextHopsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := StaticRouteNextHopsData{}
@@ -659,7 +659,7 @@ func (data *StaticRouteData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "fwd-list-with-track"); value.Exists() {
+	if value := res.Get(prefix+"fwd-list-with-track"); value.Exists() {
 		data.NextHopsWithTrack = make([]StaticRouteNextHopsWithTrackData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := StaticRouteNextHopsWithTrackData{}
@@ -694,7 +694,7 @@ func (data *StaticRouteData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *StaticRoute) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fwd-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fwd-list"); value.Exists() {
 		data.NextHops = make([]StaticRouteNextHops, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := StaticRouteNextHops{}
@@ -724,7 +724,7 @@ func (data *StaticRoute) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fwd-list-with-track"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fwd-list-with-track"); value.Exists() {
 		data.NextHopsWithTrack = make([]StaticRouteNextHopsWithTrack, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := StaticRouteNextHopsWithTrack{}
@@ -759,7 +759,7 @@ func (data *StaticRoute) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *StaticRouteData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fwd-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fwd-list"); value.Exists() {
 		data.NextHops = make([]StaticRouteNextHopsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := StaticRouteNextHopsData{}
@@ -789,7 +789,7 @@ func (data *StaticRouteData) fromBodyXML(ctx context.Context, res xmldot.Result)
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/fwd-list-with-track"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/fwd-list-with-track"); value.Exists() {
 		data.NextHopsWithTrack = make([]StaticRouteNextHopsWithTrackData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := StaticRouteNextHopsWithTrackData{}
@@ -826,8 +826,8 @@ func (data *StaticRouteData) fromBodyXML(ctx context.Context, res xmldot.Result)
 func (data *StaticRoute) getDeletedItems(ctx context.Context, state StaticRoute) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.NextHopsWithTrack {
-		stateKeyValues := [...]string{state.NextHopsWithTrack[i].NextHop.ValueString()}
-
+		stateKeyValues := [...]string{ state.NextHopsWithTrack[i].NextHop.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.NextHopsWithTrack[i].NextHop.ValueString()).IsZero() {
 			emptyKeys = false
@@ -866,8 +866,8 @@ func (data *StaticRoute) getDeletedItems(ctx context.Context, state StaticRoute)
 		}
 	}
 	for i := range state.NextHops {
-		stateKeyValues := [...]string{state.NextHops[i].NextHop.ValueString()}
-
+		stateKeyValues := [...]string{ state.NextHops[i].NextHop.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.NextHops[i].NextHop.ValueString()).IsZero() {
 			emptyKeys = false
@@ -916,13 +916,13 @@ func (data *StaticRoute) getDeletedItems(ctx context.Context, state StaticRoute)
 func (data *StaticRoute) addDeletedItemsXML(ctx context.Context, state StaticRoute, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.NextHopsWithTrack {
-		stateKeys := [...]string{"fwd"}
-		stateKeyValues := [...]string{state.NextHopsWithTrack[i].NextHop.ValueString()}
+		stateKeys := [...]string{ "fwd",  }
+		stateKeyValues := [...]string{ state.NextHopsWithTrack[i].NextHop.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.NextHopsWithTrack[i].NextHop.ValueString()).IsZero() {
 			emptyKeys = false
@@ -961,13 +961,13 @@ func (data *StaticRoute) addDeletedItemsXML(ctx context.Context, state StaticRou
 		}
 	}
 	for i := range state.NextHops {
-		stateKeys := [...]string{"fwd"}
-		stateKeyValues := [...]string{state.NextHops[i].NextHop.ValueString()}
+		stateKeys := [...]string{ "fwd",  }
+		stateKeyValues := [...]string{ state.NextHops[i].NextHop.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.NextHops[i].NextHop.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1016,16 +1016,18 @@ func (data *StaticRoute) addDeletedItemsXML(ctx context.Context, state StaticRou
 
 func (data *StaticRoute) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.NextHopsWithTrack {
-		keyValues := [...]string{data.NextHopsWithTrack[i].NextHop.ValueString()}
+		keyValues := [...]string{ data.NextHopsWithTrack[i].NextHop.ValueString(),  }
 		if !data.NextHopsWithTrack[i].Permanent.IsNull() && !data.NextHopsWithTrack[i].Permanent.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/fwd-list-with-track=%v/permanent", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.NextHops {
-		keyValues := [...]string{data.NextHops[i].NextHop.ValueString()}
+		keyValues := [...]string{ data.NextHops[i].NextHop.ValueString(),  }
 		if !data.NextHops[i].Permanent.IsNull() && !data.NextHops[i].Permanent.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/fwd-list=%v/permanent", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -1044,12 +1046,12 @@ func (data *StaticRoute) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *StaticRoute) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.NextHopsWithTrack {
-		keyValues := [...]string{data.NextHopsWithTrack[i].NextHop.ValueString()}
+		keyValues := [...]string{ data.NextHopsWithTrack[i].NextHop.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/fwd-list-with-track=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.NextHops {
-		keyValues := [...]string{data.NextHops[i].NextHop.ValueString()}
+		keyValues := [...]string{ data.NextHops[i].NextHop.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/fwd-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1064,8 +1066,8 @@ func (data *StaticRoute) getDeletePaths(ctx context.Context) []string {
 func (data *StaticRoute) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.NextHopsWithTrack {
-		keys := [...]string{"fwd"}
-		keyValues := [...]string{data.NextHopsWithTrack[i].NextHop.ValueString()}
+		keys := [...]string{ "fwd",  }
+		keyValues := [...]string{ data.NextHopsWithTrack[i].NextHop.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1074,8 +1076,8 @@ func (data *StaticRoute) addDeletePathsXML(ctx context.Context, body string) str
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/fwd-list-with-track%v", predicates))
 	}
 	for i := range data.NextHops {
-		keys := [...]string{"fwd"}
-		keyValues := [...]string{data.NextHops[i].NextHop.ValueString()}
+		keys := [...]string{ "fwd",  }
+		keyValues := [...]string{ data.NextHops[i].NextHop.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

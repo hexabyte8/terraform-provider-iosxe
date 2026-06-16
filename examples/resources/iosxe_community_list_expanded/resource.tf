@@ -3,7 +3,7 @@ resource "iosxe_community_list_expanded" "example" {
   entries = [
     {
       action = "permit"
-      regex  = "65000:500"
+      regex = "65000:500"
     }
   ]
 }

@@ -43,8 +43,8 @@ func TestAccDataSourceIosxeBGPPeerPolicyTemplate(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPPeerPolicyTemplatePrerequisitesConfig + testAccDataSourceIosxeBGPPeerPolicyTemplateConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPPeerPolicyTemplatePrerequisitesConfig+testAccDataSourceIosxeBGPPeerPolicyTemplateConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,7 +69,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -84,12 +83,12 @@ func testAccDataSourceIosxeBGPPeerPolicyTemplateConfig() string {
 	config += `	route_maps = [{` + "\n"
 	config += `		in_out = "in"` + "\n"
 	config += `		route_map_name = "ROUTEMAP_1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	allowas_in_as_number = 2` + "\n"
 	config += `	as_override_split_horizon = true` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_peer_policy_template" "test" {
 			asn = "65000"

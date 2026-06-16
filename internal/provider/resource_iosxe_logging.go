@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -111,10 +111,10 @@ func (r *LoggingResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Optional:            true,
 			},
 			"facility": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Facility parameter for syslog messages").AddStringEnumDescription("auth", "cron", "daemon", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "sys10", "sys11", "sys12", "sys13", "sys14", "sys9", "syslog", "user", "uucp").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Facility parameter for syslog messages").AddStringEnumDescription("auth", "cron", "daemon", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "sys10", "sys11", "sys12", "sys13", "sys14", "sys9", "syslog", "user", "uucp", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("auth", "cron", "daemon", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "sys10", "sys11", "sys12", "sys13", "sys14", "sys9", "syslog", "user", "uucp"),
+					stringvalidator.OneOf("auth", "cron", "daemon", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "sys10", "sys11", "sys12", "sys13", "sys14", "sys9", "syslog", "user", "uucp", ),
 				},
 			},
 			"history_size": schema.Int64Attribute{
@@ -137,10 +137,10 @@ func (r *LoggingResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Optional:            true,
 			},
 			"origin_id_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Use origin hostname/ip/ipv6 as ID").AddStringEnumDescription("hostname", "ip", "ipv6").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Use origin hostname/ip/ipv6 as ID").AddStringEnumDescription("hostname", "ip", "ipv6", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("hostname", "ip", "ipv6"),
+					stringvalidator.OneOf("hostname", "ip", "ipv6", ),
 				},
 			},
 			"origin_id_name": schema.StringAttribute{
@@ -561,10 +561,10 @@ func (r *LoggingResource) Schema(ctx context.Context, req resource.SchemaRequest
 				},
 			},
 			"rate_limit_all_except_severity": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Logging severity level").AddStringEnumDescription("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Logging severity level").AddStringEnumDescription("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings"),
+					stringvalidator.OneOf("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings", ),
 				},
 			},
 			"rate_limit_console": schema.Int64Attribute{
@@ -575,10 +575,10 @@ func (r *LoggingResource) Schema(ctx context.Context, req resource.SchemaRequest
 				},
 			},
 			"rate_limit_console_except_severity": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Logging severity level").AddStringEnumDescription("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Logging severity level").AddStringEnumDescription("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings"),
+					stringvalidator.OneOf("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings", ),
 				},
 			},
 			"rate_limit_console_all": schema.Int64Attribute{
@@ -589,10 +589,10 @@ func (r *LoggingResource) Schema(ctx context.Context, req resource.SchemaRequest
 				},
 			},
 			"rate_limit_console_all_except_severity": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Logging severity level").AddStringEnumDescription("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Logging severity level").AddStringEnumDescription("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings"),
+					stringvalidator.OneOf("alerts", "critical", "debugging", "emergencies", "errors", "informational", "notifications", "warnings", ),
 				},
 			},
 		},
@@ -687,7 +687,7 @@ func (r *LoggingResource) Create(ctx context.Context, req resource.CreateRequest
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -735,7 +735,7 @@ func (r *LoggingResource) Read(ctx context.Context, req resource.ReadRequest, re
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

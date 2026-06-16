@@ -38,7 +38,7 @@ func TestAccDataSourceIosxeAccessListRoleBased(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeAccessListRoleBasedConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -55,7 +55,7 @@ func testAccDataSourceIosxeAccessListRoleBasedConfig() string {
 	config := `resource "iosxe_access_list_role_based" "test" {` + "\n"
 	config += `	name = "RBACL1"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_access_list_role_based" "test" {
 			name = "RBACL1"

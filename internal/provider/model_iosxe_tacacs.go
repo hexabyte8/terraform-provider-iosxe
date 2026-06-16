@@ -23,45 +23,45 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type TACACS struct {
-	Device       types.String `tfsdk:"device"`
-	Id           types.String `tfsdk:"id"`
-	DeleteMode   types.String `tfsdk:"delete_mode"`
-	Name         types.String `tfsdk:"name"`
-	AddressIpv4  types.String `tfsdk:"address_ipv4"`
-	Timeout      types.Int64  `tfsdk:"timeout"`
-	Port         types.Int64  `tfsdk:"port"`
-	Encryption   types.String `tfsdk:"encryption"`
-	Key          types.String `tfsdk:"key"`
-	KeyWO        types.String `tfsdk:"key_wo"`
-	KeyWOVersion types.Int64  `tfsdk:"key_wo_version"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
+	AddressIpv4 types.String `tfsdk:"address_ipv4"`
+	Timeout types.Int64 `tfsdk:"timeout"`
+	Port types.Int64 `tfsdk:"port"`
+	Encryption types.String `tfsdk:"encryption"`
+	Key types.String `tfsdk:"key"`
+	KeyWO types.String `tfsdk:"key_wo"`
+	KeyWOVersion types.Int64 `tfsdk:"key_wo_version"`
 }
 
 type TACACSData struct {
-	Device      types.String `tfsdk:"device"`
-	Id          types.String `tfsdk:"id"`
-	Name        types.String `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	AddressIpv4 types.String `tfsdk:"address_ipv4"`
-	Timeout     types.Int64  `tfsdk:"timeout"`
-	Port        types.Int64  `tfsdk:"port"`
-	Encryption  types.String `tfsdk:"encryption"`
-	Key         types.String `tfsdk:"key"`
+	Timeout types.Int64 `tfsdk:"timeout"`
+	Port types.Int64 `tfsdk:"port"`
+	Encryption types.String `tfsdk:"encryption"`
+	Key types.String `tfsdk:"key"`
 }
 
 // End of section. //template:end types
@@ -138,25 +138,25 @@ func (data TACACS) toBody(ctx context.Context, config TACACS) string {
 func (data TACACS) toBodyXML(ctx context.Context, config TACACS) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.AddressIpv4.IsNull() && !data.AddressIpv4.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/address/ipv4", data.AddressIpv4.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/address/ipv4", data.AddressIpv4.ValueString())
 	}
 	if !data.Timeout.IsNull() && !data.Timeout.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/timeout", strconv.FormatInt(data.Timeout.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/timeout", strconv.FormatInt(data.Timeout.ValueInt64(), 10))
 	}
 	if !data.Port.IsNull() && !data.Port.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/port", strconv.FormatInt(data.Port.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/port", strconv.FormatInt(data.Port.ValueInt64(), 10))
 	}
 	if !data.Encryption.IsNull() && !data.Encryption.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/key/encryption", data.Encryption.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/key/encryption", data.Encryption.ValueString())
 	}
 	if !data.Key.IsNull() && !data.Key.IsUnknown() {
 		if !config.KeyWO.IsNull() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/key/key", config.KeyWO.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/key/key", config.KeyWO.ValueString())
 		} else {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/key/key", data.Key.ValueString())
+			body = helpers.SetFromXPath(body, data.getXPath() + "/key/key", data.Key.ValueString())
 		}
 	}
 	bodyString, err := body.String()
@@ -175,22 +175,22 @@ func (data *TACACS) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "address.ipv4"); value.Exists() && !data.AddressIpv4.IsNull() {
+	if value := res.Get(prefix+"address.ipv4"); value.Exists() && !data.AddressIpv4.IsNull() {
 		data.AddressIpv4 = types.StringValue(value.String())
 	} else {
 		data.AddressIpv4 = types.StringNull()
 	}
-	if value := res.Get(prefix + "timeout"); value.Exists() && !data.Timeout.IsNull() {
+	if value := res.Get(prefix+"timeout"); value.Exists() && !data.Timeout.IsNull() {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := res.Get(prefix + "port"); value.Exists() && !data.Port.IsNull() {
+	if value := res.Get(prefix+"port"); value.Exists() && !data.Port.IsNull() {
 		data.Port = types.Int64Value(value.Int())
 	} else {
 		data.Port = types.Int64Null()
@@ -202,22 +202,22 @@ func (data *TACACS) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *TACACS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/ipv4"); value.Exists() && !data.AddressIpv4.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/ipv4"); value.Exists() && !data.AddressIpv4.IsNull() {
 		data.AddressIpv4 = types.StringValue(value.String())
 	} else {
 		data.AddressIpv4 = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timeout"); value.Exists() && !data.Timeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timeout"); value.Exists() && !data.Timeout.IsNull() {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/port"); value.Exists() && !data.Port.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/port"); value.Exists() && !data.Port.IsNull() {
 		data.Port = types.Int64Value(value.Int())
 	} else {
 		data.Port = types.Int64Null()
@@ -233,19 +233,19 @@ func (data *TACACS) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "address.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"address.ipv4"); value.Exists() {
 		data.AddressIpv4 = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "timeout"); value.Exists() {
+	if value := res.Get(prefix+"timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "port"); value.Exists() {
+	if value := res.Get(prefix+"port"); value.Exists() {
 		data.Port = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"key.encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "key.key"); value.Exists() {
+	if value := res.Get(prefix+"key.key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
 }
@@ -259,19 +259,19 @@ func (data *TACACSData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "address.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"address.ipv4"); value.Exists() {
 		data.AddressIpv4 = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "timeout"); value.Exists() {
+	if value := res.Get(prefix+"timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "port"); value.Exists() {
+	if value := res.Get(prefix+"port"); value.Exists() {
 		data.Port = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "key.encryption"); value.Exists() {
+	if value := res.Get(prefix+"key.encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "key.key"); value.Exists() {
+	if value := res.Get(prefix+"key.key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
 }
@@ -281,19 +281,19 @@ func (data *TACACSData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *TACACS) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/ipv4"); value.Exists() {
 		data.AddressIpv4 = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/port"); value.Exists() {
 		data.Port = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
 }
@@ -303,19 +303,19 @@ func (data *TACACS) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *TACACSData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/address/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/address/ipv4"); value.Exists() {
 		data.AddressIpv4 = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/timeout"); value.Exists() {
 		data.Timeout = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/port"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/port"); value.Exists() {
 		data.Port = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/encryption"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/encryption"); value.Exists() {
 		data.Encryption = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/key/key"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/key/key"); value.Exists() {
 		data.Key = types.StringValue(value.String())
 	}
 }

@@ -23,57 +23,57 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type SLA struct {
-	Device    types.String   `tfsdk:"device"`
-	Id        types.String   `tfsdk:"id"`
-	Entries   []SLAEntries   `tfsdk:"entries"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Entries []SLAEntries `tfsdk:"entries"`
 	Schedules []SLASchedules `tfsdk:"schedules"`
 }
 type SLAEntries struct {
-	Number              types.Int64  `tfsdk:"number"`
+	Number types.Int64 `tfsdk:"number"`
 	IcmpEchoDestination types.String `tfsdk:"icmp_echo_destination"`
-	IcmpEchoSourceIp    types.String `tfsdk:"icmp_echo_source_ip"`
-	IcmpEchoFrequency   types.Int64  `tfsdk:"icmp_echo_frequency"`
+	IcmpEchoSourceIp types.String `tfsdk:"icmp_echo_source_ip"`
+	IcmpEchoFrequency types.Int64 `tfsdk:"icmp_echo_frequency"`
 }
 type SLASchedules struct {
-	EntryNumber  types.Int64 `tfsdk:"entry_number"`
-	Life         types.Int64 `tfsdk:"life"`
-	StartTimeNow types.Bool  `tfsdk:"start_time_now"`
+	EntryNumber types.Int64 `tfsdk:"entry_number"`
+	Life types.Int64 `tfsdk:"life"`
+	StartTimeNow types.Bool `tfsdk:"start_time_now"`
 }
 
 type SLAData struct {
-	Device    types.String       `tfsdk:"device"`
-	Id        types.String       `tfsdk:"id"`
-	Entries   []SLAEntriesData   `tfsdk:"entries"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Entries []SLAEntriesData `tfsdk:"entries"`
 	Schedules []SLASchedulesData `tfsdk:"schedules"`
 }
 type SLAEntriesData struct {
-	Number              types.Int64  `tfsdk:"number"`
+	Number types.Int64 `tfsdk:"number"`
 	IcmpEchoDestination types.String `tfsdk:"icmp_echo_destination"`
-	IcmpEchoSourceIp    types.String `tfsdk:"icmp_echo_source_ip"`
-	IcmpEchoFrequency   types.Int64  `tfsdk:"icmp_echo_frequency"`
+	IcmpEchoSourceIp types.String `tfsdk:"icmp_echo_source_ip"`
+	IcmpEchoFrequency types.Int64 `tfsdk:"icmp_echo_frequency"`
 }
 type SLASchedulesData struct {
-	EntryNumber  types.Int64 `tfsdk:"entry_number"`
-	Life         types.Int64 `tfsdk:"life"`
-	StartTimeNow types.Bool  `tfsdk:"start_time_now"`
+	EntryNumber types.Int64 `tfsdk:"entry_number"`
+	Life types.Int64 `tfsdk:"life"`
+	StartTimeNow types.Bool `tfsdk:"start_time_now"`
 }
 
 // End of section. //template:end types
@@ -212,11 +212,11 @@ func (data *SLA) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.Entries {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "entry").ForEach(
+		res.Get(prefix+"entry").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -256,11 +256,11 @@ func (data *SLA) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Schedules {
-		keys := [...]string{"entry-number"}
-		keyValues := [...]string{strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10)}
+		keys := [...]string{ "entry-number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "schedule").ForEach(
+		res.Get(prefix+"schedule").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -306,11 +306,11 @@ func (data *SLA) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *SLA) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.Entries {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/entry").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/entry").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -350,11 +350,11 @@ func (data *SLA) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Schedules {
-		keys := [...]string{"entry-number"}
-		keyValues := [...]string{strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10)}
+		keys := [...]string{ "entry-number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/schedule").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/schedule").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -403,7 +403,7 @@ func (data *SLA) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "entry"); value.Exists() {
+	if value := res.Get(prefix+"entry"); value.Exists() {
 		data.Entries = make([]SLAEntries, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := SLAEntries{}
@@ -423,7 +423,7 @@ func (data *SLA) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "schedule"); value.Exists() {
+	if value := res.Get(prefix+"schedule"); value.Exists() {
 		data.Schedules = make([]SLASchedules, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := SLASchedules{}
@@ -453,7 +453,7 @@ func (data *SLAData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "entry"); value.Exists() {
+	if value := res.Get(prefix+"entry"); value.Exists() {
 		data.Entries = make([]SLAEntriesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := SLAEntriesData{}
@@ -473,7 +473,7 @@ func (data *SLAData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "schedule"); value.Exists() {
+	if value := res.Get(prefix+"schedule"); value.Exists() {
 		data.Schedules = make([]SLASchedulesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := SLASchedulesData{}
@@ -499,7 +499,7 @@ func (data *SLAData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *SLA) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/entry"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/entry"); value.Exists() {
 		data.Entries = make([]SLAEntries, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := SLAEntries{}
@@ -519,7 +519,7 @@ func (data *SLA) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/schedule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/schedule"); value.Exists() {
 		data.Schedules = make([]SLASchedules, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := SLASchedules{}
@@ -545,7 +545,7 @@ func (data *SLA) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *SLAData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/entry"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/entry"); value.Exists() {
 		data.Entries = make([]SLAEntriesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := SLAEntriesData{}
@@ -565,7 +565,7 @@ func (data *SLAData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/schedule"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/schedule"); value.Exists() {
 		data.Schedules = make([]SLASchedulesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := SLASchedulesData{}
@@ -593,8 +593,8 @@ func (data *SLAData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *SLA) getDeletedItems(ctx context.Context, state SLA) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Schedules {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Schedules[i].EntryNumber.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Schedules[i].EntryNumber.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Schedules[i].EntryNumber.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -624,8 +624,8 @@ func (data *SLA) getDeletedItems(ctx context.Context, state SLA) []string {
 		}
 	}
 	for i := range state.Entries {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Number.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Number.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -668,13 +668,13 @@ func (data *SLA) getDeletedItems(ctx context.Context, state SLA) []string {
 func (data *SLA) addDeletedItemsXML(ctx context.Context, state SLA, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Schedules {
-		stateKeys := [...]string{"entry-number"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Schedules[i].EntryNumber.ValueInt64(), 10)}
+		stateKeys := [...]string{ "entry-number",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Schedules[i].EntryNumber.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Schedules[i].EntryNumber.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -704,13 +704,13 @@ func (data *SLA) addDeletedItemsXML(ctx context.Context, state SLA, body string)
 		}
 	}
 	for i := range state.Entries {
-		stateKeys := [...]string{"number"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Entries[i].Number.ValueInt64(), 10)}
+		stateKeys := [...]string{ "number",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Entries[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Entries[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -753,13 +753,16 @@ func (data *SLA) addDeletedItemsXML(ctx context.Context, state SLA, body string)
 
 func (data *SLA) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Schedules {
-		keyValues := [...]string{strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10),  }
 		if !data.Schedules[i].StartTimeNow.IsNull() && !data.Schedules[i].StartTimeNow.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/schedule=%v/start-time/now-config", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -771,12 +774,12 @@ func (data *SLA) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *SLA) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Schedules {
-		keyValues := [...]string{strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/schedule=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Entries {
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/entry=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -791,8 +794,8 @@ func (data *SLA) getDeletePaths(ctx context.Context) []string {
 func (data *SLA) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Schedules {
-		keys := [...]string{"entry-number"}
-		keyValues := [...]string{strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10)}
+		keys := [...]string{ "entry-number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Schedules[i].EntryNumber.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -801,8 +804,8 @@ func (data *SLA) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/schedule%v", predicates))
 	}
 	for i := range data.Entries {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Entries[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

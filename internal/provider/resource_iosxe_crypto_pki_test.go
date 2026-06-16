@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeCryptoPKI(t *testing.T) {
 	if os.Getenv("CRYPTO_PKI") == "" {
-		t.Skip("skipping test, set environment variable CRYPTO_PKI")
-	}
+        t.Skip("skipping test, set environment variable CRYPTO_PKI")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_crypto_pki.test", "trustpoints.0.id", "trustpoint1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_crypto_pki.test", "trustpoints.0.enrollment_pkcs12", "true"))
@@ -51,15 +49,15 @@ func TestAccIosxeCryptoPKI(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeCryptoPKIConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_crypto_pki.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeCryptoPKIImportStateIdFunc("iosxe_crypto_pki.test"),
-				ImportStateVerifyIgnore: []string{"trustpoints", "trustpoints.0.enrollment_selfsigned", "trustpoints.0.enrollment_mode_ra", "trustpoints.0.enrollment_terminal"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_crypto_pki.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeCryptoPKIImportStateIdFunc("iosxe_crypto_pki.test"),
+				ImportStateVerifyIgnore: []string{ "trustpoints","trustpoints.0.enrollment_selfsigned","trustpoints.0.enrollment_mode_ra","trustpoints.0.enrollment_terminal", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -72,7 +70,7 @@ func TestAccIosxeCryptoPKI(t *testing.T) {
 func iosxeCryptoPKIImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeUDLD(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_udld.test", "aggressive", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_udld.test", "enable", "true"))
@@ -46,7 +45,7 @@ func TestAccDataSourceIosxeUDLD(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeUDLDConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -67,7 +66,7 @@ func testAccDataSourceIosxeUDLDConfig() string {
 	config += `	message_time = 77` + "\n"
 	config += `	recovery_interval = 8640` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_udld" "test" {
 			depends_on = [iosxe_udld.test]

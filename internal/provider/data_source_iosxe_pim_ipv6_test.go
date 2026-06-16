@@ -44,8 +44,8 @@ func TestAccDataSourceIosxePIMIPv6(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxePIMIPv6PrerequisitesConfig + testAccDataSourceIosxePIMIPv6Config(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxePIMIPv6PrerequisitesConfig+testAccDataSourceIosxePIMIPv6Config(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -65,7 +65,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -81,10 +80,10 @@ func testAccDataSourceIosxePIMIPv6Config() string {
 	config += `		rp_address = "2001:db8::100"` + "\n"
 	config += `		rp_address_access_list = "ipv6_acl_2"` + "\n"
 	config += `		rp_address_bidir = false` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_pim_ipv6" "test" {
 			depends_on = [iosxe_pim_ipv6.test]

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -48,16 +47,16 @@ func TestAccIosxeStaticRoutesVRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeStaticRoutesVRFPrerequisitesConfig + testAccIosxeStaticRoutesVRFConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeStaticRoutesVRFPrerequisitesConfig+testAccIosxeStaticRoutesVRFConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_static_routes_vrf.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeStaticRoutesVRFImportStateIdFunc("iosxe_static_routes_vrf.test"),
-				ImportStateVerifyIgnore: []string{"routes.0.next_hops_with_track.0.permanent"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_static_routes_vrf.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeStaticRoutesVRFImportStateIdFunc("iosxe_static_routes_vrf.test"),
+				ImportStateVerifyIgnore: []string{ "routes.0.next_hops_with_track.0.permanent", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -90,7 +89,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

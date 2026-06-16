@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -100,10 +100,10 @@ func (r *RouteMapResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"operation": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Route map permit/deny set operations").AddStringEnumDescription("deny", "permit").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Route map permit/deny set operations").AddStringEnumDescription("deny", "permit", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("deny", "permit"),
+								stringvalidator.OneOf("deny", "permit", ),
 							},
 						},
 						"description": schema.StringAttribute{
@@ -427,10 +427,10 @@ func (r *RouteMapResource) Schema(ctx context.Context, req resource.SchemaReques
 							},
 						},
 						"set_metric_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Type of metric for destination routing protocol").AddStringEnumDescription("external", "internal", "type-1", "type-2").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Type of metric for destination routing protocol").AddStringEnumDescription("external", "internal", "type-1", "type-2", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("external", "internal", "type-1", "type-2"),
+								stringvalidator.OneOf("external", "internal", "type-1", "type-2", ),
 							},
 						},
 						"set_tag": schema.Int64Attribute{
@@ -728,7 +728,7 @@ func (r *RouteMapResource) Create(ctx context.Context, req resource.CreateReques
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -776,7 +776,7 @@ func (r *RouteMapResource) Read(ctx context.Context, req resource.ReadRequest, r
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

@@ -23,34 +23,34 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BridgeDomain struct {
-	Device           types.String                   `tfsdk:"device"`
-	Id               types.String                   `tfsdk:"id"`
-	DeleteMode       types.String                   `tfsdk:"delete_mode"`
-	BridgeDomainId   types.Int64                    `tfsdk:"bridge_domain_id"`
-	MemberVni        types.Int64                    `tfsdk:"member_vni"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	BridgeDomainId types.Int64 `tfsdk:"bridge_domain_id"`
+	MemberVni types.Int64 `tfsdk:"member_vni"`
 	MemberInterfaces []BridgeDomainMemberInterfaces `tfsdk:"member_interfaces"`
 }
 type BridgeDomainMemberInterfaces struct {
-	Interface        types.String                                   `tfsdk:"interface"`
+	Interface types.String `tfsdk:"interface"`
 	ServiceInstances []BridgeDomainMemberInterfacesServiceInstances `tfsdk:"service_instances"`
 }
 type BridgeDomainMemberInterfacesServiceInstances struct {
@@ -58,14 +58,14 @@ type BridgeDomainMemberInterfacesServiceInstances struct {
 }
 
 type BridgeDomainData struct {
-	Device           types.String                       `tfsdk:"device"`
-	Id               types.String                       `tfsdk:"id"`
-	BridgeDomainId   types.Int64                        `tfsdk:"bridge_domain_id"`
-	MemberVni        types.Int64                        `tfsdk:"member_vni"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	BridgeDomainId types.Int64 `tfsdk:"bridge_domain_id"`
+	MemberVni types.Int64 `tfsdk:"member_vni"`
 	MemberInterfaces []BridgeDomainMemberInterfacesData `tfsdk:"member_interfaces"`
 }
 type BridgeDomainMemberInterfacesData struct {
-	Interface        types.String                                       `tfsdk:"interface"`
+	Interface types.String `tfsdk:"interface"`
 	ServiceInstances []BridgeDomainMemberInterfacesServiceInstancesData `tfsdk:"service_instances"`
 }
 type BridgeDomainMemberInterfacesServiceInstancesData struct {
@@ -146,10 +146,10 @@ func (data BridgeDomain) toBody(ctx context.Context, config BridgeDomain) string
 func (data BridgeDomain) toBodyXML(ctx context.Context, config BridgeDomain) string {
 	body := netconf.Body{}
 	if !data.BridgeDomainId.IsNull() && !data.BridgeDomainId.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/bridge-domain-id", strconv.FormatInt(data.BridgeDomainId.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/bridge-domain-id", strconv.FormatInt(data.BridgeDomainId.ValueInt64(), 10))
 	}
 	if !data.MemberVni.IsNull() && !data.MemberVni.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/member/vni", strconv.FormatInt(data.MemberVni.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/member/vni", strconv.FormatInt(data.MemberVni.ValueInt64(), 10))
 	}
 	if len(data.MemberInterfaces) > 0 {
 		for _, item := range data.MemberInterfaces {
@@ -185,22 +185,22 @@ func (data *BridgeDomain) updateFromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "bridge-domain-id"); value.Exists() && !data.BridgeDomainId.IsNull() {
+	if value := res.Get(prefix+"bridge-domain-id"); value.Exists() && !data.BridgeDomainId.IsNull() {
 		data.BridgeDomainId = types.Int64Value(value.Int())
 	} else {
 		data.BridgeDomainId = types.Int64Null()
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() && !data.MemberVni.IsNull() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() && !data.MemberVni.IsNull() {
 		data.MemberVni = types.Int64Value(value.Int())
 	} else {
 		data.MemberVni = types.Int64Null()
 	}
 	for i := range data.MemberInterfaces {
-		keys := [...]string{"interface"}
-		keyValues := [...]string{data.MemberInterfaces[i].Interface.ValueString()}
+		keys := [...]string{ "interface",  }
+		keyValues := [...]string{ data.MemberInterfaces[i].Interface.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "member.member-interface").ForEach(
+		res.Get(prefix+"member.member-interface").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -224,8 +224,8 @@ func (data *BridgeDomain) updateFromBody(ctx context.Context, res gjson.Result) 
 			data.MemberInterfaces[i].Interface = types.StringNull()
 		}
 		for ci := range data.MemberInterfaces[i].ServiceInstances {
-			keys := [...]string{"instance-id"}
-			keyValues := [...]string{strconv.FormatInt(data.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10)}
+			keys := [...]string{ "instance-id",  }
+			keyValues := [...]string{ strconv.FormatInt(data.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10),  }
 
 			var cr gjson.Result
 			r.Get("service-instance-list").ForEach(
@@ -260,22 +260,22 @@ func (data *BridgeDomain) updateFromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BridgeDomain) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/bridge-domain-id"); value.Exists() && !data.BridgeDomainId.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/bridge-domain-id"); value.Exists() && !data.BridgeDomainId.IsNull() {
 		data.BridgeDomainId = types.Int64Value(value.Int())
 	} else {
 		data.BridgeDomainId = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() && !data.MemberVni.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() && !data.MemberVni.IsNull() {
 		data.MemberVni = types.Int64Value(value.Int())
 	} else {
 		data.MemberVni = types.Int64Null()
 	}
 	for i := range data.MemberInterfaces {
-		keys := [...]string{"interface"}
-		keyValues := [...]string{data.MemberInterfaces[i].Interface.ValueString()}
+		keys := [...]string{ "interface",  }
+		keyValues := [...]string{ data.MemberInterfaces[i].Interface.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/member-interface").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/member-interface").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -299,8 +299,8 @@ func (data *BridgeDomain) updateFromBodyXML(ctx context.Context, res xmldot.Resu
 			data.MemberInterfaces[i].Interface = types.StringNull()
 		}
 		for ci := range data.MemberInterfaces[i].ServiceInstances {
-			keys := [...]string{"instance-id"}
-			keyValues := [...]string{strconv.FormatInt(data.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10)}
+			keys := [...]string{ "instance-id",  }
+			keyValues := [...]string{ strconv.FormatInt(data.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "service-instance-list").ForEach(
@@ -339,10 +339,10 @@ func (data *BridgeDomain) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() {
 		data.MemberVni = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.member-interface"); value.Exists() {
+	if value := res.Get(prefix+"member.member-interface"); value.Exists() {
 		data.MemberInterfaces = make([]BridgeDomainMemberInterfaces, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BridgeDomainMemberInterfaces{}
@@ -375,10 +375,10 @@ func (data *BridgeDomainData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "member.vni"); value.Exists() {
+	if value := res.Get(prefix+"member.vni"); value.Exists() {
 		data.MemberVni = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "member.member-interface"); value.Exists() {
+	if value := res.Get(prefix+"member.member-interface"); value.Exists() {
 		data.MemberInterfaces = make([]BridgeDomainMemberInterfacesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BridgeDomainMemberInterfacesData{}
@@ -407,10 +407,10 @@ func (data *BridgeDomainData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BridgeDomain) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() {
 		data.MemberVni = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/member-interface"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/member-interface"); value.Exists() {
 		data.MemberInterfaces = make([]BridgeDomainMemberInterfaces, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BridgeDomainMemberInterfaces{}
@@ -439,10 +439,10 @@ func (data *BridgeDomain) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BridgeDomainData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/vni"); value.Exists() {
 		data.MemberVni = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/member/member-interface"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/member/member-interface"); value.Exists() {
 		data.MemberInterfaces = make([]BridgeDomainMemberInterfacesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BridgeDomainMemberInterfacesData{}
@@ -473,8 +473,8 @@ func (data *BridgeDomainData) fromBodyXML(ctx context.Context, res xmldot.Result
 func (data *BridgeDomain) getDeletedItems(ctx context.Context, state BridgeDomain) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.MemberInterfaces {
-		stateKeyValues := [...]string{state.MemberInterfaces[i].Interface.ValueString()}
-
+		stateKeyValues := [...]string{ state.MemberInterfaces[i].Interface.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MemberInterfaces[i].Interface.ValueString()).IsZero() {
 			emptyKeys = false
@@ -491,8 +491,8 @@ func (data *BridgeDomain) getDeletedItems(ctx context.Context, state BridgeDomai
 			}
 			if found {
 				for ci := range state.MemberInterfaces[i].ServiceInstances {
-					cstateKeyValues := [...]string{strconv.FormatInt(state.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10)}
-
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64()).IsZero() {
 						cemptyKeys = false
@@ -536,13 +536,13 @@ func (data *BridgeDomain) getDeletedItems(ctx context.Context, state BridgeDomai
 func (data *BridgeDomain) addDeletedItemsXML(ctx context.Context, state BridgeDomain, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.MemberInterfaces {
-		stateKeys := [...]string{"interface"}
-		stateKeyValues := [...]string{state.MemberInterfaces[i].Interface.ValueString()}
+		stateKeys := [...]string{ "interface",  }
+		stateKeyValues := [...]string{ state.MemberInterfaces[i].Interface.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MemberInterfaces[i].Interface.ValueString()).IsZero() {
 			emptyKeys = false
@@ -559,8 +559,8 @@ func (data *BridgeDomain) addDeletedItemsXML(ctx context.Context, state BridgeDo
 			}
 			if found {
 				for ci := range state.MemberInterfaces[i].ServiceInstances {
-					cstateKeys := [...]string{"instance-id"}
-					cstateKeyValues := [...]string{strconv.FormatInt(state.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10)}
+					cstateKeys := [...]string{ "instance-id",  }
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.MemberInterfaces[i].ServiceInstances[ci].InstanceId.ValueInt64(), 10),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -609,6 +609,8 @@ func (data *BridgeDomain) addDeletedItemsXML(ctx context.Context, state BridgeDo
 
 func (data *BridgeDomain) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -620,7 +622,7 @@ func (data *BridgeDomain) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *BridgeDomain) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.MemberInterfaces {
-		keyValues := [...]string{data.MemberInterfaces[i].Interface.ValueString()}
+		keyValues := [...]string{ data.MemberInterfaces[i].Interface.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/member/member-interface=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -638,8 +640,8 @@ func (data *BridgeDomain) getDeletePaths(ctx context.Context) []string {
 func (data *BridgeDomain) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.MemberInterfaces {
-		keys := [...]string{"interface"}
-		keyValues := [...]string{data.MemberInterfaces[i].Interface.ValueString()}
+		keys := [...]string{ "interface",  }
+		keyValues := [...]string{ data.MemberInterfaces[i].Interface.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

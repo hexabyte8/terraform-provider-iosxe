@@ -35,7 +35,9 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -68,6 +70,7 @@ func parseHostPort(host string, defaultPort int) (string, int) {
 
 var _ provider.Provider = &IosxeProvider{}
 var _ provider.ProviderWithActions = &IosxeProvider{}
+var _ provider.ProviderWithListResources = &IosxeProvider{}
 
 const (
 	YangPatch = false
@@ -630,6 +633,7 @@ func (p *IosxeProvider) Configure(ctx context.Context, req provider.ConfigureReq
 
 	resp.DataSourceData = &data
 	resp.ResourceData = &data
+	resp.ListResourceData = &data
 }
 
 func (p *IosxeProvider) Resources(_ context.Context) []func() resource.Resource {
@@ -657,6 +661,16 @@ func (p *IosxeProvider) Actions(_ context.Context) []func() action.Action {
 	return []func() action.Action{
 		NewCommitAction,
 		NewSaveConfigAction,
+	}
+}
+
+func (p *IosxeProvider) ListResources(_ context.Context) []func() list.ListResource {
+	return []func() list.ListResource{
+		{{- range .}}
+		{{- if hasId .Attributes}}
+		New{{camelCase .Name}}ListResource,
+		{{- end}}
+		{{- end}}
 	}
 }
 

@@ -23,53 +23,53 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ClassMap struct {
-	Device                                    types.String                             `tfsdk:"device"`
-	Id                                        types.String                             `tfsdk:"id"`
-	Name                                      types.String                             `tfsdk:"name"`
-	Type                                      types.String                             `tfsdk:"type"`
-	Subscriber                                types.Bool                               `tfsdk:"subscriber"`
-	Prematch                                  types.String                             `tfsdk:"prematch"`
-	MatchAuthorizationStatusAuthorized        types.Bool                               `tfsdk:"match_authorization_status_authorized"`
-	MatchResultTypeAaaTimeout                 types.Bool                               `tfsdk:"match_result_type_aaa_timeout"`
-	MatchResultTypeSuccess                    types.Bool                               `tfsdk:"match_result_type_success"`
-	MatchAuthorizationStatusUnauthorized      types.Bool                               `tfsdk:"match_authorization_status_unauthorized"`
-	MatchActivatedServiceTemplates            []ClassMapMatchActivatedServiceTemplates `tfsdk:"match_activated_service_templates"`
-	MatchAuthorizingMethodPriorityGreaterThan types.List                               `tfsdk:"match_authorizing_method_priority_greater_than"`
-	MatchMethodDot1x                          types.Bool                               `tfsdk:"match_method_dot1x"`
-	MatchResultTypeMethodDot1xAuthoritative   types.Bool                               `tfsdk:"match_result_type_method_dot1x_authoritative"`
-	MatchResultTypeMethodDot1xAgentNotFound   types.Bool                               `tfsdk:"match_result_type_method_dot1x_agent_not_found"`
-	MatchResultTypeMethodDot1xMethodTimeout   types.Bool                               `tfsdk:"match_result_type_method_dot1x_method_timeout"`
-	MatchMethodMab                            types.Bool                               `tfsdk:"match_method_mab"`
-	MatchResultTypeMethodMabAuthoritative     types.Bool                               `tfsdk:"match_result_type_method_mab_authoritative"`
-	MatchDscp                                 types.List                               `tfsdk:"match_dscp"`
-	MatchCos                                  types.List                               `tfsdk:"match_cos"`
-	Description                               types.String                             `tfsdk:"description"`
-	MatchAccessGroupIndexLegacy               types.String                             `tfsdk:"match_access_group_index_legacy"`
-	MatchAccessGroupIndexList                 types.List                               `tfsdk:"match_access_group_index_list"`
-	MatchAccessGroupName                      types.List                               `tfsdk:"match_access_group_name"`
-	MatchIpDscp                               types.List                               `tfsdk:"match_ip_dscp"`
-	MatchIpPrecedence                         types.List                               `tfsdk:"match_ip_precedence"`
-	MatchProtocol                             []ClassMapMatchProtocol                  `tfsdk:"match_protocol"`
-	MatchClassMap                             types.List                               `tfsdk:"match_class_map"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Type types.String `tfsdk:"type"`
+	Subscriber types.Bool `tfsdk:"subscriber"`
+	Prematch types.String `tfsdk:"prematch"`
+	MatchAuthorizationStatusAuthorized types.Bool `tfsdk:"match_authorization_status_authorized"`
+	MatchResultTypeAaaTimeout types.Bool `tfsdk:"match_result_type_aaa_timeout"`
+	MatchResultTypeSuccess types.Bool `tfsdk:"match_result_type_success"`
+	MatchAuthorizationStatusUnauthorized types.Bool `tfsdk:"match_authorization_status_unauthorized"`
+	MatchActivatedServiceTemplates []ClassMapMatchActivatedServiceTemplates `tfsdk:"match_activated_service_templates"`
+	MatchAuthorizingMethodPriorityGreaterThan types.List `tfsdk:"match_authorizing_method_priority_greater_than"`
+	MatchMethodDot1x types.Bool `tfsdk:"match_method_dot1x"`
+	MatchResultTypeMethodDot1xAuthoritative types.Bool `tfsdk:"match_result_type_method_dot1x_authoritative"`
+	MatchResultTypeMethodDot1xAgentNotFound types.Bool `tfsdk:"match_result_type_method_dot1x_agent_not_found"`
+	MatchResultTypeMethodDot1xMethodTimeout types.Bool `tfsdk:"match_result_type_method_dot1x_method_timeout"`
+	MatchMethodMab types.Bool `tfsdk:"match_method_mab"`
+	MatchResultTypeMethodMabAuthoritative types.Bool `tfsdk:"match_result_type_method_mab_authoritative"`
+	MatchDscp types.List `tfsdk:"match_dscp"`
+	MatchCos types.List `tfsdk:"match_cos"`
+	Description types.String `tfsdk:"description"`
+	MatchAccessGroupIndexLegacy types.String `tfsdk:"match_access_group_index_legacy"`
+	MatchAccessGroupIndexList types.List `tfsdk:"match_access_group_index_list"`
+	MatchAccessGroupName types.List `tfsdk:"match_access_group_name"`
+	MatchIpDscp types.List `tfsdk:"match_ip_dscp"`
+	MatchIpPrecedence types.List `tfsdk:"match_ip_precedence"`
+	MatchProtocol []ClassMapMatchProtocol `tfsdk:"match_protocol"`
+	MatchClassMap types.List `tfsdk:"match_class_map"`
 }
 type ClassMapMatchActivatedServiceTemplates struct {
 	ServiceName types.String `tfsdk:"service_name"`
@@ -79,34 +79,34 @@ type ClassMapMatchProtocol struct {
 }
 
 type ClassMapData struct {
-	Device                                    types.String                                 `tfsdk:"device"`
-	Id                                        types.String                                 `tfsdk:"id"`
-	Name                                      types.String                                 `tfsdk:"name"`
-	Type                                      types.String                                 `tfsdk:"type"`
-	Subscriber                                types.Bool                                   `tfsdk:"subscriber"`
-	Prematch                                  types.String                                 `tfsdk:"prematch"`
-	MatchAuthorizationStatusAuthorized        types.Bool                                   `tfsdk:"match_authorization_status_authorized"`
-	MatchResultTypeAaaTimeout                 types.Bool                                   `tfsdk:"match_result_type_aaa_timeout"`
-	MatchResultTypeSuccess                    types.Bool                                   `tfsdk:"match_result_type_success"`
-	MatchAuthorizationStatusUnauthorized      types.Bool                                   `tfsdk:"match_authorization_status_unauthorized"`
-	MatchActivatedServiceTemplates            []ClassMapMatchActivatedServiceTemplatesData `tfsdk:"match_activated_service_templates"`
-	MatchAuthorizingMethodPriorityGreaterThan types.List                                   `tfsdk:"match_authorizing_method_priority_greater_than"`
-	MatchMethodDot1x                          types.Bool                                   `tfsdk:"match_method_dot1x"`
-	MatchResultTypeMethodDot1xAuthoritative   types.Bool                                   `tfsdk:"match_result_type_method_dot1x_authoritative"`
-	MatchResultTypeMethodDot1xAgentNotFound   types.Bool                                   `tfsdk:"match_result_type_method_dot1x_agent_not_found"`
-	MatchResultTypeMethodDot1xMethodTimeout   types.Bool                                   `tfsdk:"match_result_type_method_dot1x_method_timeout"`
-	MatchMethodMab                            types.Bool                                   `tfsdk:"match_method_mab"`
-	MatchResultTypeMethodMabAuthoritative     types.Bool                                   `tfsdk:"match_result_type_method_mab_authoritative"`
-	MatchDscp                                 types.List                                   `tfsdk:"match_dscp"`
-	MatchCos                                  types.List                                   `tfsdk:"match_cos"`
-	Description                               types.String                                 `tfsdk:"description"`
-	MatchAccessGroupIndexLegacy               types.String                                 `tfsdk:"match_access_group_index_legacy"`
-	MatchAccessGroupIndexList                 types.List                                   `tfsdk:"match_access_group_index_list"`
-	MatchAccessGroupName                      types.List                                   `tfsdk:"match_access_group_name"`
-	MatchIpDscp                               types.List                                   `tfsdk:"match_ip_dscp"`
-	MatchIpPrecedence                         types.List                                   `tfsdk:"match_ip_precedence"`
-	MatchProtocol                             []ClassMapMatchProtocolData                  `tfsdk:"match_protocol"`
-	MatchClassMap                             types.List                                   `tfsdk:"match_class_map"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Type types.String `tfsdk:"type"`
+	Subscriber types.Bool `tfsdk:"subscriber"`
+	Prematch types.String `tfsdk:"prematch"`
+	MatchAuthorizationStatusAuthorized types.Bool `tfsdk:"match_authorization_status_authorized"`
+	MatchResultTypeAaaTimeout types.Bool `tfsdk:"match_result_type_aaa_timeout"`
+	MatchResultTypeSuccess types.Bool `tfsdk:"match_result_type_success"`
+	MatchAuthorizationStatusUnauthorized types.Bool `tfsdk:"match_authorization_status_unauthorized"`
+	MatchActivatedServiceTemplates []ClassMapMatchActivatedServiceTemplatesData `tfsdk:"match_activated_service_templates"`
+	MatchAuthorizingMethodPriorityGreaterThan types.List `tfsdk:"match_authorizing_method_priority_greater_than"`
+	MatchMethodDot1x types.Bool `tfsdk:"match_method_dot1x"`
+	MatchResultTypeMethodDot1xAuthoritative types.Bool `tfsdk:"match_result_type_method_dot1x_authoritative"`
+	MatchResultTypeMethodDot1xAgentNotFound types.Bool `tfsdk:"match_result_type_method_dot1x_agent_not_found"`
+	MatchResultTypeMethodDot1xMethodTimeout types.Bool `tfsdk:"match_result_type_method_dot1x_method_timeout"`
+	MatchMethodMab types.Bool `tfsdk:"match_method_mab"`
+	MatchResultTypeMethodMabAuthoritative types.Bool `tfsdk:"match_result_type_method_mab_authoritative"`
+	MatchDscp types.List `tfsdk:"match_dscp"`
+	MatchCos types.List `tfsdk:"match_cos"`
+	Description types.String `tfsdk:"description"`
+	MatchAccessGroupIndexLegacy types.String `tfsdk:"match_access_group_index_legacy"`
+	MatchAccessGroupIndexList types.List `tfsdk:"match_access_group_index_list"`
+	MatchAccessGroupName types.List `tfsdk:"match_access_group_name"`
+	MatchIpDscp types.List `tfsdk:"match_ip_dscp"`
+	MatchIpPrecedence types.List `tfsdk:"match_ip_precedence"`
+	MatchProtocol []ClassMapMatchProtocolData `tfsdk:"match_protocol"`
+	MatchClassMap types.List `tfsdk:"match_class_map"`
 }
 type ClassMapMatchActivatedServiceTemplatesData struct {
 	ServiceName types.String `tfsdk:"service_name"`
@@ -293,47 +293,47 @@ func (data ClassMap) toBody(ctx context.Context, config ClassMap) string {
 func (data ClassMap) toBodyXML(ctx context.Context, config ClassMap) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/type", data.Type.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/type", data.Type.ValueString())
 	}
 	if !data.Subscriber.IsNull() && !data.Subscriber.IsUnknown() {
 		if data.Subscriber.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/subscriber", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/subscriber", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/subscriber")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/subscriber")
 		}
 	}
 	if !data.Prematch.IsNull() && !data.Prematch.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prematch", data.Prematch.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prematch", data.Prematch.ValueString())
 	}
 	if !data.MatchAuthorizationStatusAuthorized.IsNull() && !data.MatchAuthorizationStatusAuthorized.IsUnknown() {
 		if data.MatchAuthorizationStatusAuthorized.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/authorization-status/authorized", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/authorization-status/authorized", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/authorization-status/authorized")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/authorization-status/authorized")
 		}
 	}
 	if !data.MatchResultTypeAaaTimeout.IsNull() && !data.MatchResultTypeAaaTimeout.IsUnknown() {
 		if data.MatchResultTypeAaaTimeout.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/result-type/aaa-timeout", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/result-type/aaa-timeout", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/result-type/aaa-timeout")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/result-type/aaa-timeout")
 		}
 	}
 	if !data.MatchResultTypeSuccess.IsNull() && !data.MatchResultTypeSuccess.IsUnknown() {
 		if data.MatchResultTypeSuccess.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/result-type/success", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/result-type/success", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/result-type/success")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/result-type/success")
 		}
 	}
 	if !data.MatchAuthorizationStatusUnauthorized.IsNull() && !data.MatchAuthorizationStatusUnauthorized.IsUnknown() {
 		if data.MatchAuthorizationStatusUnauthorized.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/authorization-status/unauthorized", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/authorization-status/unauthorized", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/authorization-status/unauthorized")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/authorization-status/unauthorized")
 		}
 	}
 	if len(data.MatchActivatedServiceTemplates) > 0 {
@@ -349,97 +349,97 @@ func (data ClassMap) toBodyXML(ctx context.Context, config ClassMap) string {
 		var values []int
 		data.MatchAuthorizingMethodPriorityGreaterThan.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/authorizing-method-priority/greater-than", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/authorizing-method-priority/greater-than", v)
 		}
 	}
 	if !data.MatchMethodDot1x.IsNull() && !data.MatchMethodDot1x.IsUnknown() {
 		if data.MatchMethodDot1x.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/method/dot1x", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/method/dot1x", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/method/dot1x")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/method/dot1x")
 		}
 	}
 	if !data.MatchResultTypeMethodDot1xAuthoritative.IsNull() && !data.MatchResultTypeMethodDot1xAuthoritative.IsUnknown() {
 		if data.MatchResultTypeMethodDot1xAuthoritative.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/result-type/method/dot1x/authoritative", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/result-type/method/dot1x/authoritative", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/result-type/method/dot1x/authoritative")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/result-type/method/dot1x/authoritative")
 		}
 	}
 	if !data.MatchResultTypeMethodDot1xAgentNotFound.IsNull() && !data.MatchResultTypeMethodDot1xAgentNotFound.IsUnknown() {
 		if data.MatchResultTypeMethodDot1xAgentNotFound.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/result-type/method/dot1x/agent-not-found", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/result-type/method/dot1x/agent-not-found", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/result-type/method/dot1x/agent-not-found")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/result-type/method/dot1x/agent-not-found")
 		}
 	}
 	if !data.MatchResultTypeMethodDot1xMethodTimeout.IsNull() && !data.MatchResultTypeMethodDot1xMethodTimeout.IsUnknown() {
 		if data.MatchResultTypeMethodDot1xMethodTimeout.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/result-type/method/dot1x/method-timeout", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/result-type/method/dot1x/method-timeout", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/result-type/method/dot1x/method-timeout")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/result-type/method/dot1x/method-timeout")
 		}
 	}
 	if !data.MatchMethodMab.IsNull() && !data.MatchMethodMab.IsUnknown() {
 		if data.MatchMethodMab.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/method/mab", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/method/mab", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/method/mab")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/method/mab")
 		}
 	}
 	if !data.MatchResultTypeMethodMabAuthoritative.IsNull() && !data.MatchResultTypeMethodMabAuthoritative.IsUnknown() {
 		if data.MatchResultTypeMethodMabAuthoritative.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/match/result-type/method/mab/authoritative", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/match/result-type/method/mab/authoritative", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/match/result-type/method/mab/authoritative")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/match/result-type/method/mab/authoritative")
 		}
 	}
 	if !data.MatchDscp.IsNull() && !data.MatchDscp.IsUnknown() {
 		var values []string
 		data.MatchDscp.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/dscp", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/dscp", v)
 		}
 	}
 	if !data.MatchCos.IsNull() && !data.MatchCos.IsUnknown() {
 		var values []int
 		data.MatchCos.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/cos", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/cos", v)
 		}
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if !data.MatchAccessGroupIndexLegacy.IsNull() && !data.MatchAccessGroupIndexLegacy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/match/access-group/index", data.MatchAccessGroupIndexLegacy.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/match/access-group/index", data.MatchAccessGroupIndexLegacy.ValueString())
 	}
 	if !data.MatchAccessGroupIndexList.IsNull() && !data.MatchAccessGroupIndexList.IsUnknown() {
 		var values []string
 		data.MatchAccessGroupIndexList.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/access-group/index_list", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/access-group/index_list", v)
 		}
 	}
 	if !data.MatchAccessGroupName.IsNull() && !data.MatchAccessGroupName.IsUnknown() {
 		var values []string
 		data.MatchAccessGroupName.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/access-group/name", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/access-group/name", v)
 		}
 	}
 	if !data.MatchIpDscp.IsNull() && !data.MatchIpDscp.IsUnknown() {
 		var values []string
 		data.MatchIpDscp.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/ip/dscp", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/ip/dscp", v)
 		}
 	}
 	if !data.MatchIpPrecedence.IsNull() && !data.MatchIpPrecedence.IsUnknown() {
 		var values []string
 		data.MatchIpPrecedence.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/ip/precedence", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/ip/precedence", v)
 		}
 	}
 	if len(data.MatchProtocol) > 0 {
@@ -455,7 +455,7 @@ func (data ClassMap) toBodyXML(ctx context.Context, config ClassMap) string {
 		var values []string
 		data.MatchClassMap.ElementsAs(ctx, &values, false)
 		for _, v := range values {
-			body = helpers.AppendFromXPath(body, data.getXPath()+"/match/class-map", v)
+			body = helpers.AppendFromXPath(body, data.getXPath() + "/match/class-map", v)
 		}
 	}
 	bodyString, err := body.String()
@@ -474,17 +474,17 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "type"); value.Exists() && !data.Type.IsNull() {
+	if value := res.Get(prefix+"type"); value.Exists() && !data.Type.IsNull() {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := res.Get(prefix + "subscriber"); !data.Subscriber.IsNull() {
+	if value := res.Get(prefix+"subscriber"); !data.Subscriber.IsNull() {
 		if value.Exists() {
 			data.Subscriber = types.BoolValue(true)
 		} else {
@@ -493,12 +493,12 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Subscriber = types.BoolNull()
 	}
-	if value := res.Get(prefix + "prematch"); value.Exists() && !data.Prematch.IsNull() {
+	if value := res.Get(prefix+"prematch"); value.Exists() && !data.Prematch.IsNull() {
 		data.Prematch = types.StringValue(value.String())
 	} else {
 		data.Prematch = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.authorization-status.authorized"); !data.MatchAuthorizationStatusAuthorized.IsNull() {
+	if value := res.Get(prefix+"match.authorization-status.authorized"); !data.MatchAuthorizationStatusAuthorized.IsNull() {
 		if value.Exists() {
 			data.MatchAuthorizationStatusAuthorized = types.BoolValue(true)
 		} else {
@@ -507,7 +507,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchAuthorizationStatusAuthorized = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.result-type.aaa-timeout"); !data.MatchResultTypeAaaTimeout.IsNull() {
+	if value := res.Get(prefix+"match.result-type.aaa-timeout"); !data.MatchResultTypeAaaTimeout.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeAaaTimeout = types.BoolValue(true)
 		} else {
@@ -516,7 +516,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchResultTypeAaaTimeout = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.result-type.success"); !data.MatchResultTypeSuccess.IsNull() {
+	if value := res.Get(prefix+"match.result-type.success"); !data.MatchResultTypeSuccess.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeSuccess = types.BoolValue(true)
 		} else {
@@ -525,7 +525,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchResultTypeSuccess = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.authorization-status.unauthorized"); !data.MatchAuthorizationStatusUnauthorized.IsNull() {
+	if value := res.Get(prefix+"match.authorization-status.unauthorized"); !data.MatchAuthorizationStatusUnauthorized.IsNull() {
 		if value.Exists() {
 			data.MatchAuthorizationStatusUnauthorized = types.BoolValue(true)
 		} else {
@@ -535,11 +535,11 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolNull()
 	}
 	for i := range data.MatchActivatedServiceTemplates {
-		keys := [...]string{"service-name"}
-		keyValues := [...]string{data.MatchActivatedServiceTemplates[i].ServiceName.ValueString()}
+		keys := [...]string{ "service-name",  }
+		keyValues := [...]string{ data.MatchActivatedServiceTemplates[i].ServiceName.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "match.activated-service-template").ForEach(
+		res.Get(prefix+"match.activated-service-template").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -563,12 +563,12 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.MatchActivatedServiceTemplates[i].ServiceName = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "match.authorizing-method-priority.greater-than"); value.Exists() && !data.MatchAuthorizingMethodPriorityGreaterThan.IsNull() {
+	if value := res.Get(prefix+"match.authorizing-method-priority.greater-than"); value.Exists() && !data.MatchAuthorizingMethodPriorityGreaterThan.IsNull() {
 		data.MatchAuthorizingMethodPriorityGreaterThan = helpers.GetInt64List(value.Array())
 	} else {
 		data.MatchAuthorizingMethodPriorityGreaterThan = types.ListNull(types.Int64Type)
 	}
-	if value := res.Get(prefix + "match.method.dot1x"); !data.MatchMethodDot1x.IsNull() {
+	if value := res.Get(prefix+"match.method.dot1x"); !data.MatchMethodDot1x.IsNull() {
 		if value.Exists() {
 			data.MatchMethodDot1x = types.BoolValue(true)
 		} else {
@@ -577,7 +577,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchMethodDot1x = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.authoritative"); !data.MatchResultTypeMethodDot1xAuthoritative.IsNull() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.authoritative"); !data.MatchResultTypeMethodDot1xAuthoritative.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(true)
 		} else {
@@ -586,7 +586,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.agent-not-found"); !data.MatchResultTypeMethodDot1xAgentNotFound.IsNull() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.agent-not-found"); !data.MatchResultTypeMethodDot1xAgentNotFound.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(true)
 		} else {
@@ -595,7 +595,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.method-timeout"); !data.MatchResultTypeMethodDot1xMethodTimeout.IsNull() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.method-timeout"); !data.MatchResultTypeMethodDot1xMethodTimeout.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(true)
 		} else {
@@ -604,7 +604,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.method.mab"); !data.MatchMethodMab.IsNull() {
+	if value := res.Get(prefix+"match.method.mab"); !data.MatchMethodMab.IsNull() {
 		if value.Exists() {
 			data.MatchMethodMab = types.BoolValue(true)
 		} else {
@@ -613,7 +613,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchMethodMab = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.result-type.method.mab.authoritative"); !data.MatchResultTypeMethodMabAuthoritative.IsNull() {
+	if value := res.Get(prefix+"match.result-type.method.mab.authoritative"); !data.MatchResultTypeMethodMabAuthoritative.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(true)
 		} else {
@@ -622,52 +622,52 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolNull()
 	}
-	if value := res.Get(prefix + "match.dscp"); value.Exists() && !data.MatchDscp.IsNull() {
+	if value := res.Get(prefix+"match.dscp"); value.Exists() && !data.MatchDscp.IsNull() {
 		data.MatchDscp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchDscp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.cos"); value.Exists() && !data.MatchCos.IsNull() {
+	if value := res.Get(prefix+"match.cos"); value.Exists() && !data.MatchCos.IsNull() {
 		data.MatchCos = helpers.GetInt64List(value.Array())
 	} else {
 		data.MatchCos = types.ListNull(types.Int64Type)
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.access-group.index"); value.Exists() && !data.MatchAccessGroupIndexLegacy.IsNull() {
+	if value := res.Get(prefix+"match.access-group.index"); value.Exists() && !data.MatchAccessGroupIndexLegacy.IsNull() {
 		data.MatchAccessGroupIndexLegacy = types.StringValue(value.String())
 	} else {
 		data.MatchAccessGroupIndexLegacy = types.StringNull()
 	}
-	if value := res.Get(prefix + "match.access-group.index_list"); value.Exists() && !data.MatchAccessGroupIndexList.IsNull() {
+	if value := res.Get(prefix+"match.access-group.index_list"); value.Exists() && !data.MatchAccessGroupIndexList.IsNull() {
 		data.MatchAccessGroupIndexList = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAccessGroupIndexList = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.access-group.name"); value.Exists() && !data.MatchAccessGroupName.IsNull() {
+	if value := res.Get(prefix+"match.access-group.name"); value.Exists() && !data.MatchAccessGroupName.IsNull() {
 		data.MatchAccessGroupName = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAccessGroupName = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.ip.dscp"); value.Exists() && !data.MatchIpDscp.IsNull() {
+	if value := res.Get(prefix+"match.ip.dscp"); value.Exists() && !data.MatchIpDscp.IsNull() {
 		data.MatchIpDscp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIpDscp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.ip.precedence"); value.Exists() && !data.MatchIpPrecedence.IsNull() {
+	if value := res.Get(prefix+"match.ip.precedence"); value.Exists() && !data.MatchIpPrecedence.IsNull() {
 		data.MatchIpPrecedence = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIpPrecedence = types.ListNull(types.StringType)
 	}
 	for i := range data.MatchProtocol {
-		keys := [...]string{"protocols"}
-		keyValues := [...]string{data.MatchProtocol[i].Protocols.ValueString()}
+		keys := [...]string{ "protocols",  }
+		keyValues := [...]string{ data.MatchProtocol[i].Protocols.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "match.protocol.protocols-list").ForEach(
+		res.Get(prefix+"match.protocol.protocols-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -691,7 +691,7 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.MatchProtocol[i].Protocols = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "match.class-map"); value.Exists() && !data.MatchClassMap.IsNull() {
+	if value := res.Get(prefix+"match.class-map"); value.Exists() && !data.MatchClassMap.IsNull() {
 		data.MatchClassMap = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchClassMap = types.ListNull(types.StringType)
@@ -703,17 +703,17 @@ func (data *ClassMap) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/type"); value.Exists() && !data.Type.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/type"); value.Exists() && !data.Type.IsNull() {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subscriber"); !data.Subscriber.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subscriber"); !data.Subscriber.IsNull() {
 		if value.Exists() {
 			data.Subscriber = types.BoolValue(true)
 		} else {
@@ -722,12 +722,12 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.Subscriber = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prematch"); value.Exists() && !data.Prematch.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prematch"); value.Exists() && !data.Prematch.IsNull() {
 		data.Prematch = types.StringValue(value.String())
 	} else {
 		data.Prematch = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorization-status/authorized"); !data.MatchAuthorizationStatusAuthorized.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorization-status/authorized"); !data.MatchAuthorizationStatusAuthorized.IsNull() {
 		if value.Exists() {
 			data.MatchAuthorizationStatusAuthorized = types.BoolValue(true)
 		} else {
@@ -736,7 +736,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchAuthorizationStatusAuthorized = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/aaa-timeout"); !data.MatchResultTypeAaaTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/aaa-timeout"); !data.MatchResultTypeAaaTimeout.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeAaaTimeout = types.BoolValue(true)
 		} else {
@@ -745,7 +745,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchResultTypeAaaTimeout = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/success"); !data.MatchResultTypeSuccess.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/success"); !data.MatchResultTypeSuccess.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeSuccess = types.BoolValue(true)
 		} else {
@@ -754,7 +754,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchResultTypeSuccess = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorization-status/unauthorized"); !data.MatchAuthorizationStatusUnauthorized.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorization-status/unauthorized"); !data.MatchAuthorizationStatusUnauthorized.IsNull() {
 		if value.Exists() {
 			data.MatchAuthorizationStatusUnauthorized = types.BoolValue(true)
 		} else {
@@ -764,11 +764,11 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 		data.MatchAuthorizationStatusUnauthorized = types.BoolNull()
 	}
 	for i := range data.MatchActivatedServiceTemplates {
-		keys := [...]string{"service-name"}
-		keyValues := [...]string{data.MatchActivatedServiceTemplates[i].ServiceName.ValueString()}
+		keys := [...]string{ "service-name",  }
+		keyValues := [...]string{ data.MatchActivatedServiceTemplates[i].ServiceName.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/activated-service-template").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/activated-service-template").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -792,12 +792,12 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 			data.MatchActivatedServiceTemplates[i].ServiceName = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorizing-method-priority/greater-than"); value.Exists() && !data.MatchAuthorizingMethodPriorityGreaterThan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorizing-method-priority/greater-than"); value.Exists() && !data.MatchAuthorizingMethodPriorityGreaterThan.IsNull() {
 		data.MatchAuthorizingMethodPriorityGreaterThan = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.MatchAuthorizingMethodPriorityGreaterThan = types.ListNull(types.Int64Type)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/method/dot1x"); !data.MatchMethodDot1x.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/method/dot1x"); !data.MatchMethodDot1x.IsNull() {
 		if value.Exists() {
 			data.MatchMethodDot1x = types.BoolValue(true)
 		} else {
@@ -806,7 +806,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchMethodDot1x = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/authoritative"); !data.MatchResultTypeMethodDot1xAuthoritative.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/authoritative"); !data.MatchResultTypeMethodDot1xAuthoritative.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(true)
 		} else {
@@ -815,7 +815,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/agent-not-found"); !data.MatchResultTypeMethodDot1xAgentNotFound.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/agent-not-found"); !data.MatchResultTypeMethodDot1xAgentNotFound.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(true)
 		} else {
@@ -824,7 +824,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/method-timeout"); !data.MatchResultTypeMethodDot1xMethodTimeout.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/method-timeout"); !data.MatchResultTypeMethodDot1xMethodTimeout.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(true)
 		} else {
@@ -833,7 +833,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/method/mab"); !data.MatchMethodMab.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/method/mab"); !data.MatchMethodMab.IsNull() {
 		if value.Exists() {
 			data.MatchMethodMab = types.BoolValue(true)
 		} else {
@@ -842,7 +842,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchMethodMab = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/mab/authoritative"); !data.MatchResultTypeMethodMabAuthoritative.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/mab/authoritative"); !data.MatchResultTypeMethodMabAuthoritative.IsNull() {
 		if value.Exists() {
 			data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(true)
 		} else {
@@ -851,52 +851,52 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 	} else {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/dscp"); value.Exists() && !data.MatchDscp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/dscp"); value.Exists() && !data.MatchDscp.IsNull() {
 		data.MatchDscp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchDscp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/cos"); value.Exists() && !data.MatchCos.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/cos"); value.Exists() && !data.MatchCos.IsNull() {
 		data.MatchCos = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.MatchCos = types.ListNull(types.Int64Type)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/index"); value.Exists() && !data.MatchAccessGroupIndexLegacy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/index"); value.Exists() && !data.MatchAccessGroupIndexLegacy.IsNull() {
 		data.MatchAccessGroupIndexLegacy = types.StringValue(value.String())
 	} else {
 		data.MatchAccessGroupIndexLegacy = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/index_list"); value.Exists() && !data.MatchAccessGroupIndexList.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/index_list"); value.Exists() && !data.MatchAccessGroupIndexList.IsNull() {
 		data.MatchAccessGroupIndexList = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAccessGroupIndexList = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/name"); value.Exists() && !data.MatchAccessGroupName.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/name"); value.Exists() && !data.MatchAccessGroupName.IsNull() {
 		data.MatchAccessGroupName = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAccessGroupName = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/ip/dscp"); value.Exists() && !data.MatchIpDscp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/ip/dscp"); value.Exists() && !data.MatchIpDscp.IsNull() {
 		data.MatchIpDscp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIpDscp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/ip/precedence"); value.Exists() && !data.MatchIpPrecedence.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/ip/precedence"); value.Exists() && !data.MatchIpPrecedence.IsNull() {
 		data.MatchIpPrecedence = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIpPrecedence = types.ListNull(types.StringType)
 	}
 	for i := range data.MatchProtocol {
-		keys := [...]string{"protocols"}
-		keyValues := [...]string{data.MatchProtocol[i].Protocols.ValueString()}
+		keys := [...]string{ "protocols",  }
+		keyValues := [...]string{ data.MatchProtocol[i].Protocols.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/protocol/protocols-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/protocol/protocols-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -920,7 +920,7 @@ func (data *ClassMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) 
 			data.MatchProtocol[i].Protocols = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/class-map"); value.Exists() && !data.MatchClassMap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/class-map"); value.Exists() && !data.MatchClassMap.IsNull() {
 		data.MatchClassMap = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchClassMap = types.ListNull(types.StringType)
@@ -936,38 +936,38 @@ func (data *ClassMap) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "type"); value.Exists() {
+	if value := res.Get(prefix+"type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "subscriber"); value.Exists() {
+	if value := res.Get(prefix+"subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "prematch"); value.Exists() {
+	if value := res.Get(prefix+"prematch"); value.Exists() {
 		data.Prematch = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.authorization-status.authorized"); value.Exists() {
+	if value := res.Get(prefix+"match.authorization-status.authorized"); value.Exists() {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.aaa-timeout"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.aaa-timeout"); value.Exists() {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.success"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.success"); value.Exists() {
 		data.MatchResultTypeSuccess = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeSuccess = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.authorization-status.unauthorized"); value.Exists() {
+	if value := res.Get(prefix+"match.authorization-status.unauthorized"); value.Exists() {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.activated-service-template"); value.Exists() {
+	if value := res.Get(prefix+"match.activated-service-template"); value.Exists() {
 		data.MatchActivatedServiceTemplates = make([]ClassMapMatchActivatedServiceTemplates, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ClassMapMatchActivatedServiceTemplates{}
@@ -978,78 +978,78 @@ func (data *ClassMap) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "match.authorizing-method-priority.greater-than"); value.Exists() {
+	if value := res.Get(prefix+"match.authorizing-method-priority.greater-than"); value.Exists() {
 		data.MatchAuthorizingMethodPriorityGreaterThan = helpers.GetInt64List(value.Array())
 	} else {
 		data.MatchAuthorizingMethodPriorityGreaterThan = types.ListNull(types.Int64Type)
 	}
-	if value := res.Get(prefix + "match.method.dot1x"); value.Exists() {
+	if value := res.Get(prefix+"match.method.dot1x"); value.Exists() {
 		data.MatchMethodDot1x = types.BoolValue(true)
 	} else {
 		data.MatchMethodDot1x = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.authoritative"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.authoritative"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.agent-not-found"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.agent-not-found"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.method-timeout"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.method-timeout"); value.Exists() {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.method.mab"); value.Exists() {
+	if value := res.Get(prefix+"match.method.mab"); value.Exists() {
 		data.MatchMethodMab = types.BoolValue(true)
 	} else {
 		data.MatchMethodMab = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.mab.authoritative"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.mab.authoritative"); value.Exists() {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.dscp"); value.Exists() {
+	if value := res.Get(prefix+"match.dscp"); value.Exists() {
 		data.MatchDscp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchDscp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.cos"); value.Exists() {
+	if value := res.Get(prefix+"match.cos"); value.Exists() {
 		data.MatchCos = helpers.GetInt64List(value.Array())
 	} else {
 		data.MatchCos = types.ListNull(types.Int64Type)
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.access-group.index"); value.Exists() {
+	if value := res.Get(prefix+"match.access-group.index"); value.Exists() {
 		data.MatchAccessGroupIndexLegacy = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.access-group.index_list"); value.Exists() {
+	if value := res.Get(prefix+"match.access-group.index_list"); value.Exists() {
 		data.MatchAccessGroupIndexList = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAccessGroupIndexList = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.access-group.name"); value.Exists() {
+	if value := res.Get(prefix+"match.access-group.name"); value.Exists() {
 		data.MatchAccessGroupName = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAccessGroupName = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.ip.dscp"); value.Exists() {
+	if value := res.Get(prefix+"match.ip.dscp"); value.Exists() {
 		data.MatchIpDscp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIpDscp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.ip.precedence"); value.Exists() {
+	if value := res.Get(prefix+"match.ip.precedence"); value.Exists() {
 		data.MatchIpPrecedence = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIpPrecedence = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.protocol.protocols-list"); value.Exists() {
+	if value := res.Get(prefix+"match.protocol.protocols-list"); value.Exists() {
 		data.MatchProtocol = make([]ClassMapMatchProtocol, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ClassMapMatchProtocol{}
@@ -1060,7 +1060,7 @@ func (data *ClassMap) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "match.class-map"); value.Exists() {
+	if value := res.Get(prefix+"match.class-map"); value.Exists() {
 		data.MatchClassMap = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchClassMap = types.ListNull(types.StringType)
@@ -1076,38 +1076,38 @@ func (data *ClassMapData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "type"); value.Exists() {
+	if value := res.Get(prefix+"type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "subscriber"); value.Exists() {
+	if value := res.Get(prefix+"subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "prematch"); value.Exists() {
+	if value := res.Get(prefix+"prematch"); value.Exists() {
 		data.Prematch = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.authorization-status.authorized"); value.Exists() {
+	if value := res.Get(prefix+"match.authorization-status.authorized"); value.Exists() {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.aaa-timeout"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.aaa-timeout"); value.Exists() {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.success"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.success"); value.Exists() {
 		data.MatchResultTypeSuccess = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeSuccess = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.authorization-status.unauthorized"); value.Exists() {
+	if value := res.Get(prefix+"match.authorization-status.unauthorized"); value.Exists() {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.activated-service-template"); value.Exists() {
+	if value := res.Get(prefix+"match.activated-service-template"); value.Exists() {
 		data.MatchActivatedServiceTemplates = make([]ClassMapMatchActivatedServiceTemplatesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ClassMapMatchActivatedServiceTemplatesData{}
@@ -1118,78 +1118,78 @@ func (data *ClassMapData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "match.authorizing-method-priority.greater-than"); value.Exists() {
+	if value := res.Get(prefix+"match.authorizing-method-priority.greater-than"); value.Exists() {
 		data.MatchAuthorizingMethodPriorityGreaterThan = helpers.GetInt64List(value.Array())
 	} else {
 		data.MatchAuthorizingMethodPriorityGreaterThan = types.ListNull(types.Int64Type)
 	}
-	if value := res.Get(prefix + "match.method.dot1x"); value.Exists() {
+	if value := res.Get(prefix+"match.method.dot1x"); value.Exists() {
 		data.MatchMethodDot1x = types.BoolValue(true)
 	} else {
 		data.MatchMethodDot1x = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.authoritative"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.authoritative"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.agent-not-found"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.agent-not-found"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.dot1x.method-timeout"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.dot1x.method-timeout"); value.Exists() {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.method.mab"); value.Exists() {
+	if value := res.Get(prefix+"match.method.mab"); value.Exists() {
 		data.MatchMethodMab = types.BoolValue(true)
 	} else {
 		data.MatchMethodMab = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.result-type.method.mab.authoritative"); value.Exists() {
+	if value := res.Get(prefix+"match.result-type.method.mab.authoritative"); value.Exists() {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "match.dscp"); value.Exists() {
+	if value := res.Get(prefix+"match.dscp"); value.Exists() {
 		data.MatchDscp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchDscp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.cos"); value.Exists() {
+	if value := res.Get(prefix+"match.cos"); value.Exists() {
 		data.MatchCos = helpers.GetInt64List(value.Array())
 	} else {
 		data.MatchCos = types.ListNull(types.Int64Type)
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.access-group.index"); value.Exists() {
+	if value := res.Get(prefix+"match.access-group.index"); value.Exists() {
 		data.MatchAccessGroupIndexLegacy = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "match.access-group.index_list"); value.Exists() {
+	if value := res.Get(prefix+"match.access-group.index_list"); value.Exists() {
 		data.MatchAccessGroupIndexList = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAccessGroupIndexList = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.access-group.name"); value.Exists() {
+	if value := res.Get(prefix+"match.access-group.name"); value.Exists() {
 		data.MatchAccessGroupName = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchAccessGroupName = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.ip.dscp"); value.Exists() {
+	if value := res.Get(prefix+"match.ip.dscp"); value.Exists() {
 		data.MatchIpDscp = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIpDscp = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.ip.precedence"); value.Exists() {
+	if value := res.Get(prefix+"match.ip.precedence"); value.Exists() {
 		data.MatchIpPrecedence = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchIpPrecedence = types.ListNull(types.StringType)
 	}
-	if value := res.Get(prefix + "match.protocol.protocols-list"); value.Exists() {
+	if value := res.Get(prefix+"match.protocol.protocols-list"); value.Exists() {
 		data.MatchProtocol = make([]ClassMapMatchProtocolData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ClassMapMatchProtocolData{}
@@ -1200,7 +1200,7 @@ func (data *ClassMapData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "match.class-map"); value.Exists() {
+	if value := res.Get(prefix+"match.class-map"); value.Exists() {
 		data.MatchClassMap = helpers.GetStringList(value.Array())
 	} else {
 		data.MatchClassMap = types.ListNull(types.StringType)
@@ -1212,38 +1212,38 @@ func (data *ClassMapData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ClassMap) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subscriber"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prematch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prematch"); value.Exists() {
 		data.Prematch = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorization-status/authorized"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorization-status/authorized"); value.Exists() {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/aaa-timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/aaa-timeout"); value.Exists() {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/success"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/success"); value.Exists() {
 		data.MatchResultTypeSuccess = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeSuccess = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorization-status/unauthorized"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorization-status/unauthorized"); value.Exists() {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/activated-service-template"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/activated-service-template"); value.Exists() {
 		data.MatchActivatedServiceTemplates = make([]ClassMapMatchActivatedServiceTemplates, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ClassMapMatchActivatedServiceTemplates{}
@@ -1254,78 +1254,78 @@ func (data *ClassMap) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorizing-method-priority/greater-than"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorizing-method-priority/greater-than"); value.Exists() {
 		data.MatchAuthorizingMethodPriorityGreaterThan = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.MatchAuthorizingMethodPriorityGreaterThan = types.ListNull(types.Int64Type)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/method/dot1x"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/method/dot1x"); value.Exists() {
 		data.MatchMethodDot1x = types.BoolValue(true)
 	} else {
 		data.MatchMethodDot1x = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/authoritative"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/authoritative"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/agent-not-found"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/agent-not-found"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/method-timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/method-timeout"); value.Exists() {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/method/mab"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/method/mab"); value.Exists() {
 		data.MatchMethodMab = types.BoolValue(true)
 	} else {
 		data.MatchMethodMab = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/mab/authoritative"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/mab/authoritative"); value.Exists() {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/dscp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/dscp"); value.Exists() {
 		data.MatchDscp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchDscp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/cos"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/cos"); value.Exists() {
 		data.MatchCos = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.MatchCos = types.ListNull(types.Int64Type)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/index"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/index"); value.Exists() {
 		data.MatchAccessGroupIndexLegacy = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/index_list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/index_list"); value.Exists() {
 		data.MatchAccessGroupIndexList = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAccessGroupIndexList = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/name"); value.Exists() {
 		data.MatchAccessGroupName = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAccessGroupName = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/ip/dscp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/ip/dscp"); value.Exists() {
 		data.MatchIpDscp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIpDscp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/ip/precedence"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/ip/precedence"); value.Exists() {
 		data.MatchIpPrecedence = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIpPrecedence = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/protocol/protocols-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/protocol/protocols-list"); value.Exists() {
 		data.MatchProtocol = make([]ClassMapMatchProtocol, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ClassMapMatchProtocol{}
@@ -1336,7 +1336,7 @@ func (data *ClassMap) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/class-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/class-map"); value.Exists() {
 		data.MatchClassMap = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchClassMap = types.ListNull(types.StringType)
@@ -1348,38 +1348,38 @@ func (data *ClassMap) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ClassMapData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subscriber"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prematch"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prematch"); value.Exists() {
 		data.Prematch = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorization-status/authorized"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorization-status/authorized"); value.Exists() {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusAuthorized = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/aaa-timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/aaa-timeout"); value.Exists() {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeAaaTimeout = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/success"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/success"); value.Exists() {
 		data.MatchResultTypeSuccess = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeSuccess = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorization-status/unauthorized"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorization-status/unauthorized"); value.Exists() {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(true)
 	} else {
 		data.MatchAuthorizationStatusUnauthorized = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/activated-service-template"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/activated-service-template"); value.Exists() {
 		data.MatchActivatedServiceTemplates = make([]ClassMapMatchActivatedServiceTemplatesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ClassMapMatchActivatedServiceTemplatesData{}
@@ -1390,78 +1390,78 @@ func (data *ClassMapData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/authorizing-method-priority/greater-than"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/authorizing-method-priority/greater-than"); value.Exists() {
 		data.MatchAuthorizingMethodPriorityGreaterThan = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.MatchAuthorizingMethodPriorityGreaterThan = types.ListNull(types.Int64Type)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/method/dot1x"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/method/dot1x"); value.Exists() {
 		data.MatchMethodDot1x = types.BoolValue(true)
 	} else {
 		data.MatchMethodDot1x = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/authoritative"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/authoritative"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAuthoritative = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/agent-not-found"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/agent-not-found"); value.Exists() {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xAgentNotFound = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/dot1x/method-timeout"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/dot1x/method-timeout"); value.Exists() {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodDot1xMethodTimeout = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/method/mab"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/method/mab"); value.Exists() {
 		data.MatchMethodMab = types.BoolValue(true)
 	} else {
 		data.MatchMethodMab = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/result-type/method/mab/authoritative"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/result-type/method/mab/authoritative"); value.Exists() {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(true)
 	} else {
 		data.MatchResultTypeMethodMabAuthoritative = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/dscp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/dscp"); value.Exists() {
 		data.MatchDscp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchDscp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/cos"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/cos"); value.Exists() {
 		data.MatchCos = helpers.GetInt64ListXML(value.Array())
 	} else {
 		data.MatchCos = types.ListNull(types.Int64Type)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/index"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/index"); value.Exists() {
 		data.MatchAccessGroupIndexLegacy = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/index_list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/index_list"); value.Exists() {
 		data.MatchAccessGroupIndexList = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAccessGroupIndexList = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/access-group/name"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/access-group/name"); value.Exists() {
 		data.MatchAccessGroupName = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchAccessGroupName = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/ip/dscp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/ip/dscp"); value.Exists() {
 		data.MatchIpDscp = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIpDscp = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/ip/precedence"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/ip/precedence"); value.Exists() {
 		data.MatchIpPrecedence = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchIpPrecedence = types.ListNull(types.StringType)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/protocol/protocols-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/protocol/protocols-list"); value.Exists() {
 		data.MatchProtocol = make([]ClassMapMatchProtocolData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ClassMapMatchProtocolData{}
@@ -1472,7 +1472,7 @@ func (data *ClassMapData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match/class-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match/class-map"); value.Exists() {
 		data.MatchClassMap = helpers.GetStringListXML(value.Array())
 	} else {
 		data.MatchClassMap = types.ListNull(types.StringType)
@@ -1507,8 +1507,8 @@ func (data *ClassMap) getDeletedItems(ctx context.Context, state ClassMap) []str
 		}
 	}
 	for i := range state.MatchProtocol {
-		stateKeyValues := [...]string{state.MatchProtocol[i].Protocols.ValueString()}
-
+		stateKeyValues := [...]string{ state.MatchProtocol[i].Protocols.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchProtocol[i].Protocols.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1703,8 +1703,8 @@ func (data *ClassMap) getDeletedItems(ctx context.Context, state ClassMap) []str
 		}
 	}
 	for i := range state.MatchActivatedServiceTemplates {
-		stateKeyValues := [...]string{state.MatchActivatedServiceTemplates[i].ServiceName.ValueString()}
-
+		stateKeyValues := [...]string{ state.MatchActivatedServiceTemplates[i].ServiceName.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchActivatedServiceTemplates[i].ServiceName.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1784,13 +1784,13 @@ func (data *ClassMap) addDeletedItemsXML(ctx context.Context, state ClassMap, bo
 		}
 	}
 	for i := range state.MatchProtocol {
-		stateKeys := [...]string{"protocols"}
-		stateKeyValues := [...]string{state.MatchProtocol[i].Protocols.ValueString()}
+		stateKeys := [...]string{ "protocols",  }
+		stateKeyValues := [...]string{ state.MatchProtocol[i].Protocols.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchProtocol[i].Protocols.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2013,13 +2013,13 @@ func (data *ClassMap) addDeletedItemsXML(ctx context.Context, state ClassMap, bo
 		}
 	}
 	for i := range state.MatchActivatedServiceTemplates {
-		stateKeys := [...]string{"service-name"}
-		stateKeyValues := [...]string{state.MatchActivatedServiceTemplates[i].ServiceName.ValueString()}
+		stateKeys := [...]string{ "service-name",  }
+		stateKeyValues := [...]string{ state.MatchActivatedServiceTemplates[i].ServiceName.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.MatchActivatedServiceTemplates[i].ServiceName.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2074,7 +2074,8 @@ func (data *ClassMap) addDeletedItemsXML(ctx context.Context, state ClassMap, bo
 
 func (data *ClassMap) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	if !data.MatchResultTypeMethodMabAuthoritative.IsNull() && !data.MatchResultTypeMethodMabAuthoritative.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/match/result-type/method/mab/authoritative", data.getPath()))
 	}
@@ -2093,7 +2094,8 @@ func (data *ClassMap) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.MatchMethodDot1x.IsNull() && !data.MatchMethodDot1x.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/match/method/dot1x", data.getPath()))
 	}
-
+	
+	
 	if !data.MatchAuthorizationStatusUnauthorized.IsNull() && !data.MatchAuthorizationStatusUnauthorized.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/match/authorization-status/unauthorized", data.getPath()))
 	}
@@ -2123,7 +2125,7 @@ func (data *ClassMap) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/class-map", data.getPath()))
 	}
 	for i := range data.MatchProtocol {
-		keyValues := [...]string{data.MatchProtocol[i].Protocols.ValueString()}
+		keyValues := [...]string{ data.MatchProtocol[i].Protocols.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/protocol/protocols-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2173,7 +2175,7 @@ func (data *ClassMap) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/authorizing-method-priority/greater-than", data.getPath()))
 	}
 	for i := range data.MatchActivatedServiceTemplates {
-		keyValues := [...]string{data.MatchActivatedServiceTemplates[i].ServiceName.ValueString()}
+		keyValues := [...]string{ data.MatchActivatedServiceTemplates[i].ServiceName.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/match/activated-service-template=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2216,8 +2218,8 @@ func (data *ClassMap) addDeletePathsXML(ctx context.Context, body string) string
 		}
 	}
 	for i := range data.MatchProtocol {
-		keys := [...]string{"protocols"}
-		keyValues := [...]string{data.MatchProtocol[i].Protocols.ValueString()}
+		keys := [...]string{ "protocols",  }
+		keyValues := [...]string{ data.MatchProtocol[i].Protocols.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2299,8 +2301,8 @@ func (data *ClassMap) addDeletePathsXML(ctx context.Context, body string) string
 		}
 	}
 	for i := range data.MatchActivatedServiceTemplates {
-		keys := [...]string{"service-name"}
-		keyValues := [...]string{data.MatchActivatedServiceTemplates[i].ServiceName.ValueString()}
+		keys := [...]string{ "service-name",  }
+		keyValues := [...]string{ data.MatchActivatedServiceTemplates[i].ServiceName.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfaceEthernet(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "name", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "mtu", "1600"))
@@ -97,7 +95,7 @@ func TestAccIosxeInterfaceEthernet(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "cdp_tlv_server_location", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "ip_nat_inside", "true"))
 	if os.Getenv("C9000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "evpn_ethernet_segments.0.es_value", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "evpn_ethernet_segments.0.es_value", "1"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "carrier_delay_msec", "250"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_ethernet.test", "hold_queues.0.direction", "in"))
@@ -108,19 +106,19 @@ func TestAccIosxeInterfaceEthernet(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfaceEthernetPrerequisitesConfig + testAccIosxeInterfaceEthernetConfig_minimum(),
+				Config: testAccIosxeInterfaceEthernetPrerequisitesConfig+testAccIosxeInterfaceEthernetConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfaceEthernetPrerequisitesConfig + testAccIosxeInterfaceEthernetConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfaceEthernetPrerequisitesConfig+testAccIosxeInterfaceEthernetConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_ethernet.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceEthernetImportStateIdFunc("iosxe_interface_ethernet.test"),
-				ImportStateVerifyIgnore: []string{"ipv4_address_dhcp", "auto_qos_classify", "auto_qos_classify_police", "auto_qos_trust", "auto_qos_trust_cos", "auto_qos_trust_dscp", "auto_qos_video_cts", "auto_qos_video_ip_camera", "auto_qos_video_media_player", "auto_qos_voip_cisco_phone", "auto_qos_voip_cisco_softphone", "auto_qos_voip_trust", "ipv6_address_autoconfig_default", "ip_arp_inspection_trust", "ip_dhcp_relay_information_option_vpn_id", "ip_dhcp_snooping_trust", "speed_100", "speed_1000", "speed_2500", "speed_5000", "speed_10000", "speed_25000", "speed_40000", "speed_100000", "speed_nonegotiate", "authentication_order_dot1x", "authentication_order_dot1x_mab", "authentication_order_dot1x_webauth", "authentication_order_mab", "authentication_order_mab_dot1x", "authentication_order_mab_webauth", "authentication_order_webauth", "authentication_priority_dot1x", "authentication_priority_dot1x_mab", "authentication_priority_dot1x_webauth", "authentication_priority_mab", "authentication_priority_mab_dot1x", "authentication_priority_mab_webauth", "authentication_priority_webauth", "authentication_periodic", "authentication_timer_reauthenticate_server", "authentication_event_server_alive_action_reinitialize", "authentication_event_server_dead_action_authorize", "authentication_event_server_dead_action_authorize_voice", "authentication_event_fail_action_next_method", "authentication_event_linksec_fail_action_next_method", "mab", "mab_eap", "ip_nbar_protocol_discovery", "device_tracking", "ip_nat_outside"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_ethernet.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceEthernetImportStateIdFunc("iosxe_interface_ethernet.test"),
+				ImportStateVerifyIgnore: []string{ "ipv4_address_dhcp","auto_qos_classify","auto_qos_classify_police","auto_qos_trust","auto_qos_trust_cos","auto_qos_trust_dscp","auto_qos_video_cts","auto_qos_video_ip_camera","auto_qos_video_media_player","auto_qos_voip_cisco_phone","auto_qos_voip_cisco_softphone","auto_qos_voip_trust","ipv6_address_autoconfig_default","ip_arp_inspection_trust","ip_dhcp_relay_information_option_vpn_id","ip_dhcp_snooping_trust","speed_100","speed_1000","speed_2500","speed_5000","speed_10000","speed_25000","speed_40000","speed_100000","speed_nonegotiate","authentication_order_dot1x","authentication_order_dot1x_mab","authentication_order_dot1x_webauth","authentication_order_mab","authentication_order_mab_dot1x","authentication_order_mab_webauth","authentication_order_webauth","authentication_priority_dot1x","authentication_priority_dot1x_mab","authentication_priority_dot1x_webauth","authentication_priority_mab","authentication_priority_mab_dot1x","authentication_priority_mab_webauth","authentication_priority_webauth","authentication_periodic","authentication_timer_reauthenticate_server","authentication_event_server_alive_action_reinitialize","authentication_event_server_dead_action_authorize","authentication_event_server_dead_action_authorize_voice","authentication_event_fail_action_next_method","authentication_event_linksec_fail_action_next_method","mab","mab_eap","ip_nbar_protocol_discovery","device_tracking","ip_nat_outside", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -136,7 +134,7 @@ func iosxeInterfaceEthernetImportStateIdFunc(resourceName string) resource.Impor
 		Type := primary.Attributes["type"]
 		Name := primary.Attributes["name"]
 
-		return fmt.Sprintf("%s,%s", Type, Name), nil
+		return fmt.Sprintf("%s,%s", Type,Name), nil
 	}
 }
 
@@ -193,7 +191,6 @@ resource "iosxe_yang" "PreReq5" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -283,9 +280,9 @@ func testAccIosxeInterfaceEthernetConfig_all() string {
 	config += `	cdp_tlv_server_location = false` + "\n"
 	config += `	ip_nat_inside = true` + "\n"
 	if os.Getenv("C9000V") != "" {
-		config += `	evpn_ethernet_segments = [{` + "\n"
-		config += `		es_value = 1` + "\n"
-		config += `	}]` + "\n"
+	config += `	evpn_ethernet_segments = [{` + "\n"
+	config += `		es_value = 1` + "\n"
+	config += `	}]` + "\n"
 	}
 	config += `	carrier_delay_msec = 250` + "\n"
 	config += `	hold_queues = [{` + "\n"

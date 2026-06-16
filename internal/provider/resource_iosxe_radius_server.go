@@ -25,9 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,8 +33,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -98,24 +98,24 @@ func (r *RadiusServerResource) Schema(ctx context.Context, req resource.SchemaRe
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"calling_station_id": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("mac", "send").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("mac", "send", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("mac", "send"),
+											stringvalidator.OneOf("mac", "send", ),
 										},
 									},
 									"id_mac_format": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Specify format (default format ex: 0000.4096.3e4a) ietf - format ex: 00-00-40-96-3E-4A").AddStringEnumDescription("ietf").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Specify format (default format ex: 0000.4096.3e4a) ietf - format ex: 00-00-40-96-3E-4A").AddStringEnumDescription("ietf", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("ietf"),
+											stringvalidator.OneOf("ietf", ),
 										},
 									},
 									"id_mac_lu_case": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("lower-case", "upper-case").String,
+										MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("lower-case", "upper-case", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("lower-case", "upper-case"),
+											stringvalidator.OneOf("lower-case", "upper-case", ),
 										},
 									},
 									"id_send_nas_port_detail": schema.BoolAttribute{
@@ -250,7 +250,7 @@ func (r *RadiusServerResource) Create(ctx context.Context, req resource.CreateRe
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -298,7 +298,7 @@ func (r *RadiusServerResource) Read(ctx context.Context, req resource.ReadReques
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

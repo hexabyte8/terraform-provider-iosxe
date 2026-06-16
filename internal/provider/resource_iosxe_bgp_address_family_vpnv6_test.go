@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -40,19 +39,19 @@ func TestAccIosxeBGPAddressFamilyVPNv6(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPAddressFamilyVPNv6PrerequisitesConfig + testAccIosxeBGPAddressFamilyVPNv6Config_minimum(),
+				Config: testAccIosxeBGPAddressFamilyVPNv6PrerequisitesConfig+testAccIosxeBGPAddressFamilyVPNv6Config_minimum(),
 			},
 			{
-				Config: testAccIosxeBGPAddressFamilyVPNv6PrerequisitesConfig + testAccIosxeBGPAddressFamilyVPNv6Config_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPAddressFamilyVPNv6PrerequisitesConfig+testAccIosxeBGPAddressFamilyVPNv6Config_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_address_family_vpnv6.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPAddressFamilyVPNv6ImportStateIdFunc("iosxe_bgp_address_family_vpnv6.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_address_family_vpnv6.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPAddressFamilyVPNv6ImportStateIdFunc("iosxe_bgp_address_family_vpnv6.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -68,7 +67,7 @@ func iosxeBGPAddressFamilyVPNv6ImportStateIdFunc(resourceName string) resource.I
 		Asn := primary.Attributes["asn"]
 		AfName := primary.Attributes["af_name"]
 
-		return fmt.Sprintf("%s,%s", Asn, AfName), nil
+		return fmt.Sprintf("%s,%s", Asn,AfName), nil
 	}
 }
 
@@ -92,7 +91,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

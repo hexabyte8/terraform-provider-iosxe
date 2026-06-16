@@ -24,24 +24,51 @@ package provider
 import (
 	"context"
 	"fmt"
+	{{- if hasStringPatterns .Attributes}}
+	"regexp"
+	{{- end}}
+	"strings"
+	{{- if hasNonStringId .Attributes}}
+	"strconv"
+	{{- end}}
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	{{- if hasRequiresReplaceTypeAttr .Attributes "Int64"}}
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	{{- end}}
+	{{- if hasRequiresReplaceTypeAttr .Attributes "Bool"}}
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	{{- end}}
+	{{- if or (needsStringValidator .Attributes .NoDelete .NoDeleteAttributes) (needsInt64Validator .Attributes) (hasFloat64Attr .Attributes)}}
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	{{- end}}
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
+	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	{{- if needsStringValidator .Attributes .NoDelete .NoDeleteAttributes}}
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	{{- end}}
+	{{- if needsInt64Validator .Attributes}}
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	{{- end}}
+	{{- if hasFloat64Attr .Attributes}}
+	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
+	{{- end}}
+	{{- if hasDefaultTypeAttr .Attributes "Int64"}}
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	{{- end}}
+	{{- if hasDefaultTypeAttr .Attributes "Bool"}}
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	{{- end}}
+	{{- if hasDefaultTypeAttr .Attributes "String"}}
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	{{- end}}
 )
 
 // End of section. //template:end imports

@@ -23,249 +23,249 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type EEM struct {
-	Device                            types.String              `tfsdk:"device"`
-	Id                                types.String              `tfsdk:"id"`
-	EnvironmentVariables              []EEMEnvironmentVariables `tfsdk:"environment_variables"`
-	SessionCliUsername                types.String              `tfsdk:"session_cli_username"`
-	SessionCliUsernamePrivilege       types.Int64               `tfsdk:"session_cli_username_privilege"`
-	HistorySizeEvents                 types.Int64               `tfsdk:"history_size_events"`
-	HistorySizeTraps                  types.Int64               `tfsdk:"history_size_traps"`
-	DirectoryUserPolicy               types.String              `tfsdk:"directory_user_policy"`
-	SchedulerAppletThreadClassDefault types.Bool                `tfsdk:"scheduler_applet_thread_class_default"`
-	SchedulerAppletThreadClassNumber  types.Int64               `tfsdk:"scheduler_applet_thread_class_number"`
-	DetectorRpcMaxSessions            types.Int64               `tfsdk:"detector_rpc_max_sessions"`
-	DetectorRoutingBootupDelay        types.Float64             `tfsdk:"detector_routing_bootup_delay"`
-	Applets                           []EEMApplets              `tfsdk:"applets"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	EnvironmentVariables []EEMEnvironmentVariables `tfsdk:"environment_variables"`
+	SessionCliUsername types.String `tfsdk:"session_cli_username"`
+	SessionCliUsernamePrivilege types.Int64 `tfsdk:"session_cli_username_privilege"`
+	HistorySizeEvents types.Int64 `tfsdk:"history_size_events"`
+	HistorySizeTraps types.Int64 `tfsdk:"history_size_traps"`
+	DirectoryUserPolicy types.String `tfsdk:"directory_user_policy"`
+	SchedulerAppletThreadClassDefault types.Bool `tfsdk:"scheduler_applet_thread_class_default"`
+	SchedulerAppletThreadClassNumber types.Int64 `tfsdk:"scheduler_applet_thread_class_number"`
+	DetectorRpcMaxSessions types.Int64 `tfsdk:"detector_rpc_max_sessions"`
+	DetectorRoutingBootupDelay types.Float64 `tfsdk:"detector_routing_bootup_delay"`
+	Applets []EEMApplets `tfsdk:"applets"`
 }
 type EEMEnvironmentVariables struct {
-	Name  types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Value types.String `tfsdk:"value"`
 }
 type EEMApplets struct {
-	Name                        types.String        `tfsdk:"name"`
-	Authorization               types.String        `tfsdk:"authorization"`
-	Class                       types.String        `tfsdk:"class"`
-	Description                 types.String        `tfsdk:"description"`
-	EventCliPattern             types.String        `tfsdk:"event_cli_pattern"`
-	EventCliSync                types.String        `tfsdk:"event_cli_sync"`
-	EventCliSkip                types.String        `tfsdk:"event_cli_skip"`
-	Actions                     []EEMAppletsActions `tfsdk:"actions"`
-	EventTimerWatchdogTime      types.Float64       `tfsdk:"event_timer_watchdog_time"`
-	EventTimerWatchdogName      types.String        `tfsdk:"event_timer_watchdog_name"`
-	EventTimerWatchdogMaxrun    types.Float64       `tfsdk:"event_timer_watchdog_maxrun"`
-	EventTimerWatchdogRatelimit types.Float64       `tfsdk:"event_timer_watchdog_ratelimit"`
-	EventTimerCronEntry         types.String        `tfsdk:"event_timer_cron_entry"`
-	EventTimerCronName          types.String        `tfsdk:"event_timer_cron_name"`
-	EventTimerCronMaxrun        types.Float64       `tfsdk:"event_timer_cron_maxrun"`
-	EventTimerCronRatelimit     types.Float64       `tfsdk:"event_timer_cron_ratelimit"`
-	EventSyslogPattern          types.String        `tfsdk:"event_syslog_pattern"`
-	EventSyslogOccurs           types.Int64         `tfsdk:"event_syslog_occurs"`
-	EventSyslogMaxrun           types.Float64       `tfsdk:"event_syslog_maxrun"`
-	EventSyslogRatelimit        types.Float64       `tfsdk:"event_syslog_ratelimit"`
-	EventSyslogPeriod           types.Float64       `tfsdk:"event_syslog_period"`
+	Name types.String `tfsdk:"name"`
+	Authorization types.String `tfsdk:"authorization"`
+	Class types.String `tfsdk:"class"`
+	Description types.String `tfsdk:"description"`
+	EventCliPattern types.String `tfsdk:"event_cli_pattern"`
+	EventCliSync types.String `tfsdk:"event_cli_sync"`
+	EventCliSkip types.String `tfsdk:"event_cli_skip"`
+	Actions []EEMAppletsActions `tfsdk:"actions"`
+	EventTimerWatchdogTime types.Float64 `tfsdk:"event_timer_watchdog_time"`
+	EventTimerWatchdogName types.String `tfsdk:"event_timer_watchdog_name"`
+	EventTimerWatchdogMaxrun types.Float64 `tfsdk:"event_timer_watchdog_maxrun"`
+	EventTimerWatchdogRatelimit types.Float64 `tfsdk:"event_timer_watchdog_ratelimit"`
+	EventTimerCronEntry types.String `tfsdk:"event_timer_cron_entry"`
+	EventTimerCronName types.String `tfsdk:"event_timer_cron_name"`
+	EventTimerCronMaxrun types.Float64 `tfsdk:"event_timer_cron_maxrun"`
+	EventTimerCronRatelimit types.Float64 `tfsdk:"event_timer_cron_ratelimit"`
+	EventSyslogPattern types.String `tfsdk:"event_syslog_pattern"`
+	EventSyslogOccurs types.Int64 `tfsdk:"event_syslog_occurs"`
+	EventSyslogMaxrun types.Float64 `tfsdk:"event_syslog_maxrun"`
+	EventSyslogRatelimit types.Float64 `tfsdk:"event_syslog_ratelimit"`
+	EventSyslogPeriod types.Float64 `tfsdk:"event_syslog_period"`
 }
 type EEMAppletsActions struct {
-	Name                            types.String `tfsdk:"name"`
-	CliCommand                      types.String `tfsdk:"cli_command"`
-	RegexpStringPattern             types.String `tfsdk:"regexp_string_pattern"`
-	RegexpStringInput               types.String `tfsdk:"regexp_string_input"`
-	RegexpStringMatch               types.String `tfsdk:"regexp_string_match"`
-	RegexpStringMatch1              types.String `tfsdk:"regexp_string_match1"`
-	RegexpStringMatch2              types.String `tfsdk:"regexp_string_match2"`
-	RegexpStringMatch3              types.String `tfsdk:"regexp_string_match3"`
-	SyslogFacility                  types.String `tfsdk:"syslog_facility"`
-	SyslogMsg                       types.String `tfsdk:"syslog_msg"`
-	SyslogPriority                  types.String `tfsdk:"syslog_priority"`
-	SetVarname                      types.String `tfsdk:"set_varname"`
-	SetValue                        types.String `tfsdk:"set_value"`
-	IfStringOp1                     types.String `tfsdk:"if_string_op_1"`
-	IfKeyword                       types.String `tfsdk:"if_keyword"`
-	IfStringOp2                     types.String `tfsdk:"if_string_op_2"`
-	IfGoto                          types.String `tfsdk:"if_goto"`
-	ElseifOperand1                  types.String `tfsdk:"elseif_operand1"`
-	ElseifOperation                 types.String `tfsdk:"elseif_operation"`
-	ElseifOperand2                  types.String `tfsdk:"elseif_operand2"`
-	Else                            types.Bool   `tfsdk:"else"`
-	WhileOperand1                   types.String `tfsdk:"while_operand1"`
-	WhileOperation                  types.String `tfsdk:"while_operation"`
-	WhileOperand2                   types.String `tfsdk:"while_operand2"`
-	Break                           types.Bool   `tfsdk:"break"`
-	Continue                        types.Bool   `tfsdk:"continue"`
-	IncrementVarname                types.String `tfsdk:"increment_varname"`
-	IncrementValue                  types.String `tfsdk:"increment_value"`
-	DecrementVarname                types.String `tfsdk:"decrement_varname"`
-	DecrementValue                  types.String `tfsdk:"decrement_value"`
-	AppendVarname                   types.String `tfsdk:"append_varname"`
-	AppendValue                     types.String `tfsdk:"append_value"`
-	DivideOperand1                  types.String `tfsdk:"divide_operand1"`
-	DivideOperand2                  types.String `tfsdk:"divide_operand2"`
-	ForeachLoopvar                  types.String `tfsdk:"foreach_loopvar"`
-	ForeachIterator                 types.String `tfsdk:"foreach_iterator"`
-	ForeachDelimiter                types.String `tfsdk:"foreach_delimiter"`
-	Gets                            types.String `tfsdk:"gets"`
-	Puts                            types.String `tfsdk:"puts"`
-	Wait                            types.Int64  `tfsdk:"wait"`
-	End                             types.Bool   `tfsdk:"end"`
-	Exit                            types.Bool   `tfsdk:"exit"`
-	Reload                          types.Bool   `tfsdk:"reload"`
-	ContextRetrieveKey              types.String `tfsdk:"context_retrieve_key"`
-	ContextRetrieveVariable         types.String `tfsdk:"context_retrieve_variable"`
-	ContextSaveKey                  types.String `tfsdk:"context_save_key"`
-	ContextSaveVariable             types.String `tfsdk:"context_save_variable"`
-	StringTrim                      types.String `tfsdk:"string_trim"`
-	InfoTypeSnmpTrapEnterpriseOid   types.String `tfsdk:"info_type_snmp_trap_enterprise_oid"`
-	InfoTypeSnmpTrapGenericTrapnum  types.Int64  `tfsdk:"info_type_snmp_trap_generic_trapnum"`
-	InfoTypeSnmpTrapSpecificTrapnum types.Int64  `tfsdk:"info_type_snmp_trap_specific_trapnum"`
-	InfoTypeSnmpTrapTrapOid         types.String `tfsdk:"info_type_snmp_trap_trap_oid"`
-	InfoTypeSnmpTrapTrapVar         types.String `tfsdk:"info_type_snmp_trap_trap_var"`
-	HandleErrorType                 types.String `tfsdk:"handle_error_type"`
-	CounterName                     types.String `tfsdk:"counter_name"`
-	CounterValue                    types.Int64  `tfsdk:"counter_value"`
-	CounterOpDec                    types.Bool   `tfsdk:"counter_op_dec"`
-	CounterOpInc                    types.Bool   `tfsdk:"counter_op_inc"`
-	CounterOpSet                    types.Bool   `tfsdk:"counter_op_set"`
-	CounterOpNop                    types.Bool   `tfsdk:"counter_op_nop"`
-	SnmpTrapIntdata1                types.Int64  `tfsdk:"snmp_trap_intdata1"`
-	SnmpTrapIntdata2                types.Int64  `tfsdk:"snmp_trap_intdata2"`
-	SnmpTrapStrdata                 types.String `tfsdk:"snmp_trap_strdata"`
-	InfoTypeSnmpVar                 types.String `tfsdk:"info_type_snmp_var"`
-	InfoTypeSnmpVarOid              types.String `tfsdk:"info_type_snmp_var_oid"`
-	InfoTypeSnmpVarOidType          types.String `tfsdk:"info_type_snmp_var_oid_type"`
-	InfoTypeSnmpVarOidTypeValue     types.String `tfsdk:"info_type_snmp_var_oid_type_value"`
-	StringFirstStringOp1            types.String `tfsdk:"string_first_string_op_1"`
-	StringFirstStringOp2            types.String `tfsdk:"string_first_string_op_2"`
+	Name types.String `tfsdk:"name"`
+	CliCommand types.String `tfsdk:"cli_command"`
+	RegexpStringPattern types.String `tfsdk:"regexp_string_pattern"`
+	RegexpStringInput types.String `tfsdk:"regexp_string_input"`
+	RegexpStringMatch types.String `tfsdk:"regexp_string_match"`
+	RegexpStringMatch1 types.String `tfsdk:"regexp_string_match1"`
+	RegexpStringMatch2 types.String `tfsdk:"regexp_string_match2"`
+	RegexpStringMatch3 types.String `tfsdk:"regexp_string_match3"`
+	SyslogFacility types.String `tfsdk:"syslog_facility"`
+	SyslogMsg types.String `tfsdk:"syslog_msg"`
+	SyslogPriority types.String `tfsdk:"syslog_priority"`
+	SetVarname types.String `tfsdk:"set_varname"`
+	SetValue types.String `tfsdk:"set_value"`
+	IfStringOp1 types.String `tfsdk:"if_string_op_1"`
+	IfKeyword types.String `tfsdk:"if_keyword"`
+	IfStringOp2 types.String `tfsdk:"if_string_op_2"`
+	IfGoto types.String `tfsdk:"if_goto"`
+	ElseifOperand1 types.String `tfsdk:"elseif_operand1"`
+	ElseifOperation types.String `tfsdk:"elseif_operation"`
+	ElseifOperand2 types.String `tfsdk:"elseif_operand2"`
+	Else types.Bool `tfsdk:"else"`
+	WhileOperand1 types.String `tfsdk:"while_operand1"`
+	WhileOperation types.String `tfsdk:"while_operation"`
+	WhileOperand2 types.String `tfsdk:"while_operand2"`
+	Break types.Bool `tfsdk:"break"`
+	Continue types.Bool `tfsdk:"continue"`
+	IncrementVarname types.String `tfsdk:"increment_varname"`
+	IncrementValue types.String `tfsdk:"increment_value"`
+	DecrementVarname types.String `tfsdk:"decrement_varname"`
+	DecrementValue types.String `tfsdk:"decrement_value"`
+	AppendVarname types.String `tfsdk:"append_varname"`
+	AppendValue types.String `tfsdk:"append_value"`
+	DivideOperand1 types.String `tfsdk:"divide_operand1"`
+	DivideOperand2 types.String `tfsdk:"divide_operand2"`
+	ForeachLoopvar types.String `tfsdk:"foreach_loopvar"`
+	ForeachIterator types.String `tfsdk:"foreach_iterator"`
+	ForeachDelimiter types.String `tfsdk:"foreach_delimiter"`
+	Gets types.String `tfsdk:"gets"`
+	Puts types.String `tfsdk:"puts"`
+	Wait types.Int64 `tfsdk:"wait"`
+	End types.Bool `tfsdk:"end"`
+	Exit types.Bool `tfsdk:"exit"`
+	Reload types.Bool `tfsdk:"reload"`
+	ContextRetrieveKey types.String `tfsdk:"context_retrieve_key"`
+	ContextRetrieveVariable types.String `tfsdk:"context_retrieve_variable"`
+	ContextSaveKey types.String `tfsdk:"context_save_key"`
+	ContextSaveVariable types.String `tfsdk:"context_save_variable"`
+	StringTrim types.String `tfsdk:"string_trim"`
+	InfoTypeSnmpTrapEnterpriseOid types.String `tfsdk:"info_type_snmp_trap_enterprise_oid"`
+	InfoTypeSnmpTrapGenericTrapnum types.Int64 `tfsdk:"info_type_snmp_trap_generic_trapnum"`
+	InfoTypeSnmpTrapSpecificTrapnum types.Int64 `tfsdk:"info_type_snmp_trap_specific_trapnum"`
+	InfoTypeSnmpTrapTrapOid types.String `tfsdk:"info_type_snmp_trap_trap_oid"`
+	InfoTypeSnmpTrapTrapVar types.String `tfsdk:"info_type_snmp_trap_trap_var"`
+	HandleErrorType types.String `tfsdk:"handle_error_type"`
+	CounterName types.String `tfsdk:"counter_name"`
+	CounterValue types.Int64 `tfsdk:"counter_value"`
+	CounterOpDec types.Bool `tfsdk:"counter_op_dec"`
+	CounterOpInc types.Bool `tfsdk:"counter_op_inc"`
+	CounterOpSet types.Bool `tfsdk:"counter_op_set"`
+	CounterOpNop types.Bool `tfsdk:"counter_op_nop"`
+	SnmpTrapIntdata1 types.Int64 `tfsdk:"snmp_trap_intdata1"`
+	SnmpTrapIntdata2 types.Int64 `tfsdk:"snmp_trap_intdata2"`
+	SnmpTrapStrdata types.String `tfsdk:"snmp_trap_strdata"`
+	InfoTypeSnmpVar types.String `tfsdk:"info_type_snmp_var"`
+	InfoTypeSnmpVarOid types.String `tfsdk:"info_type_snmp_var_oid"`
+	InfoTypeSnmpVarOidType types.String `tfsdk:"info_type_snmp_var_oid_type"`
+	InfoTypeSnmpVarOidTypeValue types.String `tfsdk:"info_type_snmp_var_oid_type_value"`
+	StringFirstStringOp1 types.String `tfsdk:"string_first_string_op_1"`
+	StringFirstStringOp2 types.String `tfsdk:"string_first_string_op_2"`
 }
 
 type EEMData struct {
-	Device                            types.String                  `tfsdk:"device"`
-	Id                                types.String                  `tfsdk:"id"`
-	EnvironmentVariables              []EEMEnvironmentVariablesData `tfsdk:"environment_variables"`
-	SessionCliUsername                types.String                  `tfsdk:"session_cli_username"`
-	SessionCliUsernamePrivilege       types.Int64                   `tfsdk:"session_cli_username_privilege"`
-	HistorySizeEvents                 types.Int64                   `tfsdk:"history_size_events"`
-	HistorySizeTraps                  types.Int64                   `tfsdk:"history_size_traps"`
-	DirectoryUserPolicy               types.String                  `tfsdk:"directory_user_policy"`
-	SchedulerAppletThreadClassDefault types.Bool                    `tfsdk:"scheduler_applet_thread_class_default"`
-	SchedulerAppletThreadClassNumber  types.Int64                   `tfsdk:"scheduler_applet_thread_class_number"`
-	DetectorRpcMaxSessions            types.Int64                   `tfsdk:"detector_rpc_max_sessions"`
-	DetectorRoutingBootupDelay        types.Float64                 `tfsdk:"detector_routing_bootup_delay"`
-	Applets                           []EEMAppletsData              `tfsdk:"applets"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	EnvironmentVariables []EEMEnvironmentVariablesData `tfsdk:"environment_variables"`
+	SessionCliUsername types.String `tfsdk:"session_cli_username"`
+	SessionCliUsernamePrivilege types.Int64 `tfsdk:"session_cli_username_privilege"`
+	HistorySizeEvents types.Int64 `tfsdk:"history_size_events"`
+	HistorySizeTraps types.Int64 `tfsdk:"history_size_traps"`
+	DirectoryUserPolicy types.String `tfsdk:"directory_user_policy"`
+	SchedulerAppletThreadClassDefault types.Bool `tfsdk:"scheduler_applet_thread_class_default"`
+	SchedulerAppletThreadClassNumber types.Int64 `tfsdk:"scheduler_applet_thread_class_number"`
+	DetectorRpcMaxSessions types.Int64 `tfsdk:"detector_rpc_max_sessions"`
+	DetectorRoutingBootupDelay types.Float64 `tfsdk:"detector_routing_bootup_delay"`
+	Applets []EEMAppletsData `tfsdk:"applets"`
 }
 type EEMEnvironmentVariablesData struct {
-	Name  types.String `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Value types.String `tfsdk:"value"`
 }
 type EEMAppletsData struct {
-	Name                        types.String            `tfsdk:"name"`
-	Authorization               types.String            `tfsdk:"authorization"`
-	Class                       types.String            `tfsdk:"class"`
-	Description                 types.String            `tfsdk:"description"`
-	EventCliPattern             types.String            `tfsdk:"event_cli_pattern"`
-	EventCliSync                types.String            `tfsdk:"event_cli_sync"`
-	EventCliSkip                types.String            `tfsdk:"event_cli_skip"`
-	Actions                     []EEMAppletsActionsData `tfsdk:"actions"`
-	EventTimerWatchdogTime      types.Float64           `tfsdk:"event_timer_watchdog_time"`
-	EventTimerWatchdogName      types.String            `tfsdk:"event_timer_watchdog_name"`
-	EventTimerWatchdogMaxrun    types.Float64           `tfsdk:"event_timer_watchdog_maxrun"`
-	EventTimerWatchdogRatelimit types.Float64           `tfsdk:"event_timer_watchdog_ratelimit"`
-	EventTimerCronEntry         types.String            `tfsdk:"event_timer_cron_entry"`
-	EventTimerCronName          types.String            `tfsdk:"event_timer_cron_name"`
-	EventTimerCronMaxrun        types.Float64           `tfsdk:"event_timer_cron_maxrun"`
-	EventTimerCronRatelimit     types.Float64           `tfsdk:"event_timer_cron_ratelimit"`
-	EventSyslogPattern          types.String            `tfsdk:"event_syslog_pattern"`
-	EventSyslogOccurs           types.Int64             `tfsdk:"event_syslog_occurs"`
-	EventSyslogMaxrun           types.Float64           `tfsdk:"event_syslog_maxrun"`
-	EventSyslogRatelimit        types.Float64           `tfsdk:"event_syslog_ratelimit"`
-	EventSyslogPeriod           types.Float64           `tfsdk:"event_syslog_period"`
+	Name types.String `tfsdk:"name"`
+	Authorization types.String `tfsdk:"authorization"`
+	Class types.String `tfsdk:"class"`
+	Description types.String `tfsdk:"description"`
+	EventCliPattern types.String `tfsdk:"event_cli_pattern"`
+	EventCliSync types.String `tfsdk:"event_cli_sync"`
+	EventCliSkip types.String `tfsdk:"event_cli_skip"`
+	Actions []EEMAppletsActionsData `tfsdk:"actions"`
+	EventTimerWatchdogTime types.Float64 `tfsdk:"event_timer_watchdog_time"`
+	EventTimerWatchdogName types.String `tfsdk:"event_timer_watchdog_name"`
+	EventTimerWatchdogMaxrun types.Float64 `tfsdk:"event_timer_watchdog_maxrun"`
+	EventTimerWatchdogRatelimit types.Float64 `tfsdk:"event_timer_watchdog_ratelimit"`
+	EventTimerCronEntry types.String `tfsdk:"event_timer_cron_entry"`
+	EventTimerCronName types.String `tfsdk:"event_timer_cron_name"`
+	EventTimerCronMaxrun types.Float64 `tfsdk:"event_timer_cron_maxrun"`
+	EventTimerCronRatelimit types.Float64 `tfsdk:"event_timer_cron_ratelimit"`
+	EventSyslogPattern types.String `tfsdk:"event_syslog_pattern"`
+	EventSyslogOccurs types.Int64 `tfsdk:"event_syslog_occurs"`
+	EventSyslogMaxrun types.Float64 `tfsdk:"event_syslog_maxrun"`
+	EventSyslogRatelimit types.Float64 `tfsdk:"event_syslog_ratelimit"`
+	EventSyslogPeriod types.Float64 `tfsdk:"event_syslog_period"`
 }
 type EEMAppletsActionsData struct {
-	Name                            types.String `tfsdk:"name"`
-	CliCommand                      types.String `tfsdk:"cli_command"`
-	RegexpStringPattern             types.String `tfsdk:"regexp_string_pattern"`
-	RegexpStringInput               types.String `tfsdk:"regexp_string_input"`
-	RegexpStringMatch               types.String `tfsdk:"regexp_string_match"`
-	RegexpStringMatch1              types.String `tfsdk:"regexp_string_match1"`
-	RegexpStringMatch2              types.String `tfsdk:"regexp_string_match2"`
-	RegexpStringMatch3              types.String `tfsdk:"regexp_string_match3"`
-	SyslogFacility                  types.String `tfsdk:"syslog_facility"`
-	SyslogMsg                       types.String `tfsdk:"syslog_msg"`
-	SyslogPriority                  types.String `tfsdk:"syslog_priority"`
-	SetVarname                      types.String `tfsdk:"set_varname"`
-	SetValue                        types.String `tfsdk:"set_value"`
-	IfStringOp1                     types.String `tfsdk:"if_string_op_1"`
-	IfKeyword                       types.String `tfsdk:"if_keyword"`
-	IfStringOp2                     types.String `tfsdk:"if_string_op_2"`
-	IfGoto                          types.String `tfsdk:"if_goto"`
-	ElseifOperand1                  types.String `tfsdk:"elseif_operand1"`
-	ElseifOperation                 types.String `tfsdk:"elseif_operation"`
-	ElseifOperand2                  types.String `tfsdk:"elseif_operand2"`
-	Else                            types.Bool   `tfsdk:"else"`
-	WhileOperand1                   types.String `tfsdk:"while_operand1"`
-	WhileOperation                  types.String `tfsdk:"while_operation"`
-	WhileOperand2                   types.String `tfsdk:"while_operand2"`
-	Break                           types.Bool   `tfsdk:"break"`
-	Continue                        types.Bool   `tfsdk:"continue"`
-	IncrementVarname                types.String `tfsdk:"increment_varname"`
-	IncrementValue                  types.String `tfsdk:"increment_value"`
-	DecrementVarname                types.String `tfsdk:"decrement_varname"`
-	DecrementValue                  types.String `tfsdk:"decrement_value"`
-	AppendVarname                   types.String `tfsdk:"append_varname"`
-	AppendValue                     types.String `tfsdk:"append_value"`
-	DivideOperand1                  types.String `tfsdk:"divide_operand1"`
-	DivideOperand2                  types.String `tfsdk:"divide_operand2"`
-	ForeachLoopvar                  types.String `tfsdk:"foreach_loopvar"`
-	ForeachIterator                 types.String `tfsdk:"foreach_iterator"`
-	ForeachDelimiter                types.String `tfsdk:"foreach_delimiter"`
-	Gets                            types.String `tfsdk:"gets"`
-	Puts                            types.String `tfsdk:"puts"`
-	Wait                            types.Int64  `tfsdk:"wait"`
-	End                             types.Bool   `tfsdk:"end"`
-	Exit                            types.Bool   `tfsdk:"exit"`
-	Reload                          types.Bool   `tfsdk:"reload"`
-	ContextRetrieveKey              types.String `tfsdk:"context_retrieve_key"`
-	ContextRetrieveVariable         types.String `tfsdk:"context_retrieve_variable"`
-	ContextSaveKey                  types.String `tfsdk:"context_save_key"`
-	ContextSaveVariable             types.String `tfsdk:"context_save_variable"`
-	StringTrim                      types.String `tfsdk:"string_trim"`
-	InfoTypeSnmpTrapEnterpriseOid   types.String `tfsdk:"info_type_snmp_trap_enterprise_oid"`
-	InfoTypeSnmpTrapGenericTrapnum  types.Int64  `tfsdk:"info_type_snmp_trap_generic_trapnum"`
-	InfoTypeSnmpTrapSpecificTrapnum types.Int64  `tfsdk:"info_type_snmp_trap_specific_trapnum"`
-	InfoTypeSnmpTrapTrapOid         types.String `tfsdk:"info_type_snmp_trap_trap_oid"`
-	InfoTypeSnmpTrapTrapVar         types.String `tfsdk:"info_type_snmp_trap_trap_var"`
-	HandleErrorType                 types.String `tfsdk:"handle_error_type"`
-	CounterName                     types.String `tfsdk:"counter_name"`
-	CounterValue                    types.Int64  `tfsdk:"counter_value"`
-	CounterOpDec                    types.Bool   `tfsdk:"counter_op_dec"`
-	CounterOpInc                    types.Bool   `tfsdk:"counter_op_inc"`
-	CounterOpSet                    types.Bool   `tfsdk:"counter_op_set"`
-	CounterOpNop                    types.Bool   `tfsdk:"counter_op_nop"`
-	SnmpTrapIntdata1                types.Int64  `tfsdk:"snmp_trap_intdata1"`
-	SnmpTrapIntdata2                types.Int64  `tfsdk:"snmp_trap_intdata2"`
-	SnmpTrapStrdata                 types.String `tfsdk:"snmp_trap_strdata"`
-	InfoTypeSnmpVar                 types.String `tfsdk:"info_type_snmp_var"`
-	InfoTypeSnmpVarOid              types.String `tfsdk:"info_type_snmp_var_oid"`
-	InfoTypeSnmpVarOidType          types.String `tfsdk:"info_type_snmp_var_oid_type"`
-	InfoTypeSnmpVarOidTypeValue     types.String `tfsdk:"info_type_snmp_var_oid_type_value"`
-	StringFirstStringOp1            types.String `tfsdk:"string_first_string_op_1"`
-	StringFirstStringOp2            types.String `tfsdk:"string_first_string_op_2"`
+	Name types.String `tfsdk:"name"`
+	CliCommand types.String `tfsdk:"cli_command"`
+	RegexpStringPattern types.String `tfsdk:"regexp_string_pattern"`
+	RegexpStringInput types.String `tfsdk:"regexp_string_input"`
+	RegexpStringMatch types.String `tfsdk:"regexp_string_match"`
+	RegexpStringMatch1 types.String `tfsdk:"regexp_string_match1"`
+	RegexpStringMatch2 types.String `tfsdk:"regexp_string_match2"`
+	RegexpStringMatch3 types.String `tfsdk:"regexp_string_match3"`
+	SyslogFacility types.String `tfsdk:"syslog_facility"`
+	SyslogMsg types.String `tfsdk:"syslog_msg"`
+	SyslogPriority types.String `tfsdk:"syslog_priority"`
+	SetVarname types.String `tfsdk:"set_varname"`
+	SetValue types.String `tfsdk:"set_value"`
+	IfStringOp1 types.String `tfsdk:"if_string_op_1"`
+	IfKeyword types.String `tfsdk:"if_keyword"`
+	IfStringOp2 types.String `tfsdk:"if_string_op_2"`
+	IfGoto types.String `tfsdk:"if_goto"`
+	ElseifOperand1 types.String `tfsdk:"elseif_operand1"`
+	ElseifOperation types.String `tfsdk:"elseif_operation"`
+	ElseifOperand2 types.String `tfsdk:"elseif_operand2"`
+	Else types.Bool `tfsdk:"else"`
+	WhileOperand1 types.String `tfsdk:"while_operand1"`
+	WhileOperation types.String `tfsdk:"while_operation"`
+	WhileOperand2 types.String `tfsdk:"while_operand2"`
+	Break types.Bool `tfsdk:"break"`
+	Continue types.Bool `tfsdk:"continue"`
+	IncrementVarname types.String `tfsdk:"increment_varname"`
+	IncrementValue types.String `tfsdk:"increment_value"`
+	DecrementVarname types.String `tfsdk:"decrement_varname"`
+	DecrementValue types.String `tfsdk:"decrement_value"`
+	AppendVarname types.String `tfsdk:"append_varname"`
+	AppendValue types.String `tfsdk:"append_value"`
+	DivideOperand1 types.String `tfsdk:"divide_operand1"`
+	DivideOperand2 types.String `tfsdk:"divide_operand2"`
+	ForeachLoopvar types.String `tfsdk:"foreach_loopvar"`
+	ForeachIterator types.String `tfsdk:"foreach_iterator"`
+	ForeachDelimiter types.String `tfsdk:"foreach_delimiter"`
+	Gets types.String `tfsdk:"gets"`
+	Puts types.String `tfsdk:"puts"`
+	Wait types.Int64 `tfsdk:"wait"`
+	End types.Bool `tfsdk:"end"`
+	Exit types.Bool `tfsdk:"exit"`
+	Reload types.Bool `tfsdk:"reload"`
+	ContextRetrieveKey types.String `tfsdk:"context_retrieve_key"`
+	ContextRetrieveVariable types.String `tfsdk:"context_retrieve_variable"`
+	ContextSaveKey types.String `tfsdk:"context_save_key"`
+	ContextSaveVariable types.String `tfsdk:"context_save_variable"`
+	StringTrim types.String `tfsdk:"string_trim"`
+	InfoTypeSnmpTrapEnterpriseOid types.String `tfsdk:"info_type_snmp_trap_enterprise_oid"`
+	InfoTypeSnmpTrapGenericTrapnum types.Int64 `tfsdk:"info_type_snmp_trap_generic_trapnum"`
+	InfoTypeSnmpTrapSpecificTrapnum types.Int64 `tfsdk:"info_type_snmp_trap_specific_trapnum"`
+	InfoTypeSnmpTrapTrapOid types.String `tfsdk:"info_type_snmp_trap_trap_oid"`
+	InfoTypeSnmpTrapTrapVar types.String `tfsdk:"info_type_snmp_trap_trap_var"`
+	HandleErrorType types.String `tfsdk:"handle_error_type"`
+	CounterName types.String `tfsdk:"counter_name"`
+	CounterValue types.Int64 `tfsdk:"counter_value"`
+	CounterOpDec types.Bool `tfsdk:"counter_op_dec"`
+	CounterOpInc types.Bool `tfsdk:"counter_op_inc"`
+	CounterOpSet types.Bool `tfsdk:"counter_op_set"`
+	CounterOpNop types.Bool `tfsdk:"counter_op_nop"`
+	SnmpTrapIntdata1 types.Int64 `tfsdk:"snmp_trap_intdata1"`
+	SnmpTrapIntdata2 types.Int64 `tfsdk:"snmp_trap_intdata2"`
+	SnmpTrapStrdata types.String `tfsdk:"snmp_trap_strdata"`
+	InfoTypeSnmpVar types.String `tfsdk:"info_type_snmp_var"`
+	InfoTypeSnmpVarOid types.String `tfsdk:"info_type_snmp_var_oid"`
+	InfoTypeSnmpVarOidType types.String `tfsdk:"info_type_snmp_var_oid_type"`
+	InfoTypeSnmpVarOidTypeValue types.String `tfsdk:"info_type_snmp_var_oid_type_value"`
+	StringFirstStringOp1 types.String `tfsdk:"string_first_string_op_1"`
+	StringFirstStringOp2 types.String `tfsdk:"string_first_string_op_2"`
 }
 
 // End of section. //template:end types
@@ -667,35 +667,35 @@ func (data EEM) toBodyXML(ctx context.Context, config EEM) string {
 		}
 	}
 	if !data.SessionCliUsername.IsNull() && !data.SessionCliUsername.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/session/cli/username/username_in_word_set", data.SessionCliUsername.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/session/cli/username/username_in_word_set", data.SessionCliUsername.ValueString())
 	}
 	if !data.SessionCliUsernamePrivilege.IsNull() && !data.SessionCliUsernamePrivilege.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/session/cli/username/privilege_set", strconv.FormatInt(data.SessionCliUsernamePrivilege.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/session/cli/username/privilege_set", strconv.FormatInt(data.SessionCliUsernamePrivilege.ValueInt64(), 10))
 	}
 	if !data.HistorySizeEvents.IsNull() && !data.HistorySizeEvents.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/history/size/events", strconv.FormatInt(data.HistorySizeEvents.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/history/size/events", strconv.FormatInt(data.HistorySizeEvents.ValueInt64(), 10))
 	}
 	if !data.HistorySizeTraps.IsNull() && !data.HistorySizeTraps.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/history/size/traps", strconv.FormatInt(data.HistorySizeTraps.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/history/size/traps", strconv.FormatInt(data.HistorySizeTraps.ValueInt64(), 10))
 	}
 	if !data.DirectoryUserPolicy.IsNull() && !data.DirectoryUserPolicy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/directory/user/policy", data.DirectoryUserPolicy.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/directory/user/policy", data.DirectoryUserPolicy.ValueString())
 	}
 	if !data.SchedulerAppletThreadClassDefault.IsNull() && !data.SchedulerAppletThreadClassDefault.IsUnknown() {
 		if data.SchedulerAppletThreadClassDefault.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/scheduler/applet/thread/class/default", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/scheduler/applet/thread/class/default", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/scheduler/applet/thread/class/default")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/scheduler/applet/thread/class/default")
 		}
 	}
 	if !data.SchedulerAppletThreadClassNumber.IsNull() && !data.SchedulerAppletThreadClassNumber.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/scheduler/applet/thread/class/number", strconv.FormatInt(data.SchedulerAppletThreadClassNumber.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/scheduler/applet/thread/class/number", strconv.FormatInt(data.SchedulerAppletThreadClassNumber.ValueInt64(), 10))
 	}
 	if !data.DetectorRpcMaxSessions.IsNull() && !data.DetectorRpcMaxSessions.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/detector/rpc/max-sessions", strconv.FormatInt(data.DetectorRpcMaxSessions.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/detector/rpc/max-sessions", strconv.FormatInt(data.DetectorRpcMaxSessions.ValueInt64(), 10))
 	}
 	if !data.DetectorRoutingBootupDelay.IsNull() && !data.DetectorRoutingBootupDelay.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/detector/routing/bootup-delay", strconv.FormatFloat(data.DetectorRoutingBootupDelay.ValueFloat64(), 'f', 1, 64))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/detector/routing/bootup-delay", strconv.FormatFloat(data.DetectorRoutingBootupDelay.ValueFloat64(), 'f', 1, 64))
 	}
 	if len(data.Applets) > 0 {
 		for _, item := range data.Applets {
@@ -1033,11 +1033,11 @@ func (data *EEM) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.EnvironmentVariables {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.EnvironmentVariables[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.EnvironmentVariables[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "environment").ForEach(
+		res.Get(prefix+"environment").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1066,32 +1066,32 @@ func (data *EEM) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.EnvironmentVariables[i].Value = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "session.cli.username.username_in_word_set"); value.Exists() && !data.SessionCliUsername.IsNull() {
+	if value := res.Get(prefix+"session.cli.username.username_in_word_set"); value.Exists() && !data.SessionCliUsername.IsNull() {
 		data.SessionCliUsername = types.StringValue(value.String())
 	} else {
 		data.SessionCliUsername = types.StringNull()
 	}
-	if value := res.Get(prefix + "session.cli.username.privilege_set"); value.Exists() && !data.SessionCliUsernamePrivilege.IsNull() {
+	if value := res.Get(prefix+"session.cli.username.privilege_set"); value.Exists() && !data.SessionCliUsernamePrivilege.IsNull() {
 		data.SessionCliUsernamePrivilege = types.Int64Value(value.Int())
 	} else {
 		data.SessionCliUsernamePrivilege = types.Int64Null()
 	}
-	if value := res.Get(prefix + "history.size.events"); value.Exists() && !data.HistorySizeEvents.IsNull() {
+	if value := res.Get(prefix+"history.size.events"); value.Exists() && !data.HistorySizeEvents.IsNull() {
 		data.HistorySizeEvents = types.Int64Value(value.Int())
 	} else {
 		data.HistorySizeEvents = types.Int64Null()
 	}
-	if value := res.Get(prefix + "history.size.traps"); value.Exists() && !data.HistorySizeTraps.IsNull() {
+	if value := res.Get(prefix+"history.size.traps"); value.Exists() && !data.HistorySizeTraps.IsNull() {
 		data.HistorySizeTraps = types.Int64Value(value.Int())
 	} else {
 		data.HistorySizeTraps = types.Int64Null()
 	}
-	if value := res.Get(prefix + "directory.user.policy"); value.Exists() && !data.DirectoryUserPolicy.IsNull() {
+	if value := res.Get(prefix+"directory.user.policy"); value.Exists() && !data.DirectoryUserPolicy.IsNull() {
 		data.DirectoryUserPolicy = types.StringValue(value.String())
 	} else {
 		data.DirectoryUserPolicy = types.StringNull()
 	}
-	if value := res.Get(prefix + "scheduler.applet.thread.class.default"); !data.SchedulerAppletThreadClassDefault.IsNull() {
+	if value := res.Get(prefix+"scheduler.applet.thread.class.default"); !data.SchedulerAppletThreadClassDefault.IsNull() {
 		if value.Exists() {
 			data.SchedulerAppletThreadClassDefault = types.BoolValue(true)
 		} else {
@@ -1100,27 +1100,27 @@ func (data *EEM) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.SchedulerAppletThreadClassDefault = types.BoolNull()
 	}
-	if value := res.Get(prefix + "scheduler.applet.thread.class.number"); value.Exists() && !data.SchedulerAppletThreadClassNumber.IsNull() {
+	if value := res.Get(prefix+"scheduler.applet.thread.class.number"); value.Exists() && !data.SchedulerAppletThreadClassNumber.IsNull() {
 		data.SchedulerAppletThreadClassNumber = types.Int64Value(value.Int())
 	} else {
 		data.SchedulerAppletThreadClassNumber = types.Int64Null()
 	}
-	if value := res.Get(prefix + "detector.rpc.max-sessions"); value.Exists() && !data.DetectorRpcMaxSessions.IsNull() {
+	if value := res.Get(prefix+"detector.rpc.max-sessions"); value.Exists() && !data.DetectorRpcMaxSessions.IsNull() {
 		data.DetectorRpcMaxSessions = types.Int64Value(value.Int())
 	} else {
 		data.DetectorRpcMaxSessions = types.Int64Null()
 	}
-	if value := res.Get(prefix + "detector.routing.bootup-delay"); value.Exists() && !data.DetectorRoutingBootupDelay.IsNull() {
+	if value := res.Get(prefix+"detector.routing.bootup-delay"); value.Exists() && !data.DetectorRoutingBootupDelay.IsNull() {
 		data.DetectorRoutingBootupDelay = types.Float64Value(value.Float())
 	} else {
 		data.DetectorRoutingBootupDelay = types.Float64Null()
 	}
 	for i := range data.Applets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Applets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Applets[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "applet").ForEach(
+		res.Get(prefix+"applet").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1174,8 +1174,8 @@ func (data *EEM) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Applets[i].EventCliSkip = types.StringNull()
 		}
 		for ci := range data.Applets[i].Actions {
-			keys := [...]string{"name"}
-			keyValues := [...]string{data.Applets[i].Actions[ci].Name.ValueString()}
+			keys := [...]string{ "name",  }
+			keyValues := [...]string{ data.Applets[i].Actions[ci].Name.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("action-config.action").ForEach(
@@ -1656,11 +1656,11 @@ func (data *EEM) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *EEM) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.EnvironmentVariables {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.EnvironmentVariables[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.EnvironmentVariables[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/environment").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/environment").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1689,32 +1689,32 @@ func (data *EEM) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.EnvironmentVariables[i].Value = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/session/cli/username/username_in_word_set"); value.Exists() && !data.SessionCliUsername.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/session/cli/username/username_in_word_set"); value.Exists() && !data.SessionCliUsername.IsNull() {
 		data.SessionCliUsername = types.StringValue(value.String())
 	} else {
 		data.SessionCliUsername = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/session/cli/username/privilege_set"); value.Exists() && !data.SessionCliUsernamePrivilege.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/session/cli/username/privilege_set"); value.Exists() && !data.SessionCliUsernamePrivilege.IsNull() {
 		data.SessionCliUsernamePrivilege = types.Int64Value(value.Int())
 	} else {
 		data.SessionCliUsernamePrivilege = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/history/size/events"); value.Exists() && !data.HistorySizeEvents.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/history/size/events"); value.Exists() && !data.HistorySizeEvents.IsNull() {
 		data.HistorySizeEvents = types.Int64Value(value.Int())
 	} else {
 		data.HistorySizeEvents = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/history/size/traps"); value.Exists() && !data.HistorySizeTraps.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/history/size/traps"); value.Exists() && !data.HistorySizeTraps.IsNull() {
 		data.HistorySizeTraps = types.Int64Value(value.Int())
 	} else {
 		data.HistorySizeTraps = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/directory/user/policy"); value.Exists() && !data.DirectoryUserPolicy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/directory/user/policy"); value.Exists() && !data.DirectoryUserPolicy.IsNull() {
 		data.DirectoryUserPolicy = types.StringValue(value.String())
 	} else {
 		data.DirectoryUserPolicy = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/scheduler/applet/thread/class/default"); !data.SchedulerAppletThreadClassDefault.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/scheduler/applet/thread/class/default"); !data.SchedulerAppletThreadClassDefault.IsNull() {
 		if value.Exists() {
 			data.SchedulerAppletThreadClassDefault = types.BoolValue(true)
 		} else {
@@ -1723,27 +1723,27 @@ func (data *EEM) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.SchedulerAppletThreadClassDefault = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/scheduler/applet/thread/class/number"); value.Exists() && !data.SchedulerAppletThreadClassNumber.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/scheduler/applet/thread/class/number"); value.Exists() && !data.SchedulerAppletThreadClassNumber.IsNull() {
 		data.SchedulerAppletThreadClassNumber = types.Int64Value(value.Int())
 	} else {
 		data.SchedulerAppletThreadClassNumber = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detector/rpc/max-sessions"); value.Exists() && !data.DetectorRpcMaxSessions.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detector/rpc/max-sessions"); value.Exists() && !data.DetectorRpcMaxSessions.IsNull() {
 		data.DetectorRpcMaxSessions = types.Int64Value(value.Int())
 	} else {
 		data.DetectorRpcMaxSessions = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detector/routing/bootup-delay"); value.Exists() && !data.DetectorRoutingBootupDelay.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detector/routing/bootup-delay"); value.Exists() && !data.DetectorRoutingBootupDelay.IsNull() {
 		data.DetectorRoutingBootupDelay = types.Float64Value(value.Float())
 	} else {
 		data.DetectorRoutingBootupDelay = types.Float64Null()
 	}
 	for i := range data.Applets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Applets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Applets[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/applet").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/applet").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1797,8 +1797,8 @@ func (data *EEM) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.Applets[i].EventCliSkip = types.StringNull()
 		}
 		for ci := range data.Applets[i].Actions {
-			keys := [...]string{"name"}
-			keyValues := [...]string{data.Applets[i].Actions[ci].Name.ValueString()}
+			keys := [...]string{ "name",  }
+			keyValues := [...]string{ data.Applets[i].Actions[ci].Name.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "action-config/action").ForEach(
@@ -2282,7 +2282,7 @@ func (data *EEM) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "environment"); value.Exists() {
+	if value := res.Get(prefix+"environment"); value.Exists() {
 		data.EnvironmentVariables = make([]EEMEnvironmentVariables, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := EEMEnvironmentVariables{}
@@ -2296,36 +2296,36 @@ func (data *EEM) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "session.cli.username.username_in_word_set"); value.Exists() {
+	if value := res.Get(prefix+"session.cli.username.username_in_word_set"); value.Exists() {
 		data.SessionCliUsername = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "session.cli.username.privilege_set"); value.Exists() {
+	if value := res.Get(prefix+"session.cli.username.privilege_set"); value.Exists() {
 		data.SessionCliUsernamePrivilege = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "history.size.events"); value.Exists() {
+	if value := res.Get(prefix+"history.size.events"); value.Exists() {
 		data.HistorySizeEvents = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "history.size.traps"); value.Exists() {
+	if value := res.Get(prefix+"history.size.traps"); value.Exists() {
 		data.HistorySizeTraps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "directory.user.policy"); value.Exists() {
+	if value := res.Get(prefix+"directory.user.policy"); value.Exists() {
 		data.DirectoryUserPolicy = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "scheduler.applet.thread.class.default"); value.Exists() {
+	if value := res.Get(prefix+"scheduler.applet.thread.class.default"); value.Exists() {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(true)
 	} else {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "scheduler.applet.thread.class.number"); value.Exists() {
+	if value := res.Get(prefix+"scheduler.applet.thread.class.number"); value.Exists() {
 		data.SchedulerAppletThreadClassNumber = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "detector.rpc.max-sessions"); value.Exists() {
+	if value := res.Get(prefix+"detector.rpc.max-sessions"); value.Exists() {
 		data.DetectorRpcMaxSessions = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "detector.routing.bootup-delay"); value.Exists() {
+	if value := res.Get(prefix+"detector.routing.bootup-delay"); value.Exists() {
 		data.DetectorRoutingBootupDelay = types.Float64Value(value.Float())
 	}
-	if value := res.Get(prefix + "applet"); value.Exists() {
+	if value := res.Get(prefix+"applet"); value.Exists() {
 		data.Applets = make([]EEMApplets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := EEMApplets{}
@@ -2639,7 +2639,7 @@ func (data *EEMData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "environment"); value.Exists() {
+	if value := res.Get(prefix+"environment"); value.Exists() {
 		data.EnvironmentVariables = make([]EEMEnvironmentVariablesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := EEMEnvironmentVariablesData{}
@@ -2653,36 +2653,36 @@ func (data *EEMData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "session.cli.username.username_in_word_set"); value.Exists() {
+	if value := res.Get(prefix+"session.cli.username.username_in_word_set"); value.Exists() {
 		data.SessionCliUsername = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "session.cli.username.privilege_set"); value.Exists() {
+	if value := res.Get(prefix+"session.cli.username.privilege_set"); value.Exists() {
 		data.SessionCliUsernamePrivilege = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "history.size.events"); value.Exists() {
+	if value := res.Get(prefix+"history.size.events"); value.Exists() {
 		data.HistorySizeEvents = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "history.size.traps"); value.Exists() {
+	if value := res.Get(prefix+"history.size.traps"); value.Exists() {
 		data.HistorySizeTraps = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "directory.user.policy"); value.Exists() {
+	if value := res.Get(prefix+"directory.user.policy"); value.Exists() {
 		data.DirectoryUserPolicy = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "scheduler.applet.thread.class.default"); value.Exists() {
+	if value := res.Get(prefix+"scheduler.applet.thread.class.default"); value.Exists() {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(true)
 	} else {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "scheduler.applet.thread.class.number"); value.Exists() {
+	if value := res.Get(prefix+"scheduler.applet.thread.class.number"); value.Exists() {
 		data.SchedulerAppletThreadClassNumber = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "detector.rpc.max-sessions"); value.Exists() {
+	if value := res.Get(prefix+"detector.rpc.max-sessions"); value.Exists() {
 		data.DetectorRpcMaxSessions = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "detector.routing.bootup-delay"); value.Exists() {
+	if value := res.Get(prefix+"detector.routing.bootup-delay"); value.Exists() {
 		data.DetectorRoutingBootupDelay = types.Float64Value(value.Float())
 	}
-	if value := res.Get(prefix + "applet"); value.Exists() {
+	if value := res.Get(prefix+"applet"); value.Exists() {
 		data.Applets = make([]EEMAppletsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := EEMAppletsData{}
@@ -2992,7 +2992,7 @@ func (data *EEMData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *EEM) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/environment"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/environment"); value.Exists() {
 		data.EnvironmentVariables = make([]EEMEnvironmentVariables, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := EEMEnvironmentVariables{}
@@ -3006,36 +3006,36 @@ func (data *EEM) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/session/cli/username/username_in_word_set"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/session/cli/username/username_in_word_set"); value.Exists() {
 		data.SessionCliUsername = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/session/cli/username/privilege_set"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/session/cli/username/privilege_set"); value.Exists() {
 		data.SessionCliUsernamePrivilege = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/history/size/events"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/history/size/events"); value.Exists() {
 		data.HistorySizeEvents = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/history/size/traps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/history/size/traps"); value.Exists() {
 		data.HistorySizeTraps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/directory/user/policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/directory/user/policy"); value.Exists() {
 		data.DirectoryUserPolicy = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/scheduler/applet/thread/class/default"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/scheduler/applet/thread/class/default"); value.Exists() {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(true)
 	} else {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/scheduler/applet/thread/class/number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/scheduler/applet/thread/class/number"); value.Exists() {
 		data.SchedulerAppletThreadClassNumber = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detector/rpc/max-sessions"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detector/rpc/max-sessions"); value.Exists() {
 		data.DetectorRpcMaxSessions = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detector/routing/bootup-delay"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detector/routing/bootup-delay"); value.Exists() {
 		data.DetectorRoutingBootupDelay = types.Float64Value(value.Float())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/applet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/applet"); value.Exists() {
 		data.Applets = make([]EEMApplets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := EEMApplets{}
@@ -3345,7 +3345,7 @@ func (data *EEM) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *EEMData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/environment"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/environment"); value.Exists() {
 		data.EnvironmentVariables = make([]EEMEnvironmentVariablesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := EEMEnvironmentVariablesData{}
@@ -3359,36 +3359,36 @@ func (data *EEMData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/session/cli/username/username_in_word_set"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/session/cli/username/username_in_word_set"); value.Exists() {
 		data.SessionCliUsername = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/session/cli/username/privilege_set"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/session/cli/username/privilege_set"); value.Exists() {
 		data.SessionCliUsernamePrivilege = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/history/size/events"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/history/size/events"); value.Exists() {
 		data.HistorySizeEvents = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/history/size/traps"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/history/size/traps"); value.Exists() {
 		data.HistorySizeTraps = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/directory/user/policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/directory/user/policy"); value.Exists() {
 		data.DirectoryUserPolicy = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/scheduler/applet/thread/class/default"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/scheduler/applet/thread/class/default"); value.Exists() {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(true)
 	} else {
 		data.SchedulerAppletThreadClassDefault = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/scheduler/applet/thread/class/number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/scheduler/applet/thread/class/number"); value.Exists() {
 		data.SchedulerAppletThreadClassNumber = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detector/rpc/max-sessions"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detector/rpc/max-sessions"); value.Exists() {
 		data.DetectorRpcMaxSessions = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/detector/routing/bootup-delay"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/detector/routing/bootup-delay"); value.Exists() {
 		data.DetectorRoutingBootupDelay = types.Float64Value(value.Float())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/applet"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/applet"); value.Exists() {
 		data.Applets = make([]EEMAppletsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := EEMAppletsData{}
@@ -3700,8 +3700,8 @@ func (data *EEMData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *EEM) getDeletedItems(ctx context.Context, state EEM) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Applets {
-		stateKeyValues := [...]string{state.Applets[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Applets[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Applets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3757,8 +3757,8 @@ func (data *EEM) getDeletedItems(ctx context.Context, state EEM) []string {
 					deletedItems = append(deletedItems, fmt.Sprintf("%v/applet=%v/event/timer-choice/watchdog/time-set", state.getPath(), strings.Join(stateKeyValues[:], ",")))
 				}
 				for ci := range state.Applets[i].Actions {
-					cstateKeyValues := [...]string{state.Applets[i].Actions[ci].Name.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Applets[i].Actions[ci].Name.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Applets[i].Actions[ci].Name.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -4038,8 +4038,8 @@ func (data *EEM) getDeletedItems(ctx context.Context, state EEM) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/session/cli/username/username_in_word_set", state.getPath()))
 	}
 	for i := range state.EnvironmentVariables {
-		stateKeyValues := [...]string{state.EnvironmentVariables[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.EnvironmentVariables[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.EnvironmentVariables[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4076,13 +4076,13 @@ func (data *EEM) getDeletedItems(ctx context.Context, state EEM) []string {
 func (data *EEM) addDeletedItemsXML(ctx context.Context, state EEM, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Applets {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Applets[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Applets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Applets[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4138,8 +4138,8 @@ func (data *EEM) addDeletedItemsXML(ctx context.Context, state EEM, body string)
 					b = helpers.RemoveFromXPath(b, fmt.Sprintf(state.getXPath()+"/applet%v/event/timer-choice/watchdog/time-set", predicates))
 				}
 				for ci := range state.Applets[i].Actions {
-					cstateKeys := [...]string{"name"}
-					cstateKeyValues := [...]string{state.Applets[i].Actions[ci].Name.ValueString()}
+					cstateKeys := [...]string{ "name",  }
+					cstateKeyValues := [...]string{ state.Applets[i].Actions[ci].Name.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -4424,13 +4424,13 @@ func (data *EEM) addDeletedItemsXML(ctx context.Context, state EEM, body string)
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/session/cli/username/username_in_word_set")
 	}
 	for i := range state.EnvironmentVariables {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.EnvironmentVariables[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.EnvironmentVariables[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.EnvironmentVariables[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -4467,12 +4467,13 @@ func (data *EEM) addDeletedItemsXML(ctx context.Context, state EEM, body string)
 
 func (data *EEM) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Applets {
-		keyValues := [...]string{data.Applets[i].Name.ValueString()}
-
+		keyValues := [...]string{ data.Applets[i].Name.ValueString(),  }
+		
 		for ci := range data.Applets[i].Actions {
-			ckeyValues := [...]string{data.Applets[i].Actions[ci].Name.ValueString()}
+			ckeyValues := [...]string{ data.Applets[i].Actions[ci].Name.ValueString(),  }
 			if !data.Applets[i].Actions[ci].CounterOpNop.IsNull() && !data.Applets[i].Actions[ci].CounterOpNop.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/applet=%v/action-config/action=%v/counter/op/nop", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -4508,6 +4509,8 @@ func (data *EEM) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.SchedulerAppletThreadClassDefault.IsNull() && !data.SchedulerAppletThreadClassDefault.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/scheduler/applet/thread/class/default", data.getPath()))
 	}
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -4519,7 +4522,7 @@ func (data *EEM) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *EEM) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Applets {
-		keyValues := [...]string{data.Applets[i].Name.ValueString()}
+		keyValues := [...]string{ data.Applets[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/applet=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -4551,7 +4554,7 @@ func (data *EEM) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/session/cli/username/username_in_word_set", data.getPath()))
 	}
 	for i := range data.EnvironmentVariables {
-		keyValues := [...]string{data.EnvironmentVariables[i].Name.ValueString()}
+		keyValues := [...]string{ data.EnvironmentVariables[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/environment=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -4566,8 +4569,8 @@ func (data *EEM) getDeletePaths(ctx context.Context) []string {
 func (data *EEM) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Applets {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Applets[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Applets[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -4603,8 +4606,8 @@ func (data *EEM) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/session/cli/username/username_in_word_set")
 	}
 	for i := range data.EnvironmentVariables {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.EnvironmentVariables[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.EnvironmentVariables[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

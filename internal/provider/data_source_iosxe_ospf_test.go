@@ -76,7 +76,7 @@ func TestAccDataSourceIosxeOSPF(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeOSPFConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -103,19 +103,19 @@ func testAccDataSourceIosxeOSPFConfig() string {
 	config += `		ip = "2.2.2.2"` + "\n"
 	config += `		priority = 10` + "\n"
 	config += `		cost = 100` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	networks = [{` + "\n"
 	config += `		ip = "3.3.3.0"` + "\n"
 	config += `		wildcard = "0.0.0.255"` + "\n"
 	config += `		area = "0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	priority = 100` + "\n"
 	config += `	router_id = "1.2.3.4"` + "\n"
 	config += `	shutdown = false` + "\n"
 	config += `	summary_addresses = [{` + "\n"
 	config += `		ip = "3.3.3.0"` + "\n"
 	config += `		mask = "255.255.255.0"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	areas = [{` + "\n"
 	config += `		area_id = "5"` + "\n"
 	config += `		authentication_message_digest = true` + "\n"
@@ -125,7 +125,7 @@ func testAccDataSourceIosxeOSPFConfig() string {
 	config += `		nssa_default_information_originate_metric_type = 1` + "\n"
 	config += `		nssa_no_summary = true` + "\n"
 	config += `		nssa_no_redistribution = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	auto_cost_reference_bandwidth = 40000` + "\n"
 	config += `	passive_interface_default = true` + "\n"
 	config += `	log_adjacency_changes = true` + "\n"
@@ -140,7 +140,7 @@ func testAccDataSourceIosxeOSPFConfig() string {
 	config += `	redistribute_static_subnets = true` + "\n"
 	config += `	redistribute_connected_subnets = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_ospf" "test" {
 			process_id = 1

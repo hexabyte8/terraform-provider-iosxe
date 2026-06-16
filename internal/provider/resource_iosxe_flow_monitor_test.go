@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -45,19 +44,19 @@ func TestAccIosxeFlowMonitor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeFlowMonitorPrerequisitesConfig + testAccIosxeFlowMonitorConfig_minimum(),
+				Config: testAccIosxeFlowMonitorPrerequisitesConfig+testAccIosxeFlowMonitorConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeFlowMonitorPrerequisitesConfig + testAccIosxeFlowMonitorConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeFlowMonitorPrerequisitesConfig+testAccIosxeFlowMonitorConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_flow_monitor.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeFlowMonitorImportStateIdFunc("iosxe_flow_monitor.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_flow_monitor.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeFlowMonitorImportStateIdFunc("iosxe_flow_monitor.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -95,7 +94,6 @@ resource "iosxe_yang" "PreReq1" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

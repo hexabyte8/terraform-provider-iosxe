@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -73,7 +72,7 @@ func TestAccDataSourceIosxeFlowRecord(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeFlowRecordConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -125,7 +124,7 @@ func testAccDataSourceIosxeFlowRecordConfig() string {
 	config += `	collect_timestamp_absolute_first = true` + "\n"
 	config += `	collect_timestamp_absolute_last = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_flow_record" "test" {
 			name = "FNF1"

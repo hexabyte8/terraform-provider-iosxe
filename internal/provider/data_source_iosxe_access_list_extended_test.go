@@ -56,7 +56,7 @@ func TestAccDataSourceIosxeAccessListExtended(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeAccessListExtendedConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -91,9 +91,9 @@ func testAccDataSourceIosxeAccessListExtendedConfig() string {
 	config += `		urg = true` + "\n"
 	config += `		dscp = "46"` + "\n"
 	config += `		log = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_access_list_extended" "test" {
 			name = "EACL1"

@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeInterfaceSwitchport(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_switchport.test", "mode_access", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_interface_switchport.test", "mode_dot1q_tunnel", "false"))
@@ -53,7 +52,7 @@ func TestAccDataSourceIosxeInterfaceSwitchport(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeInterfaceSwitchportConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -83,7 +82,7 @@ func testAccDataSourceIosxeInterfaceSwitchportConfig() string {
 	config += `	trunk_native_vlan = 100` + "\n"
 	config += `	host = false` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_interface_switchport" "test" {
 			type = "GigabitEthernet"

@@ -1,43 +1,43 @@
 resource "iosxe_bgp_address_family_ipv4" "example" {
-  asn                                           = "65000"
-  af_name                                       = "unicast"
-  ipv4_unicast_redistribute_connected           = true
+  asn = "65000"
+  af_name = "unicast"
+  ipv4_unicast_redistribute_connected = true
   ipv4_unicast_redistribute_connected_route_map = "RM_BGP_CONNECTED"
-  ipv4_unicast_redistribute_connected_metric    = 100
-  ipv4_unicast_redistribute_static              = true
-  ipv4_unicast_redistribute_static_route_map    = "RM_BGP_STATIC"
-  ipv4_unicast_redistribute_static_metric       = 200
+  ipv4_unicast_redistribute_connected_metric = 100
+  ipv4_unicast_redistribute_static = true
+  ipv4_unicast_redistribute_static_route_map = "RM_BGP_STATIC"
+  ipv4_unicast_redistribute_static_metric = 200
   ipv4_unicast_aggregate_addresses = [
     {
       ipv4_address = "10.0.0.0"
-      ipv4_mask    = "255.255.0.0"
+      ipv4_mask = "255.255.0.0"
     }
   ]
   ipv4_unicast_networks_mask = [
     {
-      network   = "12.0.0.0"
-      mask      = "255.255.0.0"
+      network = "12.0.0.0"
+      mask = "255.255.0.0"
       route_map = "RM1"
-      backdoor  = true
+      backdoor = true
     }
   ]
   ipv4_unicast_networks = [
     {
-      network   = "13.0.0.0"
+      network = "13.0.0.0"
       route_map = "RM1"
-      backdoor  = true
+      backdoor = true
     }
   ]
   ipv4_unicast_admin_distances = [
     {
-      distance  = 200
+      distance = 200
       source_ip = "10.1.1.1"
-      wildcard  = "0.0.0.0"
+      wildcard = "0.0.0.0"
     }
   ]
   ipv4_unicast_distance_bgp_external = 20
   ipv4_unicast_distance_bgp_internal = 200
-  ipv4_unicast_distance_bgp_local    = 200
-  ipv4_unicast_maximum_paths_ebgp    = 2
-  ipv4_unicast_maximum_paths_ibgp    = 2
+  ipv4_unicast_distance_bgp_local = 200
+  ipv4_unicast_maximum_paths_ebgp = 2
+  ipv4_unicast_maximum_paths_ibgp = 2
 }

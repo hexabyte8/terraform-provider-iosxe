@@ -23,145 +23,145 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BFD struct {
-	Device           types.String          `tfsdk:"device"`
-	Id               types.String          `tfsdk:"id"`
-	DeleteMode       types.String          `tfsdk:"delete_mode"`
-	Ipv4BothVrfs     []BFDIpv4BothVrfs     `tfsdk:"ipv4_both_vrfs"`
-	Ipv4WithoutVrfs  []BFDIpv4WithoutVrfs  `tfsdk:"ipv4_without_vrfs"`
-	Ipv4WithSrcVrfs  []BFDIpv4WithSrcVrfs  `tfsdk:"ipv4_with_src_vrfs"`
-	Ipv4WithDstVrfs  []BFDIpv4WithDstVrfs  `tfsdk:"ipv4_with_dst_vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Ipv4BothVrfs []BFDIpv4BothVrfs `tfsdk:"ipv4_both_vrfs"`
+	Ipv4WithoutVrfs []BFDIpv4WithoutVrfs `tfsdk:"ipv4_without_vrfs"`
+	Ipv4WithSrcVrfs []BFDIpv4WithSrcVrfs `tfsdk:"ipv4_with_src_vrfs"`
+	Ipv4WithDstVrfs []BFDIpv4WithDstVrfs `tfsdk:"ipv4_with_dst_vrfs"`
 	Ipv6WithBothVrfs []BFDIpv6WithBothVrfs `tfsdk:"ipv6_with_both_vrfs"`
-	Ipv6WithoutVrfs  []BFDIpv6WithoutVrfs  `tfsdk:"ipv6_without_vrfs"`
-	Ipv6WithSrcVrfs  []BFDIpv6WithSrcVrfs  `tfsdk:"ipv6_with_src_vrfs"`
-	Ipv6WithDstVrfs  []BFDIpv6WithDstVrfs  `tfsdk:"ipv6_with_dst_vrfs"`
-	SlowTimers       types.Int64           `tfsdk:"slow_timers"`
+	Ipv6WithoutVrfs []BFDIpv6WithoutVrfs `tfsdk:"ipv6_without_vrfs"`
+	Ipv6WithSrcVrfs []BFDIpv6WithSrcVrfs `tfsdk:"ipv6_with_src_vrfs"`
+	Ipv6WithDstVrfs []BFDIpv6WithDstVrfs `tfsdk:"ipv6_with_dst_vrfs"`
+	SlowTimers types.Int64 `tfsdk:"slow_timers"`
 }
 type BFDIpv4BothVrfs struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv4WithoutVrfs struct {
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv4WithSrcVrfs struct {
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv4WithDstVrfs struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithBothVrfs struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithoutVrfs struct {
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithSrcVrfs struct {
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithDstVrfs struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 
 type BFDData struct {
-	Device           types.String              `tfsdk:"device"`
-	Id               types.String              `tfsdk:"id"`
-	Ipv4BothVrfs     []BFDIpv4BothVrfsData     `tfsdk:"ipv4_both_vrfs"`
-	Ipv4WithoutVrfs  []BFDIpv4WithoutVrfsData  `tfsdk:"ipv4_without_vrfs"`
-	Ipv4WithSrcVrfs  []BFDIpv4WithSrcVrfsData  `tfsdk:"ipv4_with_src_vrfs"`
-	Ipv4WithDstVrfs  []BFDIpv4WithDstVrfsData  `tfsdk:"ipv4_with_dst_vrfs"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Ipv4BothVrfs []BFDIpv4BothVrfsData `tfsdk:"ipv4_both_vrfs"`
+	Ipv4WithoutVrfs []BFDIpv4WithoutVrfsData `tfsdk:"ipv4_without_vrfs"`
+	Ipv4WithSrcVrfs []BFDIpv4WithSrcVrfsData `tfsdk:"ipv4_with_src_vrfs"`
+	Ipv4WithDstVrfs []BFDIpv4WithDstVrfsData `tfsdk:"ipv4_with_dst_vrfs"`
 	Ipv6WithBothVrfs []BFDIpv6WithBothVrfsData `tfsdk:"ipv6_with_both_vrfs"`
-	Ipv6WithoutVrfs  []BFDIpv6WithoutVrfsData  `tfsdk:"ipv6_without_vrfs"`
-	Ipv6WithSrcVrfs  []BFDIpv6WithSrcVrfsData  `tfsdk:"ipv6_with_src_vrfs"`
-	Ipv6WithDstVrfs  []BFDIpv6WithDstVrfsData  `tfsdk:"ipv6_with_dst_vrfs"`
-	SlowTimers       types.Int64               `tfsdk:"slow_timers"`
+	Ipv6WithoutVrfs []BFDIpv6WithoutVrfsData `tfsdk:"ipv6_without_vrfs"`
+	Ipv6WithSrcVrfs []BFDIpv6WithSrcVrfsData `tfsdk:"ipv6_with_src_vrfs"`
+	Ipv6WithDstVrfs []BFDIpv6WithDstVrfsData `tfsdk:"ipv6_with_dst_vrfs"`
+	SlowTimers types.Int64 `tfsdk:"slow_timers"`
 }
 type BFDIpv4BothVrfsData struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv4WithoutVrfsData struct {
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv4WithSrcVrfsData struct {
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv4WithDstVrfsData struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIp       types.String `tfsdk:"dest_ip"`
-	SrcIp        types.String `tfsdk:"src_ip"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIp types.String `tfsdk:"dest_ip"`
+	SrcIp types.String `tfsdk:"src_ip"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithBothVrfsData struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithoutVrfsData struct {
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithSrcVrfsData struct {
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcVrf       types.String `tfsdk:"src_vrf"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcVrf types.String `tfsdk:"src_vrf"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 type BFDIpv6WithDstVrfsData struct {
-	DstVrf       types.String `tfsdk:"dst_vrf"`
-	DestIpv6     types.String `tfsdk:"dest_ipv6"`
-	SrcIpv6      types.String `tfsdk:"src_ipv6"`
+	DstVrf types.String `tfsdk:"dst_vrf"`
+	DestIpv6 types.String `tfsdk:"dest_ipv6"`
+	SrcIpv6 types.String `tfsdk:"src_ipv6"`
 	TemplateName types.String `tfsdk:"template_name"`
 }
 
@@ -498,7 +498,7 @@ func (data BFD) toBodyXML(ctx context.Context, config BFD) string {
 		}
 	}
 	if !data.SlowTimers.IsNull() && !data.SlowTimers.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/Cisco-IOS-XE-bfd:slow-timers", strconv.FormatInt(data.SlowTimers.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/Cisco-IOS-XE-bfd:slow-timers", strconv.FormatInt(data.SlowTimers.ValueInt64(), 10))
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -517,11 +517,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.Ipv4BothVrfs {
-		keys := [...]string{"dst-vrf", "dest-ip", "src-vrf", "src-ip"}
-		keyValues := [...]string{data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ip", "src-vrf", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-both-vrf.ipv4").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-both-vrf.ipv4").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -566,11 +566,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv4WithoutVrfs {
-		keys := [...]string{"dest-ip", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dest-ip", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-without-vrf.ipv4").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-without-vrf.ipv4").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -605,11 +605,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv4WithSrcVrfs {
-		keys := [...]string{"dest-ip", "src-vrf", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dest-ip", "src-vrf", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-src-vrf.ipv4").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-src-vrf.ipv4").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -649,11 +649,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv4WithDstVrfs {
-		keys := [...]string{"dst-vrf", "dest-ip", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ip", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-dst-vrf.ipv4").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-dst-vrf.ipv4").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -693,11 +693,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv6WithBothVrfs {
-		keys := [...]string{"dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-both-vrf.ipv6").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-both-vrf.ipv6").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -742,11 +742,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv6WithoutVrfs {
-		keys := [...]string{"dest-ipv6", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dest-ipv6", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-without-vrf.ipv6").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-without-vrf.ipv6").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -781,11 +781,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv6WithSrcVrfs {
-		keys := [...]string{"dest-ipv6", "src-vrf", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dest-ipv6", "src-vrf", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-src-vrf.ipv6").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-src-vrf.ipv6").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -825,11 +825,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Ipv6WithDstVrfs {
-		keys := [...]string{"dst-vrf", "dest-ipv6", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ipv6", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-dst-vrf.ipv6").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-dst-vrf.ipv6").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -868,7 +868,7 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Ipv6WithDstVrfs[i].TemplateName = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:slow-timers"); value.Exists() && !data.SlowTimers.IsNull() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:slow-timers"); value.Exists() && !data.SlowTimers.IsNull() {
 		data.SlowTimers = types.Int64Value(value.Int())
 	} else {
 		data.SlowTimers = types.Int64Null()
@@ -881,11 +881,11 @@ func (data *BFD) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.Ipv4BothVrfs {
-		keys := [...]string{"dst-vrf", "dest-ip", "src-vrf", "src-ip"}
-		keyValues := [...]string{data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ip", "src-vrf", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -930,11 +930,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv4WithoutVrfs {
-		keys := [...]string{"dest-ip", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dest-ip", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -969,11 +969,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv4WithSrcVrfs {
-		keys := [...]string{"dest-ip", "src-vrf", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dest-ip", "src-vrf", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1013,11 +1013,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv4WithDstVrfs {
-		keys := [...]string{"dst-vrf", "dest-ip", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ip", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1057,11 +1057,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv6WithBothVrfs {
-		keys := [...]string{"dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1106,11 +1106,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv6WithoutVrfs {
-		keys := [...]string{"dest-ipv6", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dest-ipv6", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1145,11 +1145,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv6WithSrcVrfs {
-		keys := [...]string{"dest-ipv6", "src-vrf", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dest-ipv6", "src-vrf", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1189,11 +1189,11 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 		}
 	}
 	for i := range data.Ipv6WithDstVrfs {
-		keys := [...]string{"dst-vrf", "dest-ipv6", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ipv6", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1232,7 +1232,7 @@ func (data *BFD) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.Ipv6WithDstVrfs[i].TemplateName = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:slow-timers"); value.Exists() && !data.SlowTimers.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:slow-timers"); value.Exists() && !data.SlowTimers.IsNull() {
 		data.SlowTimers = types.Int64Value(value.Int())
 	} else {
 		data.SlowTimers = types.Int64Null()
@@ -1248,7 +1248,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-both-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-both-vrf.ipv4"); value.Exists() {
 		data.Ipv4BothVrfs = make([]BFDIpv4BothVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4BothVrfs{}
@@ -1271,7 +1271,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-without-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-without-vrf.ipv4"); value.Exists() {
 		data.Ipv4WithoutVrfs = make([]BFDIpv4WithoutVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4WithoutVrfs{}
@@ -1288,7 +1288,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-src-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-src-vrf.ipv4"); value.Exists() {
 		data.Ipv4WithSrcVrfs = make([]BFDIpv4WithSrcVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4WithSrcVrfs{}
@@ -1308,7 +1308,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-dst-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-dst-vrf.ipv4"); value.Exists() {
 		data.Ipv4WithDstVrfs = make([]BFDIpv4WithDstVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4WithDstVrfs{}
@@ -1328,7 +1328,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-both-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-both-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithBothVrfs = make([]BFDIpv6WithBothVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithBothVrfs{}
@@ -1351,7 +1351,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-without-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-without-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithoutVrfs = make([]BFDIpv6WithoutVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithoutVrfs{}
@@ -1368,7 +1368,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-src-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-src-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithSrcVrfs = make([]BFDIpv6WithSrcVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithSrcVrfs{}
@@ -1388,7 +1388,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-dst-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-dst-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithDstVrfs = make([]BFDIpv6WithDstVrfs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithDstVrfs{}
@@ -1408,7 +1408,7 @@ func (data *BFD) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
 		data.SlowTimers = types.Int64Value(value.Int())
 	}
 }
@@ -1422,7 +1422,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-both-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-both-vrf.ipv4"); value.Exists() {
 		data.Ipv4BothVrfs = make([]BFDIpv4BothVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4BothVrfsData{}
@@ -1445,7 +1445,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-without-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-without-vrf.ipv4"); value.Exists() {
 		data.Ipv4WithoutVrfs = make([]BFDIpv4WithoutVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4WithoutVrfsData{}
@@ -1462,7 +1462,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-src-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-src-vrf.ipv4"); value.Exists() {
 		data.Ipv4WithSrcVrfs = make([]BFDIpv4WithSrcVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4WithSrcVrfsData{}
@@ -1482,7 +1482,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv4-list-with-dst-vrf.ipv4"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv4-list-with-dst-vrf.ipv4"); value.Exists() {
 		data.Ipv4WithDstVrfs = make([]BFDIpv4WithDstVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv4WithDstVrfsData{}
@@ -1502,7 +1502,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-both-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-both-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithBothVrfs = make([]BFDIpv6WithBothVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithBothVrfsData{}
@@ -1525,7 +1525,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-without-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-without-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithoutVrfs = make([]BFDIpv6WithoutVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithoutVrfsData{}
@@ -1542,7 +1542,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-src-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-src-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithSrcVrfs = make([]BFDIpv6WithSrcVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithSrcVrfsData{}
@@ -1562,7 +1562,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:map.ipv6-list-with-dst-vrf.ipv6"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:map.ipv6-list-with-dst-vrf.ipv6"); value.Exists() {
 		data.Ipv6WithDstVrfs = make([]BFDIpv6WithDstVrfsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BFDIpv6WithDstVrfsData{}
@@ -1582,7 +1582,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
 		data.SlowTimers = types.Int64Value(value.Int())
 	}
 }
@@ -1592,7 +1592,7 @@ func (data *BFDData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4"); value.Exists() {
 		data.Ipv4BothVrfs = make([]BFDIpv4BothVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4BothVrfs{}
@@ -1615,7 +1615,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4"); value.Exists() {
 		data.Ipv4WithoutVrfs = make([]BFDIpv4WithoutVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4WithoutVrfs{}
@@ -1632,7 +1632,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4"); value.Exists() {
 		data.Ipv4WithSrcVrfs = make([]BFDIpv4WithSrcVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4WithSrcVrfs{}
@@ -1652,7 +1652,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4"); value.Exists() {
 		data.Ipv4WithDstVrfs = make([]BFDIpv4WithDstVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4WithDstVrfs{}
@@ -1672,7 +1672,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithBothVrfs = make([]BFDIpv6WithBothVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithBothVrfs{}
@@ -1695,7 +1695,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithoutVrfs = make([]BFDIpv6WithoutVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithoutVrfs{}
@@ -1712,7 +1712,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithSrcVrfs = make([]BFDIpv6WithSrcVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithSrcVrfs{}
@@ -1732,7 +1732,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithDstVrfs = make([]BFDIpv6WithDstVrfs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithDstVrfs{}
@@ -1752,7 +1752,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
 		data.SlowTimers = types.Int64Value(value.Int())
 	}
 }
@@ -1762,7 +1762,7 @@ func (data *BFD) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4"); value.Exists() {
 		data.Ipv4BothVrfs = make([]BFDIpv4BothVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4BothVrfsData{}
@@ -1785,7 +1785,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4"); value.Exists() {
 		data.Ipv4WithoutVrfs = make([]BFDIpv4WithoutVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4WithoutVrfsData{}
@@ -1802,7 +1802,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4"); value.Exists() {
 		data.Ipv4WithSrcVrfs = make([]BFDIpv4WithSrcVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4WithSrcVrfsData{}
@@ -1822,7 +1822,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4"); value.Exists() {
 		data.Ipv4WithDstVrfs = make([]BFDIpv4WithDstVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv4WithDstVrfsData{}
@@ -1842,7 +1842,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithBothVrfs = make([]BFDIpv6WithBothVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithBothVrfsData{}
@@ -1865,7 +1865,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithoutVrfs = make([]BFDIpv6WithoutVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithoutVrfsData{}
@@ -1882,7 +1882,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithSrcVrfs = make([]BFDIpv6WithSrcVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithSrcVrfsData{}
@@ -1902,7 +1902,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6"); value.Exists() {
 		data.Ipv6WithDstVrfs = make([]BFDIpv6WithDstVrfsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BFDIpv6WithDstVrfsData{}
@@ -1922,7 +1922,7 @@ func (data *BFDData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-bfd:slow-timers"); value.Exists() {
 		data.SlowTimers = types.Int64Value(value.Int())
 	}
 }
@@ -1937,8 +1937,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:slow-timers", state.getPath()))
 	}
 	for i := range state.Ipv6WithDstVrfs {
-		stateKeyValues := [...]string{state.Ipv6WithDstVrfs[i].DstVrf.ValueString(), state.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), state.Ipv6WithDstVrfs[i].SrcIpv6.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6WithDstVrfs[i].DstVrf.ValueString(), state.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), state.Ipv6WithDstVrfs[i].SrcIpv6.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithDstVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1977,8 +1977,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv6WithSrcVrfs {
-		stateKeyValues := [...]string{state.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), state.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), state.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithSrcVrfs[i].DestIpv6.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2017,8 +2017,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv6WithoutVrfs {
-		stateKeyValues := [...]string{state.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), state.Ipv6WithoutVrfs[i].SrcIpv6.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), state.Ipv6WithoutVrfs[i].SrcIpv6.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithoutVrfs[i].DestIpv6.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2051,8 +2051,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv6WithBothVrfs {
-		stateKeyValues := [...]string{state.Ipv6WithBothVrfs[i].DstVrf.ValueString(), state.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), state.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), state.Ipv6WithBothVrfs[i].SrcIpv6.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv6WithBothVrfs[i].DstVrf.ValueString(), state.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), state.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), state.Ipv6WithBothVrfs[i].SrcIpv6.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithBothVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2097,8 +2097,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv4WithDstVrfs {
-		stateKeyValues := [...]string{state.Ipv4WithDstVrfs[i].DstVrf.ValueString(), state.Ipv4WithDstVrfs[i].DestIp.ValueString(), state.Ipv4WithDstVrfs[i].SrcIp.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv4WithDstVrfs[i].DstVrf.ValueString(), state.Ipv4WithDstVrfs[i].DestIp.ValueString(), state.Ipv4WithDstVrfs[i].SrcIp.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4WithDstVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2137,8 +2137,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv4WithSrcVrfs {
-		stateKeyValues := [...]string{state.Ipv4WithSrcVrfs[i].DestIp.ValueString(), state.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv4WithSrcVrfs[i].SrcIp.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv4WithSrcVrfs[i].DestIp.ValueString(), state.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv4WithSrcVrfs[i].SrcIp.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4WithSrcVrfs[i].DestIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2177,8 +2177,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv4WithoutVrfs {
-		stateKeyValues := [...]string{state.Ipv4WithoutVrfs[i].DestIp.ValueString(), state.Ipv4WithoutVrfs[i].SrcIp.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv4WithoutVrfs[i].DestIp.ValueString(), state.Ipv4WithoutVrfs[i].SrcIp.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4WithoutVrfs[i].DestIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2211,8 +2211,8 @@ func (data *BFD) getDeletedItems(ctx context.Context, state BFD) []string {
 		}
 	}
 	for i := range state.Ipv4BothVrfs {
-		stateKeyValues := [...]string{state.Ipv4BothVrfs[i].DstVrf.ValueString(), state.Ipv4BothVrfs[i].DestIp.ValueString(), state.Ipv4BothVrfs[i].SrcVrf.ValueString(), state.Ipv4BothVrfs[i].SrcIp.ValueString()}
-
+		stateKeyValues := [...]string{ state.Ipv4BothVrfs[i].DstVrf.ValueString(), state.Ipv4BothVrfs[i].DestIp.ValueString(), state.Ipv4BothVrfs[i].SrcVrf.ValueString(), state.Ipv4BothVrfs[i].SrcIp.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4BothVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2270,13 +2270,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/Cisco-IOS-XE-bfd:slow-timers")
 	}
 	for i := range state.Ipv6WithDstVrfs {
-		stateKeys := [...]string{"dst-vrf", "dest-ipv6", "src-ipv6"}
-		stateKeyValues := [...]string{state.Ipv6WithDstVrfs[i].DstVrf.ValueString(), state.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), state.Ipv6WithDstVrfs[i].SrcIpv6.ValueString()}
+		stateKeys := [...]string{ "dst-vrf", "dest-ipv6", "src-ipv6",  }
+		stateKeyValues := [...]string{ state.Ipv6WithDstVrfs[i].DstVrf.ValueString(), state.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), state.Ipv6WithDstVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithDstVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2315,13 +2315,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv6WithSrcVrfs {
-		stateKeys := [...]string{"dest-ipv6", "src-vrf", "src-ipv6"}
-		stateKeyValues := [...]string{state.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), state.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString()}
+		stateKeys := [...]string{ "dest-ipv6", "src-vrf", "src-ipv6",  }
+		stateKeyValues := [...]string{ state.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), state.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithSrcVrfs[i].DestIpv6.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2360,13 +2360,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv6WithoutVrfs {
-		stateKeys := [...]string{"dest-ipv6", "src-ipv6"}
-		stateKeyValues := [...]string{state.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), state.Ipv6WithoutVrfs[i].SrcIpv6.ValueString()}
+		stateKeys := [...]string{ "dest-ipv6", "src-ipv6",  }
+		stateKeyValues := [...]string{ state.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), state.Ipv6WithoutVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithoutVrfs[i].DestIpv6.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2399,13 +2399,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv6WithBothVrfs {
-		stateKeys := [...]string{"dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6"}
-		stateKeyValues := [...]string{state.Ipv6WithBothVrfs[i].DstVrf.ValueString(), state.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), state.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), state.Ipv6WithBothVrfs[i].SrcIpv6.ValueString()}
+		stateKeys := [...]string{ "dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6",  }
+		stateKeyValues := [...]string{ state.Ipv6WithBothVrfs[i].DstVrf.ValueString(), state.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), state.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), state.Ipv6WithBothVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv6WithBothVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2450,13 +2450,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv4WithDstVrfs {
-		stateKeys := [...]string{"dst-vrf", "dest-ip", "src-ip"}
-		stateKeyValues := [...]string{state.Ipv4WithDstVrfs[i].DstVrf.ValueString(), state.Ipv4WithDstVrfs[i].DestIp.ValueString(), state.Ipv4WithDstVrfs[i].SrcIp.ValueString()}
+		stateKeys := [...]string{ "dst-vrf", "dest-ip", "src-ip",  }
+		stateKeyValues := [...]string{ state.Ipv4WithDstVrfs[i].DstVrf.ValueString(), state.Ipv4WithDstVrfs[i].DestIp.ValueString(), state.Ipv4WithDstVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4WithDstVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2495,13 +2495,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv4WithSrcVrfs {
-		stateKeys := [...]string{"dest-ip", "src-vrf", "src-ip"}
-		stateKeyValues := [...]string{state.Ipv4WithSrcVrfs[i].DestIp.ValueString(), state.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv4WithSrcVrfs[i].SrcIp.ValueString()}
+		stateKeys := [...]string{ "dest-ip", "src-vrf", "src-ip",  }
+		stateKeyValues := [...]string{ state.Ipv4WithSrcVrfs[i].DestIp.ValueString(), state.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), state.Ipv4WithSrcVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4WithSrcVrfs[i].DestIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2540,13 +2540,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv4WithoutVrfs {
-		stateKeys := [...]string{"dest-ip", "src-ip"}
-		stateKeyValues := [...]string{state.Ipv4WithoutVrfs[i].DestIp.ValueString(), state.Ipv4WithoutVrfs[i].SrcIp.ValueString()}
+		stateKeys := [...]string{ "dest-ip", "src-ip",  }
+		stateKeyValues := [...]string{ state.Ipv4WithoutVrfs[i].DestIp.ValueString(), state.Ipv4WithoutVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4WithoutVrfs[i].DestIp.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2579,13 +2579,13 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 		}
 	}
 	for i := range state.Ipv4BothVrfs {
-		stateKeys := [...]string{"dst-vrf", "dest-ip", "src-vrf", "src-ip"}
-		stateKeyValues := [...]string{state.Ipv4BothVrfs[i].DstVrf.ValueString(), state.Ipv4BothVrfs[i].DestIp.ValueString(), state.Ipv4BothVrfs[i].SrcVrf.ValueString(), state.Ipv4BothVrfs[i].SrcIp.ValueString()}
+		stateKeys := [...]string{ "dst-vrf", "dest-ip", "src-vrf", "src-ip",  }
+		stateKeyValues := [...]string{ state.Ipv4BothVrfs[i].DstVrf.ValueString(), state.Ipv4BothVrfs[i].DestIp.ValueString(), state.Ipv4BothVrfs[i].SrcVrf.ValueString(), state.Ipv4BothVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Ipv4BothVrfs[i].DstVrf.ValueString()).IsZero() {
 			emptyKeys = false
@@ -2640,6 +2640,22 @@ func (data *BFD) addDeletedItemsXML(ctx context.Context, state BFD, body string)
 
 func (data *BFD) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -2654,42 +2670,42 @@ func (data *BFD) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:slow-timers", data.getPath()))
 	}
 	for i := range data.Ipv6WithDstVrfs {
-		keyValues := [...]string{data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString()}
+		keyValues := [...]string{ data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv6WithSrcVrfs {
-		keyValues := [...]string{data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString()}
+		keyValues := [...]string{ data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv6WithoutVrfs {
-		keyValues := [...]string{data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString()}
+		keyValues := [...]string{ data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv6WithBothVrfs {
-		keyValues := [...]string{data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString()}
+		keyValues := [...]string{ data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv4WithDstVrfs {
-		keyValues := [...]string{data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString()}
+		keyValues := [...]string{ data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv4WithSrcVrfs {
-		keyValues := [...]string{data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString()}
+		keyValues := [...]string{ data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv4WithoutVrfs {
-		keyValues := [...]string{data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString()}
+		keyValues := [...]string{ data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Ipv4BothVrfs {
-		keyValues := [...]string{data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString()}
+		keyValues := [...]string{ data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-bfd:map/ipv4-list-with-both-vrf/ipv4=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2707,8 +2723,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/Cisco-IOS-XE-bfd:slow-timers")
 	}
 	for i := range data.Ipv6WithDstVrfs {
-		keys := [...]string{"dst-vrf", "dest-ipv6", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ipv6", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithDstVrfs[i].DstVrf.ValueString(), data.Ipv6WithDstVrfs[i].DestIpv6.ValueString(), data.Ipv6WithDstVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2717,8 +2733,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-dst-vrf/ipv6%v", predicates))
 	}
 	for i := range data.Ipv6WithSrcVrfs {
-		keys := [...]string{"dest-ipv6", "src-vrf", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dest-ipv6", "src-vrf", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithSrcVrfs[i].DestIpv6.ValueString(), data.Ipv6WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv6WithSrcVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2727,8 +2743,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-src-vrf/ipv6%v", predicates))
 	}
 	for i := range data.Ipv6WithoutVrfs {
-		keys := [...]string{"dest-ipv6", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dest-ipv6", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithoutVrfs[i].DestIpv6.ValueString(), data.Ipv6WithoutVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2737,8 +2753,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-without-vrf/ipv6%v", predicates))
 	}
 	for i := range data.Ipv6WithBothVrfs {
-		keys := [...]string{"dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6"}
-		keyValues := [...]string{data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ipv6", "src-vrf", "src-ipv6",  }
+		keyValues := [...]string{ data.Ipv6WithBothVrfs[i].DstVrf.ValueString(), data.Ipv6WithBothVrfs[i].DestIpv6.ValueString(), data.Ipv6WithBothVrfs[i].SrcVrf.ValueString(), data.Ipv6WithBothVrfs[i].SrcIpv6.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2747,8 +2763,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv6-list-with-both-vrf/ipv6%v", predicates))
 	}
 	for i := range data.Ipv4WithDstVrfs {
-		keys := [...]string{"dst-vrf", "dest-ip", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ip", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithDstVrfs[i].DstVrf.ValueString(), data.Ipv4WithDstVrfs[i].DestIp.ValueString(), data.Ipv4WithDstVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2757,8 +2773,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-dst-vrf/ipv4%v", predicates))
 	}
 	for i := range data.Ipv4WithSrcVrfs {
-		keys := [...]string{"dest-ip", "src-vrf", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dest-ip", "src-vrf", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithSrcVrfs[i].DestIp.ValueString(), data.Ipv4WithSrcVrfs[i].SrcVrf.ValueString(), data.Ipv4WithSrcVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2767,8 +2783,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-with-src-vrf/ipv4%v", predicates))
 	}
 	for i := range data.Ipv4WithoutVrfs {
-		keys := [...]string{"dest-ip", "src-ip"}
-		keyValues := [...]string{data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dest-ip", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4WithoutVrfs[i].DestIp.ValueString(), data.Ipv4WithoutVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -2777,8 +2793,8 @@ func (data *BFD) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-bfd:map/ipv4-list-without-vrf/ipv4%v", predicates))
 	}
 	for i := range data.Ipv4BothVrfs {
-		keys := [...]string{"dst-vrf", "dest-ip", "src-vrf", "src-ip"}
-		keyValues := [...]string{data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString()}
+		keys := [...]string{ "dst-vrf", "dest-ip", "src-vrf", "src-ip",  }
+		keyValues := [...]string{ data.Ipv4BothVrfs[i].DstVrf.ValueString(), data.Ipv4BothVrfs[i].DestIp.ValueString(), data.Ipv4BothVrfs[i].SrcVrf.ValueString(), data.Ipv4BothVrfs[i].SrcIp.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

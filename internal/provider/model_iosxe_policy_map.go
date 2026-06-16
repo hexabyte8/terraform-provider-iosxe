@@ -23,128 +23,128 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type PolicyMap struct {
-	Device      types.String       `tfsdk:"device"`
-	Id          types.String       `tfsdk:"id"`
-	Name        types.String       `tfsdk:"name"`
-	Type        types.String       `tfsdk:"type"`
-	Subscriber  types.Bool         `tfsdk:"subscriber"`
-	Description types.String       `tfsdk:"description"`
-	Classes     []PolicyMapClasses `tfsdk:"classes"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Type types.String `tfsdk:"type"`
+	Subscriber types.Bool `tfsdk:"subscriber"`
+	Description types.String `tfsdk:"description"`
+	Classes []PolicyMapClasses `tfsdk:"classes"`
 }
 type PolicyMapClasses struct {
-	Name               types.String              `tfsdk:"name"`
-	ClassType          types.String              `tfsdk:"class_type"`
-	PolicyAction       types.String              `tfsdk:"policy_action"`
-	PolicyLog          types.Bool                `tfsdk:"policy_log"`
-	PolicyParameterMap types.String              `tfsdk:"policy_parameter_map"`
-	Actions            []PolicyMapClassesActions `tfsdk:"actions"`
+	Name types.String `tfsdk:"name"`
+	ClassType types.String `tfsdk:"class_type"`
+	PolicyAction types.String `tfsdk:"policy_action"`
+	PolicyLog types.Bool `tfsdk:"policy_log"`
+	PolicyParameterMap types.String `tfsdk:"policy_parameter_map"`
+	Actions []PolicyMapClassesActions `tfsdk:"actions"`
 }
 type PolicyMapClassesActions struct {
-	Type                                 types.String `tfsdk:"type"`
-	BandwidthBits                        types.Int64  `tfsdk:"bandwidth_bits"`
-	BandwidthPercent                     types.Int64  `tfsdk:"bandwidth_percent"`
-	BandwidthRemainingOption             types.String `tfsdk:"bandwidth_remaining_option"`
-	BandwidthRemainingPercent            types.Int64  `tfsdk:"bandwidth_remaining_percent"`
-	BandwidthRemainingRatio              types.Int64  `tfsdk:"bandwidth_remaining_ratio"`
-	PriorityLevel                        types.Int64  `tfsdk:"priority_level"`
-	PriorityBurst                        types.Int64  `tfsdk:"priority_burst"`
-	QueueLimit                           types.Int64  `tfsdk:"queue_limit"`
-	QueueLimitType                       types.String `tfsdk:"queue_limit_type"`
-	ShapeAverageBitRate                  types.Int64  `tfsdk:"shape_average_bit_rate"`
-	ShapeAverageBitsPerIntervalSustained types.Int64  `tfsdk:"shape_average_bits_per_interval_sustained"`
-	ShapeAverageBitsPerIntervalExcess    types.Int64  `tfsdk:"shape_average_bits_per_interval_excess"`
-	ShapeAveragePercent                  types.Int64  `tfsdk:"shape_average_percent"`
-	ShapeAverageBurstSizeSustained       types.Int64  `tfsdk:"shape_average_burst_size_sustained"`
-	ShapeAverageMs                       types.Bool   `tfsdk:"shape_average_ms"`
-	PoliceTargetBitrateConformTransmit   types.Bool   `tfsdk:"police_target_bitrate_conform_transmit"`
-	PoliceTargetBitrateExceedTransmit    types.Bool   `tfsdk:"police_target_bitrate_exceed_transmit"`
-	PoliceTargetBitrate                  types.Int64  `tfsdk:"police_target_bitrate"`
-	PoliceTargetBitrateConformBurstByte  types.Int64  `tfsdk:"police_target_bitrate_conform_burst_byte"`
-	PoliceTargetBitrateExcessBurstByte   types.Int64  `tfsdk:"police_target_bitrate_excess_burst_byte"`
-	PoliceTargetBitrateExceedDrop        types.Bool   `tfsdk:"police_target_bitrate_exceed_drop"`
-	PoliceCir                            types.Int64  `tfsdk:"police_cir"`
-	PoliceBc                             types.Int64  `tfsdk:"police_bc"`
-	PoliceBe                             types.Int64  `tfsdk:"police_be"`
-	PolicePir                            types.Int64  `tfsdk:"police_pir"`
-	PolicePirBe                          types.Int64  `tfsdk:"police_pir_be"`
-	PoliceCirConformTransmit             types.Bool   `tfsdk:"police_cir_conform_transmit"`
-	PoliceCirExceedDrop                  types.Bool   `tfsdk:"police_cir_exceed_drop"`
-	PoliceRatePercent                    types.Int64  `tfsdk:"police_rate_percent"`
-	QueueBuffersRatio                    types.Int64  `tfsdk:"queue_buffers_ratio"`
-	SetDscp                              types.String `tfsdk:"set_dscp"`
-	ServicePolicy                        types.String `tfsdk:"service_policy"`
+	Type types.String `tfsdk:"type"`
+	BandwidthBits types.Int64 `tfsdk:"bandwidth_bits"`
+	BandwidthPercent types.Int64 `tfsdk:"bandwidth_percent"`
+	BandwidthRemainingOption types.String `tfsdk:"bandwidth_remaining_option"`
+	BandwidthRemainingPercent types.Int64 `tfsdk:"bandwidth_remaining_percent"`
+	BandwidthRemainingRatio types.Int64 `tfsdk:"bandwidth_remaining_ratio"`
+	PriorityLevel types.Int64 `tfsdk:"priority_level"`
+	PriorityBurst types.Int64 `tfsdk:"priority_burst"`
+	QueueLimit types.Int64 `tfsdk:"queue_limit"`
+	QueueLimitType types.String `tfsdk:"queue_limit_type"`
+	ShapeAverageBitRate types.Int64 `tfsdk:"shape_average_bit_rate"`
+	ShapeAverageBitsPerIntervalSustained types.Int64 `tfsdk:"shape_average_bits_per_interval_sustained"`
+	ShapeAverageBitsPerIntervalExcess types.Int64 `tfsdk:"shape_average_bits_per_interval_excess"`
+	ShapeAveragePercent types.Int64 `tfsdk:"shape_average_percent"`
+	ShapeAverageBurstSizeSustained types.Int64 `tfsdk:"shape_average_burst_size_sustained"`
+	ShapeAverageMs types.Bool `tfsdk:"shape_average_ms"`
+	PoliceTargetBitrateConformTransmit types.Bool `tfsdk:"police_target_bitrate_conform_transmit"`
+	PoliceTargetBitrateExceedTransmit types.Bool `tfsdk:"police_target_bitrate_exceed_transmit"`
+	PoliceTargetBitrate types.Int64 `tfsdk:"police_target_bitrate"`
+	PoliceTargetBitrateConformBurstByte types.Int64 `tfsdk:"police_target_bitrate_conform_burst_byte"`
+	PoliceTargetBitrateExcessBurstByte types.Int64 `tfsdk:"police_target_bitrate_excess_burst_byte"`
+	PoliceTargetBitrateExceedDrop types.Bool `tfsdk:"police_target_bitrate_exceed_drop"`
+	PoliceCir types.Int64 `tfsdk:"police_cir"`
+	PoliceBc types.Int64 `tfsdk:"police_bc"`
+	PoliceBe types.Int64 `tfsdk:"police_be"`
+	PolicePir types.Int64 `tfsdk:"police_pir"`
+	PolicePirBe types.Int64 `tfsdk:"police_pir_be"`
+	PoliceCirConformTransmit types.Bool `tfsdk:"police_cir_conform_transmit"`
+	PoliceCirExceedDrop types.Bool `tfsdk:"police_cir_exceed_drop"`
+	PoliceRatePercent types.Int64 `tfsdk:"police_rate_percent"`
+	QueueBuffersRatio types.Int64 `tfsdk:"queue_buffers_ratio"`
+	SetDscp types.String `tfsdk:"set_dscp"`
+	ServicePolicy types.String `tfsdk:"service_policy"`
 }
 
 type PolicyMapData struct {
-	Device      types.String           `tfsdk:"device"`
-	Id          types.String           `tfsdk:"id"`
-	Name        types.String           `tfsdk:"name"`
-	Type        types.String           `tfsdk:"type"`
-	Subscriber  types.Bool             `tfsdk:"subscriber"`
-	Description types.String           `tfsdk:"description"`
-	Classes     []PolicyMapClassesData `tfsdk:"classes"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Type types.String `tfsdk:"type"`
+	Subscriber types.Bool `tfsdk:"subscriber"`
+	Description types.String `tfsdk:"description"`
+	Classes []PolicyMapClassesData `tfsdk:"classes"`
 }
 type PolicyMapClassesData struct {
-	Name               types.String                  `tfsdk:"name"`
-	ClassType          types.String                  `tfsdk:"class_type"`
-	PolicyAction       types.String                  `tfsdk:"policy_action"`
-	PolicyLog          types.Bool                    `tfsdk:"policy_log"`
-	PolicyParameterMap types.String                  `tfsdk:"policy_parameter_map"`
-	Actions            []PolicyMapClassesActionsData `tfsdk:"actions"`
+	Name types.String `tfsdk:"name"`
+	ClassType types.String `tfsdk:"class_type"`
+	PolicyAction types.String `tfsdk:"policy_action"`
+	PolicyLog types.Bool `tfsdk:"policy_log"`
+	PolicyParameterMap types.String `tfsdk:"policy_parameter_map"`
+	Actions []PolicyMapClassesActionsData `tfsdk:"actions"`
 }
 type PolicyMapClassesActionsData struct {
-	Type                                 types.String `tfsdk:"type"`
-	BandwidthBits                        types.Int64  `tfsdk:"bandwidth_bits"`
-	BandwidthPercent                     types.Int64  `tfsdk:"bandwidth_percent"`
-	BandwidthRemainingOption             types.String `tfsdk:"bandwidth_remaining_option"`
-	BandwidthRemainingPercent            types.Int64  `tfsdk:"bandwidth_remaining_percent"`
-	BandwidthRemainingRatio              types.Int64  `tfsdk:"bandwidth_remaining_ratio"`
-	PriorityLevel                        types.Int64  `tfsdk:"priority_level"`
-	PriorityBurst                        types.Int64  `tfsdk:"priority_burst"`
-	QueueLimit                           types.Int64  `tfsdk:"queue_limit"`
-	QueueLimitType                       types.String `tfsdk:"queue_limit_type"`
-	ShapeAverageBitRate                  types.Int64  `tfsdk:"shape_average_bit_rate"`
-	ShapeAverageBitsPerIntervalSustained types.Int64  `tfsdk:"shape_average_bits_per_interval_sustained"`
-	ShapeAverageBitsPerIntervalExcess    types.Int64  `tfsdk:"shape_average_bits_per_interval_excess"`
-	ShapeAveragePercent                  types.Int64  `tfsdk:"shape_average_percent"`
-	ShapeAverageBurstSizeSustained       types.Int64  `tfsdk:"shape_average_burst_size_sustained"`
-	ShapeAverageMs                       types.Bool   `tfsdk:"shape_average_ms"`
-	PoliceTargetBitrateConformTransmit   types.Bool   `tfsdk:"police_target_bitrate_conform_transmit"`
-	PoliceTargetBitrateExceedTransmit    types.Bool   `tfsdk:"police_target_bitrate_exceed_transmit"`
-	PoliceTargetBitrate                  types.Int64  `tfsdk:"police_target_bitrate"`
-	PoliceTargetBitrateConformBurstByte  types.Int64  `tfsdk:"police_target_bitrate_conform_burst_byte"`
-	PoliceTargetBitrateExcessBurstByte   types.Int64  `tfsdk:"police_target_bitrate_excess_burst_byte"`
-	PoliceTargetBitrateExceedDrop        types.Bool   `tfsdk:"police_target_bitrate_exceed_drop"`
-	PoliceCir                            types.Int64  `tfsdk:"police_cir"`
-	PoliceBc                             types.Int64  `tfsdk:"police_bc"`
-	PoliceBe                             types.Int64  `tfsdk:"police_be"`
-	PolicePir                            types.Int64  `tfsdk:"police_pir"`
-	PolicePirBe                          types.Int64  `tfsdk:"police_pir_be"`
-	PoliceCirConformTransmit             types.Bool   `tfsdk:"police_cir_conform_transmit"`
-	PoliceCirExceedDrop                  types.Bool   `tfsdk:"police_cir_exceed_drop"`
-	PoliceRatePercent                    types.Int64  `tfsdk:"police_rate_percent"`
-	QueueBuffersRatio                    types.Int64  `tfsdk:"queue_buffers_ratio"`
-	SetDscp                              types.String `tfsdk:"set_dscp"`
-	ServicePolicy                        types.String `tfsdk:"service_policy"`
+	Type types.String `tfsdk:"type"`
+	BandwidthBits types.Int64 `tfsdk:"bandwidth_bits"`
+	BandwidthPercent types.Int64 `tfsdk:"bandwidth_percent"`
+	BandwidthRemainingOption types.String `tfsdk:"bandwidth_remaining_option"`
+	BandwidthRemainingPercent types.Int64 `tfsdk:"bandwidth_remaining_percent"`
+	BandwidthRemainingRatio types.Int64 `tfsdk:"bandwidth_remaining_ratio"`
+	PriorityLevel types.Int64 `tfsdk:"priority_level"`
+	PriorityBurst types.Int64 `tfsdk:"priority_burst"`
+	QueueLimit types.Int64 `tfsdk:"queue_limit"`
+	QueueLimitType types.String `tfsdk:"queue_limit_type"`
+	ShapeAverageBitRate types.Int64 `tfsdk:"shape_average_bit_rate"`
+	ShapeAverageBitsPerIntervalSustained types.Int64 `tfsdk:"shape_average_bits_per_interval_sustained"`
+	ShapeAverageBitsPerIntervalExcess types.Int64 `tfsdk:"shape_average_bits_per_interval_excess"`
+	ShapeAveragePercent types.Int64 `tfsdk:"shape_average_percent"`
+	ShapeAverageBurstSizeSustained types.Int64 `tfsdk:"shape_average_burst_size_sustained"`
+	ShapeAverageMs types.Bool `tfsdk:"shape_average_ms"`
+	PoliceTargetBitrateConformTransmit types.Bool `tfsdk:"police_target_bitrate_conform_transmit"`
+	PoliceTargetBitrateExceedTransmit types.Bool `tfsdk:"police_target_bitrate_exceed_transmit"`
+	PoliceTargetBitrate types.Int64 `tfsdk:"police_target_bitrate"`
+	PoliceTargetBitrateConformBurstByte types.Int64 `tfsdk:"police_target_bitrate_conform_burst_byte"`
+	PoliceTargetBitrateExcessBurstByte types.Int64 `tfsdk:"police_target_bitrate_excess_burst_byte"`
+	PoliceTargetBitrateExceedDrop types.Bool `tfsdk:"police_target_bitrate_exceed_drop"`
+	PoliceCir types.Int64 `tfsdk:"police_cir"`
+	PoliceBc types.Int64 `tfsdk:"police_bc"`
+	PoliceBe types.Int64 `tfsdk:"police_be"`
+	PolicePir types.Int64 `tfsdk:"police_pir"`
+	PolicePirBe types.Int64 `tfsdk:"police_pir_be"`
+	PoliceCirConformTransmit types.Bool `tfsdk:"police_cir_conform_transmit"`
+	PoliceCirExceedDrop types.Bool `tfsdk:"police_cir_exceed_drop"`
+	PoliceRatePercent types.Int64 `tfsdk:"police_rate_percent"`
+	QueueBuffersRatio types.Int64 `tfsdk:"queue_buffers_ratio"`
+	SetDscp types.String `tfsdk:"set_dscp"`
+	ServicePolicy types.String `tfsdk:"service_policy"`
 }
 
 // End of section. //template:end types
@@ -351,20 +351,20 @@ func (data PolicyMap) toBody(ctx context.Context, config PolicyMap) string {
 func (data PolicyMap) toBodyXML(ctx context.Context, config PolicyMap) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/name", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/name", data.Name.ValueString())
 	}
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/type", data.Type.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/type", data.Type.ValueString())
 	}
 	if !data.Subscriber.IsNull() && !data.Subscriber.IsUnknown() {
 		if data.Subscriber.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/subscriber", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/subscriber", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/subscriber")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/subscriber")
 		}
 	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/description", data.Description.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/description", data.Description.ValueString())
 	}
 	if len(data.Classes) > 0 {
 		for _, item := range data.Classes {
@@ -536,17 +536,17 @@ func (data *PolicyMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "type"); value.Exists() && !data.Type.IsNull() {
+	if value := res.Get(prefix+"type"); value.Exists() && !data.Type.IsNull() {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := res.Get(prefix + "subscriber"); !data.Subscriber.IsNull() {
+	if value := res.Get(prefix+"subscriber"); !data.Subscriber.IsNull() {
 		if value.Exists() {
 			data.Subscriber = types.BoolValue(true)
 		} else {
@@ -555,17 +555,17 @@ func (data *PolicyMap) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.Subscriber = types.BoolNull()
 	}
-	if value := res.Get(prefix + "description"); value.Exists() && !data.Description.IsNull() {
+	if value := res.Get(prefix+"description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
 	for i := range data.Classes {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Classes[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Classes[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "class").ForEach(
+		res.Get(prefix+"class").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -613,8 +613,8 @@ func (data *PolicyMap) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Classes[i].PolicyParameterMap = types.StringNull()
 		}
 		for ci := range data.Classes[i].Actions {
-			keys := [...]string{"action-type"}
-			keyValues := [...]string{data.Classes[i].Actions[ci].Type.ValueString()}
+			keys := [...]string{ "action-type",  }
+			keyValues := [...]string{ data.Classes[i].Actions[ci].Type.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("action-list").ForEach(
@@ -833,17 +833,17 @@ func (data *PolicyMap) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *PolicyMap) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/name"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/type"); value.Exists() && !data.Type.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/type"); value.Exists() && !data.Type.IsNull() {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subscriber"); !data.Subscriber.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subscriber"); !data.Subscriber.IsNull() {
 		if value.Exists() {
 			data.Subscriber = types.BoolValue(true)
 		} else {
@@ -852,17 +852,17 @@ func (data *PolicyMap) updateFromBodyXML(ctx context.Context, res xmldot.Result)
 	} else {
 		data.Subscriber = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() && !data.Description.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() && !data.Description.IsNull() {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
 	for i := range data.Classes {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Classes[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Classes[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/class").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/class").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -910,8 +910,8 @@ func (data *PolicyMap) updateFromBodyXML(ctx context.Context, res xmldot.Result)
 			data.Classes[i].PolicyParameterMap = types.StringNull()
 		}
 		for ci := range data.Classes[i].Actions {
-			keys := [...]string{"action-type"}
-			keyValues := [...]string{data.Classes[i].Actions[ci].Type.ValueString()}
+			keys := [...]string{ "action-type",  }
+			keyValues := [...]string{ data.Classes[i].Actions[ci].Type.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "action-list").ForEach(
@@ -1134,18 +1134,18 @@ func (data *PolicyMap) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "type"); value.Exists() {
+	if value := res.Get(prefix+"type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "subscriber"); value.Exists() {
+	if value := res.Get(prefix+"subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "class"); value.Exists() {
+	if value := res.Get(prefix+"class"); value.Exists() {
 		data.Classes = make([]PolicyMapClasses, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PolicyMapClasses{}
@@ -1300,18 +1300,18 @@ func (data *PolicyMapData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "type"); value.Exists() {
+	if value := res.Get(prefix+"type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "subscriber"); value.Exists() {
+	if value := res.Get(prefix+"subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "description"); value.Exists() {
+	if value := res.Get(prefix+"description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "class"); value.Exists() {
+	if value := res.Get(prefix+"class"); value.Exists() {
 		data.Classes = make([]PolicyMapClassesData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PolicyMapClassesData{}
@@ -1462,18 +1462,18 @@ func (data *PolicyMapData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *PolicyMap) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subscriber"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/class"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/class"); value.Exists() {
 		data.Classes = make([]PolicyMapClasses, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PolicyMapClasses{}
@@ -1624,18 +1624,18 @@ func (data *PolicyMap) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *PolicyMapData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/type"); value.Exists() {
 		data.Type = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/subscriber"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/subscriber"); value.Exists() {
 		data.Subscriber = types.BoolValue(true)
 	} else {
 		data.Subscriber = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/description"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/description"); value.Exists() {
 		data.Description = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/class"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/class"); value.Exists() {
 		data.Classes = make([]PolicyMapClassesData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PolicyMapClassesData{}
@@ -1788,8 +1788,8 @@ func (data *PolicyMapData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 func (data *PolicyMap) getDeletedItems(ctx context.Context, state PolicyMap) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Classes {
-		stateKeyValues := [...]string{state.Classes[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Classes[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Classes[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1806,8 +1806,8 @@ func (data *PolicyMap) getDeletedItems(ctx context.Context, state PolicyMap) []s
 			}
 			if found {
 				for ci := range state.Classes[i].Actions {
-					cstateKeyValues := [...]string{state.Classes[i].Actions[ci].Type.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Classes[i].Actions[ci].Type.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Classes[i].Actions[ci].Type.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1965,13 +1965,13 @@ func (data *PolicyMap) getDeletedItems(ctx context.Context, state PolicyMap) []s
 func (data *PolicyMap) addDeletedItemsXML(ctx context.Context, state PolicyMap, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Classes {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Classes[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Classes[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Classes[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1988,8 +1988,8 @@ func (data *PolicyMap) addDeletedItemsXML(ctx context.Context, state PolicyMap, 
 			}
 			if found {
 				for ci := range state.Classes[i].Actions {
-					cstateKeys := [...]string{"action-type"}
-					cstateKeyValues := [...]string{state.Classes[i].Actions[ci].Type.ValueString()}
+					cstateKeys := [...]string{ "action-type",  }
+					cstateKeyValues := [...]string{ state.Classes[i].Actions[ci].Type.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2152,12 +2152,13 @@ func (data *PolicyMap) addDeletedItemsXML(ctx context.Context, state PolicyMap, 
 
 func (data *PolicyMap) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.Classes {
-		keyValues := [...]string{data.Classes[i].Name.ValueString()}
-
+		keyValues := [...]string{ data.Classes[i].Name.ValueString(),  }
+		
 		for ci := range data.Classes[i].Actions {
-			ckeyValues := [...]string{data.Classes[i].Actions[ci].Type.ValueString()}
+			ckeyValues := [...]string{ data.Classes[i].Actions[ci].Type.ValueString(),  }
 			if !data.Classes[i].Actions[ci].PoliceCirExceedDrop.IsNull() && !data.Classes[i].Actions[ci].PoliceCirExceedDrop.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/class=%v/action-list=%v/police-policy-map/police/actions/exceed-drop/exceed-action/drop", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -2195,7 +2196,7 @@ func (data *PolicyMap) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *PolicyMap) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Classes {
-		keyValues := [...]string{data.Classes[i].Name.ValueString()}
+		keyValues := [...]string{ data.Classes[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/class=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2219,8 +2220,8 @@ func (data *PolicyMap) getDeletePaths(ctx context.Context) []string {
 func (data *PolicyMap) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Classes {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Classes[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Classes[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

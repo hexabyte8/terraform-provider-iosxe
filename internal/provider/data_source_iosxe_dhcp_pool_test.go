@@ -48,8 +48,8 @@ func TestAccDataSourceIosxeDHCPPool(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeDHCPPoolPrerequisitesConfig + testAccDataSourceIosxeDHCPPoolConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeDHCPPoolPrerequisitesConfig+testAccDataSourceIosxeDHCPPoolConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -69,7 +69,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -90,10 +89,10 @@ func testAccDataSourceIosxeDHCPPoolConfig() string {
 	config += `	options = [{` + "\n"
 	config += `		option_code = 150` + "\n"
 	config += `		ascii = "10.1.1.1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_dhcp_pool" "test" {
 			name = "POOL1"

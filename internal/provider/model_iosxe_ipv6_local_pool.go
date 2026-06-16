@@ -23,39 +23,39 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"regexp"
+	"net/url"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type IPv6LocalPool struct {
-	Device       types.String `tfsdk:"device"`
-	Id           types.String `tfsdk:"id"`
-	DeleteMode   types.String `tfsdk:"delete_mode"`
-	Name         types.String `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Name types.String `tfsdk:"name"`
 	StartAddress types.String `tfsdk:"start_address"`
-	PrefixLength types.Int64  `tfsdk:"prefix_length"`
-	Group        types.String `tfsdk:"group"`
+	PrefixLength types.Int64 `tfsdk:"prefix_length"`
+	Group types.String `tfsdk:"group"`
 }
 
 type IPv6LocalPoolData struct {
-	Device       types.String `tfsdk:"device"`
-	Id           types.String `tfsdk:"id"`
-	Name         types.String `tfsdk:"name"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
 	StartAddress types.String `tfsdk:"start_address"`
-	PrefixLength types.Int64  `tfsdk:"prefix_length"`
-	Group        types.String `tfsdk:"group"`
+	PrefixLength types.Int64 `tfsdk:"prefix_length"`
+	Group types.String `tfsdk:"group"`
 }
 
 // End of section. //template:end types
@@ -122,16 +122,16 @@ func (data IPv6LocalPool) toBody(ctx context.Context, config IPv6LocalPool) stri
 func (data IPv6LocalPool) toBodyXML(ctx context.Context, config IPv6LocalPool) string {
 	body := netconf.Body{}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Name.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Name.ValueString())
 	}
 	if !data.StartAddress.IsNull() && !data.StartAddress.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/start-address", data.StartAddress.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/start-address", data.StartAddress.ValueString())
 	}
 	if !data.PrefixLength.IsNull() && !data.PrefixLength.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/prefix-length", strconv.FormatInt(data.PrefixLength.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/prefix-length", strconv.FormatInt(data.PrefixLength.ValueInt64(), 10))
 	}
 	if !data.Group.IsNull() && !data.Group.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/group", data.Group.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/group", data.Group.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -149,22 +149,22 @@ func (data *IPv6LocalPool) updateFromBody(ctx context.Context, res gjson.Result)
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get(prefix + "start-address"); value.Exists() && !data.StartAddress.IsNull() {
+	if value := res.Get(prefix+"start-address"); value.Exists() && !data.StartAddress.IsNull() {
 		data.StartAddress = types.StringValue(value.String())
 	} else {
 		data.StartAddress = types.StringNull()
 	}
-	if value := res.Get(prefix + "prefix-length"); value.Exists() && !data.PrefixLength.IsNull() {
+	if value := res.Get(prefix+"prefix-length"); value.Exists() && !data.PrefixLength.IsNull() {
 		data.PrefixLength = types.Int64Value(value.Int())
 	} else {
 		data.PrefixLength = types.Int64Null()
 	}
-	if value := res.Get(prefix + "group"); value.Exists() && !data.Group.IsNull() {
+	if value := res.Get(prefix+"group"); value.Exists() && !data.Group.IsNull() {
 		data.Group = types.StringValue(value.String())
 	} else {
 		data.Group = types.StringNull()
@@ -176,22 +176,22 @@ func (data *IPv6LocalPool) updateFromBody(ctx context.Context, res gjson.Result)
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *IPv6LocalPool) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Name.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/start-address"); value.Exists() && !data.StartAddress.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/start-address"); value.Exists() && !data.StartAddress.IsNull() {
 		data.StartAddress = types.StringValue(value.String())
 	} else {
 		data.StartAddress = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-length"); value.Exists() && !data.PrefixLength.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-length"); value.Exists() && !data.PrefixLength.IsNull() {
 		data.PrefixLength = types.Int64Value(value.Int())
 	} else {
 		data.PrefixLength = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/group"); value.Exists() && !data.Group.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/group"); value.Exists() && !data.Group.IsNull() {
 		data.Group = types.StringValue(value.String())
 	} else {
 		data.Group = types.StringNull()
@@ -207,13 +207,13 @@ func (data *IPv6LocalPool) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "start-address"); value.Exists() {
+	if value := res.Get(prefix+"start-address"); value.Exists() {
 		data.StartAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-length"); value.Exists() {
+	if value := res.Get(prefix+"prefix-length"); value.Exists() {
 		data.PrefixLength = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "group"); value.Exists() {
+	if value := res.Get(prefix+"group"); value.Exists() {
 		data.Group = types.StringValue(value.String())
 	}
 }
@@ -227,13 +227,13 @@ func (data *IPv6LocalPoolData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "start-address"); value.Exists() {
+	if value := res.Get(prefix+"start-address"); value.Exists() {
 		data.StartAddress = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "prefix-length"); value.Exists() {
+	if value := res.Get(prefix+"prefix-length"); value.Exists() {
 		data.PrefixLength = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "group"); value.Exists() {
+	if value := res.Get(prefix+"group"); value.Exists() {
 		data.Group = types.StringValue(value.String())
 	}
 }
@@ -243,13 +243,13 @@ func (data *IPv6LocalPoolData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *IPv6LocalPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/start-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/start-address"); value.Exists() {
 		data.StartAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-length"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-length"); value.Exists() {
 		data.PrefixLength = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/group"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/group"); value.Exists() {
 		data.Group = types.StringValue(value.String())
 	}
 }
@@ -259,13 +259,13 @@ func (data *IPv6LocalPool) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *IPv6LocalPoolData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/start-address"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/start-address"); value.Exists() {
 		data.StartAddress = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/prefix-length"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/prefix-length"); value.Exists() {
 		data.PrefixLength = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/group"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/group"); value.Exists() {
 		data.Group = types.StringValue(value.String())
 	}
 }

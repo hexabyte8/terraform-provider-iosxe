@@ -23,72 +23,72 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ARP struct {
-	Device                          types.String           `tfsdk:"device"`
-	Id                              types.String           `tfsdk:"id"`
-	DeleteMode                      types.String           `tfsdk:"delete_mode"`
-	IncompleteEntries               types.Int64            `tfsdk:"incomplete_entries"`
-	ProxyDisable                    types.Bool             `tfsdk:"proxy_disable"`
-	EntryLearn                      types.Int64            `tfsdk:"entry_learn"`
-	InspectionFilters               []ARPInspectionFilters `tfsdk:"inspection_filters"`
-	InspectionValidateSrcMac        types.Bool             `tfsdk:"inspection_validate_src_mac"`
-	InspectionValidateDstMac        types.Bool             `tfsdk:"inspection_validate_dst_mac"`
-	InspectionValidateIp            types.Bool             `tfsdk:"inspection_validate_ip"`
-	InspectionValidateAllowZeros    types.Bool             `tfsdk:"inspection_validate_allow_zeros"`
-	InspectionLogBufferEntries      types.Int64            `tfsdk:"inspection_log_buffer_entries"`
-	InspectionLogBufferLogsEntries  types.Int64            `tfsdk:"inspection_log_buffer_logs_entries"`
-	InspectionLogBufferLogsInterval types.Int64            `tfsdk:"inspection_log_buffer_logs_interval"`
-	InspectionVlan                  types.String           `tfsdk:"inspection_vlan"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	IncompleteEntries types.Int64 `tfsdk:"incomplete_entries"`
+	ProxyDisable types.Bool `tfsdk:"proxy_disable"`
+	EntryLearn types.Int64 `tfsdk:"entry_learn"`
+	InspectionFilters []ARPInspectionFilters `tfsdk:"inspection_filters"`
+	InspectionValidateSrcMac types.Bool `tfsdk:"inspection_validate_src_mac"`
+	InspectionValidateDstMac types.Bool `tfsdk:"inspection_validate_dst_mac"`
+	InspectionValidateIp types.Bool `tfsdk:"inspection_validate_ip"`
+	InspectionValidateAllowZeros types.Bool `tfsdk:"inspection_validate_allow_zeros"`
+	InspectionLogBufferEntries types.Int64 `tfsdk:"inspection_log_buffer_entries"`
+	InspectionLogBufferLogsEntries types.Int64 `tfsdk:"inspection_log_buffer_logs_entries"`
+	InspectionLogBufferLogsInterval types.Int64 `tfsdk:"inspection_log_buffer_logs_interval"`
+	InspectionVlan types.String `tfsdk:"inspection_vlan"`
 }
 type ARPInspectionFilters struct {
-	Name  types.String                `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Vlans []ARPInspectionFiltersVlans `tfsdk:"vlans"`
 }
 type ARPInspectionFiltersVlans struct {
 	VlanRange types.String `tfsdk:"vlan_range"`
-	Static    types.Bool   `tfsdk:"static"`
+	Static types.Bool `tfsdk:"static"`
 }
 
 type ARPData struct {
-	Device                          types.String               `tfsdk:"device"`
-	Id                              types.String               `tfsdk:"id"`
-	IncompleteEntries               types.Int64                `tfsdk:"incomplete_entries"`
-	ProxyDisable                    types.Bool                 `tfsdk:"proxy_disable"`
-	EntryLearn                      types.Int64                `tfsdk:"entry_learn"`
-	InspectionFilters               []ARPInspectionFiltersData `tfsdk:"inspection_filters"`
-	InspectionValidateSrcMac        types.Bool                 `tfsdk:"inspection_validate_src_mac"`
-	InspectionValidateDstMac        types.Bool                 `tfsdk:"inspection_validate_dst_mac"`
-	InspectionValidateIp            types.Bool                 `tfsdk:"inspection_validate_ip"`
-	InspectionValidateAllowZeros    types.Bool                 `tfsdk:"inspection_validate_allow_zeros"`
-	InspectionLogBufferEntries      types.Int64                `tfsdk:"inspection_log_buffer_entries"`
-	InspectionLogBufferLogsEntries  types.Int64                `tfsdk:"inspection_log_buffer_logs_entries"`
-	InspectionLogBufferLogsInterval types.Int64                `tfsdk:"inspection_log_buffer_logs_interval"`
-	InspectionVlan                  types.String               `tfsdk:"inspection_vlan"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	IncompleteEntries types.Int64 `tfsdk:"incomplete_entries"`
+	ProxyDisable types.Bool `tfsdk:"proxy_disable"`
+	EntryLearn types.Int64 `tfsdk:"entry_learn"`
+	InspectionFilters []ARPInspectionFiltersData `tfsdk:"inspection_filters"`
+	InspectionValidateSrcMac types.Bool `tfsdk:"inspection_validate_src_mac"`
+	InspectionValidateDstMac types.Bool `tfsdk:"inspection_validate_dst_mac"`
+	InspectionValidateIp types.Bool `tfsdk:"inspection_validate_ip"`
+	InspectionValidateAllowZeros types.Bool `tfsdk:"inspection_validate_allow_zeros"`
+	InspectionLogBufferEntries types.Int64 `tfsdk:"inspection_log_buffer_entries"`
+	InspectionLogBufferLogsEntries types.Int64 `tfsdk:"inspection_log_buffer_logs_entries"`
+	InspectionLogBufferLogsInterval types.Int64 `tfsdk:"inspection_log_buffer_logs_interval"`
+	InspectionVlan types.String `tfsdk:"inspection_vlan"`
 }
 type ARPInspectionFiltersData struct {
-	Name  types.String                    `tfsdk:"name"`
+	Name types.String `tfsdk:"name"`
 	Vlans []ARPInspectionFiltersVlansData `tfsdk:"vlans"`
 }
 type ARPInspectionFiltersVlansData struct {
 	VlanRange types.String `tfsdk:"vlan_range"`
-	Static    types.Bool   `tfsdk:"static"`
+	Static types.Bool `tfsdk:"static"`
 }
 
 // End of section. //template:end types
@@ -205,17 +205,17 @@ func (data ARP) toBody(ctx context.Context, config ARP) string {
 func (data ARP) toBodyXML(ctx context.Context, config ARP) string {
 	body := netconf.Body{}
 	if !data.IncompleteEntries.IsNull() && !data.IncompleteEntries.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/incomplete/entries", strconv.FormatInt(data.IncompleteEntries.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/incomplete/entries", strconv.FormatInt(data.IncompleteEntries.ValueInt64(), 10))
 	}
 	if !data.ProxyDisable.IsNull() && !data.ProxyDisable.IsUnknown() {
 		if data.ProxyDisable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/proxy/disable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/proxy/disable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/proxy/disable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/proxy/disable")
 		}
 	}
 	if !data.EntryLearn.IsNull() && !data.EntryLearn.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/entry/learn", strconv.FormatInt(data.EntryLearn.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/entry/learn", strconv.FormatInt(data.EntryLearn.ValueInt64(), 10))
 	}
 	if len(data.InspectionFilters) > 0 {
 		for _, item := range data.InspectionFilters {
@@ -244,43 +244,43 @@ func (data ARP) toBodyXML(ctx context.Context, config ARP) string {
 	}
 	if !data.InspectionValidateSrcMac.IsNull() && !data.InspectionValidateSrcMac.IsUnknown() {
 		if data.InspectionValidateSrcMac.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/validate/src-mac", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/validate/src-mac", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/inspection/validate/src-mac")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/inspection/validate/src-mac")
 		}
 	}
 	if !data.InspectionValidateDstMac.IsNull() && !data.InspectionValidateDstMac.IsUnknown() {
 		if data.InspectionValidateDstMac.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/validate/dst-mac", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/validate/dst-mac", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/inspection/validate/dst-mac")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/inspection/validate/dst-mac")
 		}
 	}
 	if !data.InspectionValidateIp.IsNull() && !data.InspectionValidateIp.IsUnknown() {
 		if data.InspectionValidateIp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/validate/ip", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/validate/ip", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/inspection/validate/ip")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/inspection/validate/ip")
 		}
 	}
 	if !data.InspectionValidateAllowZeros.IsNull() && !data.InspectionValidateAllowZeros.IsUnknown() {
 		if data.InspectionValidateAllowZeros.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/validate/allow/zeros", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/validate/allow/zeros", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/inspection/validate/allow/zeros")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/inspection/validate/allow/zeros")
 		}
 	}
 	if !data.InspectionLogBufferEntries.IsNull() && !data.InspectionLogBufferEntries.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/log-buffer/entries", strconv.FormatInt(data.InspectionLogBufferEntries.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/log-buffer/entries", strconv.FormatInt(data.InspectionLogBufferEntries.ValueInt64(), 10))
 	}
 	if !data.InspectionLogBufferLogsEntries.IsNull() && !data.InspectionLogBufferLogsEntries.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/log-buffer/logs/entries", strconv.FormatInt(data.InspectionLogBufferLogsEntries.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/log-buffer/logs/entries", strconv.FormatInt(data.InspectionLogBufferLogsEntries.ValueInt64(), 10))
 	}
 	if !data.InspectionLogBufferLogsInterval.IsNull() && !data.InspectionLogBufferLogsInterval.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/log-buffer/logs/interval", strconv.FormatInt(data.InspectionLogBufferLogsInterval.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/log-buffer/logs/interval", strconv.FormatInt(data.InspectionLogBufferLogsInterval.ValueInt64(), 10))
 	}
 	if !data.InspectionVlan.IsNull() && !data.InspectionVlan.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inspection/vlan", data.InspectionVlan.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inspection/vlan", data.InspectionVlan.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -298,12 +298,12 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "incomplete.entries"); value.Exists() && !data.IncompleteEntries.IsNull() {
+	if value := res.Get(prefix+"incomplete.entries"); value.Exists() && !data.IncompleteEntries.IsNull() {
 		data.IncompleteEntries = types.Int64Value(value.Int())
 	} else {
 		data.IncompleteEntries = types.Int64Null()
 	}
-	if value := res.Get(prefix + "proxy.disable"); !data.ProxyDisable.IsNull() {
+	if value := res.Get(prefix+"proxy.disable"); !data.ProxyDisable.IsNull() {
 		if value.Exists() {
 			data.ProxyDisable = types.BoolValue(true)
 		} else {
@@ -312,17 +312,17 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.ProxyDisable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "entry.learn"); value.Exists() && !data.EntryLearn.IsNull() {
+	if value := res.Get(prefix+"entry.learn"); value.Exists() && !data.EntryLearn.IsNull() {
 		data.EntryLearn = types.Int64Value(value.Int())
 	} else {
 		data.EntryLearn = types.Int64Null()
 	}
 	for i := range data.InspectionFilters {
-		keys := [...]string{"arpacl"}
-		keyValues := [...]string{data.InspectionFilters[i].Name.ValueString()}
+		keys := [...]string{ "arpacl",  }
+		keyValues := [...]string{ data.InspectionFilters[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "inspection.filter").ForEach(
+		res.Get(prefix+"inspection.filter").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -346,8 +346,8 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.InspectionFilters[i].Name = types.StringNull()
 		}
 		for ci := range data.InspectionFilters[i].Vlans {
-			keys := [...]string{"vlan-range"}
-			keyValues := [...]string{data.InspectionFilters[i].Vlans[ci].VlanRange.ValueString()}
+			keys := [...]string{ "vlan-range",  }
+			keyValues := [...]string{ data.InspectionFilters[i].Vlans[ci].VlanRange.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("vlan").ForEach(
@@ -384,7 +384,7 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 			}
 		}
 	}
-	if value := res.Get(prefix + "inspection.validate.src-mac"); !data.InspectionValidateSrcMac.IsNull() {
+	if value := res.Get(prefix+"inspection.validate.src-mac"); !data.InspectionValidateSrcMac.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateSrcMac = types.BoolValue(true)
 		} else {
@@ -393,7 +393,7 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.InspectionValidateSrcMac = types.BoolNull()
 	}
-	if value := res.Get(prefix + "inspection.validate.dst-mac"); !data.InspectionValidateDstMac.IsNull() {
+	if value := res.Get(prefix+"inspection.validate.dst-mac"); !data.InspectionValidateDstMac.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateDstMac = types.BoolValue(true)
 		} else {
@@ -402,7 +402,7 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.InspectionValidateDstMac = types.BoolNull()
 	}
-	if value := res.Get(prefix + "inspection.validate.ip"); !data.InspectionValidateIp.IsNull() {
+	if value := res.Get(prefix+"inspection.validate.ip"); !data.InspectionValidateIp.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateIp = types.BoolValue(true)
 		} else {
@@ -411,7 +411,7 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.InspectionValidateIp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "inspection.validate.allow.zeros"); !data.InspectionValidateAllowZeros.IsNull() {
+	if value := res.Get(prefix+"inspection.validate.allow.zeros"); !data.InspectionValidateAllowZeros.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateAllowZeros = types.BoolValue(true)
 		} else {
@@ -420,22 +420,22 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.InspectionValidateAllowZeros = types.BoolNull()
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.entries"); value.Exists() && !data.InspectionLogBufferEntries.IsNull() {
+	if value := res.Get(prefix+"inspection.log-buffer.entries"); value.Exists() && !data.InspectionLogBufferEntries.IsNull() {
 		data.InspectionLogBufferEntries = types.Int64Value(value.Int())
 	} else {
 		data.InspectionLogBufferEntries = types.Int64Null()
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.logs.entries"); value.Exists() && !data.InspectionLogBufferLogsEntries.IsNull() {
+	if value := res.Get(prefix+"inspection.log-buffer.logs.entries"); value.Exists() && !data.InspectionLogBufferLogsEntries.IsNull() {
 		data.InspectionLogBufferLogsEntries = types.Int64Value(value.Int())
 	} else {
 		data.InspectionLogBufferLogsEntries = types.Int64Null()
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.logs.interval"); value.Exists() && !data.InspectionLogBufferLogsInterval.IsNull() {
+	if value := res.Get(prefix+"inspection.log-buffer.logs.interval"); value.Exists() && !data.InspectionLogBufferLogsInterval.IsNull() {
 		data.InspectionLogBufferLogsInterval = types.Int64Value(value.Int())
 	} else {
 		data.InspectionLogBufferLogsInterval = types.Int64Null()
 	}
-	if value := res.Get(prefix + "inspection.vlan"); value.Exists() && !data.InspectionVlan.IsNull() {
+	if value := res.Get(prefix+"inspection.vlan"); value.Exists() && !data.InspectionVlan.IsNull() {
 		data.InspectionVlan = types.StringValue(value.String())
 	} else {
 		data.InspectionVlan = types.StringNull()
@@ -447,12 +447,12 @@ func (data *ARP) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/incomplete/entries"); value.Exists() && !data.IncompleteEntries.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/incomplete/entries"); value.Exists() && !data.IncompleteEntries.IsNull() {
 		data.IncompleteEntries = types.Int64Value(value.Int())
 	} else {
 		data.IncompleteEntries = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/proxy/disable"); !data.ProxyDisable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/proxy/disable"); !data.ProxyDisable.IsNull() {
 		if value.Exists() {
 			data.ProxyDisable = types.BoolValue(true)
 		} else {
@@ -461,17 +461,17 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.ProxyDisable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/entry/learn"); value.Exists() && !data.EntryLearn.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/entry/learn"); value.Exists() && !data.EntryLearn.IsNull() {
 		data.EntryLearn = types.Int64Value(value.Int())
 	} else {
 		data.EntryLearn = types.Int64Null()
 	}
 	for i := range data.InspectionFilters {
-		keys := [...]string{"arpacl"}
-		keyValues := [...]string{data.InspectionFilters[i].Name.ValueString()}
+		keys := [...]string{ "arpacl",  }
+		keyValues := [...]string{ data.InspectionFilters[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/filter").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/filter").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -495,8 +495,8 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.InspectionFilters[i].Name = types.StringNull()
 		}
 		for ci := range data.InspectionFilters[i].Vlans {
-			keys := [...]string{"vlan-range"}
-			keyValues := [...]string{data.InspectionFilters[i].Vlans[ci].VlanRange.ValueString()}
+			keys := [...]string{ "vlan-range",  }
+			keyValues := [...]string{ data.InspectionFilters[i].Vlans[ci].VlanRange.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "vlan").ForEach(
@@ -533,7 +533,7 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			}
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/src-mac"); !data.InspectionValidateSrcMac.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/src-mac"); !data.InspectionValidateSrcMac.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateSrcMac = types.BoolValue(true)
 		} else {
@@ -542,7 +542,7 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.InspectionValidateSrcMac = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/dst-mac"); !data.InspectionValidateDstMac.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/dst-mac"); !data.InspectionValidateDstMac.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateDstMac = types.BoolValue(true)
 		} else {
@@ -551,7 +551,7 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.InspectionValidateDstMac = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/ip"); !data.InspectionValidateIp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/ip"); !data.InspectionValidateIp.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateIp = types.BoolValue(true)
 		} else {
@@ -560,7 +560,7 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.InspectionValidateIp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/allow/zeros"); !data.InspectionValidateAllowZeros.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/allow/zeros"); !data.InspectionValidateAllowZeros.IsNull() {
 		if value.Exists() {
 			data.InspectionValidateAllowZeros = types.BoolValue(true)
 		} else {
@@ -569,22 +569,22 @@ func (data *ARP) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.InspectionValidateAllowZeros = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/entries"); value.Exists() && !data.InspectionLogBufferEntries.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/entries"); value.Exists() && !data.InspectionLogBufferEntries.IsNull() {
 		data.InspectionLogBufferEntries = types.Int64Value(value.Int())
 	} else {
 		data.InspectionLogBufferEntries = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/logs/entries"); value.Exists() && !data.InspectionLogBufferLogsEntries.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/logs/entries"); value.Exists() && !data.InspectionLogBufferLogsEntries.IsNull() {
 		data.InspectionLogBufferLogsEntries = types.Int64Value(value.Int())
 	} else {
 		data.InspectionLogBufferLogsEntries = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/logs/interval"); value.Exists() && !data.InspectionLogBufferLogsInterval.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/logs/interval"); value.Exists() && !data.InspectionLogBufferLogsInterval.IsNull() {
 		data.InspectionLogBufferLogsInterval = types.Int64Value(value.Int())
 	} else {
 		data.InspectionLogBufferLogsInterval = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/vlan"); value.Exists() && !data.InspectionVlan.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/vlan"); value.Exists() && !data.InspectionVlan.IsNull() {
 		data.InspectionVlan = types.StringValue(value.String())
 	} else {
 		data.InspectionVlan = types.StringNull()
@@ -600,18 +600,18 @@ func (data *ARP) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "incomplete.entries"); value.Exists() {
+	if value := res.Get(prefix+"incomplete.entries"); value.Exists() {
 		data.IncompleteEntries = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "proxy.disable"); value.Exists() {
+	if value := res.Get(prefix+"proxy.disable"); value.Exists() {
 		data.ProxyDisable = types.BoolValue(true)
 	} else {
 		data.ProxyDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "entry.learn"); value.Exists() {
+	if value := res.Get(prefix+"entry.learn"); value.Exists() {
 		data.EntryLearn = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.filter"); value.Exists() {
+	if value := res.Get(prefix+"inspection.filter"); value.Exists() {
 		data.InspectionFilters = make([]ARPInspectionFilters, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ARPInspectionFilters{}
@@ -638,36 +638,36 @@ func (data *ARP) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inspection.validate.src-mac"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.src-mac"); value.Exists() {
 		data.InspectionValidateSrcMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateSrcMac = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.validate.dst-mac"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.dst-mac"); value.Exists() {
 		data.InspectionValidateDstMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateDstMac = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.validate.ip"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.ip"); value.Exists() {
 		data.InspectionValidateIp = types.BoolValue(true)
 	} else {
 		data.InspectionValidateIp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.validate.allow.zeros"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.allow.zeros"); value.Exists() {
 		data.InspectionValidateAllowZeros = types.BoolValue(true)
 	} else {
 		data.InspectionValidateAllowZeros = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.entries"); value.Exists() {
+	if value := res.Get(prefix+"inspection.log-buffer.entries"); value.Exists() {
 		data.InspectionLogBufferEntries = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.logs.entries"); value.Exists() {
+	if value := res.Get(prefix+"inspection.log-buffer.logs.entries"); value.Exists() {
 		data.InspectionLogBufferLogsEntries = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.logs.interval"); value.Exists() {
+	if value := res.Get(prefix+"inspection.log-buffer.logs.interval"); value.Exists() {
 		data.InspectionLogBufferLogsInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.vlan"); value.Exists() {
+	if value := res.Get(prefix+"inspection.vlan"); value.Exists() {
 		data.InspectionVlan = types.StringValue(value.String())
 	}
 }
@@ -681,18 +681,18 @@ func (data *ARPData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "incomplete.entries"); value.Exists() {
+	if value := res.Get(prefix+"incomplete.entries"); value.Exists() {
 		data.IncompleteEntries = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "proxy.disable"); value.Exists() {
+	if value := res.Get(prefix+"proxy.disable"); value.Exists() {
 		data.ProxyDisable = types.BoolValue(true)
 	} else {
 		data.ProxyDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "entry.learn"); value.Exists() {
+	if value := res.Get(prefix+"entry.learn"); value.Exists() {
 		data.EntryLearn = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.filter"); value.Exists() {
+	if value := res.Get(prefix+"inspection.filter"); value.Exists() {
 		data.InspectionFilters = make([]ARPInspectionFiltersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ARPInspectionFiltersData{}
@@ -719,36 +719,36 @@ func (data *ARPData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inspection.validate.src-mac"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.src-mac"); value.Exists() {
 		data.InspectionValidateSrcMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateSrcMac = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.validate.dst-mac"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.dst-mac"); value.Exists() {
 		data.InspectionValidateDstMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateDstMac = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.validate.ip"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.ip"); value.Exists() {
 		data.InspectionValidateIp = types.BoolValue(true)
 	} else {
 		data.InspectionValidateIp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.validate.allow.zeros"); value.Exists() {
+	if value := res.Get(prefix+"inspection.validate.allow.zeros"); value.Exists() {
 		data.InspectionValidateAllowZeros = types.BoolValue(true)
 	} else {
 		data.InspectionValidateAllowZeros = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.entries"); value.Exists() {
+	if value := res.Get(prefix+"inspection.log-buffer.entries"); value.Exists() {
 		data.InspectionLogBufferEntries = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.logs.entries"); value.Exists() {
+	if value := res.Get(prefix+"inspection.log-buffer.logs.entries"); value.Exists() {
 		data.InspectionLogBufferLogsEntries = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.log-buffer.logs.interval"); value.Exists() {
+	if value := res.Get(prefix+"inspection.log-buffer.logs.interval"); value.Exists() {
 		data.InspectionLogBufferLogsInterval = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "inspection.vlan"); value.Exists() {
+	if value := res.Get(prefix+"inspection.vlan"); value.Exists() {
 		data.InspectionVlan = types.StringValue(value.String())
 	}
 }
@@ -758,18 +758,18 @@ func (data *ARPData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ARP) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/incomplete/entries"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/incomplete/entries"); value.Exists() {
 		data.IncompleteEntries = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/proxy/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/proxy/disable"); value.Exists() {
 		data.ProxyDisable = types.BoolValue(true)
 	} else {
 		data.ProxyDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/entry/learn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/entry/learn"); value.Exists() {
 		data.EntryLearn = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/filter"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/filter"); value.Exists() {
 		data.InspectionFilters = make([]ARPInspectionFilters, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ARPInspectionFilters{}
@@ -796,36 +796,36 @@ func (data *ARP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/src-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/src-mac"); value.Exists() {
 		data.InspectionValidateSrcMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateSrcMac = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/dst-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/dst-mac"); value.Exists() {
 		data.InspectionValidateDstMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateDstMac = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/ip"); value.Exists() {
 		data.InspectionValidateIp = types.BoolValue(true)
 	} else {
 		data.InspectionValidateIp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/allow/zeros"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/allow/zeros"); value.Exists() {
 		data.InspectionValidateAllowZeros = types.BoolValue(true)
 	} else {
 		data.InspectionValidateAllowZeros = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/entries"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/entries"); value.Exists() {
 		data.InspectionLogBufferEntries = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/logs/entries"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/logs/entries"); value.Exists() {
 		data.InspectionLogBufferLogsEntries = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/logs/interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/logs/interval"); value.Exists() {
 		data.InspectionLogBufferLogsInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/vlan"); value.Exists() {
 		data.InspectionVlan = types.StringValue(value.String())
 	}
 }
@@ -835,18 +835,18 @@ func (data *ARP) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ARPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/incomplete/entries"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/incomplete/entries"); value.Exists() {
 		data.IncompleteEntries = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/proxy/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/proxy/disable"); value.Exists() {
 		data.ProxyDisable = types.BoolValue(true)
 	} else {
 		data.ProxyDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/entry/learn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/entry/learn"); value.Exists() {
 		data.EntryLearn = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/filter"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/filter"); value.Exists() {
 		data.InspectionFilters = make([]ARPInspectionFiltersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ARPInspectionFiltersData{}
@@ -873,36 +873,36 @@ func (data *ARPData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/src-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/src-mac"); value.Exists() {
 		data.InspectionValidateSrcMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateSrcMac = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/dst-mac"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/dst-mac"); value.Exists() {
 		data.InspectionValidateDstMac = types.BoolValue(true)
 	} else {
 		data.InspectionValidateDstMac = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/ip"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/ip"); value.Exists() {
 		data.InspectionValidateIp = types.BoolValue(true)
 	} else {
 		data.InspectionValidateIp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/validate/allow/zeros"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/validate/allow/zeros"); value.Exists() {
 		data.InspectionValidateAllowZeros = types.BoolValue(true)
 	} else {
 		data.InspectionValidateAllowZeros = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/entries"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/entries"); value.Exists() {
 		data.InspectionLogBufferEntries = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/logs/entries"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/logs/entries"); value.Exists() {
 		data.InspectionLogBufferLogsEntries = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/log-buffer/logs/interval"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/log-buffer/logs/interval"); value.Exists() {
 		data.InspectionLogBufferLogsInterval = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inspection/vlan"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inspection/vlan"); value.Exists() {
 		data.InspectionVlan = types.StringValue(value.String())
 	}
 }
@@ -938,8 +938,8 @@ func (data *ARP) getDeletedItems(ctx context.Context, state ARP) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/inspection/validate", state.getPath()))
 	}
 	for i := range state.InspectionFilters {
-		stateKeyValues := [...]string{state.InspectionFilters[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.InspectionFilters[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InspectionFilters[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -956,8 +956,8 @@ func (data *ARP) getDeletedItems(ctx context.Context, state ARP) []string {
 			}
 			if found {
 				for ci := range state.InspectionFilters[i].Vlans {
-					cstateKeyValues := [...]string{state.InspectionFilters[i].Vlans[ci].VlanRange.ValueString()}
-
+					cstateKeyValues := [...]string{ state.InspectionFilters[i].Vlans[ci].VlanRange.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.InspectionFilters[i].Vlans[ci].VlanRange.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1034,13 +1034,13 @@ func (data *ARP) addDeletedItemsXML(ctx context.Context, state ARP, body string)
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/inspection/validate")
 	}
 	for i := range state.InspectionFilters {
-		stateKeys := [...]string{"arpacl"}
-		stateKeyValues := [...]string{state.InspectionFilters[i].Name.ValueString()}
+		stateKeys := [...]string{ "arpacl",  }
+		stateKeyValues := [...]string{ state.InspectionFilters[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.InspectionFilters[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1057,8 +1057,8 @@ func (data *ARP) addDeletedItemsXML(ctx context.Context, state ARP, body string)
 			}
 			if found {
 				for ci := range state.InspectionFilters[i].Vlans {
-					cstateKeys := [...]string{"vlan-range"}
-					cstateKeyValues := [...]string{state.InspectionFilters[i].Vlans[ci].VlanRange.ValueString()}
+					cstateKeys := [...]string{ "vlan-range",  }
+					cstateKeyValues := [...]string{ state.InspectionFilters[i].Vlans[ci].VlanRange.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1128,12 +1128,13 @@ func (data *ARP) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.InspectionValidateSrcMac.IsNull() && !data.InspectionValidateSrcMac.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/inspection/validate/src-mac", data.getPath()))
 	}
-
+	
+	
 	for i := range data.InspectionFilters {
-		keyValues := [...]string{data.InspectionFilters[i].Name.ValueString()}
-
+		keyValues := [...]string{ data.InspectionFilters[i].Name.ValueString(),  }
+		
 		for ci := range data.InspectionFilters[i].Vlans {
-			ckeyValues := [...]string{data.InspectionFilters[i].Vlans[ci].VlanRange.ValueString()}
+			ckeyValues := [...]string{ data.InspectionFilters[i].Vlans[ci].VlanRange.ValueString(),  }
 			if !data.InspectionFilters[i].Vlans[ci].Static.IsNull() && !data.InspectionFilters[i].Vlans[ci].Static.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/inspection/filter=%v/vlan=%v/static", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -1177,7 +1178,7 @@ func (data *ARP) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/inspection/validate", data.getPath()))
 	}
 	for i := range data.InspectionFilters {
-		keyValues := [...]string{data.InspectionFilters[i].Name.ValueString()}
+		keyValues := [...]string{ data.InspectionFilters[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/inspection/filter=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1225,8 +1226,8 @@ func (data *ARP) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/inspection/validate")
 	}
 	for i := range data.InspectionFilters {
-		keys := [...]string{"arpacl"}
-		keyValues := [...]string{data.InspectionFilters[i].Name.ValueString()}
+		keys := [...]string{ "arpacl",  }
+		keyValues := [...]string{ data.InspectionFilters[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeEVPNEthernetSegment(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_evpn_ethernet_segment.test", "es_value", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_evpn_ethernet_segment.test", "df_election_wait_time", "3"))
@@ -53,15 +51,15 @@ func TestAccIosxeEVPNEthernetSegment(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeEVPNEthernetSegmentConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_evpn_ethernet_segment.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeEVPNEthernetSegmentImportStateIdFunc("iosxe_evpn_ethernet_segment.test"),
-				ImportStateVerifyIgnore: []string{},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_evpn_ethernet_segment.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeEVPNEthernetSegmentImportStateIdFunc("iosxe_evpn_ethernet_segment.test"),
+				ImportStateVerifyIgnore: []string{  },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

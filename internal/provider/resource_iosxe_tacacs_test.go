@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -47,15 +46,15 @@ func TestAccIosxeTACACS(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeTACACSConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_tacacs.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeTACACSImportStateIdFunc("iosxe_tacacs.test"),
-				ImportStateVerifyIgnore: []string{"key"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_tacacs.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeTACACSImportStateIdFunc("iosxe_tacacs.test"),
+				ImportStateVerifyIgnore: []string{ "key", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

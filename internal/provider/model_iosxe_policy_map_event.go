@@ -23,132 +23,132 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type PolicyMapEvent struct {
-	Device       types.String                 `tfsdk:"device"`
-	Id           types.String                 `tfsdk:"id"`
-	Name         types.String                 `tfsdk:"name"`
-	EventType    types.String                 `tfsdk:"event_type"`
-	MatchType    types.String                 `tfsdk:"match_type"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	EventType types.String `tfsdk:"event_type"`
+	MatchType types.String `tfsdk:"match_type"`
 	ClassNumbers []PolicyMapEventClassNumbers `tfsdk:"class_numbers"`
 }
 type PolicyMapEventClassNumbers struct {
-	Number        types.Int64                               `tfsdk:"number"`
-	Class         types.String                              `tfsdk:"class"`
-	ExecutionType types.String                              `tfsdk:"execution_type"`
+	Number types.Int64 `tfsdk:"number"`
+	Class types.String `tfsdk:"class"`
+	ExecutionType types.String `tfsdk:"execution_type"`
 	ActionNumbers []PolicyMapEventClassNumbersActionNumbers `tfsdk:"action_numbers"`
 }
 type PolicyMapEventClassNumbersActionNumbers struct {
-	Number                                       types.Int64  `tfsdk:"number"`
-	PauseReauthentication                        types.Bool   `tfsdk:"pause_reauthentication"`
-	Authorize                                    types.Bool   `tfsdk:"authorize"`
-	TerminateConfig                              types.String `tfsdk:"terminate_config"`
+	Number types.Int64 `tfsdk:"number"`
+	PauseReauthentication types.Bool `tfsdk:"pause_reauthentication"`
+	Authorize types.Bool `tfsdk:"authorize"`
+	TerminateConfig types.String `tfsdk:"terminate_config"`
 	ActivateServiceTemplateConfigServiceTemplate types.String `tfsdk:"activate_service_template_config_service_template"`
-	ActivateServiceTemplateConfigAaaList         types.String `tfsdk:"activate_service_template_config_aaa_list"`
-	ActivateServiceTemplateConfigPrecedence      types.Int64  `tfsdk:"activate_service_template_config_precedence"`
-	ActivateServiceTemplateConfigReplaceAll      types.Bool   `tfsdk:"activate_service_template_config_replace_all"`
-	ActivateInterfaceTemplate                    types.String `tfsdk:"activate_interface_template"`
-	ActivatePolicyTypeControlSubscriber          types.String `tfsdk:"activate_policy_type_control_subscriber"`
-	DeactivateInterfaceTemplate                  types.String `tfsdk:"deactivate_interface_template"`
-	DeactivateServiceTemplate                    types.String `tfsdk:"deactivate_service_template"`
-	DeactivatePolicyTypeControlSubscriber        types.String `tfsdk:"deactivate_policy_type_control_subscriber"`
-	AuthenticateUsingMethod                      types.String `tfsdk:"authenticate_using_method"`
-	AuthenticateUsingRetries                     types.Int64  `tfsdk:"authenticate_using_retries"`
-	AuthenticateUsingRetryTime                   types.Int64  `tfsdk:"authenticate_using_retry_time"`
-	AuthenticateUsingPriority                    types.Int64  `tfsdk:"authenticate_using_priority"`
-	AuthenticateUsingAaaConfig                   types.Bool   `tfsdk:"authenticate_using_aaa_config"`
-	AuthenticateUsingAuthcList                   types.String `tfsdk:"authenticate_using_authc_list"`
-	AuthenticateUsingAuthzList                   types.String `tfsdk:"authenticate_using_authz_list"`
-	AuthenticateUsingAaaAuthcListLegacy          types.String `tfsdk:"authenticate_using_aaa_authc_list_legacy"`
-	AuthenticateUsingAaaAuthzListLegacy          types.String `tfsdk:"authenticate_using_aaa_authz_list_legacy"`
-	AuthenticateUsingBoth                        types.Bool   `tfsdk:"authenticate_using_both"`
-	AuthenticateUsingParameterMap                types.String `tfsdk:"authenticate_using_parameter_map"`
-	Replace                                      types.Bool   `tfsdk:"replace"`
-	Restrict                                     types.Bool   `tfsdk:"restrict"`
-	ClearSession                                 types.Bool   `tfsdk:"clear_session"`
-	ClearAuthenticatedDataHostsOnPort            types.Bool   `tfsdk:"clear_authenticated_data_hosts_on_port"`
-	Protect                                      types.Bool   `tfsdk:"protect"`
-	ErrDisable                                   types.Bool   `tfsdk:"err_disable"`
-	ResumeReauthentication                       types.Bool   `tfsdk:"resume_reauthentication"`
-	AuthenticationRestart                        types.Int64  `tfsdk:"authentication_restart"`
-	SetDomain                                    types.String `tfsdk:"set_domain"`
-	Unauthorize                                  types.Bool   `tfsdk:"unauthorize"`
-	Notify                                       types.Bool   `tfsdk:"notify"`
-	SetTimerName                                 types.String `tfsdk:"set_timer_name"`
-	SetTimerValue                                types.Int64  `tfsdk:"set_timer_value"`
-	MapAttributeToServiceTable                   types.String `tfsdk:"map_attribute_to_service_table"`
+	ActivateServiceTemplateConfigAaaList types.String `tfsdk:"activate_service_template_config_aaa_list"`
+	ActivateServiceTemplateConfigPrecedence types.Int64 `tfsdk:"activate_service_template_config_precedence"`
+	ActivateServiceTemplateConfigReplaceAll types.Bool `tfsdk:"activate_service_template_config_replace_all"`
+	ActivateInterfaceTemplate types.String `tfsdk:"activate_interface_template"`
+	ActivatePolicyTypeControlSubscriber types.String `tfsdk:"activate_policy_type_control_subscriber"`
+	DeactivateInterfaceTemplate types.String `tfsdk:"deactivate_interface_template"`
+	DeactivateServiceTemplate types.String `tfsdk:"deactivate_service_template"`
+	DeactivatePolicyTypeControlSubscriber types.String `tfsdk:"deactivate_policy_type_control_subscriber"`
+	AuthenticateUsingMethod types.String `tfsdk:"authenticate_using_method"`
+	AuthenticateUsingRetries types.Int64 `tfsdk:"authenticate_using_retries"`
+	AuthenticateUsingRetryTime types.Int64 `tfsdk:"authenticate_using_retry_time"`
+	AuthenticateUsingPriority types.Int64 `tfsdk:"authenticate_using_priority"`
+	AuthenticateUsingAaaConfig types.Bool `tfsdk:"authenticate_using_aaa_config"`
+	AuthenticateUsingAuthcList types.String `tfsdk:"authenticate_using_authc_list"`
+	AuthenticateUsingAuthzList types.String `tfsdk:"authenticate_using_authz_list"`
+	AuthenticateUsingAaaAuthcListLegacy types.String `tfsdk:"authenticate_using_aaa_authc_list_legacy"`
+	AuthenticateUsingAaaAuthzListLegacy types.String `tfsdk:"authenticate_using_aaa_authz_list_legacy"`
+	AuthenticateUsingBoth types.Bool `tfsdk:"authenticate_using_both"`
+	AuthenticateUsingParameterMap types.String `tfsdk:"authenticate_using_parameter_map"`
+	Replace types.Bool `tfsdk:"replace"`
+	Restrict types.Bool `tfsdk:"restrict"`
+	ClearSession types.Bool `tfsdk:"clear_session"`
+	ClearAuthenticatedDataHostsOnPort types.Bool `tfsdk:"clear_authenticated_data_hosts_on_port"`
+	Protect types.Bool `tfsdk:"protect"`
+	ErrDisable types.Bool `tfsdk:"err_disable"`
+	ResumeReauthentication types.Bool `tfsdk:"resume_reauthentication"`
+	AuthenticationRestart types.Int64 `tfsdk:"authentication_restart"`
+	SetDomain types.String `tfsdk:"set_domain"`
+	Unauthorize types.Bool `tfsdk:"unauthorize"`
+	Notify types.Bool `tfsdk:"notify"`
+	SetTimerName types.String `tfsdk:"set_timer_name"`
+	SetTimerValue types.Int64 `tfsdk:"set_timer_value"`
+	MapAttributeToServiceTable types.String `tfsdk:"map_attribute_to_service_table"`
 }
 
 type PolicyMapEventData struct {
-	Device       types.String                     `tfsdk:"device"`
-	Id           types.String                     `tfsdk:"id"`
-	Name         types.String                     `tfsdk:"name"`
-	EventType    types.String                     `tfsdk:"event_type"`
-	MatchType    types.String                     `tfsdk:"match_type"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	EventType types.String `tfsdk:"event_type"`
+	MatchType types.String `tfsdk:"match_type"`
 	ClassNumbers []PolicyMapEventClassNumbersData `tfsdk:"class_numbers"`
 }
 type PolicyMapEventClassNumbersData struct {
-	Number        types.Int64                                   `tfsdk:"number"`
-	Class         types.String                                  `tfsdk:"class"`
-	ExecutionType types.String                                  `tfsdk:"execution_type"`
+	Number types.Int64 `tfsdk:"number"`
+	Class types.String `tfsdk:"class"`
+	ExecutionType types.String `tfsdk:"execution_type"`
 	ActionNumbers []PolicyMapEventClassNumbersActionNumbersData `tfsdk:"action_numbers"`
 }
 type PolicyMapEventClassNumbersActionNumbersData struct {
-	Number                                       types.Int64  `tfsdk:"number"`
-	PauseReauthentication                        types.Bool   `tfsdk:"pause_reauthentication"`
-	Authorize                                    types.Bool   `tfsdk:"authorize"`
-	TerminateConfig                              types.String `tfsdk:"terminate_config"`
+	Number types.Int64 `tfsdk:"number"`
+	PauseReauthentication types.Bool `tfsdk:"pause_reauthentication"`
+	Authorize types.Bool `tfsdk:"authorize"`
+	TerminateConfig types.String `tfsdk:"terminate_config"`
 	ActivateServiceTemplateConfigServiceTemplate types.String `tfsdk:"activate_service_template_config_service_template"`
-	ActivateServiceTemplateConfigAaaList         types.String `tfsdk:"activate_service_template_config_aaa_list"`
-	ActivateServiceTemplateConfigPrecedence      types.Int64  `tfsdk:"activate_service_template_config_precedence"`
-	ActivateServiceTemplateConfigReplaceAll      types.Bool   `tfsdk:"activate_service_template_config_replace_all"`
-	ActivateInterfaceTemplate                    types.String `tfsdk:"activate_interface_template"`
-	ActivatePolicyTypeControlSubscriber          types.String `tfsdk:"activate_policy_type_control_subscriber"`
-	DeactivateInterfaceTemplate                  types.String `tfsdk:"deactivate_interface_template"`
-	DeactivateServiceTemplate                    types.String `tfsdk:"deactivate_service_template"`
-	DeactivatePolicyTypeControlSubscriber        types.String `tfsdk:"deactivate_policy_type_control_subscriber"`
-	AuthenticateUsingMethod                      types.String `tfsdk:"authenticate_using_method"`
-	AuthenticateUsingRetries                     types.Int64  `tfsdk:"authenticate_using_retries"`
-	AuthenticateUsingRetryTime                   types.Int64  `tfsdk:"authenticate_using_retry_time"`
-	AuthenticateUsingPriority                    types.Int64  `tfsdk:"authenticate_using_priority"`
-	AuthenticateUsingAaaConfig                   types.Bool   `tfsdk:"authenticate_using_aaa_config"`
-	AuthenticateUsingAuthcList                   types.String `tfsdk:"authenticate_using_authc_list"`
-	AuthenticateUsingAuthzList                   types.String `tfsdk:"authenticate_using_authz_list"`
-	AuthenticateUsingAaaAuthcListLegacy          types.String `tfsdk:"authenticate_using_aaa_authc_list_legacy"`
-	AuthenticateUsingAaaAuthzListLegacy          types.String `tfsdk:"authenticate_using_aaa_authz_list_legacy"`
-	AuthenticateUsingBoth                        types.Bool   `tfsdk:"authenticate_using_both"`
-	AuthenticateUsingParameterMap                types.String `tfsdk:"authenticate_using_parameter_map"`
-	Replace                                      types.Bool   `tfsdk:"replace"`
-	Restrict                                     types.Bool   `tfsdk:"restrict"`
-	ClearSession                                 types.Bool   `tfsdk:"clear_session"`
-	ClearAuthenticatedDataHostsOnPort            types.Bool   `tfsdk:"clear_authenticated_data_hosts_on_port"`
-	Protect                                      types.Bool   `tfsdk:"protect"`
-	ErrDisable                                   types.Bool   `tfsdk:"err_disable"`
-	ResumeReauthentication                       types.Bool   `tfsdk:"resume_reauthentication"`
-	AuthenticationRestart                        types.Int64  `tfsdk:"authentication_restart"`
-	SetDomain                                    types.String `tfsdk:"set_domain"`
-	Unauthorize                                  types.Bool   `tfsdk:"unauthorize"`
-	Notify                                       types.Bool   `tfsdk:"notify"`
-	SetTimerName                                 types.String `tfsdk:"set_timer_name"`
-	SetTimerValue                                types.Int64  `tfsdk:"set_timer_value"`
-	MapAttributeToServiceTable                   types.String `tfsdk:"map_attribute_to_service_table"`
+	ActivateServiceTemplateConfigAaaList types.String `tfsdk:"activate_service_template_config_aaa_list"`
+	ActivateServiceTemplateConfigPrecedence types.Int64 `tfsdk:"activate_service_template_config_precedence"`
+	ActivateServiceTemplateConfigReplaceAll types.Bool `tfsdk:"activate_service_template_config_replace_all"`
+	ActivateInterfaceTemplate types.String `tfsdk:"activate_interface_template"`
+	ActivatePolicyTypeControlSubscriber types.String `tfsdk:"activate_policy_type_control_subscriber"`
+	DeactivateInterfaceTemplate types.String `tfsdk:"deactivate_interface_template"`
+	DeactivateServiceTemplate types.String `tfsdk:"deactivate_service_template"`
+	DeactivatePolicyTypeControlSubscriber types.String `tfsdk:"deactivate_policy_type_control_subscriber"`
+	AuthenticateUsingMethod types.String `tfsdk:"authenticate_using_method"`
+	AuthenticateUsingRetries types.Int64 `tfsdk:"authenticate_using_retries"`
+	AuthenticateUsingRetryTime types.Int64 `tfsdk:"authenticate_using_retry_time"`
+	AuthenticateUsingPriority types.Int64 `tfsdk:"authenticate_using_priority"`
+	AuthenticateUsingAaaConfig types.Bool `tfsdk:"authenticate_using_aaa_config"`
+	AuthenticateUsingAuthcList types.String `tfsdk:"authenticate_using_authc_list"`
+	AuthenticateUsingAuthzList types.String `tfsdk:"authenticate_using_authz_list"`
+	AuthenticateUsingAaaAuthcListLegacy types.String `tfsdk:"authenticate_using_aaa_authc_list_legacy"`
+	AuthenticateUsingAaaAuthzListLegacy types.String `tfsdk:"authenticate_using_aaa_authz_list_legacy"`
+	AuthenticateUsingBoth types.Bool `tfsdk:"authenticate_using_both"`
+	AuthenticateUsingParameterMap types.String `tfsdk:"authenticate_using_parameter_map"`
+	Replace types.Bool `tfsdk:"replace"`
+	Restrict types.Bool `tfsdk:"restrict"`
+	ClearSession types.Bool `tfsdk:"clear_session"`
+	ClearAuthenticatedDataHostsOnPort types.Bool `tfsdk:"clear_authenticated_data_hosts_on_port"`
+	Protect types.Bool `tfsdk:"protect"`
+	ErrDisable types.Bool `tfsdk:"err_disable"`
+	ResumeReauthentication types.Bool `tfsdk:"resume_reauthentication"`
+	AuthenticationRestart types.Int64 `tfsdk:"authentication_restart"`
+	SetDomain types.String `tfsdk:"set_domain"`
+	Unauthorize types.Bool `tfsdk:"unauthorize"`
+	Notify types.Bool `tfsdk:"notify"`
+	SetTimerName types.String `tfsdk:"set_timer_name"`
+	SetTimerValue types.Int64 `tfsdk:"set_timer_value"`
+	MapAttributeToServiceTable types.String `tfsdk:"map_attribute_to_service_table"`
 }
 
 // End of section. //template:end types
@@ -370,10 +370,10 @@ func (data PolicyMapEvent) toBody(ctx context.Context, config PolicyMapEvent) st
 func (data PolicyMapEvent) toBodyXML(ctx context.Context, config PolicyMapEvent) string {
 	body := netconf.Body{}
 	if !data.EventType.IsNull() && !data.EventType.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/event-type", data.EventType.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/event-type", data.EventType.ValueString())
 	}
 	if !data.MatchType.IsNull() && !data.MatchType.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/match-type", data.MatchType.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/match-type", data.MatchType.ValueString())
 	}
 	if len(data.ClassNumbers) > 0 {
 		for _, item := range data.ClassNumbers {
@@ -582,22 +582,22 @@ func (data *PolicyMapEvent) updateFromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "event-type"); value.Exists() && !data.EventType.IsNull() {
+	if value := res.Get(prefix+"event-type"); value.Exists() && !data.EventType.IsNull() {
 		data.EventType = types.StringValue(value.String())
 	} else {
 		data.EventType = types.StringNull()
 	}
-	if value := res.Get(prefix + "match-type"); value.Exists() && !data.MatchType.IsNull() {
+	if value := res.Get(prefix+"match-type"); value.Exists() && !data.MatchType.IsNull() {
 		data.MatchType = types.StringValue(value.String())
 	} else {
 		data.MatchType = types.StringNull()
 	}
 	for i := range data.ClassNumbers {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10),  }
 
 		var r gjson.Result
-		res.Get(prefix + "class-number").ForEach(
+		res.Get(prefix+"class-number").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -631,8 +631,8 @@ func (data *PolicyMapEvent) updateFromBody(ctx context.Context, res gjson.Result
 			data.ClassNumbers[i].ExecutionType = types.StringNull()
 		}
 		for ci := range data.ClassNumbers[i].ActionNumbers {
-			keys := [...]string{"number"}
-			keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10)}
+			keys := [...]string{ "number",  }
+			keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10),  }
 
 			var cr gjson.Result
 			r.Get("action-number").ForEach(
@@ -908,22 +908,22 @@ func (data *PolicyMapEvent) updateFromBody(ctx context.Context, res gjson.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *PolicyMapEvent) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/event-type"); value.Exists() && !data.EventType.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/event-type"); value.Exists() && !data.EventType.IsNull() {
 		data.EventType = types.StringValue(value.String())
 	} else {
 		data.EventType = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match-type"); value.Exists() && !data.MatchType.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match-type"); value.Exists() && !data.MatchType.IsNull() {
 		data.MatchType = types.StringValue(value.String())
 	} else {
 		data.MatchType = types.StringNull()
 	}
 	for i := range data.ClassNumbers {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/class-number").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/class-number").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -957,8 +957,8 @@ func (data *PolicyMapEvent) updateFromBodyXML(ctx context.Context, res xmldot.Re
 			data.ClassNumbers[i].ExecutionType = types.StringNull()
 		}
 		for ci := range data.ClassNumbers[i].ActionNumbers {
-			keys := [...]string{"number"}
-			keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10)}
+			keys := [...]string{ "number",  }
+			keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "action-number").ForEach(
@@ -1238,10 +1238,10 @@ func (data *PolicyMapEvent) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "match-type"); value.Exists() {
+	if value := res.Get(prefix+"match-type"); value.Exists() {
 		data.MatchType = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "class-number"); value.Exists() {
+	if value := res.Get(prefix+"class-number"); value.Exists() {
 		data.ClassNumbers = make([]PolicyMapEventClassNumbers, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PolicyMapEventClassNumbers{}
@@ -1419,10 +1419,10 @@ func (data *PolicyMapEventData) fromBody(ctx context.Context, res gjson.Result) 
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "match-type"); value.Exists() {
+	if value := res.Get(prefix+"match-type"); value.Exists() {
 		data.MatchType = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "class-number"); value.Exists() {
+	if value := res.Get(prefix+"class-number"); value.Exists() {
 		data.ClassNumbers = make([]PolicyMapEventClassNumbersData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := PolicyMapEventClassNumbersData{}
@@ -1596,10 +1596,10 @@ func (data *PolicyMapEventData) fromBody(ctx context.Context, res gjson.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *PolicyMapEvent) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match-type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match-type"); value.Exists() {
 		data.MatchType = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/class-number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/class-number"); value.Exists() {
 		data.ClassNumbers = make([]PolicyMapEventClassNumbers, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PolicyMapEventClassNumbers{}
@@ -1773,10 +1773,10 @@ func (data *PolicyMapEvent) fromBodyXML(ctx context.Context, res xmldot.Result) 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *PolicyMapEventData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/match-type"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/match-type"); value.Exists() {
 		data.MatchType = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/class-number"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/class-number"); value.Exists() {
 		data.ClassNumbers = make([]PolicyMapEventClassNumbersData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := PolicyMapEventClassNumbersData{}
@@ -1952,8 +1952,8 @@ func (data *PolicyMapEventData) fromBodyXML(ctx context.Context, res xmldot.Resu
 func (data *PolicyMapEvent) getDeletedItems(ctx context.Context, state PolicyMapEvent) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.ClassNumbers {
-		stateKeyValues := [...]string{strconv.FormatInt(state.ClassNumbers[i].Number.ValueInt64(), 10)}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.ClassNumbers[i].Number.ValueInt64(), 10),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.ClassNumbers[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -1970,8 +1970,8 @@ func (data *PolicyMapEvent) getDeletedItems(ctx context.Context, state PolicyMap
 			}
 			if found {
 				for ci := range state.ClassNumbers[i].ActionNumbers {
-					cstateKeyValues := [...]string{strconv.FormatInt(state.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10)}
-
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64()).IsZero() {
 						cemptyKeys = false
@@ -2132,13 +2132,13 @@ func (data *PolicyMapEvent) getDeletedItems(ctx context.Context, state PolicyMap
 func (data *PolicyMapEvent) addDeletedItemsXML(ctx context.Context, state PolicyMapEvent, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.ClassNumbers {
-		stateKeys := [...]string{"number"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.ClassNumbers[i].Number.ValueInt64(), 10)}
+		stateKeys := [...]string{ "number",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.ClassNumbers[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.ClassNumbers[i].Number.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -2155,8 +2155,8 @@ func (data *PolicyMapEvent) addDeletedItemsXML(ctx context.Context, state Policy
 			}
 			if found {
 				for ci := range state.ClassNumbers[i].ActionNumbers {
-					cstateKeys := [...]string{"number"}
-					cstateKeyValues := [...]string{strconv.FormatInt(state.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10)}
+					cstateKeys := [...]string{ "number",  }
+					cstateKeyValues := [...]string{ strconv.FormatInt(state.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -2322,12 +2322,13 @@ func (data *PolicyMapEvent) addDeletedItemsXML(ctx context.Context, state Policy
 
 func (data *PolicyMapEvent) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.ClassNumbers {
-		keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10)}
-
+		keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10),  }
+		
 		for ci := range data.ClassNumbers[i].ActionNumbers {
-			ckeyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10)}
+			ckeyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].ActionNumbers[ci].Number.ValueInt64(), 10),  }
 			if !data.ClassNumbers[i].ActionNumbers[ci].Notify.IsNull() && !data.ClassNumbers[i].ActionNumbers[ci].Notify.ValueBool() {
 				emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/class-number=%v/action-number=%v/notify", data.getPath(), strings.Join(keyValues[:], ","), strings.Join(ckeyValues[:], ",")))
 			}
@@ -2383,7 +2384,7 @@ func (data *PolicyMapEvent) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *PolicyMapEvent) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.ClassNumbers {
-		keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10)}
+		keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/class-number=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -2401,8 +2402,8 @@ func (data *PolicyMapEvent) getDeletePaths(ctx context.Context) []string {
 func (data *PolicyMapEvent) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.ClassNumbers {
-		keys := [...]string{"number"}
-		keyValues := [...]string{strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10)}
+		keys := [...]string{ "number",  }
+		keyValues := [...]string{ strconv.FormatInt(data.ClassNumbers[i].Number.ValueInt64(), 10),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

@@ -26,57 +26,57 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type EVPN struct {
-	Device                                      types.String `tfsdk:"device"`
-	Id                                          types.String `tfsdk:"id"`
-	DeleteMode                                  types.String `tfsdk:"delete_mode"`
-	ReplicationTypeIngress                      types.Bool   `tfsdk:"replication_type_ingress"`
-	ReplicationTypeStatic                       types.Bool   `tfsdk:"replication_type_static"`
-	ReplicationTypeP2mp                         types.Bool   `tfsdk:"replication_type_p2mp"`
-	ReplicationTypeMp2mp                        types.Bool   `tfsdk:"replication_type_mp2mp"`
-	MacDuplicationLimit                         types.Int64  `tfsdk:"mac_duplication_limit"`
-	MacDuplicationTime                          types.Int64  `tfsdk:"mac_duplication_time"`
-	IpDuplicationLimit                          types.Int64  `tfsdk:"ip_duplication_limit"`
-	IpDuplicationTime                           types.Int64  `tfsdk:"ip_duplication_time"`
-	RouterIdLoopback                            types.Int64  `tfsdk:"router_id_loopback"`
-	DefaultGatewayAdvertise                     types.Bool   `tfsdk:"default_gateway_advertise"`
-	LoggingPeerState                            types.Bool   `tfsdk:"logging_peer_state"`
-	RouteTargetAutoVni                          types.Bool   `tfsdk:"route_target_auto_vni"`
-	AnycastGatewayMacAuto                       types.Bool   `tfsdk:"anycast_gateway_mac_auto"`
-	FloodingSuppressionAddressResolutionDisable types.Bool   `tfsdk:"flooding_suppression_address_resolution_disable"`
-	MulticastAdvertise                          types.Bool   `tfsdk:"multicast_advertise"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	ReplicationTypeIngress types.Bool `tfsdk:"replication_type_ingress"`
+	ReplicationTypeStatic types.Bool `tfsdk:"replication_type_static"`
+	ReplicationTypeP2mp types.Bool `tfsdk:"replication_type_p2mp"`
+	ReplicationTypeMp2mp types.Bool `tfsdk:"replication_type_mp2mp"`
+	MacDuplicationLimit types.Int64 `tfsdk:"mac_duplication_limit"`
+	MacDuplicationTime types.Int64 `tfsdk:"mac_duplication_time"`
+	IpDuplicationLimit types.Int64 `tfsdk:"ip_duplication_limit"`
+	IpDuplicationTime types.Int64 `tfsdk:"ip_duplication_time"`
+	RouterIdLoopback types.Int64 `tfsdk:"router_id_loopback"`
+	DefaultGatewayAdvertise types.Bool `tfsdk:"default_gateway_advertise"`
+	LoggingPeerState types.Bool `tfsdk:"logging_peer_state"`
+	RouteTargetAutoVni types.Bool `tfsdk:"route_target_auto_vni"`
+	AnycastGatewayMacAuto types.Bool `tfsdk:"anycast_gateway_mac_auto"`
+	FloodingSuppressionAddressResolutionDisable types.Bool `tfsdk:"flooding_suppression_address_resolution_disable"`
+	MulticastAdvertise types.Bool `tfsdk:"multicast_advertise"`
 }
 
 type EVPNData struct {
-	Device                                      types.String `tfsdk:"device"`
-	Id                                          types.String `tfsdk:"id"`
-	ReplicationTypeIngress                      types.Bool   `tfsdk:"replication_type_ingress"`
-	ReplicationTypeStatic                       types.Bool   `tfsdk:"replication_type_static"`
-	ReplicationTypeP2mp                         types.Bool   `tfsdk:"replication_type_p2mp"`
-	ReplicationTypeMp2mp                        types.Bool   `tfsdk:"replication_type_mp2mp"`
-	MacDuplicationLimit                         types.Int64  `tfsdk:"mac_duplication_limit"`
-	MacDuplicationTime                          types.Int64  `tfsdk:"mac_duplication_time"`
-	IpDuplicationLimit                          types.Int64  `tfsdk:"ip_duplication_limit"`
-	IpDuplicationTime                           types.Int64  `tfsdk:"ip_duplication_time"`
-	RouterIdLoopback                            types.Int64  `tfsdk:"router_id_loopback"`
-	DefaultGatewayAdvertise                     types.Bool   `tfsdk:"default_gateway_advertise"`
-	LoggingPeerState                            types.Bool   `tfsdk:"logging_peer_state"`
-	RouteTargetAutoVni                          types.Bool   `tfsdk:"route_target_auto_vni"`
-	AnycastGatewayMacAuto                       types.Bool   `tfsdk:"anycast_gateway_mac_auto"`
-	FloodingSuppressionAddressResolutionDisable types.Bool   `tfsdk:"flooding_suppression_address_resolution_disable"`
-	MulticastAdvertise                          types.Bool   `tfsdk:"multicast_advertise"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	ReplicationTypeIngress types.Bool `tfsdk:"replication_type_ingress"`
+	ReplicationTypeStatic types.Bool `tfsdk:"replication_type_static"`
+	ReplicationTypeP2mp types.Bool `tfsdk:"replication_type_p2mp"`
+	ReplicationTypeMp2mp types.Bool `tfsdk:"replication_type_mp2mp"`
+	MacDuplicationLimit types.Int64 `tfsdk:"mac_duplication_limit"`
+	MacDuplicationTime types.Int64 `tfsdk:"mac_duplication_time"`
+	IpDuplicationLimit types.Int64 `tfsdk:"ip_duplication_limit"`
+	IpDuplicationTime types.Int64 `tfsdk:"ip_duplication_time"`
+	RouterIdLoopback types.Int64 `tfsdk:"router_id_loopback"`
+	DefaultGatewayAdvertise types.Bool `tfsdk:"default_gateway_advertise"`
+	LoggingPeerState types.Bool `tfsdk:"logging_peer_state"`
+	RouteTargetAutoVni types.Bool `tfsdk:"route_target_auto_vni"`
+	AnycastGatewayMacAuto types.Bool `tfsdk:"anycast_gateway_mac_auto"`
+	FloodingSuppressionAddressResolutionDisable types.Bool `tfsdk:"flooding_suppression_address_resolution_disable"`
+	MulticastAdvertise types.Bool `tfsdk:"multicast_advertise"`
 }
 
 // End of section. //template:end types
@@ -195,87 +195,87 @@ func (data EVPN) toBodyXML(ctx context.Context, config EVPN) string {
 	body := netconf.Body{}
 	if !data.ReplicationTypeIngress.IsNull() && !data.ReplicationTypeIngress.IsUnknown() {
 		if data.ReplicationTypeIngress.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/replication-type/ingress", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/replication-type/ingress", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/replication-type/ingress")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/replication-type/ingress")
 		}
 	}
 	if !data.ReplicationTypeStatic.IsNull() && !data.ReplicationTypeStatic.IsUnknown() {
 		if data.ReplicationTypeStatic.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/replication-type/static", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/replication-type/static", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/replication-type/static")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/replication-type/static")
 		}
 	}
 	if !data.ReplicationTypeP2mp.IsNull() && !data.ReplicationTypeP2mp.IsUnknown() {
 		if data.ReplicationTypeP2mp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/replication-type/p2mp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/replication-type/p2mp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/replication-type/p2mp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/replication-type/p2mp")
 		}
 	}
 	if !data.ReplicationTypeMp2mp.IsNull() && !data.ReplicationTypeMp2mp.IsUnknown() {
 		if data.ReplicationTypeMp2mp.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/replication-type/mp2mp", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/replication-type/mp2mp", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/replication-type/mp2mp")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/replication-type/mp2mp")
 		}
 	}
 	if !data.MacDuplicationLimit.IsNull() && !data.MacDuplicationLimit.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/mac/duplication/limit", strconv.FormatInt(data.MacDuplicationLimit.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/mac/duplication/limit", strconv.FormatInt(data.MacDuplicationLimit.ValueInt64(), 10))
 	}
 	if !data.MacDuplicationTime.IsNull() && !data.MacDuplicationTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/mac/duplication/time", strconv.FormatInt(data.MacDuplicationTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/mac/duplication/time", strconv.FormatInt(data.MacDuplicationTime.ValueInt64(), 10))
 	}
 	if !data.IpDuplicationLimit.IsNull() && !data.IpDuplicationLimit.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/duplication/limit", strconv.FormatInt(data.IpDuplicationLimit.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/duplication/limit", strconv.FormatInt(data.IpDuplicationLimit.ValueInt64(), 10))
 	}
 	if !data.IpDuplicationTime.IsNull() && !data.IpDuplicationTime.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/ip/duplication/time", strconv.FormatInt(data.IpDuplicationTime.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/ip/duplication/time", strconv.FormatInt(data.IpDuplicationTime.ValueInt64(), 10))
 	}
 	if !data.RouterIdLoopback.IsNull() && !data.RouterIdLoopback.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/router-id/interface/Loopback", strconv.FormatInt(data.RouterIdLoopback.ValueInt64(), 10))
+		body = helpers.SetFromXPath(body, data.getXPath() + "/router-id/interface/Loopback", strconv.FormatInt(data.RouterIdLoopback.ValueInt64(), 10))
 	}
 	if !data.DefaultGatewayAdvertise.IsNull() && !data.DefaultGatewayAdvertise.IsUnknown() {
 		if data.DefaultGatewayAdvertise.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/default-gateway/advertise", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/default-gateway/advertise", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/default-gateway/advertise")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/default-gateway/advertise")
 		}
 	}
 	if !data.LoggingPeerState.IsNull() && !data.LoggingPeerState.IsUnknown() {
 		if data.LoggingPeerState.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/logging/peer/state", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/logging/peer/state", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/logging/peer/state")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/logging/peer/state")
 		}
 	}
 	if !data.RouteTargetAutoVni.IsNull() && !data.RouteTargetAutoVni.IsUnknown() {
 		if data.RouteTargetAutoVni.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/route-target/auto/vni", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/route-target/auto/vni", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/route-target/auto/vni")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/route-target/auto/vni")
 		}
 	}
 	if !data.AnycastGatewayMacAuto.IsNull() && !data.AnycastGatewayMacAuto.IsUnknown() {
 		if data.AnycastGatewayMacAuto.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/anycast-gateway/mac/auto", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/anycast-gateway/mac/auto", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/anycast-gateway/mac/auto")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/anycast-gateway/mac/auto")
 		}
 	}
 	if !data.FloodingSuppressionAddressResolutionDisable.IsNull() && !data.FloodingSuppressionAddressResolutionDisable.IsUnknown() {
 		if data.FloodingSuppressionAddressResolutionDisable.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/flooding-suppression/address-resolution/disable", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/flooding-suppression/address-resolution/disable", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/flooding-suppression/address-resolution/disable")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/flooding-suppression/address-resolution/disable")
 		}
 	}
 	if !data.MulticastAdvertise.IsNull() && !data.MulticastAdvertise.IsUnknown() {
 		if data.MulticastAdvertise.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/multicast/advertise", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/multicast/advertise", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/multicast/advertise")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/multicast/advertise")
 		}
 	}
 	bodyString, err := body.String()
@@ -294,7 +294,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "replication-type.ingress"); !data.ReplicationTypeIngress.IsNull() {
+	if value := res.Get(prefix+"replication-type.ingress"); !data.ReplicationTypeIngress.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeIngress = types.BoolValue(true)
 		} else {
@@ -303,7 +303,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.ReplicationTypeIngress = types.BoolNull()
 	}
-	if value := res.Get(prefix + "replication-type.static"); !data.ReplicationTypeStatic.IsNull() {
+	if value := res.Get(prefix+"replication-type.static"); !data.ReplicationTypeStatic.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeStatic = types.BoolValue(true)
 		} else {
@@ -312,7 +312,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.ReplicationTypeStatic = types.BoolNull()
 	}
-	if value := res.Get(prefix + "replication-type.p2mp"); !data.ReplicationTypeP2mp.IsNull() {
+	if value := res.Get(prefix+"replication-type.p2mp"); !data.ReplicationTypeP2mp.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeP2mp = types.BoolValue(true)
 		} else {
@@ -321,7 +321,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.ReplicationTypeP2mp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "replication-type.mp2mp"); !data.ReplicationTypeMp2mp.IsNull() {
+	if value := res.Get(prefix+"replication-type.mp2mp"); !data.ReplicationTypeMp2mp.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeMp2mp = types.BoolValue(true)
 		} else {
@@ -330,32 +330,32 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.ReplicationTypeMp2mp = types.BoolNull()
 	}
-	if value := res.Get(prefix + "mac.duplication.limit"); value.Exists() && !data.MacDuplicationLimit.IsNull() {
+	if value := res.Get(prefix+"mac.duplication.limit"); value.Exists() && !data.MacDuplicationLimit.IsNull() {
 		data.MacDuplicationLimit = types.Int64Value(value.Int())
 	} else {
 		data.MacDuplicationLimit = types.Int64Null()
 	}
-	if value := res.Get(prefix + "mac.duplication.time"); value.Exists() && !data.MacDuplicationTime.IsNull() {
+	if value := res.Get(prefix+"mac.duplication.time"); value.Exists() && !data.MacDuplicationTime.IsNull() {
 		data.MacDuplicationTime = types.Int64Value(value.Int())
 	} else {
 		data.MacDuplicationTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ip.duplication.limit"); value.Exists() && !data.IpDuplicationLimit.IsNull() {
+	if value := res.Get(prefix+"ip.duplication.limit"); value.Exists() && !data.IpDuplicationLimit.IsNull() {
 		data.IpDuplicationLimit = types.Int64Value(value.Int())
 	} else {
 		data.IpDuplicationLimit = types.Int64Null()
 	}
-	if value := res.Get(prefix + "ip.duplication.time"); value.Exists() && !data.IpDuplicationTime.IsNull() {
+	if value := res.Get(prefix+"ip.duplication.time"); value.Exists() && !data.IpDuplicationTime.IsNull() {
 		data.IpDuplicationTime = types.Int64Value(value.Int())
 	} else {
 		data.IpDuplicationTime = types.Int64Null()
 	}
-	if value := res.Get(prefix + "router-id.interface.Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
+	if value := res.Get(prefix+"router-id.interface.Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	} else {
 		data.RouterIdLoopback = types.Int64Null()
 	}
-	if value := res.Get(prefix + "default-gateway.advertise"); !data.DefaultGatewayAdvertise.IsNull() {
+	if value := res.Get(prefix+"default-gateway.advertise"); !data.DefaultGatewayAdvertise.IsNull() {
 		if value.Exists() {
 			data.DefaultGatewayAdvertise = types.BoolValue(true)
 		} else {
@@ -364,7 +364,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.DefaultGatewayAdvertise = types.BoolNull()
 	}
-	if value := res.Get(prefix + "logging.peer.state"); !data.LoggingPeerState.IsNull() {
+	if value := res.Get(prefix+"logging.peer.state"); !data.LoggingPeerState.IsNull() {
 		if value.Exists() {
 			data.LoggingPeerState = types.BoolValue(true)
 		} else {
@@ -373,7 +373,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LoggingPeerState = types.BoolNull()
 	}
-	if value := res.Get(prefix + "route-target.auto.vni"); !data.RouteTargetAutoVni.IsNull() {
+	if value := res.Get(prefix+"route-target.auto.vni"); !data.RouteTargetAutoVni.IsNull() {
 		if value.Exists() {
 			data.RouteTargetAutoVni = types.BoolValue(true)
 		} else {
@@ -382,7 +382,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.RouteTargetAutoVni = types.BoolNull()
 	}
-	if value := res.Get(prefix + "anycast-gateway.mac.auto"); !data.AnycastGatewayMacAuto.IsNull() {
+	if value := res.Get(prefix+"anycast-gateway.mac.auto"); !data.AnycastGatewayMacAuto.IsNull() {
 		if value.Exists() {
 			data.AnycastGatewayMacAuto = types.BoolValue(true)
 		} else {
@@ -391,7 +391,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.AnycastGatewayMacAuto = types.BoolNull()
 	}
-	if value := res.Get(prefix + "flooding-suppression.address-resolution.disable"); !data.FloodingSuppressionAddressResolutionDisable.IsNull() {
+	if value := res.Get(prefix+"flooding-suppression.address-resolution.disable"); !data.FloodingSuppressionAddressResolutionDisable.IsNull() {
 		if value.Exists() {
 			data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(true)
 		} else {
@@ -400,7 +400,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolNull()
 	}
-	if value := res.Get(prefix + "multicast.advertise"); !data.MulticastAdvertise.IsNull() {
+	if value := res.Get(prefix+"multicast.advertise"); !data.MulticastAdvertise.IsNull() {
 		if value.Exists() {
 			data.MulticastAdvertise = types.BoolValue(true)
 		} else {
@@ -416,7 +416,7 @@ func (data *EVPN) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/ingress"); !data.ReplicationTypeIngress.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/ingress"); !data.ReplicationTypeIngress.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeIngress = types.BoolValue(true)
 		} else {
@@ -425,7 +425,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.ReplicationTypeIngress = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/static"); !data.ReplicationTypeStatic.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/static"); !data.ReplicationTypeStatic.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeStatic = types.BoolValue(true)
 		} else {
@@ -434,7 +434,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.ReplicationTypeStatic = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/p2mp"); !data.ReplicationTypeP2mp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/p2mp"); !data.ReplicationTypeP2mp.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeP2mp = types.BoolValue(true)
 		} else {
@@ -443,7 +443,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.ReplicationTypeP2mp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/mp2mp"); !data.ReplicationTypeMp2mp.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/mp2mp"); !data.ReplicationTypeMp2mp.IsNull() {
 		if value.Exists() {
 			data.ReplicationTypeMp2mp = types.BoolValue(true)
 		} else {
@@ -452,32 +452,32 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.ReplicationTypeMp2mp = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac/duplication/limit"); value.Exists() && !data.MacDuplicationLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac/duplication/limit"); value.Exists() && !data.MacDuplicationLimit.IsNull() {
 		data.MacDuplicationLimit = types.Int64Value(value.Int())
 	} else {
 		data.MacDuplicationLimit = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac/duplication/time"); value.Exists() && !data.MacDuplicationTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac/duplication/time"); value.Exists() && !data.MacDuplicationTime.IsNull() {
 		data.MacDuplicationTime = types.Int64Value(value.Int())
 	} else {
 		data.MacDuplicationTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/duplication/limit"); value.Exists() && !data.IpDuplicationLimit.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/duplication/limit"); value.Exists() && !data.IpDuplicationLimit.IsNull() {
 		data.IpDuplicationLimit = types.Int64Value(value.Int())
 	} else {
 		data.IpDuplicationLimit = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/duplication/time"); value.Exists() && !data.IpDuplicationTime.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/duplication/time"); value.Exists() && !data.IpDuplicationTime.IsNull() {
 		data.IpDuplicationTime = types.Int64Value(value.Int())
 	} else {
 		data.IpDuplicationTime = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/router-id/interface/Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/router-id/interface/Loopback"); value.Exists() && !data.RouterIdLoopback.IsNull() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	} else {
 		data.RouterIdLoopback = types.Int64Null()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-gateway/advertise"); !data.DefaultGatewayAdvertise.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-gateway/advertise"); !data.DefaultGatewayAdvertise.IsNull() {
 		if value.Exists() {
 			data.DefaultGatewayAdvertise = types.BoolValue(true)
 		} else {
@@ -486,7 +486,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.DefaultGatewayAdvertise = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/logging/peer/state"); !data.LoggingPeerState.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/logging/peer/state"); !data.LoggingPeerState.IsNull() {
 		if value.Exists() {
 			data.LoggingPeerState = types.BoolValue(true)
 		} else {
@@ -495,7 +495,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.LoggingPeerState = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-target/auto/vni"); !data.RouteTargetAutoVni.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-target/auto/vni"); !data.RouteTargetAutoVni.IsNull() {
 		if value.Exists() {
 			data.RouteTargetAutoVni = types.BoolValue(true)
 		} else {
@@ -504,7 +504,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.RouteTargetAutoVni = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/anycast-gateway/mac/auto"); !data.AnycastGatewayMacAuto.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/anycast-gateway/mac/auto"); !data.AnycastGatewayMacAuto.IsNull() {
 		if value.Exists() {
 			data.AnycastGatewayMacAuto = types.BoolValue(true)
 		} else {
@@ -513,7 +513,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.AnycastGatewayMacAuto = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flooding-suppression/address-resolution/disable"); !data.FloodingSuppressionAddressResolutionDisable.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flooding-suppression/address-resolution/disable"); !data.FloodingSuppressionAddressResolutionDisable.IsNull() {
 		if value.Exists() {
 			data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(true)
 		} else {
@@ -522,7 +522,7 @@ func (data *EVPN) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/multicast/advertise"); !data.MulticastAdvertise.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/multicast/advertise"); !data.MulticastAdvertise.IsNull() {
 		if value.Exists() {
 			data.MulticastAdvertise = types.BoolValue(true)
 		} else {
@@ -542,67 +542,67 @@ func (data *EVPN) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "replication-type.ingress"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.ingress"); value.Exists() {
 		data.ReplicationTypeIngress = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeIngress = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "replication-type.static"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.static"); value.Exists() {
 		data.ReplicationTypeStatic = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeStatic = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "replication-type.p2mp"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.p2mp"); value.Exists() {
 		data.ReplicationTypeP2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeP2mp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "replication-type.mp2mp"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.mp2mp"); value.Exists() {
 		data.ReplicationTypeMp2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeMp2mp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "mac.duplication.limit"); value.Exists() {
+	if value := res.Get(prefix+"mac.duplication.limit"); value.Exists() {
 		data.MacDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "mac.duplication.time"); value.Exists() {
+	if value := res.Get(prefix+"mac.duplication.time"); value.Exists() {
 		data.MacDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.duplication.limit"); value.Exists() {
+	if value := res.Get(prefix+"ip.duplication.limit"); value.Exists() {
 		data.IpDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.duplication.time"); value.Exists() {
+	if value := res.Get(prefix+"ip.duplication.time"); value.Exists() {
 		data.IpDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "router-id.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"router-id.interface.Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "default-gateway.advertise"); value.Exists() {
+	if value := res.Get(prefix+"default-gateway.advertise"); value.Exists() {
 		data.DefaultGatewayAdvertise = types.BoolValue(true)
 	} else {
 		data.DefaultGatewayAdvertise = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "logging.peer.state"); value.Exists() {
+	if value := res.Get(prefix+"logging.peer.state"); value.Exists() {
 		data.LoggingPeerState = types.BoolValue(true)
 	} else {
 		data.LoggingPeerState = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "route-target.auto.vni"); value.Exists() {
+	if value := res.Get(prefix+"route-target.auto.vni"); value.Exists() {
 		data.RouteTargetAutoVni = types.BoolValue(true)
 	} else {
 		data.RouteTargetAutoVni = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "anycast-gateway.mac.auto"); value.Exists() {
+	if value := res.Get(prefix+"anycast-gateway.mac.auto"); value.Exists() {
 		data.AnycastGatewayMacAuto = types.BoolValue(true)
 	} else {
 		data.AnycastGatewayMacAuto = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "flooding-suppression.address-resolution.disable"); value.Exists() {
+	if value := res.Get(prefix+"flooding-suppression.address-resolution.disable"); value.Exists() {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(true)
 	} else {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "multicast.advertise"); value.Exists() {
+	if value := res.Get(prefix+"multicast.advertise"); value.Exists() {
 		data.MulticastAdvertise = types.BoolValue(true)
 	} else {
 		data.MulticastAdvertise = types.BoolValue(false)
@@ -618,67 +618,67 @@ func (data *EVPNData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "replication-type.ingress"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.ingress"); value.Exists() {
 		data.ReplicationTypeIngress = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeIngress = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "replication-type.static"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.static"); value.Exists() {
 		data.ReplicationTypeStatic = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeStatic = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "replication-type.p2mp"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.p2mp"); value.Exists() {
 		data.ReplicationTypeP2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeP2mp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "replication-type.mp2mp"); value.Exists() {
+	if value := res.Get(prefix+"replication-type.mp2mp"); value.Exists() {
 		data.ReplicationTypeMp2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeMp2mp = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "mac.duplication.limit"); value.Exists() {
+	if value := res.Get(prefix+"mac.duplication.limit"); value.Exists() {
 		data.MacDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "mac.duplication.time"); value.Exists() {
+	if value := res.Get(prefix+"mac.duplication.time"); value.Exists() {
 		data.MacDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.duplication.limit"); value.Exists() {
+	if value := res.Get(prefix+"ip.duplication.limit"); value.Exists() {
 		data.IpDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "ip.duplication.time"); value.Exists() {
+	if value := res.Get(prefix+"ip.duplication.time"); value.Exists() {
 		data.IpDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "router-id.interface.Loopback"); value.Exists() {
+	if value := res.Get(prefix+"router-id.interface.Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := res.Get(prefix + "default-gateway.advertise"); value.Exists() {
+	if value := res.Get(prefix+"default-gateway.advertise"); value.Exists() {
 		data.DefaultGatewayAdvertise = types.BoolValue(true)
 	} else {
 		data.DefaultGatewayAdvertise = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "logging.peer.state"); value.Exists() {
+	if value := res.Get(prefix+"logging.peer.state"); value.Exists() {
 		data.LoggingPeerState = types.BoolValue(true)
 	} else {
 		data.LoggingPeerState = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "route-target.auto.vni"); value.Exists() {
+	if value := res.Get(prefix+"route-target.auto.vni"); value.Exists() {
 		data.RouteTargetAutoVni = types.BoolValue(true)
 	} else {
 		data.RouteTargetAutoVni = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "anycast-gateway.mac.auto"); value.Exists() {
+	if value := res.Get(prefix+"anycast-gateway.mac.auto"); value.Exists() {
 		data.AnycastGatewayMacAuto = types.BoolValue(true)
 	} else {
 		data.AnycastGatewayMacAuto = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "flooding-suppression.address-resolution.disable"); value.Exists() {
+	if value := res.Get(prefix+"flooding-suppression.address-resolution.disable"); value.Exists() {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(true)
 	} else {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "multicast.advertise"); value.Exists() {
+	if value := res.Get(prefix+"multicast.advertise"); value.Exists() {
 		data.MulticastAdvertise = types.BoolValue(true)
 	} else {
 		data.MulticastAdvertise = types.BoolValue(false)
@@ -690,67 +690,67 @@ func (data *EVPNData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *EVPN) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/ingress"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/ingress"); value.Exists() {
 		data.ReplicationTypeIngress = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeIngress = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/static"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/static"); value.Exists() {
 		data.ReplicationTypeStatic = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeStatic = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/p2mp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/p2mp"); value.Exists() {
 		data.ReplicationTypeP2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeP2mp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/mp2mp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/mp2mp"); value.Exists() {
 		data.ReplicationTypeMp2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeMp2mp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac/duplication/limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac/duplication/limit"); value.Exists() {
 		data.MacDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac/duplication/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac/duplication/time"); value.Exists() {
 		data.MacDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/duplication/limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/duplication/limit"); value.Exists() {
 		data.IpDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/duplication/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/duplication/time"); value.Exists() {
 		data.IpDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/router-id/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/router-id/interface/Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-gateway/advertise"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-gateway/advertise"); value.Exists() {
 		data.DefaultGatewayAdvertise = types.BoolValue(true)
 	} else {
 		data.DefaultGatewayAdvertise = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/logging/peer/state"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/logging/peer/state"); value.Exists() {
 		data.LoggingPeerState = types.BoolValue(true)
 	} else {
 		data.LoggingPeerState = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-target/auto/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-target/auto/vni"); value.Exists() {
 		data.RouteTargetAutoVni = types.BoolValue(true)
 	} else {
 		data.RouteTargetAutoVni = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/anycast-gateway/mac/auto"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/anycast-gateway/mac/auto"); value.Exists() {
 		data.AnycastGatewayMacAuto = types.BoolValue(true)
 	} else {
 		data.AnycastGatewayMacAuto = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flooding-suppression/address-resolution/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flooding-suppression/address-resolution/disable"); value.Exists() {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(true)
 	} else {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/multicast/advertise"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/multicast/advertise"); value.Exists() {
 		data.MulticastAdvertise = types.BoolValue(true)
 	} else {
 		data.MulticastAdvertise = types.BoolValue(false)
@@ -762,67 +762,67 @@ func (data *EVPN) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *EVPNData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/ingress"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/ingress"); value.Exists() {
 		data.ReplicationTypeIngress = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeIngress = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/static"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/static"); value.Exists() {
 		data.ReplicationTypeStatic = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeStatic = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/p2mp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/p2mp"); value.Exists() {
 		data.ReplicationTypeP2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeP2mp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/replication-type/mp2mp"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/replication-type/mp2mp"); value.Exists() {
 		data.ReplicationTypeMp2mp = types.BoolValue(true)
 	} else {
 		data.ReplicationTypeMp2mp = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac/duplication/limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac/duplication/limit"); value.Exists() {
 		data.MacDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/mac/duplication/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/mac/duplication/time"); value.Exists() {
 		data.MacDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/duplication/limit"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/duplication/limit"); value.Exists() {
 		data.IpDuplicationLimit = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/ip/duplication/time"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/ip/duplication/time"); value.Exists() {
 		data.IpDuplicationTime = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/router-id/interface/Loopback"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/router-id/interface/Loopback"); value.Exists() {
 		data.RouterIdLoopback = types.Int64Value(value.Int())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-gateway/advertise"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-gateway/advertise"); value.Exists() {
 		data.DefaultGatewayAdvertise = types.BoolValue(true)
 	} else {
 		data.DefaultGatewayAdvertise = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/logging/peer/state"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/logging/peer/state"); value.Exists() {
 		data.LoggingPeerState = types.BoolValue(true)
 	} else {
 		data.LoggingPeerState = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-target/auto/vni"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-target/auto/vni"); value.Exists() {
 		data.RouteTargetAutoVni = types.BoolValue(true)
 	} else {
 		data.RouteTargetAutoVni = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/anycast-gateway/mac/auto"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/anycast-gateway/mac/auto"); value.Exists() {
 		data.AnycastGatewayMacAuto = types.BoolValue(true)
 	} else {
 		data.AnycastGatewayMacAuto = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/flooding-suppression/address-resolution/disable"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/flooding-suppression/address-resolution/disable"); value.Exists() {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(true)
 	} else {
 		data.FloodingSuppressionAddressResolutionDisable = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/multicast/advertise"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/multicast/advertise"); value.Exists() {
 		data.MulticastAdvertise = types.BoolValue(true)
 	} else {
 		data.MulticastAdvertise = types.BoolValue(false)

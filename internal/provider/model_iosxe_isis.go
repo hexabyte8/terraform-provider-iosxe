@@ -23,50 +23,50 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ISIS struct {
-	Device                 types.String `tfsdk:"device"`
-	Id                     types.String `tfsdk:"id"`
-	DeleteMode             types.String `tfsdk:"delete_mode"`
-	AreaTag                types.String `tfsdk:"area_tag"`
-	Nets                   []ISISNets   `tfsdk:"nets"`
-	MetricStyleWide        types.Bool   `tfsdk:"metric_style_wide"`
-	MetricStyleNarrow      types.Bool   `tfsdk:"metric_style_narrow"`
-	MetricStyleTransition  types.Bool   `tfsdk:"metric_style_transition"`
-	LogAdjacencyChanges    types.Bool   `tfsdk:"log_adjacency_changes"`
-	LogAdjacencyChangesAll types.Bool   `tfsdk:"log_adjacency_changes_all"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	AreaTag types.String `tfsdk:"area_tag"`
+	Nets []ISISNets `tfsdk:"nets"`
+	MetricStyleWide types.Bool `tfsdk:"metric_style_wide"`
+	MetricStyleNarrow types.Bool `tfsdk:"metric_style_narrow"`
+	MetricStyleTransition types.Bool `tfsdk:"metric_style_transition"`
+	LogAdjacencyChanges types.Bool `tfsdk:"log_adjacency_changes"`
+	LogAdjacencyChangesAll types.Bool `tfsdk:"log_adjacency_changes_all"`
 }
 type ISISNets struct {
 	Tag types.String `tfsdk:"tag"`
 }
 
 type ISISData struct {
-	Device                 types.String   `tfsdk:"device"`
-	Id                     types.String   `tfsdk:"id"`
-	AreaTag                types.String   `tfsdk:"area_tag"`
-	Nets                   []ISISNetsData `tfsdk:"nets"`
-	MetricStyleWide        types.Bool     `tfsdk:"metric_style_wide"`
-	MetricStyleNarrow      types.Bool     `tfsdk:"metric_style_narrow"`
-	MetricStyleTransition  types.Bool     `tfsdk:"metric_style_transition"`
-	LogAdjacencyChanges    types.Bool     `tfsdk:"log_adjacency_changes"`
-	LogAdjacencyChangesAll types.Bool     `tfsdk:"log_adjacency_changes_all"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	AreaTag types.String `tfsdk:"area_tag"`
+	Nets []ISISNetsData `tfsdk:"nets"`
+	MetricStyleWide types.Bool `tfsdk:"metric_style_wide"`
+	MetricStyleNarrow types.Bool `tfsdk:"metric_style_narrow"`
+	MetricStyleTransition types.Bool `tfsdk:"metric_style_transition"`
+	LogAdjacencyChanges types.Bool `tfsdk:"log_adjacency_changes"`
+	LogAdjacencyChangesAll types.Bool `tfsdk:"log_adjacency_changes_all"`
 }
 type ISISNetsData struct {
 	Tag types.String `tfsdk:"tag"`
@@ -158,7 +158,7 @@ func (data ISIS) toBody(ctx context.Context, config ISIS) string {
 func (data ISIS) toBodyXML(ctx context.Context, config ISIS) string {
 	body := netconf.Body{}
 	if !data.AreaTag.IsNull() && !data.AreaTag.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/area-tag", data.AreaTag.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/area-tag", data.AreaTag.ValueString())
 	}
 	if len(data.Nets) > 0 {
 		for _, item := range data.Nets {
@@ -171,33 +171,33 @@ func (data ISIS) toBodyXML(ctx context.Context, config ISIS) string {
 	}
 	if !data.MetricStyleWide.IsNull() && !data.MetricStyleWide.IsUnknown() {
 		if data.MetricStyleWide.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/metric-style/wide", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/metric-style/wide", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/metric-style/wide")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/metric-style/wide")
 		}
 	}
 	if !data.MetricStyleNarrow.IsNull() && !data.MetricStyleNarrow.IsUnknown() {
 		if data.MetricStyleNarrow.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/metric-style/narrow", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/metric-style/narrow", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/metric-style/narrow")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/metric-style/narrow")
 		}
 	}
 	if !data.MetricStyleTransition.IsNull() && !data.MetricStyleTransition.IsUnknown() {
 		if data.MetricStyleTransition.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/metric-style/transition", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/metric-style/transition", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/metric-style/transition")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/metric-style/transition")
 		}
 	}
 	if !data.LogAdjacencyChanges.IsNull() && !data.LogAdjacencyChanges.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/log-adj-changes/log-adjacency-changes", data.LogAdjacencyChanges.ValueBool())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/log-adj-changes/log-adjacency-changes", data.LogAdjacencyChanges.ValueBool())
 	}
 	if !data.LogAdjacencyChangesAll.IsNull() && !data.LogAdjacencyChangesAll.IsUnknown() {
 		if data.LogAdjacencyChangesAll.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/log-adj-changes/all", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/log-adj-changes/all", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/log-adj-changes/all")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/log-adj-changes/all")
 		}
 	}
 	bodyString, err := body.String()
@@ -216,17 +216,17 @@ func (data *ISIS) updateFromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "area-tag"); value.Exists() && !data.AreaTag.IsNull() {
+	if value := res.Get(prefix+"area-tag"); value.Exists() && !data.AreaTag.IsNull() {
 		data.AreaTag = types.StringValue(value.String())
 	} else {
 		data.AreaTag = types.StringNull()
 	}
 	for i := range data.Nets {
-		keys := [...]string{"tag"}
-		keyValues := [...]string{data.Nets[i].Tag.ValueString()}
+		keys := [...]string{ "tag",  }
+		keyValues := [...]string{ data.Nets[i].Tag.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "net").ForEach(
+		res.Get(prefix+"net").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -250,7 +250,7 @@ func (data *ISIS) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Nets[i].Tag = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "metric-style.wide"); !data.MetricStyleWide.IsNull() {
+	if value := res.Get(prefix+"metric-style.wide"); !data.MetricStyleWide.IsNull() {
 		if value.Exists() {
 			data.MetricStyleWide = types.BoolValue(true)
 		} else {
@@ -259,7 +259,7 @@ func (data *ISIS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MetricStyleWide = types.BoolNull()
 	}
-	if value := res.Get(prefix + "metric-style.narrow"); !data.MetricStyleNarrow.IsNull() {
+	if value := res.Get(prefix+"metric-style.narrow"); !data.MetricStyleNarrow.IsNull() {
 		if value.Exists() {
 			data.MetricStyleNarrow = types.BoolValue(true)
 		} else {
@@ -268,7 +268,7 @@ func (data *ISIS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MetricStyleNarrow = types.BoolNull()
 	}
-	if value := res.Get(prefix + "metric-style.transition"); !data.MetricStyleTransition.IsNull() {
+	if value := res.Get(prefix+"metric-style.transition"); !data.MetricStyleTransition.IsNull() {
 		if value.Exists() {
 			data.MetricStyleTransition = types.BoolValue(true)
 		} else {
@@ -277,14 +277,14 @@ func (data *ISIS) updateFromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.MetricStyleTransition = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adj-changes.log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
+	if value := res.Get(prefix+"log-adj-changes.log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adj-changes.all"); !data.LogAdjacencyChangesAll.IsNull() {
+	if value := res.Get(prefix+"log-adj-changes.all"); !data.LogAdjacencyChangesAll.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChangesAll = types.BoolValue(true)
 		} else {
@@ -300,17 +300,17 @@ func (data *ISIS) updateFromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *ISIS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/area-tag"); value.Exists() && !data.AreaTag.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/area-tag"); value.Exists() && !data.AreaTag.IsNull() {
 		data.AreaTag = types.StringValue(value.String())
 	} else {
 		data.AreaTag = types.StringNull()
 	}
 	for i := range data.Nets {
-		keys := [...]string{"tag"}
-		keyValues := [...]string{data.Nets[i].Tag.ValueString()}
+		keys := [...]string{ "tag",  }
+		keyValues := [...]string{ data.Nets[i].Tag.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/net").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/net").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -334,7 +334,7 @@ func (data *ISIS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 			data.Nets[i].Tag = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/wide"); !data.MetricStyleWide.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/wide"); !data.MetricStyleWide.IsNull() {
 		if value.Exists() {
 			data.MetricStyleWide = types.BoolValue(true)
 		} else {
@@ -343,7 +343,7 @@ func (data *ISIS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MetricStyleWide = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/narrow"); !data.MetricStyleNarrow.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/narrow"); !data.MetricStyleNarrow.IsNull() {
 		if value.Exists() {
 			data.MetricStyleNarrow = types.BoolValue(true)
 		} else {
@@ -352,7 +352,7 @@ func (data *ISIS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MetricStyleNarrow = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/transition"); !data.MetricStyleTransition.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/transition"); !data.MetricStyleTransition.IsNull() {
 		if value.Exists() {
 			data.MetricStyleTransition = types.BoolValue(true)
 		} else {
@@ -361,14 +361,14 @@ func (data *ISIS) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	} else {
 		data.MetricStyleTransition = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adj-changes/log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adj-changes/log-adjacency-changes"); !data.LogAdjacencyChanges.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 		}
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adj-changes/all"); !data.LogAdjacencyChangesAll.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adj-changes/all"); !data.LogAdjacencyChangesAll.IsNull() {
 		if value.Exists() {
 			data.LogAdjacencyChangesAll = types.BoolValue(true)
 		} else {
@@ -388,7 +388,7 @@ func (data *ISIS) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "net"); value.Exists() {
+	if value := res.Get(prefix+"net"); value.Exists() {
 		data.Nets = make([]ISISNets, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ISISNets{}
@@ -399,27 +399,27 @@ func (data *ISIS) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "metric-style.wide"); value.Exists() {
+	if value := res.Get(prefix+"metric-style.wide"); value.Exists() {
 		data.MetricStyleWide = types.BoolValue(true)
 	} else {
 		data.MetricStyleWide = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "metric-style.narrow"); value.Exists() {
+	if value := res.Get(prefix+"metric-style.narrow"); value.Exists() {
 		data.MetricStyleNarrow = types.BoolValue(true)
 	} else {
 		data.MetricStyleNarrow = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "metric-style.transition"); value.Exists() {
+	if value := res.Get(prefix+"metric-style.transition"); value.Exists() {
 		data.MetricStyleTransition = types.BoolValue(true)
 	} else {
 		data.MetricStyleTransition = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "log-adj-changes.log-adjacency-changes"); value.Exists() {
+	if value := res.Get(prefix+"log-adj-changes.log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adj-changes.all"); value.Exists() {
+	if value := res.Get(prefix+"log-adj-changes.all"); value.Exists() {
 		data.LogAdjacencyChangesAll = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesAll = types.BoolValue(false)
@@ -435,7 +435,7 @@ func (data *ISISData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "net"); value.Exists() {
+	if value := res.Get(prefix+"net"); value.Exists() {
 		data.Nets = make([]ISISNetsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ISISNetsData{}
@@ -446,27 +446,27 @@ func (data *ISISData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "metric-style.wide"); value.Exists() {
+	if value := res.Get(prefix+"metric-style.wide"); value.Exists() {
 		data.MetricStyleWide = types.BoolValue(true)
 	} else {
 		data.MetricStyleWide = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "metric-style.narrow"); value.Exists() {
+	if value := res.Get(prefix+"metric-style.narrow"); value.Exists() {
 		data.MetricStyleNarrow = types.BoolValue(true)
 	} else {
 		data.MetricStyleNarrow = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "metric-style.transition"); value.Exists() {
+	if value := res.Get(prefix+"metric-style.transition"); value.Exists() {
 		data.MetricStyleTransition = types.BoolValue(true)
 	} else {
 		data.MetricStyleTransition = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "log-adj-changes.log-adjacency-changes"); value.Exists() {
+	if value := res.Get(prefix+"log-adj-changes.log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := res.Get(prefix + "log-adj-changes.all"); value.Exists() {
+	if value := res.Get(prefix+"log-adj-changes.all"); value.Exists() {
 		data.LogAdjacencyChangesAll = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesAll = types.BoolValue(false)
@@ -478,7 +478,7 @@ func (data *ISISData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ISIS) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/net"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/net"); value.Exists() {
 		data.Nets = make([]ISISNets, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ISISNets{}
@@ -489,27 +489,27 @@ func (data *ISIS) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/wide"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/wide"); value.Exists() {
 		data.MetricStyleWide = types.BoolValue(true)
 	} else {
 		data.MetricStyleWide = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/narrow"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/narrow"); value.Exists() {
 		data.MetricStyleNarrow = types.BoolValue(true)
 	} else {
 		data.MetricStyleNarrow = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/transition"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/transition"); value.Exists() {
 		data.MetricStyleTransition = types.BoolValue(true)
 	} else {
 		data.MetricStyleTransition = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adj-changes/log-adjacency-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adj-changes/log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adj-changes/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adj-changes/all"); value.Exists() {
 		data.LogAdjacencyChangesAll = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesAll = types.BoolValue(false)
@@ -521,7 +521,7 @@ func (data *ISIS) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ISISData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/net"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/net"); value.Exists() {
 		data.Nets = make([]ISISNetsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ISISNetsData{}
@@ -532,27 +532,27 @@ func (data *ISISData) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/wide"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/wide"); value.Exists() {
 		data.MetricStyleWide = types.BoolValue(true)
 	} else {
 		data.MetricStyleWide = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/narrow"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/narrow"); value.Exists() {
 		data.MetricStyleNarrow = types.BoolValue(true)
 	} else {
 		data.MetricStyleNarrow = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/metric-style/transition"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/metric-style/transition"); value.Exists() {
 		data.MetricStyleTransition = types.BoolValue(true)
 	} else {
 		data.MetricStyleTransition = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adj-changes/log-adjacency-changes"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adj-changes/log-adjacency-changes"); value.Exists() {
 		data.LogAdjacencyChanges = types.BoolValue(value.Bool())
 	} else {
 		data.LogAdjacencyChanges = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/log-adj-changes/all"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/log-adj-changes/all"); value.Exists() {
 		data.LogAdjacencyChangesAll = types.BoolValue(true)
 	} else {
 		data.LogAdjacencyChangesAll = types.BoolValue(false)
@@ -581,8 +581,8 @@ func (data *ISIS) getDeletedItems(ctx context.Context, state ISIS) []string {
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/metric-style/wide", state.getPath()))
 	}
 	for i := range state.Nets {
-		stateKeyValues := [...]string{state.Nets[i].Tag.ValueString()}
-
+		stateKeyValues := [...]string{ state.Nets[i].Tag.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Nets[i].Tag.ValueString()).IsZero() {
 			emptyKeys = false
@@ -631,13 +631,13 @@ func (data *ISIS) addDeletedItemsXML(ctx context.Context, state ISIS, body strin
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/metric-style/wide")
 	}
 	for i := range state.Nets {
-		stateKeys := [...]string{"tag"}
-		stateKeyValues := [...]string{state.Nets[i].Tag.ValueString()}
+		stateKeys := [...]string{ "tag",  }
+		stateKeyValues := [...]string{ state.Nets[i].Tag.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Nets[i].Tag.ValueString()).IsZero() {
 			emptyKeys = false
@@ -683,6 +683,8 @@ func (data *ISIS) getEmptyLeafsDelete(ctx context.Context) []string {
 	if !data.MetricStyleWide.IsNull() && !data.MetricStyleWide.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/metric-style/wide", data.getPath()))
 	}
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -709,7 +711,7 @@ func (data *ISIS) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/metric-style/wide", data.getPath()))
 	}
 	for i := range data.Nets {
-		keyValues := [...]string{data.Nets[i].Tag.ValueString()}
+		keyValues := [...]string{ data.Nets[i].Tag.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/net=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -739,8 +741,8 @@ func (data *ISIS) addDeletePathsXML(ctx context.Context, body string) string {
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/metric-style/wide")
 	}
 	for i := range data.Nets {
-		keys := [...]string{"tag"}
-		keyValues := [...]string{data.Nets[i].Tag.ValueString()}
+		keys := [...]string{ "tag",  }
+		keyValues := [...]string{ data.Nets[i].Tag.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

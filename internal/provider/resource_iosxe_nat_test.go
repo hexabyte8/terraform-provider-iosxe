@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeNAT(t *testing.T) {
 	if os.Getenv("C8000V") == "" {
-		t.Skip("skipping test, set environment variable C8000V")
-	}
+        t.Skip("skipping test, set environment variable C8000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_nat.test", "inside_source_interfaces.0.id", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_nat.test", "inside_source_interfaces.0.interfaces.0.interface", "GigabitEthernet4"))
@@ -54,15 +52,15 @@ func TestAccIosxeNAT(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeNATConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_nat.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeNATImportStateIdFunc("iosxe_nat.test"),
-				ImportStateVerifyIgnore: []string{"inside_source_static_entries.0.extendable", "inside_source_static_entries.0.no_alias", "inside_source_static_entries.0.no_payload", "inside_source_static_entries.0.reversible", "inside_source_static_entries.0.stateless", "inside_source_static_entries.0.forced", "inside_source_static_entries.0.inside_static_overload", "outside_source_static_entries.0.extendable", "outside_source_static_entries.0.no_payload", "outside_source_static_entries.0.match_in_vrf"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_nat.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeNATImportStateIdFunc("iosxe_nat.test"),
+				ImportStateVerifyIgnore: []string{ "inside_source_static_entries.0.extendable","inside_source_static_entries.0.no_alias","inside_source_static_entries.0.no_payload","inside_source_static_entries.0.reversible","inside_source_static_entries.0.stateless","inside_source_static_entries.0.forced","inside_source_static_entries.0.inside_static_overload","outside_source_static_entries.0.extendable","outside_source_static_entries.0.no_payload","outside_source_static_entries.0.match_in_vrf", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -75,7 +73,7 @@ func TestAccIosxeNAT(t *testing.T) {
 func iosxeNATImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

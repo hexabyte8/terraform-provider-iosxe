@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeTemplate(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_template.test", "template_name", "TEMP1"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_template.test", "dot1x_pae", "both"))
@@ -113,19 +111,19 @@ func TestAccIosxeTemplate(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeTemplatePrerequisitesConfig + testAccIosxeTemplateConfig_minimum(),
+				Config: testAccIosxeTemplatePrerequisitesConfig+testAccIosxeTemplateConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeTemplatePrerequisitesConfig + testAccIosxeTemplateConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeTemplatePrerequisitesConfig+testAccIosxeTemplateConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_template.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeTemplateImportStateIdFunc("iosxe_template.test"),
-				ImportStateVerifyIgnore: []string{"switchport_trunk_allowed_vlans_none", "switchport_trunk_allowed_vlans_all", "spanning_tree_service_policy", "subscriber_aging_inactivity_timer_probe"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_template.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeTemplateImportStateIdFunc("iosxe_template.test"),
+				ImportStateVerifyIgnore: []string{ "switchport_trunk_allowed_vlans_none","switchport_trunk_allowed_vlans_all","spanning_tree_service_policy","subscriber_aging_inactivity_timer_probe", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -158,7 +156,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

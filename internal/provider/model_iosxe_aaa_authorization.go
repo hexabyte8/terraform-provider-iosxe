@@ -23,180 +23,180 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type AAAAuthorization struct {
-	Device         types.String                  `tfsdk:"device"`
-	Id             types.String                  `tfsdk:"id"`
-	DeleteMode     types.String                  `tfsdk:"delete_mode"`
-	Execs          []AAAAuthorizationExecs       `tfsdk:"execs"`
-	Networks       []AAAAuthorizationNetworks    `tfsdk:"networks"`
-	Commands       []AAAAuthorizationCommands    `tfsdk:"commands"`
-	ConfigCommands types.Bool                    `tfsdk:"config_commands"`
-	ConfigLists    []AAAAuthorizationConfigLists `tfsdk:"config_lists"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Execs []AAAAuthorizationExecs `tfsdk:"execs"`
+	Networks []AAAAuthorizationNetworks `tfsdk:"networks"`
+	Commands []AAAAuthorizationCommands `tfsdk:"commands"`
+	ConfigCommands types.Bool `tfsdk:"config_commands"`
+	ConfigLists []AAAAuthorizationConfigLists `tfsdk:"config_lists"`
 }
 type AAAAuthorizationExecs struct {
-	Name              types.String `tfsdk:"name"`
-	A1Local           types.Bool   `tfsdk:"a1_local"`
-	A1Group           types.String `tfsdk:"a1_group"`
-	A1Radius          types.Bool   `tfsdk:"a1_radius"`
-	A1Tacacs          types.Bool   `tfsdk:"a1_tacacs"`
-	A1IfAuthenticated types.Bool   `tfsdk:"a1_if_authenticated"`
-	A2Local           types.Bool   `tfsdk:"a2_local"`
-	A2Group           types.String `tfsdk:"a2_group"`
-	A2Radius          types.Bool   `tfsdk:"a2_radius"`
-	A2Tacacs          types.Bool   `tfsdk:"a2_tacacs"`
-	A2IfAuthenticated types.Bool   `tfsdk:"a2_if_authenticated"`
-	A3Local           types.Bool   `tfsdk:"a3_local"`
-	A3Group           types.String `tfsdk:"a3_group"`
-	A3Radius          types.Bool   `tfsdk:"a3_radius"`
-	A3Tacacs          types.Bool   `tfsdk:"a3_tacacs"`
-	A3IfAuthenticated types.Bool   `tfsdk:"a3_if_authenticated"`
-	A4Local           types.Bool   `tfsdk:"a4_local"`
-	A4Group           types.String `tfsdk:"a4_group"`
-	A4Radius          types.Bool   `tfsdk:"a4_radius"`
-	A4Tacacs          types.Bool   `tfsdk:"a4_tacacs"`
-	A4IfAuthenticated types.Bool   `tfsdk:"a4_if_authenticated"`
+	Name types.String `tfsdk:"name"`
+	A1Local types.Bool `tfsdk:"a1_local"`
+	A1Group types.String `tfsdk:"a1_group"`
+	A1Radius types.Bool `tfsdk:"a1_radius"`
+	A1Tacacs types.Bool `tfsdk:"a1_tacacs"`
+	A1IfAuthenticated types.Bool `tfsdk:"a1_if_authenticated"`
+	A2Local types.Bool `tfsdk:"a2_local"`
+	A2Group types.String `tfsdk:"a2_group"`
+	A2Radius types.Bool `tfsdk:"a2_radius"`
+	A2Tacacs types.Bool `tfsdk:"a2_tacacs"`
+	A2IfAuthenticated types.Bool `tfsdk:"a2_if_authenticated"`
+	A3Local types.Bool `tfsdk:"a3_local"`
+	A3Group types.String `tfsdk:"a3_group"`
+	A3Radius types.Bool `tfsdk:"a3_radius"`
+	A3Tacacs types.Bool `tfsdk:"a3_tacacs"`
+	A3IfAuthenticated types.Bool `tfsdk:"a3_if_authenticated"`
+	A4Local types.Bool `tfsdk:"a4_local"`
+	A4Group types.String `tfsdk:"a4_group"`
+	A4Radius types.Bool `tfsdk:"a4_radius"`
+	A4Tacacs types.Bool `tfsdk:"a4_tacacs"`
+	A4IfAuthenticated types.Bool `tfsdk:"a4_if_authenticated"`
 }
 type AAAAuthorizationNetworks struct {
-	Id      types.String `tfsdk:"id"`
-	A1Local types.Bool   `tfsdk:"a1_local"`
+	Id types.String `tfsdk:"id"`
+	A1Local types.Bool `tfsdk:"a1_local"`
 	A1Group types.String `tfsdk:"a1_group"`
-	A2Local types.Bool   `tfsdk:"a2_local"`
+	A2Local types.Bool `tfsdk:"a2_local"`
 	A2Group types.String `tfsdk:"a2_group"`
-	A3Local types.Bool   `tfsdk:"a3_local"`
+	A3Local types.Bool `tfsdk:"a3_local"`
 	A3Group types.String `tfsdk:"a3_group"`
-	A4Local types.Bool   `tfsdk:"a4_local"`
+	A4Local types.Bool `tfsdk:"a4_local"`
 	A4Group types.String `tfsdk:"a4_group"`
 }
 type AAAAuthorizationCommands struct {
-	Level             types.Int64  `tfsdk:"level"`
-	ListName          types.String `tfsdk:"list_name"`
-	A1Group           types.String `tfsdk:"a1_group"`
-	A1Local           types.Bool   `tfsdk:"a1_local"`
-	A1IfAuthenticated types.Bool   `tfsdk:"a1_if_authenticated"`
-	A1None            types.Bool   `tfsdk:"a1_none"`
-	A1Radius          types.Bool   `tfsdk:"a1_radius"`
-	A1Tacacs          types.Bool   `tfsdk:"a1_tacacs"`
-	A2Group           types.String `tfsdk:"a2_group"`
-	A2Local           types.Bool   `tfsdk:"a2_local"`
-	A2IfAuthenticated types.Bool   `tfsdk:"a2_if_authenticated"`
-	A2None            types.Bool   `tfsdk:"a2_none"`
-	A2Radius          types.Bool   `tfsdk:"a2_radius"`
-	A2Tacacs          types.Bool   `tfsdk:"a2_tacacs"`
-	A3Group           types.String `tfsdk:"a3_group"`
-	A3Local           types.Bool   `tfsdk:"a3_local"`
-	A3IfAuthenticated types.Bool   `tfsdk:"a3_if_authenticated"`
-	A3None            types.Bool   `tfsdk:"a3_none"`
-	A3Radius          types.Bool   `tfsdk:"a3_radius"`
-	A3Tacacs          types.Bool   `tfsdk:"a3_tacacs"`
-	A4Group           types.String `tfsdk:"a4_group"`
-	A4Local           types.Bool   `tfsdk:"a4_local"`
-	A4IfAuthenticated types.Bool   `tfsdk:"a4_if_authenticated"`
-	A4None            types.Bool   `tfsdk:"a4_none"`
-	A4Radius          types.Bool   `tfsdk:"a4_radius"`
-	A4Tacacs          types.Bool   `tfsdk:"a4_tacacs"`
+	Level types.Int64 `tfsdk:"level"`
+	ListName types.String `tfsdk:"list_name"`
+	A1Group types.String `tfsdk:"a1_group"`
+	A1Local types.Bool `tfsdk:"a1_local"`
+	A1IfAuthenticated types.Bool `tfsdk:"a1_if_authenticated"`
+	A1None types.Bool `tfsdk:"a1_none"`
+	A1Radius types.Bool `tfsdk:"a1_radius"`
+	A1Tacacs types.Bool `tfsdk:"a1_tacacs"`
+	A2Group types.String `tfsdk:"a2_group"`
+	A2Local types.Bool `tfsdk:"a2_local"`
+	A2IfAuthenticated types.Bool `tfsdk:"a2_if_authenticated"`
+	A2None types.Bool `tfsdk:"a2_none"`
+	A2Radius types.Bool `tfsdk:"a2_radius"`
+	A2Tacacs types.Bool `tfsdk:"a2_tacacs"`
+	A3Group types.String `tfsdk:"a3_group"`
+	A3Local types.Bool `tfsdk:"a3_local"`
+	A3IfAuthenticated types.Bool `tfsdk:"a3_if_authenticated"`
+	A3None types.Bool `tfsdk:"a3_none"`
+	A3Radius types.Bool `tfsdk:"a3_radius"`
+	A3Tacacs types.Bool `tfsdk:"a3_tacacs"`
+	A4Group types.String `tfsdk:"a4_group"`
+	A4Local types.Bool `tfsdk:"a4_local"`
+	A4IfAuthenticated types.Bool `tfsdk:"a4_if_authenticated"`
+	A4None types.Bool `tfsdk:"a4_none"`
+	A4Radius types.Bool `tfsdk:"a4_radius"`
+	A4Tacacs types.Bool `tfsdk:"a4_tacacs"`
 }
 type AAAAuthorizationConfigLists struct {
-	Name         types.String `tfsdk:"name"`
-	Group1Cache  types.String `tfsdk:"group1_cache"`
-	Group1Group  types.String `tfsdk:"group1_group"`
-	Group1Radius types.Bool   `tfsdk:"group1_radius"`
-	Group1Tacacs types.Bool   `tfsdk:"group1_tacacs"`
+	Name types.String `tfsdk:"name"`
+	Group1Cache types.String `tfsdk:"group1_cache"`
+	Group1Group types.String `tfsdk:"group1_group"`
+	Group1Radius types.Bool `tfsdk:"group1_radius"`
+	Group1Tacacs types.Bool `tfsdk:"group1_tacacs"`
 }
 
 type AAAAuthorizationData struct {
-	Device         types.String                      `tfsdk:"device"`
-	Id             types.String                      `tfsdk:"id"`
-	Execs          []AAAAuthorizationExecsData       `tfsdk:"execs"`
-	Networks       []AAAAuthorizationNetworksData    `tfsdk:"networks"`
-	Commands       []AAAAuthorizationCommandsData    `tfsdk:"commands"`
-	ConfigCommands types.Bool                        `tfsdk:"config_commands"`
-	ConfigLists    []AAAAuthorizationConfigListsData `tfsdk:"config_lists"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Execs []AAAAuthorizationExecsData `tfsdk:"execs"`
+	Networks []AAAAuthorizationNetworksData `tfsdk:"networks"`
+	Commands []AAAAuthorizationCommandsData `tfsdk:"commands"`
+	ConfigCommands types.Bool `tfsdk:"config_commands"`
+	ConfigLists []AAAAuthorizationConfigListsData `tfsdk:"config_lists"`
 }
 type AAAAuthorizationExecsData struct {
-	Name              types.String `tfsdk:"name"`
-	A1Local           types.Bool   `tfsdk:"a1_local"`
-	A1Group           types.String `tfsdk:"a1_group"`
-	A1Radius          types.Bool   `tfsdk:"a1_radius"`
-	A1Tacacs          types.Bool   `tfsdk:"a1_tacacs"`
-	A1IfAuthenticated types.Bool   `tfsdk:"a1_if_authenticated"`
-	A2Local           types.Bool   `tfsdk:"a2_local"`
-	A2Group           types.String `tfsdk:"a2_group"`
-	A2Radius          types.Bool   `tfsdk:"a2_radius"`
-	A2Tacacs          types.Bool   `tfsdk:"a2_tacacs"`
-	A2IfAuthenticated types.Bool   `tfsdk:"a2_if_authenticated"`
-	A3Local           types.Bool   `tfsdk:"a3_local"`
-	A3Group           types.String `tfsdk:"a3_group"`
-	A3Radius          types.Bool   `tfsdk:"a3_radius"`
-	A3Tacacs          types.Bool   `tfsdk:"a3_tacacs"`
-	A3IfAuthenticated types.Bool   `tfsdk:"a3_if_authenticated"`
-	A4Local           types.Bool   `tfsdk:"a4_local"`
-	A4Group           types.String `tfsdk:"a4_group"`
-	A4Radius          types.Bool   `tfsdk:"a4_radius"`
-	A4Tacacs          types.Bool   `tfsdk:"a4_tacacs"`
-	A4IfAuthenticated types.Bool   `tfsdk:"a4_if_authenticated"`
+	Name types.String `tfsdk:"name"`
+	A1Local types.Bool `tfsdk:"a1_local"`
+	A1Group types.String `tfsdk:"a1_group"`
+	A1Radius types.Bool `tfsdk:"a1_radius"`
+	A1Tacacs types.Bool `tfsdk:"a1_tacacs"`
+	A1IfAuthenticated types.Bool `tfsdk:"a1_if_authenticated"`
+	A2Local types.Bool `tfsdk:"a2_local"`
+	A2Group types.String `tfsdk:"a2_group"`
+	A2Radius types.Bool `tfsdk:"a2_radius"`
+	A2Tacacs types.Bool `tfsdk:"a2_tacacs"`
+	A2IfAuthenticated types.Bool `tfsdk:"a2_if_authenticated"`
+	A3Local types.Bool `tfsdk:"a3_local"`
+	A3Group types.String `tfsdk:"a3_group"`
+	A3Radius types.Bool `tfsdk:"a3_radius"`
+	A3Tacacs types.Bool `tfsdk:"a3_tacacs"`
+	A3IfAuthenticated types.Bool `tfsdk:"a3_if_authenticated"`
+	A4Local types.Bool `tfsdk:"a4_local"`
+	A4Group types.String `tfsdk:"a4_group"`
+	A4Radius types.Bool `tfsdk:"a4_radius"`
+	A4Tacacs types.Bool `tfsdk:"a4_tacacs"`
+	A4IfAuthenticated types.Bool `tfsdk:"a4_if_authenticated"`
 }
 type AAAAuthorizationNetworksData struct {
-	Id      types.String `tfsdk:"id"`
-	A1Local types.Bool   `tfsdk:"a1_local"`
+	Id types.String `tfsdk:"id"`
+	A1Local types.Bool `tfsdk:"a1_local"`
 	A1Group types.String `tfsdk:"a1_group"`
-	A2Local types.Bool   `tfsdk:"a2_local"`
+	A2Local types.Bool `tfsdk:"a2_local"`
 	A2Group types.String `tfsdk:"a2_group"`
-	A3Local types.Bool   `tfsdk:"a3_local"`
+	A3Local types.Bool `tfsdk:"a3_local"`
 	A3Group types.String `tfsdk:"a3_group"`
-	A4Local types.Bool   `tfsdk:"a4_local"`
+	A4Local types.Bool `tfsdk:"a4_local"`
 	A4Group types.String `tfsdk:"a4_group"`
 }
 type AAAAuthorizationCommandsData struct {
-	Level             types.Int64  `tfsdk:"level"`
-	ListName          types.String `tfsdk:"list_name"`
-	A1Group           types.String `tfsdk:"a1_group"`
-	A1Local           types.Bool   `tfsdk:"a1_local"`
-	A1IfAuthenticated types.Bool   `tfsdk:"a1_if_authenticated"`
-	A1None            types.Bool   `tfsdk:"a1_none"`
-	A1Radius          types.Bool   `tfsdk:"a1_radius"`
-	A1Tacacs          types.Bool   `tfsdk:"a1_tacacs"`
-	A2Group           types.String `tfsdk:"a2_group"`
-	A2Local           types.Bool   `tfsdk:"a2_local"`
-	A2IfAuthenticated types.Bool   `tfsdk:"a2_if_authenticated"`
-	A2None            types.Bool   `tfsdk:"a2_none"`
-	A2Radius          types.Bool   `tfsdk:"a2_radius"`
-	A2Tacacs          types.Bool   `tfsdk:"a2_tacacs"`
-	A3Group           types.String `tfsdk:"a3_group"`
-	A3Local           types.Bool   `tfsdk:"a3_local"`
-	A3IfAuthenticated types.Bool   `tfsdk:"a3_if_authenticated"`
-	A3None            types.Bool   `tfsdk:"a3_none"`
-	A3Radius          types.Bool   `tfsdk:"a3_radius"`
-	A3Tacacs          types.Bool   `tfsdk:"a3_tacacs"`
-	A4Group           types.String `tfsdk:"a4_group"`
-	A4Local           types.Bool   `tfsdk:"a4_local"`
-	A4IfAuthenticated types.Bool   `tfsdk:"a4_if_authenticated"`
-	A4None            types.Bool   `tfsdk:"a4_none"`
-	A4Radius          types.Bool   `tfsdk:"a4_radius"`
-	A4Tacacs          types.Bool   `tfsdk:"a4_tacacs"`
+	Level types.Int64 `tfsdk:"level"`
+	ListName types.String `tfsdk:"list_name"`
+	A1Group types.String `tfsdk:"a1_group"`
+	A1Local types.Bool `tfsdk:"a1_local"`
+	A1IfAuthenticated types.Bool `tfsdk:"a1_if_authenticated"`
+	A1None types.Bool `tfsdk:"a1_none"`
+	A1Radius types.Bool `tfsdk:"a1_radius"`
+	A1Tacacs types.Bool `tfsdk:"a1_tacacs"`
+	A2Group types.String `tfsdk:"a2_group"`
+	A2Local types.Bool `tfsdk:"a2_local"`
+	A2IfAuthenticated types.Bool `tfsdk:"a2_if_authenticated"`
+	A2None types.Bool `tfsdk:"a2_none"`
+	A2Radius types.Bool `tfsdk:"a2_radius"`
+	A2Tacacs types.Bool `tfsdk:"a2_tacacs"`
+	A3Group types.String `tfsdk:"a3_group"`
+	A3Local types.Bool `tfsdk:"a3_local"`
+	A3IfAuthenticated types.Bool `tfsdk:"a3_if_authenticated"`
+	A3None types.Bool `tfsdk:"a3_none"`
+	A3Radius types.Bool `tfsdk:"a3_radius"`
+	A3Tacacs types.Bool `tfsdk:"a3_tacacs"`
+	A4Group types.String `tfsdk:"a4_group"`
+	A4Local types.Bool `tfsdk:"a4_local"`
+	A4IfAuthenticated types.Bool `tfsdk:"a4_if_authenticated"`
+	A4None types.Bool `tfsdk:"a4_none"`
+	A4Radius types.Bool `tfsdk:"a4_radius"`
+	A4Tacacs types.Bool `tfsdk:"a4_tacacs"`
 }
 type AAAAuthorizationConfigListsData struct {
-	Name         types.String `tfsdk:"name"`
-	Group1Cache  types.String `tfsdk:"group1_cache"`
-	Group1Group  types.String `tfsdk:"group1_group"`
-	Group1Radius types.Bool   `tfsdk:"group1_radius"`
-	Group1Tacacs types.Bool   `tfsdk:"group1_tacacs"`
+	Name types.String `tfsdk:"name"`
+	Group1Cache types.String `tfsdk:"group1_cache"`
+	Group1Group types.String `tfsdk:"group1_group"`
+	Group1Radius types.Bool `tfsdk:"group1_radius"`
+	Group1Tacacs types.Bool `tfsdk:"group1_tacacs"`
 }
 
 // End of section. //template:end types
@@ -888,9 +888,9 @@ func (data AAAAuthorization) toBodyXML(ctx context.Context, config AAAAuthorizat
 	}
 	if !data.ConfigCommands.IsNull() && !data.ConfigCommands.IsUnknown() {
 		if data.ConfigCommands.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/config-commands", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/config-commands", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/config-commands")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/config-commands")
 		}
 	}
 	if len(data.ConfigLists) > 0 {
@@ -939,11 +939,11 @@ func (data *AAAAuthorization) updateFromBody(ctx context.Context, res gjson.Resu
 		prefix += "0."
 	}
 	for i := range data.Execs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Execs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Execs[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "exec").ForEach(
+		res.Get(prefix+"exec").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1132,11 +1132,11 @@ func (data *AAAAuthorization) updateFromBody(ctx context.Context, res gjson.Resu
 		}
 	}
 	for i := range data.Networks {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Networks[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Networks[i].Id.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "network").ForEach(
+		res.Get(prefix+"network").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1217,11 +1217,11 @@ func (data *AAAAuthorization) updateFromBody(ctx context.Context, res gjson.Resu
 		}
 	}
 	for i := range data.Commands {
-		keys := [...]string{"level", "list-name"}
-		keyValues := [...]string{strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString()}
+		keys := [...]string{ "level", "list-name",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "commands").ForEach(
+		res.Get(prefix+"commands").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1450,7 +1450,7 @@ func (data *AAAAuthorization) updateFromBody(ctx context.Context, res gjson.Resu
 			data.Commands[i].A4Tacacs = types.BoolNull()
 		}
 	}
-	if value := res.Get(prefix + "config-commands"); !data.ConfigCommands.IsNull() {
+	if value := res.Get(prefix+"config-commands"); !data.ConfigCommands.IsNull() {
 		if value.Exists() {
 			data.ConfigCommands = types.BoolValue(true)
 		} else {
@@ -1460,11 +1460,11 @@ func (data *AAAAuthorization) updateFromBody(ctx context.Context, res gjson.Resu
 		data.ConfigCommands = types.BoolNull()
 	}
 	for i := range data.ConfigLists {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.ConfigLists[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.ConfigLists[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "configuration.config-list").ForEach(
+		res.Get(prefix+"configuration.config-list").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1524,11 +1524,11 @@ func (data *AAAAuthorization) updateFromBody(ctx context.Context, res gjson.Resu
 
 func (data *AAAAuthorization) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.Execs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Execs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Execs[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/exec").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/exec").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1717,11 +1717,11 @@ func (data *AAAAuthorization) updateFromBodyXML(ctx context.Context, res xmldot.
 		}
 	}
 	for i := range data.Networks {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Networks[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Networks[i].Id.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/network").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/network").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -1802,11 +1802,11 @@ func (data *AAAAuthorization) updateFromBodyXML(ctx context.Context, res xmldot.
 		}
 	}
 	for i := range data.Commands {
-		keys := [...]string{"level", "list-name"}
-		keyValues := [...]string{strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString()}
+		keys := [...]string{ "level", "list-name",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/commands").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/commands").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2035,7 +2035,7 @@ func (data *AAAAuthorization) updateFromBodyXML(ctx context.Context, res xmldot.
 			data.Commands[i].A4Tacacs = types.BoolNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/config-commands"); !data.ConfigCommands.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/config-commands"); !data.ConfigCommands.IsNull() {
 		if value.Exists() {
 			data.ConfigCommands = types.BoolValue(true)
 		} else {
@@ -2045,11 +2045,11 @@ func (data *AAAAuthorization) updateFromBodyXML(ctx context.Context, res xmldot.
 		data.ConfigCommands = types.BoolNull()
 	}
 	for i := range data.ConfigLists {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.ConfigLists[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.ConfigLists[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/configuration/config-list").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/configuration/config-list").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -2112,7 +2112,7 @@ func (data *AAAAuthorization) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "exec"); value.Exists() {
+	if value := res.Get(prefix+"exec"); value.Exists() {
 		data.Execs = make([]AAAAuthorizationExecs, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationExecs{}
@@ -2215,7 +2215,7 @@ func (data *AAAAuthorization) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "network"); value.Exists() {
+	if value := res.Get(prefix+"network"); value.Exists() {
 		data.Networks = make([]AAAAuthorizationNetworks, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationNetworks{}
@@ -2258,7 +2258,7 @@ func (data *AAAAuthorization) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "commands"); value.Exists() {
+	if value := res.Get(prefix+"commands"); value.Exists() {
 		data.Commands = make([]AAAAuthorizationCommands, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationCommands{}
@@ -2384,12 +2384,12 @@ func (data *AAAAuthorization) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "config-commands"); value.Exists() {
+	if value := res.Get(prefix+"config-commands"); value.Exists() {
 		data.ConfigCommands = types.BoolValue(true)
 	} else {
 		data.ConfigCommands = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "configuration.config-list"); value.Exists() {
+	if value := res.Get(prefix+"configuration.config-list"); value.Exists() {
 		data.ConfigLists = make([]AAAAuthorizationConfigLists, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationConfigLists{}
@@ -2427,7 +2427,7 @@ func (data *AAAAuthorizationData) fromBody(ctx context.Context, res gjson.Result
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "exec"); value.Exists() {
+	if value := res.Get(prefix+"exec"); value.Exists() {
 		data.Execs = make([]AAAAuthorizationExecsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationExecsData{}
@@ -2530,7 +2530,7 @@ func (data *AAAAuthorizationData) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "network"); value.Exists() {
+	if value := res.Get(prefix+"network"); value.Exists() {
 		data.Networks = make([]AAAAuthorizationNetworksData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationNetworksData{}
@@ -2573,7 +2573,7 @@ func (data *AAAAuthorizationData) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "commands"); value.Exists() {
+	if value := res.Get(prefix+"commands"); value.Exists() {
 		data.Commands = make([]AAAAuthorizationCommandsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationCommandsData{}
@@ -2699,12 +2699,12 @@ func (data *AAAAuthorizationData) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get(prefix + "config-commands"); value.Exists() {
+	if value := res.Get(prefix+"config-commands"); value.Exists() {
 		data.ConfigCommands = types.BoolValue(true)
 	} else {
 		data.ConfigCommands = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "configuration.config-list"); value.Exists() {
+	if value := res.Get(prefix+"configuration.config-list"); value.Exists() {
 		data.ConfigLists = make([]AAAAuthorizationConfigListsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := AAAAuthorizationConfigListsData{}
@@ -2738,7 +2738,7 @@ func (data *AAAAuthorizationData) fromBody(ctx context.Context, res gjson.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *AAAAuthorization) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/exec"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/exec"); value.Exists() {
 		data.Execs = make([]AAAAuthorizationExecs, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationExecs{}
@@ -2841,7 +2841,7 @@ func (data *AAAAuthorization) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network"); value.Exists() {
 		data.Networks = make([]AAAAuthorizationNetworks, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationNetworks{}
@@ -2884,7 +2884,7 @@ func (data *AAAAuthorization) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/commands"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/commands"); value.Exists() {
 		data.Commands = make([]AAAAuthorizationCommands, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationCommands{}
@@ -3010,12 +3010,12 @@ func (data *AAAAuthorization) fromBodyXML(ctx context.Context, res xmldot.Result
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/config-commands"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/config-commands"); value.Exists() {
 		data.ConfigCommands = types.BoolValue(true)
 	} else {
 		data.ConfigCommands = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/configuration/config-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/configuration/config-list"); value.Exists() {
 		data.ConfigLists = make([]AAAAuthorizationConfigLists, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationConfigLists{}
@@ -3049,7 +3049,7 @@ func (data *AAAAuthorization) fromBodyXML(ctx context.Context, res xmldot.Result
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *AAAAuthorizationData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/exec"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/exec"); value.Exists() {
 		data.Execs = make([]AAAAuthorizationExecsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationExecsData{}
@@ -3152,7 +3152,7 @@ func (data *AAAAuthorizationData) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/network"); value.Exists() {
 		data.Networks = make([]AAAAuthorizationNetworksData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationNetworksData{}
@@ -3195,7 +3195,7 @@ func (data *AAAAuthorizationData) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/commands"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/commands"); value.Exists() {
 		data.Commands = make([]AAAAuthorizationCommandsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationCommandsData{}
@@ -3321,12 +3321,12 @@ func (data *AAAAuthorizationData) fromBodyXML(ctx context.Context, res xmldot.Re
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/config-commands"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/config-commands"); value.Exists() {
 		data.ConfigCommands = types.BoolValue(true)
 	} else {
 		data.ConfigCommands = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/configuration/config-list"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/configuration/config-list"); value.Exists() {
 		data.ConfigLists = make([]AAAAuthorizationConfigListsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := AAAAuthorizationConfigListsData{}
@@ -3362,8 +3362,8 @@ func (data *AAAAuthorizationData) fromBodyXML(ctx context.Context, res xmldot.Re
 func (data *AAAAuthorization) getDeletedItems(ctx context.Context, state AAAAuthorization) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.ConfigLists {
-		stateKeyValues := [...]string{state.ConfigLists[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.ConfigLists[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.ConfigLists[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3402,8 +3402,8 @@ func (data *AAAAuthorization) getDeletedItems(ctx context.Context, state AAAAuth
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/config-commands", state.getPath()))
 	}
 	for i := range state.Commands {
-		stateKeyValues := [...]string{strconv.FormatInt(state.Commands[i].Level.ValueInt64(), 10), state.Commands[i].ListName.ValueString()}
-
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Commands[i].Level.ValueInt64(), 10), state.Commands[i].ListName.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Commands[i].Level.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -3505,8 +3505,8 @@ func (data *AAAAuthorization) getDeletedItems(ctx context.Context, state AAAAuth
 		}
 	}
 	for i := range state.Networks {
-		stateKeyValues := [...]string{state.Networks[i].Id.ValueString()}
-
+		stateKeyValues := [...]string{ state.Networks[i].Id.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Networks[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3554,8 +3554,8 @@ func (data *AAAAuthorization) getDeletedItems(ctx context.Context, state AAAAuth
 		}
 	}
 	for i := range state.Execs {
-		stateKeyValues := [...]string{state.Execs[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Execs[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Execs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3649,13 +3649,13 @@ func (data *AAAAuthorization) getDeletedItems(ctx context.Context, state AAAAuth
 func (data *AAAAuthorization) addDeletedItemsXML(ctx context.Context, state AAAAuthorization, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.ConfigLists {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.ConfigLists[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.ConfigLists[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.ConfigLists[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3694,13 +3694,13 @@ func (data *AAAAuthorization) addDeletedItemsXML(ctx context.Context, state AAAA
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/config-commands")
 	}
 	for i := range state.Commands {
-		stateKeys := [...]string{"level", "list-name"}
-		stateKeyValues := [...]string{strconv.FormatInt(state.Commands[i].Level.ValueInt64(), 10), state.Commands[i].ListName.ValueString()}
+		stateKeys := [...]string{ "level", "list-name",  }
+		stateKeyValues := [...]string{ strconv.FormatInt(state.Commands[i].Level.ValueInt64(), 10), state.Commands[i].ListName.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Commands[i].Level.ValueInt64()).IsZero() {
 			emptyKeys = false
@@ -3802,13 +3802,13 @@ func (data *AAAAuthorization) addDeletedItemsXML(ctx context.Context, state AAAA
 		}
 	}
 	for i := range state.Networks {
-		stateKeys := [...]string{"id"}
-		stateKeyValues := [...]string{state.Networks[i].Id.ValueString()}
+		stateKeys := [...]string{ "id",  }
+		stateKeyValues := [...]string{ state.Networks[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Networks[i].Id.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3856,13 +3856,13 @@ func (data *AAAAuthorization) addDeletedItemsXML(ctx context.Context, state AAAA
 		}
 	}
 	for i := range state.Execs {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Execs[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Execs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Execs[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -3956,9 +3956,10 @@ func (data *AAAAuthorization) addDeletedItemsXML(ctx context.Context, state AAAA
 
 func (data *AAAAuthorization) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	for i := range data.ConfigLists {
-		keyValues := [...]string{data.ConfigLists[i].Name.ValueString()}
+		keyValues := [...]string{ data.ConfigLists[i].Name.ValueString(),  }
 		if !data.ConfigLists[i].Group1Tacacs.IsNull() && !data.ConfigLists[i].Group1Tacacs.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/configuration/config-list=%v/group1/tacacs", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -3969,9 +3970,10 @@ func (data *AAAAuthorization) getEmptyLeafsDelete(ctx context.Context) []string 
 	if !data.ConfigCommands.IsNull() && !data.ConfigCommands.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/config-commands", data.getPath()))
 	}
-
+	
+	
 	for i := range data.Commands {
-		keyValues := [...]string{strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString()}
+		keyValues := [...]string{ strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString(),  }
 		if !data.Commands[i].A4Tacacs.IsNull() && !data.Commands[i].A4Tacacs.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/commands=%v/a4/tacacs", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -4033,9 +4035,10 @@ func (data *AAAAuthorization) getEmptyLeafsDelete(ctx context.Context) []string 
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/commands=%v/a1/local", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.Networks {
-		keyValues := [...]string{data.Networks[i].Id.ValueString()}
+		keyValues := [...]string{ data.Networks[i].Id.ValueString(),  }
 		if !data.Networks[i].A4Local.IsNull() && !data.Networks[i].A4Local.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/network=%v/a4/local", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -4049,9 +4052,10 @@ func (data *AAAAuthorization) getEmptyLeafsDelete(ctx context.Context) []string 
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/network=%v/a1/local", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
 	}
-
+	
+	
 	for i := range data.Execs {
-		keyValues := [...]string{data.Execs[i].Name.ValueString()}
+		keyValues := [...]string{ data.Execs[i].Name.ValueString(),  }
 		if !data.Execs[i].A4IfAuthenticated.IsNull() && !data.Execs[i].A4IfAuthenticated.ValueBool() {
 			emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/exec=%v/a4/if-authenticated", data.getPath(), strings.Join(keyValues[:], ",")))
 		}
@@ -4112,7 +4116,7 @@ func (data *AAAAuthorization) getEmptyLeafsDelete(ctx context.Context) []string 
 func (data *AAAAuthorization) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.ConfigLists {
-		keyValues := [...]string{data.ConfigLists[i].Name.ValueString()}
+		keyValues := [...]string{ data.ConfigLists[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/configuration/config-list=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -4120,17 +4124,17 @@ func (data *AAAAuthorization) getDeletePaths(ctx context.Context) []string {
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/config-commands", data.getPath()))
 	}
 	for i := range data.Commands {
-		keyValues := [...]string{strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString()}
+		keyValues := [...]string{ strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/commands=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Networks {
-		keyValues := [...]string{data.Networks[i].Id.ValueString()}
+		keyValues := [...]string{ data.Networks[i].Id.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/network=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Execs {
-		keyValues := [...]string{data.Execs[i].Name.ValueString()}
+		keyValues := [...]string{ data.Execs[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/exec=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -4145,8 +4149,8 @@ func (data *AAAAuthorization) getDeletePaths(ctx context.Context) []string {
 func (data *AAAAuthorization) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.ConfigLists {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.ConfigLists[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.ConfigLists[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -4158,8 +4162,8 @@ func (data *AAAAuthorization) addDeletePathsXML(ctx context.Context, body string
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/config-commands")
 	}
 	for i := range data.Commands {
-		keys := [...]string{"level", "list-name"}
-		keyValues := [...]string{strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString()}
+		keys := [...]string{ "level", "list-name",  }
+		keyValues := [...]string{ strconv.FormatInt(data.Commands[i].Level.ValueInt64(), 10), data.Commands[i].ListName.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -4168,8 +4172,8 @@ func (data *AAAAuthorization) addDeletePathsXML(ctx context.Context, body string
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/commands%v", predicates))
 	}
 	for i := range data.Networks {
-		keys := [...]string{"id"}
-		keyValues := [...]string{data.Networks[i].Id.ValueString()}
+		keys := [...]string{ "id",  }
+		keyValues := [...]string{ data.Networks[i].Id.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -4178,8 +4182,8 @@ func (data *AAAAuthorization) addDeletePathsXML(ctx context.Context, body string
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/network%v", predicates))
 	}
 	for i := range data.Execs {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Execs[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Execs[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

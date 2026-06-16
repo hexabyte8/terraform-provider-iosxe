@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -68,16 +67,16 @@ func TestAccIosxeBGPAddressFamilyIPv4VRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeBGPAddressFamilyIPv4VRFPrerequisitesConfig + testAccIosxeBGPAddressFamilyIPv4VRFConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeBGPAddressFamilyIPv4VRFPrerequisitesConfig+testAccIosxeBGPAddressFamilyIPv4VRFConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_bgp_address_family_ipv4_vrf.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeBGPAddressFamilyIPv4VRFImportStateIdFunc("iosxe_bgp_address_family_ipv4_vrf.test"),
-				ImportStateVerifyIgnore: []string{"vrfs.0.ipv4_unicast_networks_mask.0.evpn", "vrfs.0.ipv4_unicast_networks.0.evpn"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_bgp_address_family_ipv4_vrf.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeBGPAddressFamilyIPv4VRFImportStateIdFunc("iosxe_bgp_address_family_ipv4_vrf.test"),
+				ImportStateVerifyIgnore: []string{ "vrfs.0.ipv4_unicast_networks_mask.0.evpn","vrfs.0.ipv4_unicast_networks.0.evpn", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -93,7 +92,7 @@ func iosxeBGPAddressFamilyIPv4VRFImportStateIdFunc(resourceName string) resource
 		Asn := primary.Attributes["asn"]
 		AfName := primary.Attributes["af_name"]
 
-		return fmt.Sprintf("%s,%s", Asn, AfName), nil
+		return fmt.Sprintf("%s,%s", Asn,AfName), nil
 	}
 }
 
@@ -131,7 +130,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

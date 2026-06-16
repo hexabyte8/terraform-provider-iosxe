@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -51,19 +50,19 @@ func TestAccIosxeDHCPPool(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeDHCPPoolPrerequisitesConfig + testAccIosxeDHCPPoolConfig_minimum(),
+				Config: testAccIosxeDHCPPoolPrerequisitesConfig+testAccIosxeDHCPPoolConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeDHCPPoolPrerequisitesConfig + testAccIosxeDHCPPoolConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeDHCPPoolPrerequisitesConfig+testAccIosxeDHCPPoolConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_dhcp_pool.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeDHCPPoolImportStateIdFunc("iosxe_dhcp_pool.test"),
-				ImportStateVerifyIgnore: []string{"lease_infinite", "utilization_mark_high_log", "utilization_mark_low_log"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_dhcp_pool.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeDHCPPoolImportStateIdFunc("iosxe_dhcp_pool.test"),
+				ImportStateVerifyIgnore: []string{ "lease_infinite","utilization_mark_high_log","utilization_mark_low_log", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -96,7 +95,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

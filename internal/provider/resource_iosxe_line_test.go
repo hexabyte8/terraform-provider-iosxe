@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeLine(t *testing.T) {
 	if os.Getenv("LINE") == "" {
-		t.Skip("skipping test, set environment variable LINE")
-	}
+        t.Skip("skipping test, set environment variable LINE")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_line.test", "console.0.first", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_line.test", "console.0.exec_timeout_minutes", "45"))
@@ -66,15 +64,15 @@ func TestAccIosxeLine(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeLineConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_line.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeLineImportStateIdFunc("iosxe_line.test"),
-				ImportStateVerifyIgnore: []string{"console.0.login_local", "console.0.transport_output_all", "console.0.transport_output_none", "vty.0.transport_input_all", "vty.0.transport_input_none", "vty.0.transport_output_all", "vty.0.transport_output_none"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_line.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeLineImportStateIdFunc("iosxe_line.test"),
+				ImportStateVerifyIgnore: []string{ "console.0.login_local","console.0.transport_output_all","console.0.transport_output_none","vty.0.transport_input_all","vty.0.transport_input_none","vty.0.transport_output_all","vty.0.transport_output_none", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -87,7 +85,7 @@ func TestAccIosxeLine(t *testing.T) {
 func iosxeLineImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 

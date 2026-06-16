@@ -74,8 +74,8 @@ func TestAccDataSourceIosxeNTP(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeNTPPrerequisitesConfig + testAccDataSourceIosxeNTPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeNTPPrerequisitesConfig+testAccDataSourceIosxeNTPConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -109,7 +109,6 @@ resource "iosxe_yang" "PreReq2" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -127,7 +126,7 @@ func testAccDataSourceIosxeNTPConfig() string {
 	config += `		number = 1` + "\n"
 	config += `		md5 = "060506324F41584B564347"` + "\n"
 	config += `		encryption_type = 7` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	master = true` + "\n"
 	config += `	master_stratum = 5` + "\n"
 	config += `	passive = false` + "\n"
@@ -141,7 +140,7 @@ func testAccDataSourceIosxeNTPConfig() string {
 	config += `		version = 2` + "\n"
 	config += `		burst = false` + "\n"
 	config += `		iburst = false` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	server_vrfs = [{` + "\n"
 	config += `		name = "VRF1"` + "\n"
 	config += `		servers = [{` + "\n"
@@ -152,14 +151,14 @@ func testAccDataSourceIosxeNTPConfig() string {
 	config += `			burst = false` + "\n"
 	config += `			iburst = false` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	peers = [{` + "\n"
 	config += `		ip_address = "5.2.3.4"` + "\n"
 	config += `		source = "Loopback1"` + "\n"
 	config += `		key = 1` + "\n"
 	config += `		prefer = true` + "\n"
 	config += `		version = 2` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	peer_vrfs = [{` + "\n"
 	config += `		name = "VRF1"` + "\n"
 	config += `		peers = [{` + "\n"
@@ -168,13 +167,13 @@ func testAccDataSourceIosxeNTPConfig() string {
 	config += `			prefer = true` + "\n"
 	config += `			version = 2` + "\n"
 	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	trusted_keys = [{` + "\n"
 	config += `		number = 1` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_ntp" "test" {
 			depends_on = [iosxe_ntp.test]

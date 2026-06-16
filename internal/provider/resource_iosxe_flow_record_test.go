@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -79,15 +77,15 @@ func TestAccIosxeFlowRecord(t *testing.T) {
 			},
 			{
 				Config: testAccIosxeFlowRecordConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_flow_record.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeFlowRecordImportStateIdFunc("iosxe_flow_record.test"),
-				ImportStateVerifyIgnore: []string{"match_ipv6_source_address", "match_ipv6_destination_address", "match_application_name", "match_flow_observation_point", "match_ipv4_version", "match_ipv6_version", "match_ipv6_protocol", "match_connection_client_ipv4_address", "match_connection_server_ipv4_address", "match_connection_client_ipv6_address", "match_connection_server_ipv6_address", "match_connection_server_transport_port", "match_datalink_source_vlan_id", "match_datalink_destination_vlan_id", "match_vxlan_vtep_input", "match_vxlan_vtep_output", "collect_interface_input", "collect_connection_initiator", "collect_connection_new_connections", "collect_connection_server_counter_bytes_network_long", "collect_connection_server_counter_packets_long", "collect_datalink_mac_source_address_input", "collect_flow_direction"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_flow_record.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeFlowRecordImportStateIdFunc("iosxe_flow_record.test"),
+				ImportStateVerifyIgnore: []string{ "match_ipv6_source_address","match_ipv6_destination_address","match_application_name","match_flow_observation_point","match_ipv4_version","match_ipv6_version","match_ipv6_protocol","match_connection_client_ipv4_address","match_connection_server_ipv4_address","match_connection_client_ipv6_address","match_connection_server_ipv6_address","match_connection_server_transport_port","match_datalink_source_vlan_id","match_datalink_destination_vlan_id","match_vxlan_vtep_input","match_vxlan_vtep_output","collect_interface_input","collect_connection_initiator","collect_connection_new_connections","collect_connection_server_counter_bytes_network_long","collect_connection_server_counter_packets_long","collect_datalink_mac_source_address_input","collect_flow_direction", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})

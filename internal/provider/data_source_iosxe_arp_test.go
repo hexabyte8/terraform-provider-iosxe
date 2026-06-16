@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -36,9 +35,9 @@ func TestAccDataSourceIosxeARP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "incomplete_entries", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "proxy_disable", "true"))
 	if os.Getenv("C9000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_filters.0.name", "FIL1"))
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_filters.0.vlans.0.vlan_range", "3"))
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_filters.0.vlans.0.static", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_filters.0.name", "FIL1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_filters.0.vlans.0.vlan_range", "3"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_filters.0.vlans.0.static", "true"))
 	}
 	if os.Getenv("C9000V") != "" {
 		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_arp.test", "inspection_validate_src_mac", "true"))
@@ -70,7 +69,7 @@ func TestAccDataSourceIosxeARP(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeARPConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -89,12 +88,12 @@ func testAccDataSourceIosxeARPConfig() string {
 	config += `	incomplete_entries = 10` + "\n"
 	config += `	proxy_disable = true` + "\n"
 	if os.Getenv("C9000V") != "" {
-		config += `	inspection_filters = [{` + "\n"
-		config += `		name = "FIL1"` + "\n"
-		config += `		vlans = [{` + "\n"
-		config += `			vlan_range = "3"` + "\n"
-		config += `			static = true` + "\n"
-		config += `		}]` + "\n"
+	config += `	inspection_filters = [{` + "\n"
+	config += `		name = "FIL1"` + "\n"
+	config += `		vlans = [{` + "\n"
+	config += `			vlan_range = "3"` + "\n"
+	config += `			static = true` + "\n"
+	config += `		}]` + "\n"
 		config += `	}]` + "\n"
 	}
 	if os.Getenv("C9000V") != "" {
@@ -122,7 +121,7 @@ func testAccDataSourceIosxeARPConfig() string {
 		config += `	inspection_vlan = "6"` + "\n"
 	}
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_arp" "test" {
 			depends_on = [iosxe_arp.test]

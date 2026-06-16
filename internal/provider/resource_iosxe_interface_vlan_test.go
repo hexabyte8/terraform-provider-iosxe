@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -35,8 +33,8 @@ import (
 
 func TestAccIosxeInterfaceVLAN(t *testing.T) {
 	if os.Getenv("C9000V") == "" {
-		t.Skip("skipping test, set environment variable C9000V")
-	}
+        t.Skip("skipping test, set environment variable C9000V")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_vlan.test", "name", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_interface_vlan.test", "autostate", "false"))
@@ -78,19 +76,19 @@ func TestAccIosxeInterfaceVLAN(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeInterfaceVLANPrerequisitesConfig + testAccIosxeInterfaceVLANConfig_minimum(),
+				Config: testAccIosxeInterfaceVLANPrerequisitesConfig+testAccIosxeInterfaceVLANConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeInterfaceVLANPrerequisitesConfig + testAccIosxeInterfaceVLANConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeInterfaceVLANPrerequisitesConfig+testAccIosxeInterfaceVLANConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_interface_vlan.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeInterfaceVLANImportStateIdFunc("iosxe_interface_vlan.test"),
-				ImportStateVerifyIgnore: []string{"ipv4_address_dhcp", "ipv6_address_autoconfig_default", "ip_nat_inside", "ip_nat_outside"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_interface_vlan.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeInterfaceVLANImportStateIdFunc("iosxe_interface_vlan.test"),
+				ImportStateVerifyIgnore: []string{ "ipv4_address_dhcp","ipv6_address_autoconfig_default","ip_nat_inside","ip_nat_outside", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -124,7 +122,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

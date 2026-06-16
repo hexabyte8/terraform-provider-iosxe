@@ -40,7 +40,7 @@ func TestAccDataSourceIosxeUsername(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeUsernameConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -61,7 +61,7 @@ func testAccDataSourceIosxeUsernameConfig() string {
 	config += `	password_encryption = "0"` + "\n"
 	config += `	password = "MyPassword"` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_username" "test" {
 			name = "user1"

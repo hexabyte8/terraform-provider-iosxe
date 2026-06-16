@@ -21,8 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -57,12 +55,12 @@ func TestAccIosxeSystem(t *testing.T) {
 		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_multicast_routing_distributed", "true"))
 	}
 	if os.Getenv("C8000V") != "" {
-		if os.Getenv("C8000V") != "" {
-			checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "multicast_routing_vrfs.0.vrf", "VRF1"))
-		}
-		if os.Getenv("C8000V") != "" {
-			checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "multicast_routing_vrfs.0.distributed", "true"))
-		}
+	if os.Getenv("C8000V") != "" {
+		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "multicast_routing_vrfs.0.vrf", "VRF1"))
+	}
+	if os.Getenv("C8000V") != "" {
+		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "multicast_routing_vrfs.0.distributed", "true"))
+	}
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_name_servers.0", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_name_servers_vrf.0.vrf", "VRF1"))
@@ -70,8 +68,8 @@ func TestAccIosxeSystem(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_domain_lookup_nsap", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_domain_lookup_recursive", "true"))
 	if os.Getenv("C9000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_domain_lookup_vrfs.0.vrf", "VRF1"))
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_domain_lookup_vrfs.0.source_interface_gigabit_ethernet", "1/0/1"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_domain_lookup_vrfs.0.vrf", "VRF1"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_domain_lookup_vrfs.0.source_interface_gigabit_ethernet", "1/0/1"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "diagnostic_bootup_level", "minimal"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "memory_free_low_watermark_processor", "203038"))
@@ -81,8 +79,8 @@ func TestAccIosxeSystem(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_ssh_time_out", "120"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_ssh_authentication_retries", "3"))
 	if os.Getenv("IOSXE1715") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_hosts.0.name", "test.router.com"))
-		checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_hosts.0.ips.0", "3.3.3.3"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_hosts.0.name", "test.router.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "ip_hosts.0.ips.0", "3.3.3.3"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "call_home_contact_email", "email@test.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("iosxe_system.test", "call_home_cisco_tac_1_profile_active", "true"))
@@ -112,19 +110,19 @@ func TestAccIosxeSystem(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeSystemPrerequisitesConfig + testAccIosxeSystemConfig_minimum(),
+				Config: testAccIosxeSystemPrerequisitesConfig+testAccIosxeSystemConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeSystemPrerequisitesConfig + testAccIosxeSystemConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeSystemPrerequisitesConfig+testAccIosxeSystemConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_system.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeSystemImportStateIdFunc("iosxe_system.test"),
-				ImportStateVerifyIgnore: []string{"ip_routing", "ip_multicast_routing", "multicast_routing_switch", "ip_multicast_routing_distributed", "multicast_routing_vrfs.0.distributed", "ip_http_authentication_aaa", "ip_http_authentication_local", "ip_http_server", "ip_http_secure_server", "cisp_enable", "epm_logging", "access_session_mac_move_deny", "archive_write_memory", "archive_log_config_logging_enable", "redundancy", "transceiver_type_all_monitoring", "ip_forward_protocol_nd", "ip_scp_server_enable", "ip_ssh_version_legacy", "ip_ssh_bulk_mode", "control_plane_service_policy_input", "subscriber_templating", "ip_tcp_window_size", "multilink_ppp_bundle_name", "version", "ip_cef_load_sharing_algorithm_include_ports_source", "ip_cef_load_sharing_algorithm_include_ports_destination", "ipv6_cef_load_sharing_algorithm_include_ports_source", "ipv6_cef_load_sharing_algorithm_include_ports_destination", "authentication_mac_move_permit", "authentication_mac_move_deny_uncontrolled", "device_classifier", "mld_snooping", "mld_snooping_querier"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_system.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeSystemImportStateIdFunc("iosxe_system.test"),
+				ImportStateVerifyIgnore: []string{ "ip_routing","ip_multicast_routing","multicast_routing_switch","ip_multicast_routing_distributed","multicast_routing_vrfs.0.distributed","ip_http_authentication_aaa","ip_http_authentication_local","ip_http_server","ip_http_secure_server","cisp_enable","epm_logging","access_session_mac_move_deny","archive_write_memory","archive_log_config_logging_enable","redundancy","transceiver_type_all_monitoring","ip_forward_protocol_nd","ip_scp_server_enable","ip_ssh_version_legacy","ip_ssh_bulk_mode","control_plane_service_policy_input","subscriber_templating","ip_tcp_window_size","multilink_ppp_bundle_name","version","ip_cef_load_sharing_algorithm_include_ports_source","ip_cef_load_sharing_algorithm_include_ports_destination","ipv6_cef_load_sharing_algorithm_include_ports_source","ipv6_cef_load_sharing_algorithm_include_ports_destination","authentication_mac_move_permit","authentication_mac_move_deny_uncontrolled","device_classifier","mld_snooping","mld_snooping_querier", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -137,7 +135,7 @@ func TestAccIosxeSystem(t *testing.T) {
 func iosxeSystemImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 
-		return fmt.Sprintf(""), nil
+		return fmt.Sprintf("", ), nil
 	}
 }
 
@@ -155,7 +153,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -195,14 +192,14 @@ func testAccIosxeSystemConfig_all() string {
 		config += `	ip_multicast_routing_distributed = true` + "\n"
 	}
 	if os.Getenv("C8000V") != "" {
-		config += `	multicast_routing_vrfs = [{` + "\n"
-		if os.Getenv("C8000V") != "" {
-			config += `		vrf = "VRF1"` + "\n"
-		}
-		if os.Getenv("C8000V") != "" {
-			config += `		distributed = true` + "\n"
-		}
-		config += `	}]` + "\n"
+	config += `	multicast_routing_vrfs = [{` + "\n"
+	if os.Getenv("C8000V") != "" {
+		config += `		vrf = "VRF1"` + "\n"
+	}
+	if os.Getenv("C8000V") != "" {
+		config += `		distributed = true` + "\n"
+	}
+	config += `	}]` + "\n"
 	}
 	config += `	ip_name_servers = ["1.2.3.4"]` + "\n"
 	config += `	ip_name_servers_vrf = [{` + "\n"
@@ -212,10 +209,10 @@ func testAccIosxeSystemConfig_all() string {
 	config += `	ip_domain_lookup_nsap = true` + "\n"
 	config += `	ip_domain_lookup_recursive = true` + "\n"
 	if os.Getenv("C9000V") != "" {
-		config += `	ip_domain_lookup_vrfs = [{` + "\n"
-		config += `		vrf = "VRF1"` + "\n"
-		config += `		source_interface_gigabit_ethernet = "1/0/1"` + "\n"
-		config += `	}]` + "\n"
+	config += `	ip_domain_lookup_vrfs = [{` + "\n"
+	config += `		vrf = "VRF1"` + "\n"
+	config += `		source_interface_gigabit_ethernet = "1/0/1"` + "\n"
+	config += `	}]` + "\n"
 	}
 	config += `	diagnostic_bootup_level = "minimal"` + "\n"
 	config += `	memory_free_low_watermark_processor = 203038` + "\n"
@@ -231,10 +228,10 @@ func testAccIosxeSystemConfig_all() string {
 	config += `	ip_ssh_time_out = 120` + "\n"
 	config += `	ip_ssh_authentication_retries = 3` + "\n"
 	if os.Getenv("IOSXE1715") != "" {
-		config += `	ip_hosts = [{` + "\n"
-		config += `		name = "test.router.com"` + "\n"
-		config += `		ips = ["3.3.3.3"]` + "\n"
-		config += `	}]` + "\n"
+	config += `	ip_hosts = [{` + "\n"
+	config += `		name = "test.router.com"` + "\n"
+	config += `		ips = ["3.3.3.3"]` + "\n"
+	config += `	}]` + "\n"
 	}
 	config += `	call_home_contact_email = "email@test.com"` + "\n"
 	config += `	call_home_cisco_tac_1_profile_active = true` + "\n"

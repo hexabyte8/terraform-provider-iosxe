@@ -23,42 +23,42 @@ package provider
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type ObjectGroup struct {
-	Device  types.String         `tfsdk:"device"`
-	Id      types.String         `tfsdk:"id"`
-	Fqdn    []ObjectGroupFqdn    `tfsdk:"fqdn"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Fqdn []ObjectGroupFqdn `tfsdk:"fqdn"`
 	Network []ObjectGroupNetwork `tfsdk:"network"`
 }
 type ObjectGroupFqdn struct {
-	Name         types.String                  `tfsdk:"name"`
-	Description  types.String                  `tfsdk:"description"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
 	GroupObjects []ObjectGroupFqdnGroupObjects `tfsdk:"group_objects"`
-	Patterns     []ObjectGroupFqdnPatterns     `tfsdk:"patterns"`
+	Patterns []ObjectGroupFqdnPatterns `tfsdk:"patterns"`
 }
 type ObjectGroupNetwork struct {
-	Name             types.String                         `tfsdk:"name"`
-	Description      types.String                         `tfsdk:"description"`
-	Hosts            []ObjectGroupNetworkHosts            `tfsdk:"hosts"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Hosts []ObjectGroupNetworkHosts `tfsdk:"hosts"`
 	NetworkAddresses []ObjectGroupNetworkNetworkAddresses `tfsdk:"network_addresses"`
-	AddressRanges    []ObjectGroupNetworkAddressRanges    `tfsdk:"address_ranges"`
-	GroupObjects     []ObjectGroupNetworkGroupObjects     `tfsdk:"group_objects"`
+	AddressRanges []ObjectGroupNetworkAddressRanges `tfsdk:"address_ranges"`
+	GroupObjects []ObjectGroupNetworkGroupObjects `tfsdk:"group_objects"`
 }
 type ObjectGroupFqdnGroupObjects struct {
 	GroupName types.String `tfsdk:"group_name"`
@@ -71,35 +71,35 @@ type ObjectGroupNetworkHosts struct {
 }
 type ObjectGroupNetworkNetworkAddresses struct {
 	Ipv4Address types.String `tfsdk:"ipv4_address"`
-	Ipv4Mask    types.String `tfsdk:"ipv4_mask"`
+	Ipv4Mask types.String `tfsdk:"ipv4_mask"`
 }
 type ObjectGroupNetworkAddressRanges struct {
 	Start types.String `tfsdk:"start"`
-	End   types.String `tfsdk:"end"`
+	End types.String `tfsdk:"end"`
 }
 type ObjectGroupNetworkGroupObjects struct {
 	GroupName types.String `tfsdk:"group_name"`
 }
 
 type ObjectGroupData struct {
-	Device  types.String             `tfsdk:"device"`
-	Id      types.String             `tfsdk:"id"`
-	Fqdn    []ObjectGroupFqdnData    `tfsdk:"fqdn"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Fqdn []ObjectGroupFqdnData `tfsdk:"fqdn"`
 	Network []ObjectGroupNetworkData `tfsdk:"network"`
 }
 type ObjectGroupFqdnData struct {
-	Name         types.String                      `tfsdk:"name"`
-	Description  types.String                      `tfsdk:"description"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
 	GroupObjects []ObjectGroupFqdnGroupObjectsData `tfsdk:"group_objects"`
-	Patterns     []ObjectGroupFqdnPatternsData     `tfsdk:"patterns"`
+	Patterns []ObjectGroupFqdnPatternsData `tfsdk:"patterns"`
 }
 type ObjectGroupNetworkData struct {
-	Name             types.String                             `tfsdk:"name"`
-	Description      types.String                             `tfsdk:"description"`
-	Hosts            []ObjectGroupNetworkHostsData            `tfsdk:"hosts"`
+	Name types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	Hosts []ObjectGroupNetworkHostsData `tfsdk:"hosts"`
 	NetworkAddresses []ObjectGroupNetworkNetworkAddressesData `tfsdk:"network_addresses"`
-	AddressRanges    []ObjectGroupNetworkAddressRangesData    `tfsdk:"address_ranges"`
-	GroupObjects     []ObjectGroupNetworkGroupObjectsData     `tfsdk:"group_objects"`
+	AddressRanges []ObjectGroupNetworkAddressRangesData `tfsdk:"address_ranges"`
+	GroupObjects []ObjectGroupNetworkGroupObjectsData `tfsdk:"group_objects"`
 }
 type ObjectGroupFqdnGroupObjectsData struct {
 	GroupName types.String `tfsdk:"group_name"`
@@ -112,11 +112,11 @@ type ObjectGroupNetworkHostsData struct {
 }
 type ObjectGroupNetworkNetworkAddressesData struct {
 	Ipv4Address types.String `tfsdk:"ipv4_address"`
-	Ipv4Mask    types.String `tfsdk:"ipv4_mask"`
+	Ipv4Mask types.String `tfsdk:"ipv4_mask"`
 }
 type ObjectGroupNetworkAddressRangesData struct {
 	Start types.String `tfsdk:"start"`
-	End   types.String `tfsdk:"end"`
+	End types.String `tfsdk:"end"`
 }
 type ObjectGroupNetworkGroupObjectsData struct {
 	GroupName types.String `tfsdk:"group_name"`
@@ -348,11 +348,11 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 		prefix += "0."
 	}
 	for i := range data.Fqdn {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Fqdn[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Fqdn[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-object-group:fqdn").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-object-group:fqdn").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -381,8 +381,8 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Fqdn[i].Description = types.StringNull()
 		}
 		for ci := range data.Fqdn[i].GroupObjects {
-			keys := [...]string{"fqdn-group"}
-			keyValues := [...]string{data.Fqdn[i].GroupObjects[ci].GroupName.ValueString()}
+			keys := [...]string{ "fqdn-group",  }
+			keyValues := [...]string{ data.Fqdn[i].GroupObjects[ci].GroupName.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("group-object").ForEach(
@@ -410,8 +410,8 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 			}
 		}
 		for ci := range data.Fqdn[i].Patterns {
-			keys := [...]string{"fqdn-pattern"}
-			keyValues := [...]string{data.Fqdn[i].Patterns[ci].FqdnPattern.ValueString()}
+			keys := [...]string{ "fqdn-pattern",  }
+			keyValues := [...]string{ data.Fqdn[i].Patterns[ci].FqdnPattern.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("pattern").ForEach(
@@ -440,11 +440,11 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 		}
 	}
 	for i := range data.Network {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Network[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Network[i].Name.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "Cisco-IOS-XE-object-group:network").ForEach(
+		res.Get(prefix+"Cisco-IOS-XE-object-group:network").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -473,8 +473,8 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 			data.Network[i].Description = types.StringNull()
 		}
 		for ci := range data.Network[i].Hosts {
-			keys := [...]string{"ipv4-host"}
-			keyValues := [...]string{data.Network[i].Hosts[ci].Ipv4Host.ValueString()}
+			keys := [...]string{ "ipv4-host",  }
+			keyValues := [...]string{ data.Network[i].Hosts[ci].Ipv4Host.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("obj-Mode-config-network-group.host").ForEach(
@@ -502,8 +502,8 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 			}
 		}
 		for ci := range data.Network[i].NetworkAddresses {
-			keys := [...]string{"ipv4_addr", "ipv4_mask"}
-			keyValues := [...]string{data.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), data.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString()}
+			keys := [...]string{ "ipv4_addr", "ipv4_mask",  }
+			keyValues := [...]string{ data.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), data.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("obj-Mode-config-network-group.network_address").ForEach(
@@ -536,8 +536,8 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 			}
 		}
 		for ci := range data.Network[i].AddressRanges {
-			keys := [...]string{"addr-range-start", "addr-range-end"}
-			keyValues := [...]string{data.Network[i].AddressRanges[ci].Start.ValueString(), data.Network[i].AddressRanges[ci].End.ValueString()}
+			keys := [...]string{ "addr-range-start", "addr-range-end",  }
+			keyValues := [...]string{ data.Network[i].AddressRanges[ci].Start.ValueString(), data.Network[i].AddressRanges[ci].End.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("obj-Mode-config-network-group.addr-ranges").ForEach(
@@ -570,8 +570,8 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 			}
 		}
 		for ci := range data.Network[i].GroupObjects {
-			keys := [...]string{"network-group"}
-			keyValues := [...]string{data.Network[i].GroupObjects[ci].GroupName.ValueString()}
+			keys := [...]string{ "network-group",  }
+			keyValues := [...]string{ data.Network[i].GroupObjects[ci].GroupName.ValueString(),  }
 
 			var cr gjson.Result
 			r.Get("obj-Mode-config-network-group.group-objects").ForEach(
@@ -607,11 +607,11 @@ func (data *ObjectGroup) updateFromBody(ctx context.Context, res gjson.Result) {
 
 func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
 	for i := range data.Fqdn {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Fqdn[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Fqdn[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-object-group:fqdn").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-object-group:fqdn").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -640,8 +640,8 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			data.Fqdn[i].Description = types.StringNull()
 		}
 		for ci := range data.Fqdn[i].GroupObjects {
-			keys := [...]string{"fqdn-group"}
-			keyValues := [...]string{data.Fqdn[i].GroupObjects[ci].GroupName.ValueString()}
+			keys := [...]string{ "fqdn-group",  }
+			keyValues := [...]string{ data.Fqdn[i].GroupObjects[ci].GroupName.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "group-object").ForEach(
@@ -669,8 +669,8 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			}
 		}
 		for ci := range data.Fqdn[i].Patterns {
-			keys := [...]string{"fqdn-pattern"}
-			keyValues := [...]string{data.Fqdn[i].Patterns[ci].FqdnPattern.ValueString()}
+			keys := [...]string{ "fqdn-pattern",  }
+			keyValues := [...]string{ data.Fqdn[i].Patterns[ci].FqdnPattern.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "pattern").ForEach(
@@ -699,11 +699,11 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 		}
 	}
 	for i := range data.Network {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Network[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Network[i].Name.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-object-group:network").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-object-group:network").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -732,8 +732,8 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			data.Network[i].Description = types.StringNull()
 		}
 		for ci := range data.Network[i].Hosts {
-			keys := [...]string{"ipv4-host"}
-			keyValues := [...]string{data.Network[i].Hosts[ci].Ipv4Host.ValueString()}
+			keys := [...]string{ "ipv4-host",  }
+			keyValues := [...]string{ data.Network[i].Hosts[ci].Ipv4Host.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "obj-Mode-config-network-group/host").ForEach(
@@ -761,8 +761,8 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			}
 		}
 		for ci := range data.Network[i].NetworkAddresses {
-			keys := [...]string{"ipv4_addr", "ipv4_mask"}
-			keyValues := [...]string{data.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), data.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString()}
+			keys := [...]string{ "ipv4_addr", "ipv4_mask",  }
+			keyValues := [...]string{ data.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), data.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "obj-Mode-config-network-group/network_address").ForEach(
@@ -795,8 +795,8 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			}
 		}
 		for ci := range data.Network[i].AddressRanges {
-			keys := [...]string{"addr-range-start", "addr-range-end"}
-			keyValues := [...]string{data.Network[i].AddressRanges[ci].Start.ValueString(), data.Network[i].AddressRanges[ci].End.ValueString()}
+			keys := [...]string{ "addr-range-start", "addr-range-end",  }
+			keyValues := [...]string{ data.Network[i].AddressRanges[ci].Start.ValueString(), data.Network[i].AddressRanges[ci].End.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "obj-Mode-config-network-group/addr-ranges").ForEach(
@@ -829,8 +829,8 @@ func (data *ObjectGroup) updateFromBodyXML(ctx context.Context, res xmldot.Resul
 			}
 		}
 		for ci := range data.Network[i].GroupObjects {
-			keys := [...]string{"network-group"}
-			keyValues := [...]string{data.Network[i].GroupObjects[ci].GroupName.ValueString()}
+			keys := [...]string{ "network-group",  }
+			keyValues := [...]string{ data.Network[i].GroupObjects[ci].GroupName.ValueString(),  }
 
 			var cr xmldot.Result
 			helpers.GetFromXPath(r, "obj-Mode-config-network-group/group-objects").ForEach(
@@ -869,7 +869,7 @@ func (data *ObjectGroup) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
 		data.Fqdn = make([]ObjectGroupFqdn, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ObjectGroupFqdn{}
@@ -905,7 +905,7 @@ func (data *ObjectGroup) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-object-group:network"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-object-group:network"); value.Exists() {
 		data.Network = make([]ObjectGroupNetwork, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ObjectGroupNetwork{}
@@ -980,7 +980,7 @@ func (data *ObjectGroupData) fromBody(ctx context.Context, res gjson.Result) {
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
 		data.Fqdn = make([]ObjectGroupFqdnData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ObjectGroupFqdnData{}
@@ -1016,7 +1016,7 @@ func (data *ObjectGroupData) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get(prefix + "Cisco-IOS-XE-object-group:network"); value.Exists() {
+	if value := res.Get(prefix+"Cisco-IOS-XE-object-group:network"); value.Exists() {
 		data.Network = make([]ObjectGroupNetworkData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := ObjectGroupNetworkData{}
@@ -1087,7 +1087,7 @@ func (data *ObjectGroupData) fromBody(ctx context.Context, res gjson.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *ObjectGroup) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
 		data.Fqdn = make([]ObjectGroupFqdn, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ObjectGroupFqdn{}
@@ -1123,7 +1123,7 @@ func (data *ObjectGroup) fromBodyXML(ctx context.Context, res xmldot.Result) {
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-object-group:network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-object-group:network"); value.Exists() {
 		data.Network = make([]ObjectGroupNetwork, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ObjectGroupNetwork{}
@@ -1194,7 +1194,7 @@ func (data *ObjectGroup) fromBodyXML(ctx context.Context, res xmldot.Result) {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *ObjectGroupData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-object-group:fqdn"); value.Exists() {
 		data.Fqdn = make([]ObjectGroupFqdnData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ObjectGroupFqdnData{}
@@ -1230,7 +1230,7 @@ func (data *ObjectGroupData) fromBodyXML(ctx context.Context, res xmldot.Result)
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/Cisco-IOS-XE-object-group:network"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/Cisco-IOS-XE-object-group:network"); value.Exists() {
 		data.Network = make([]ObjectGroupNetworkData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := ObjectGroupNetworkData{}
@@ -1303,8 +1303,8 @@ func (data *ObjectGroupData) fromBodyXML(ctx context.Context, res xmldot.Result)
 func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup) []string {
 	deletedItems := make([]string, 0)
 	for i := range state.Network {
-		stateKeyValues := [...]string{state.Network[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Network[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Network[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1321,8 +1321,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 			}
 			if found {
 				for ci := range state.Network[i].GroupObjects {
-					cstateKeyValues := [...]string{state.Network[i].GroupObjects[ci].GroupName.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Network[i].GroupObjects[ci].GroupName.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Network[i].GroupObjects[ci].GroupName.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1346,8 +1346,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 					}
 				}
 				for ci := range state.Network[i].AddressRanges {
-					cstateKeyValues := [...]string{state.Network[i].AddressRanges[ci].Start.ValueString(), state.Network[i].AddressRanges[ci].End.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Network[i].AddressRanges[ci].Start.ValueString(), state.Network[i].AddressRanges[ci].End.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Network[i].AddressRanges[ci].Start.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1377,8 +1377,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 					}
 				}
 				for ci := range state.Network[i].NetworkAddresses {
-					cstateKeyValues := [...]string{state.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), state.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), state.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1408,8 +1408,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 					}
 				}
 				for ci := range state.Network[i].Hosts {
-					cstateKeyValues := [...]string{state.Network[i].Hosts[ci].Ipv4Host.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Network[i].Hosts[ci].Ipv4Host.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Network[i].Hosts[ci].Ipv4Host.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1443,8 +1443,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 		}
 	}
 	for i := range state.Fqdn {
-		stateKeyValues := [...]string{state.Fqdn[i].Name.ValueString()}
-
+		stateKeyValues := [...]string{ state.Fqdn[i].Name.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Fqdn[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1461,8 +1461,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 			}
 			if found {
 				for ci := range state.Fqdn[i].Patterns {
-					cstateKeyValues := [...]string{state.Fqdn[i].Patterns[ci].FqdnPattern.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Fqdn[i].Patterns[ci].FqdnPattern.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Fqdn[i].Patterns[ci].FqdnPattern.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1486,8 +1486,8 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 					}
 				}
 				for ci := range state.Fqdn[i].GroupObjects {
-					cstateKeyValues := [...]string{state.Fqdn[i].GroupObjects[ci].GroupName.ValueString()}
-
+					cstateKeyValues := [...]string{ state.Fqdn[i].GroupObjects[ci].GroupName.ValueString(),  }
+					
 					cemptyKeys := true
 					if !reflect.ValueOf(state.Fqdn[i].GroupObjects[ci].GroupName.ValueString()).IsZero() {
 						cemptyKeys = false
@@ -1531,13 +1531,13 @@ func (data *ObjectGroup) getDeletedItems(ctx context.Context, state ObjectGroup)
 func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGroup, body string) string {
 	b := netconf.NewBody(body)
 	for i := range state.Network {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Network[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Network[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Network[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1554,8 +1554,8 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 			}
 			if found {
 				for ci := range state.Network[i].GroupObjects {
-					cstateKeys := [...]string{"network-group"}
-					cstateKeyValues := [...]string{state.Network[i].GroupObjects[ci].GroupName.ValueString()}
+					cstateKeys := [...]string{ "network-group",  }
+					cstateKeyValues := [...]string{ state.Network[i].GroupObjects[ci].GroupName.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1584,8 +1584,8 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 					}
 				}
 				for ci := range state.Network[i].AddressRanges {
-					cstateKeys := [...]string{"addr-range-start", "addr-range-end"}
-					cstateKeyValues := [...]string{state.Network[i].AddressRanges[ci].Start.ValueString(), state.Network[i].AddressRanges[ci].End.ValueString()}
+					cstateKeys := [...]string{ "addr-range-start", "addr-range-end",  }
+					cstateKeyValues := [...]string{ state.Network[i].AddressRanges[ci].Start.ValueString(), state.Network[i].AddressRanges[ci].End.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1620,8 +1620,8 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 					}
 				}
 				for ci := range state.Network[i].NetworkAddresses {
-					cstateKeys := [...]string{"ipv4_addr", "ipv4_mask"}
-					cstateKeyValues := [...]string{state.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), state.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString()}
+					cstateKeys := [...]string{ "ipv4_addr", "ipv4_mask",  }
+					cstateKeyValues := [...]string{ state.Network[i].NetworkAddresses[ci].Ipv4Address.ValueString(), state.Network[i].NetworkAddresses[ci].Ipv4Mask.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1656,8 +1656,8 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 					}
 				}
 				for ci := range state.Network[i].Hosts {
-					cstateKeys := [...]string{"ipv4-host"}
-					cstateKeyValues := [...]string{state.Network[i].Hosts[ci].Ipv4Host.ValueString()}
+					cstateKeys := [...]string{ "ipv4-host",  }
+					cstateKeyValues := [...]string{ state.Network[i].Hosts[ci].Ipv4Host.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1696,13 +1696,13 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 		}
 	}
 	for i := range state.Fqdn {
-		stateKeys := [...]string{"name"}
-		stateKeyValues := [...]string{state.Fqdn[i].Name.ValueString()}
+		stateKeys := [...]string{ "name",  }
+		stateKeyValues := [...]string{ state.Fqdn[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.Fqdn[i].Name.ValueString()).IsZero() {
 			emptyKeys = false
@@ -1719,8 +1719,8 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 			}
 			if found {
 				for ci := range state.Fqdn[i].Patterns {
-					cstateKeys := [...]string{"fqdn-pattern"}
-					cstateKeyValues := [...]string{state.Fqdn[i].Patterns[ci].FqdnPattern.ValueString()}
+					cstateKeys := [...]string{ "fqdn-pattern",  }
+					cstateKeyValues := [...]string{ state.Fqdn[i].Patterns[ci].FqdnPattern.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1749,8 +1749,8 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 					}
 				}
 				for ci := range state.Fqdn[i].GroupObjects {
-					cstateKeys := [...]string{"fqdn-group"}
-					cstateKeyValues := [...]string{state.Fqdn[i].GroupObjects[ci].GroupName.ValueString()}
+					cstateKeys := [...]string{ "fqdn-group",  }
+					cstateKeyValues := [...]string{ state.Fqdn[i].GroupObjects[ci].GroupName.ValueString(),  }
 					cpredicates := ""
 					for i := range cstateKeys {
 						cpredicates += fmt.Sprintf("[%s='%s']", cstateKeys[i], cstateKeyValues[i])
@@ -1799,6 +1799,10 @@ func (data *ObjectGroup) addDeletedItemsXML(ctx context.Context, state ObjectGro
 
 func (data *ObjectGroup) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
+	
+	
+	
+	
 
 	return emptyLeafsDelete
 }
@@ -1810,12 +1814,12 @@ func (data *ObjectGroup) getEmptyLeafsDelete(ctx context.Context) []string {
 func (data *ObjectGroup) getDeletePaths(ctx context.Context) []string {
 	var deletePaths []string
 	for i := range data.Network {
-		keyValues := [...]string{data.Network[i].Name.ValueString()}
+		keyValues := [...]string{ data.Network[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-object-group:network=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
 	for i := range data.Fqdn {
-		keyValues := [...]string{data.Fqdn[i].Name.ValueString()}
+		keyValues := [...]string{ data.Fqdn[i].Name.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/Cisco-IOS-XE-object-group:fqdn=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -1830,8 +1834,8 @@ func (data *ObjectGroup) getDeletePaths(ctx context.Context) []string {
 func (data *ObjectGroup) addDeletePathsXML(ctx context.Context, body string) string {
 	b := netconf.NewBody(body)
 	for i := range data.Network {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Network[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Network[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])
@@ -1840,8 +1844,8 @@ func (data *ObjectGroup) addDeletePathsXML(ctx context.Context, body string) str
 		b = helpers.RemoveFromXPath(b, fmt.Sprintf(data.getXPath()+"/Cisco-IOS-XE-object-group:network%v", predicates))
 	}
 	for i := range data.Fqdn {
-		keys := [...]string{"name"}
-		keyValues := [...]string{data.Fqdn[i].Name.ValueString()}
+		keys := [...]string{ "name",  }
+		keyValues := [...]string{ data.Fqdn[i].Name.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

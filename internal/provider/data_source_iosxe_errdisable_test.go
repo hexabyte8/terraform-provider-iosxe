@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -104,7 +103,7 @@ func TestAccDataSourceIosxeErrdisable(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeErrdisableConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -186,7 +185,7 @@ func testAccDataSourceIosxeErrdisableConfig() string {
 	config += `	recovery_cause_udld = true` + "\n"
 	config += `	recovery_cause_loopdetect = true` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_errdisable" "test" {
 			depends_on = [iosxe_errdisable.test]

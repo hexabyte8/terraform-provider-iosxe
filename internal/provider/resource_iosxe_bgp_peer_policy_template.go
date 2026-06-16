@@ -25,9 +25,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,8 +33,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -105,10 +105,10 @@ func (r *BGPPeerPolicyTemplateResource) Schema(ctx context.Context, req resource
 				Optional:            true,
 			},
 			"send_community": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("both", "extended", "standard").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("both", "extended", "standard", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("both", "extended", "standard"),
+					stringvalidator.OneOf("both", "extended", "standard", ),
 				},
 			},
 			"route_maps": schema.ListNestedAttribute{
@@ -117,10 +117,10 @@ func (r *BGPPeerPolicyTemplateResource) Schema(ctx context.Context, req resource
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"in_out": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("in", "out").String,
+							MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("in", "out", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("in", "out"),
+								stringvalidator.OneOf("in", "out", ),
 							},
 						},
 						"route_map_name": schema.StringAttribute{
@@ -233,7 +233,7 @@ func (r *BGPPeerPolicyTemplateResource) Create(ctx context.Context, req resource
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -281,7 +281,7 @@ func (r *BGPPeerPolicyTemplateResource) Read(ctx context.Context, req resource.R
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

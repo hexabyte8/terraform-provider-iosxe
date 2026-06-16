@@ -26,9 +26,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,8 +34,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
 	"github.com/netascode/go-restconf"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 )
 
 // End of section. //template:end imports
@@ -88,10 +88,10 @@ func (r *L2VFIResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("autodiscovery", "manual", "point-to-point").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").AddStringEnumDescription("autodiscovery", "manual", "point-to-point", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("autodiscovery", "manual", "point-to-point"),
+					stringvalidator.OneOf("autodiscovery", "manual", "point-to-point", ),
 				},
 			},
 			"vpn_id": schema.Int64Attribute{
@@ -114,10 +114,10 @@ func (r *L2VFIResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 							},
 						},
 						"encapsulation": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Connection encapsulation type").AddStringEnumDescription("l2tpv3", "mpls").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Connection encapsulation type").AddStringEnumDescription("l2tpv3", "mpls", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("l2tpv3", "mpls"),
+								stringvalidator.OneOf("l2tpv3", "mpls", ),
 							},
 						},
 					},
@@ -215,7 +215,7 @@ func (r *L2VFIResource) Create(ctx context.Context, req resource.CreateRequest, 
 			}
 		}
 	}
-
+	
 	plan.Id = types.StringValue(plan.getPath())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.getPath()))
@@ -263,7 +263,7 @@ func (r *L2VFIResource) Read(ctx context.Context, req resource.ReadRequest, resp
 					resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (%s), got error: %s", state.Id.ValueString(), err))
 					return
 				}
-
+			
 				// After `terraform import` we switch to a full read.
 				if imp {
 					state.fromBody(ctx, res.Res)

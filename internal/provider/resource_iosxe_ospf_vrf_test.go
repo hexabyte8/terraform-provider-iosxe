@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -78,19 +77,19 @@ func TestAccIosxeOSPFVRF(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIosxeOSPFVRFPrerequisitesConfig + testAccIosxeOSPFVRFConfig_minimum(),
+				Config: testAccIosxeOSPFVRFPrerequisitesConfig+testAccIosxeOSPFVRFConfig_minimum(),
 			},
 			{
-				Config: testAccIosxeOSPFVRFPrerequisitesConfig + testAccIosxeOSPFVRFConfig_all(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccIosxeOSPFVRFPrerequisitesConfig+testAccIosxeOSPFVRFConfig_all(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				ResourceName:            "iosxe_ospf_vrf.test",
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       iosxeOSPFVRFImportStateIdFunc("iosxe_ospf_vrf.test"),
-				ImportStateVerifyIgnore: []string{"log_adjacency_changes_detail", "nsf_cisco", "nsf_cisco_enforce_global", "max_metric_router_lsa_on_startup_wait_for_bgp", "mpls_ldp_autoconfig", "mpls_ldp_sync"},
-				Check:                   resource.ComposeTestCheckFunc(checks...),
+				ResourceName:  "iosxe_ospf_vrf.test",
+				ImportState:   true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: iosxeOSPFVRFImportStateIdFunc("iosxe_ospf_vrf.test"),
+				ImportStateVerifyIgnore: []string{ "log_adjacency_changes_detail","nsf_cisco","nsf_cisco_enforce_global","max_metric_router_lsa_on_startup_wait_for_bgp","mpls_ldp_autoconfig","mpls_ldp_sync", },
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -106,7 +105,7 @@ func iosxeOSPFVRFImportStateIdFunc(resourceName string) resource.ImportStateIdFu
 		ProcessId := primary.Attributes["process_id"]
 		Vrf := primary.Attributes["vrf"]
 
-		return fmt.Sprintf("%s,%s", ProcessId, Vrf), nil
+		return fmt.Sprintf("%s,%s", ProcessId,Vrf), nil
 	}
 }
 
@@ -124,7 +123,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

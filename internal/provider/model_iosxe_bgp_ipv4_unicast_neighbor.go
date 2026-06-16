@@ -23,60 +23,60 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"reflect"
 	"regexp"
+	"net/url"
 	"strconv"
+	"reflect"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/CiscoDevNet/terraform-provider-iosxe/internal/provider/helpers"
 	"github.com/netascode/go-netconf"
-	"github.com/netascode/xmldot"
-	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"github.com/tidwall/gjson"
+	"github.com/netascode/xmldot"
 )
 
 // End of section. //template:end imports
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 type BGPIPv4UnicastNeighbor struct {
-	Device                   types.String                      `tfsdk:"device"`
-	Id                       types.String                      `tfsdk:"id"`
-	DeleteMode               types.String                      `tfsdk:"delete_mode"`
-	Asn                      types.String                      `tfsdk:"asn"`
-	Ip                       types.String                      `tfsdk:"ip"`
-	Activate                 types.Bool                        `tfsdk:"activate"`
-	SendCommunity            types.String                      `tfsdk:"send_community"`
-	RouteReflectorClient     types.Bool                        `tfsdk:"route_reflector_client"`
-	SoftReconfiguration      types.String                      `tfsdk:"soft_reconfiguration"`
-	DefaultOriginate         types.Bool                        `tfsdk:"default_originate"`
-	DefaultOriginateRouteMap types.String                      `tfsdk:"default_originate_route_map"`
-	RouteMaps                []BGPIPv4UnicastNeighborRouteMaps `tfsdk:"route_maps"`
-	InheritPeerPolicy        types.String                      `tfsdk:"inherit_peer_policy"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	DeleteMode types.String `tfsdk:"delete_mode"`
+	Asn types.String `tfsdk:"asn"`
+	Ip types.String `tfsdk:"ip"`
+	Activate types.Bool `tfsdk:"activate"`
+	SendCommunity types.String `tfsdk:"send_community"`
+	RouteReflectorClient types.Bool `tfsdk:"route_reflector_client"`
+	SoftReconfiguration types.String `tfsdk:"soft_reconfiguration"`
+	DefaultOriginate types.Bool `tfsdk:"default_originate"`
+	DefaultOriginateRouteMap types.String `tfsdk:"default_originate_route_map"`
+	RouteMaps []BGPIPv4UnicastNeighborRouteMaps `tfsdk:"route_maps"`
+	InheritPeerPolicy types.String `tfsdk:"inherit_peer_policy"`
 }
 type BGPIPv4UnicastNeighborRouteMaps struct {
-	InOut        types.String `tfsdk:"in_out"`
+	InOut types.String `tfsdk:"in_out"`
 	RouteMapName types.String `tfsdk:"route_map_name"`
 }
 
 type BGPIPv4UnicastNeighborData struct {
-	Device                   types.String                          `tfsdk:"device"`
-	Id                       types.String                          `tfsdk:"id"`
-	Asn                      types.String                          `tfsdk:"asn"`
-	Ip                       types.String                          `tfsdk:"ip"`
-	Activate                 types.Bool                            `tfsdk:"activate"`
-	SendCommunity            types.String                          `tfsdk:"send_community"`
-	RouteReflectorClient     types.Bool                            `tfsdk:"route_reflector_client"`
-	SoftReconfiguration      types.String                          `tfsdk:"soft_reconfiguration"`
-	DefaultOriginate         types.Bool                            `tfsdk:"default_originate"`
-	DefaultOriginateRouteMap types.String                          `tfsdk:"default_originate_route_map"`
-	RouteMaps                []BGPIPv4UnicastNeighborRouteMapsData `tfsdk:"route_maps"`
-	InheritPeerPolicy        types.String                          `tfsdk:"inherit_peer_policy"`
+	Device types.String `tfsdk:"device"`
+	Id     types.String `tfsdk:"id"`
+	Asn types.String `tfsdk:"asn"`
+	Ip types.String `tfsdk:"ip"`
+	Activate types.Bool `tfsdk:"activate"`
+	SendCommunity types.String `tfsdk:"send_community"`
+	RouteReflectorClient types.Bool `tfsdk:"route_reflector_client"`
+	SoftReconfiguration types.String `tfsdk:"soft_reconfiguration"`
+	DefaultOriginate types.Bool `tfsdk:"default_originate"`
+	DefaultOriginateRouteMap types.String `tfsdk:"default_originate_route_map"`
+	RouteMaps []BGPIPv4UnicastNeighborRouteMapsData `tfsdk:"route_maps"`
+	InheritPeerPolicy types.String `tfsdk:"inherit_peer_policy"`
 }
 type BGPIPv4UnicastNeighborRouteMapsData struct {
-	InOut        types.String `tfsdk:"in_out"`
+	InOut types.String `tfsdk:"in_out"`
 	RouteMapName types.String `tfsdk:"route_map_name"`
 }
 
@@ -173,37 +173,37 @@ func (data BGPIPv4UnicastNeighbor) toBody(ctx context.Context, config BGPIPv4Uni
 func (data BGPIPv4UnicastNeighbor) toBodyXML(ctx context.Context, config BGPIPv4UnicastNeighbor) string {
 	body := netconf.Body{}
 	if !data.Ip.IsNull() && !data.Ip.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/id", data.Ip.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/id", data.Ip.ValueString())
 	}
 	if !data.Activate.IsNull() && !data.Activate.IsUnknown() {
 		if data.Activate.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/activate", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/activate", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/activate")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/activate")
 		}
 	}
 	if !data.SendCommunity.IsNull() && !data.SendCommunity.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/send-community/send-community-where", data.SendCommunity.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/send-community/send-community-where", data.SendCommunity.ValueString())
 	}
 	if !data.RouteReflectorClient.IsNull() && !data.RouteReflectorClient.IsUnknown() {
 		if data.RouteReflectorClient.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/route-reflector-client", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/route-reflector-client", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/route-reflector-client")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/route-reflector-client")
 		}
 	}
 	if !data.SoftReconfiguration.IsNull() && !data.SoftReconfiguration.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/soft-reconfiguration", data.SoftReconfiguration.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/soft-reconfiguration", data.SoftReconfiguration.ValueString())
 	}
 	if !data.DefaultOriginate.IsNull() && !data.DefaultOriginate.IsUnknown() {
 		if data.DefaultOriginate.ValueBool() {
-			body = helpers.SetFromXPath(body, data.getXPath()+"/default-originate", "")
+			body = helpers.SetFromXPath(body, data.getXPath() + "/default-originate", "")
 		} else {
-			body = helpers.RemoveFromXPath(body, data.getXPath()+"/default-originate")
+			body = helpers.RemoveFromXPath(body, data.getXPath() + "/default-originate")
 		}
 	}
 	if !data.DefaultOriginateRouteMap.IsNull() && !data.DefaultOriginateRouteMap.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/default-originate/route-map", data.DefaultOriginateRouteMap.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/default-originate/route-map", data.DefaultOriginateRouteMap.ValueString())
 	}
 	if len(data.RouteMaps) > 0 {
 		for _, item := range data.RouteMaps {
@@ -218,7 +218,7 @@ func (data BGPIPv4UnicastNeighbor) toBodyXML(ctx context.Context, config BGPIPv4
 		}
 	}
 	if !data.InheritPeerPolicy.IsNull() && !data.InheritPeerPolicy.IsUnknown() {
-		body = helpers.SetFromXPath(body, data.getXPath()+"/inherit/peer-policy", data.InheritPeerPolicy.ValueString())
+		body = helpers.SetFromXPath(body, data.getXPath() + "/inherit/peer-policy", data.InheritPeerPolicy.ValueString())
 	}
 	bodyString, err := body.String()
 	if err != nil {
@@ -236,12 +236,12 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBody(ctx context.Context, res gjso
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "id"); value.Exists() && !data.Ip.IsNull() {
+	if value := res.Get(prefix+"id"); value.Exists() && !data.Ip.IsNull() {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := res.Get(prefix + "activate"); !data.Activate.IsNull() {
+	if value := res.Get(prefix+"activate"); !data.Activate.IsNull() {
 		if value.Exists() {
 			data.Activate = types.BoolValue(true)
 		} else {
@@ -250,12 +250,12 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBody(ctx context.Context, res gjso
 	} else {
 		data.Activate = types.BoolNull()
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
 		data.SendCommunity = types.StringValue(value.String())
 	} else {
 		data.SendCommunity = types.StringNull()
 	}
-	if value := res.Get(prefix + "route-reflector-client"); !data.RouteReflectorClient.IsNull() {
+	if value := res.Get(prefix+"route-reflector-client"); !data.RouteReflectorClient.IsNull() {
 		if value.Exists() {
 			data.RouteReflectorClient = types.BoolValue(true)
 		} else {
@@ -264,12 +264,12 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBody(ctx context.Context, res gjso
 	} else {
 		data.RouteReflectorClient = types.BoolNull()
 	}
-	if value := res.Get(prefix + "soft-reconfiguration"); value.Exists() && !data.SoftReconfiguration.IsNull() {
+	if value := res.Get(prefix+"soft-reconfiguration"); value.Exists() && !data.SoftReconfiguration.IsNull() {
 		data.SoftReconfiguration = types.StringValue(value.String())
 	} else {
 		data.SoftReconfiguration = types.StringNull()
 	}
-	if value := res.Get(prefix + "default-originate"); !data.DefaultOriginate.IsNull() {
+	if value := res.Get(prefix+"default-originate"); !data.DefaultOriginate.IsNull() {
 		if value.Exists() {
 			data.DefaultOriginate = types.BoolValue(true)
 		} else {
@@ -278,17 +278,17 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBody(ctx context.Context, res gjso
 	} else {
 		data.DefaultOriginate = types.BoolNull()
 	}
-	if value := res.Get(prefix + "default-originate.route-map"); value.Exists() && !data.DefaultOriginateRouteMap.IsNull() {
+	if value := res.Get(prefix+"default-originate.route-map"); value.Exists() && !data.DefaultOriginateRouteMap.IsNull() {
 		data.DefaultOriginateRouteMap = types.StringValue(value.String())
 	} else {
 		data.DefaultOriginateRouteMap = types.StringNull()
 	}
 	for i := range data.RouteMaps {
-		keys := [...]string{"inout"}
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keys := [...]string{ "inout",  }
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 
 		var r gjson.Result
-		res.Get(prefix + "route-map").ForEach(
+		res.Get(prefix+"route-map").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -317,7 +317,7 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBody(ctx context.Context, res gjso
 			data.RouteMaps[i].RouteMapName = types.StringNull()
 		}
 	}
-	if value := res.Get(prefix + "inherit.peer-policy"); value.Exists() && !data.InheritPeerPolicy.IsNull() {
+	if value := res.Get(prefix+"inherit.peer-policy"); value.Exists() && !data.InheritPeerPolicy.IsNull() {
 		data.InheritPeerPolicy = types.StringValue(value.String())
 	} else {
 		data.InheritPeerPolicy = types.StringNull()
@@ -329,12 +329,12 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBody(ctx context.Context, res gjso
 // Section below is generated&owned by "gen/generator.go". //template:begin updateFromBodyXML
 
 func (data *BGPIPv4UnicastNeighbor) updateFromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/id"); value.Exists() && !data.Ip.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/id"); value.Exists() && !data.Ip.IsNull() {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/activate"); !data.Activate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/activate"); !data.Activate.IsNull() {
 		if value.Exists() {
 			data.Activate = types.BoolValue(true)
 		} else {
@@ -343,12 +343,12 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBodyXML(ctx context.Context, res x
 	} else {
 		data.Activate = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() && !data.SendCommunity.IsNull() {
 		data.SendCommunity = types.StringValue(value.String())
 	} else {
 		data.SendCommunity = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-reflector-client"); !data.RouteReflectorClient.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-reflector-client"); !data.RouteReflectorClient.IsNull() {
 		if value.Exists() {
 			data.RouteReflectorClient = types.BoolValue(true)
 		} else {
@@ -357,12 +357,12 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBodyXML(ctx context.Context, res x
 	} else {
 		data.RouteReflectorClient = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/soft-reconfiguration"); value.Exists() && !data.SoftReconfiguration.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/soft-reconfiguration"); value.Exists() && !data.SoftReconfiguration.IsNull() {
 		data.SoftReconfiguration = types.StringValue(value.String())
 	} else {
 		data.SoftReconfiguration = types.StringNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-originate"); !data.DefaultOriginate.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-originate"); !data.DefaultOriginate.IsNull() {
 		if value.Exists() {
 			data.DefaultOriginate = types.BoolValue(true)
 		} else {
@@ -371,17 +371,17 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBodyXML(ctx context.Context, res x
 	} else {
 		data.DefaultOriginate = types.BoolNull()
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-originate/route-map"); value.Exists() && !data.DefaultOriginateRouteMap.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-originate/route-map"); value.Exists() && !data.DefaultOriginateRouteMap.IsNull() {
 		data.DefaultOriginateRouteMap = types.StringValue(value.String())
 	} else {
 		data.DefaultOriginateRouteMap = types.StringNull()
 	}
 	for i := range data.RouteMaps {
-		keys := [...]string{"inout"}
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keys := [...]string{ "inout",  }
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 
 		var r xmldot.Result
-		helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-map").ForEach(
+		helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-map").ForEach(
 			func(_ int, v xmldot.Result) bool {
 				found := false
 				for ik := range keys {
@@ -410,7 +410,7 @@ func (data *BGPIPv4UnicastNeighbor) updateFromBodyXML(ctx context.Context, res x
 			data.RouteMaps[i].RouteMapName = types.StringNull()
 		}
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-policy"); value.Exists() && !data.InheritPeerPolicy.IsNull() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-policy"); value.Exists() && !data.InheritPeerPolicy.IsNull() {
 		data.InheritPeerPolicy = types.StringValue(value.String())
 	} else {
 		data.InheritPeerPolicy = types.StringNull()
@@ -426,31 +426,31 @@ func (data *BGPIPv4UnicastNeighbor) fromBody(ctx context.Context, res gjson.Resu
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "activate"); value.Exists() {
+	if value := res.Get(prefix+"activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "route-reflector-client"); value.Exists() {
+	if value := res.Get(prefix+"route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "soft-reconfiguration"); value.Exists() {
+	if value := res.Get(prefix+"soft-reconfiguration"); value.Exists() {
 		data.SoftReconfiguration = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "default-originate"); value.Exists() {
+	if value := res.Get(prefix+"default-originate"); value.Exists() {
 		data.DefaultOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultOriginate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-originate.route-map"); value.Exists() {
+	if value := res.Get(prefix+"default-originate.route-map"); value.Exists() {
 		data.DefaultOriginateRouteMap = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "route-map"); value.Exists() {
+	if value := res.Get(prefix+"route-map"); value.Exists() {
 		data.RouteMaps = make([]BGPIPv4UnicastNeighborRouteMaps, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BGPIPv4UnicastNeighborRouteMaps{}
@@ -464,7 +464,7 @@ func (data *BGPIPv4UnicastNeighbor) fromBody(ctx context.Context, res gjson.Resu
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inherit.peer-policy"); value.Exists() {
+	if value := res.Get(prefix+"inherit.peer-policy"); value.Exists() {
 		data.InheritPeerPolicy = types.StringValue(value.String())
 	}
 }
@@ -478,31 +478,31 @@ func (data *BGPIPv4UnicastNeighborData) fromBody(ctx context.Context, res gjson.
 	if res.Get(helpers.LastElement(data.getPath())).IsArray() {
 		prefix += "0."
 	}
-	if value := res.Get(prefix + "activate"); value.Exists() {
+	if value := res.Get(prefix+"activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "send-community.send-community-where"); value.Exists() {
+	if value := res.Get(prefix+"send-community.send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "route-reflector-client"); value.Exists() {
+	if value := res.Get(prefix+"route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "soft-reconfiguration"); value.Exists() {
+	if value := res.Get(prefix+"soft-reconfiguration"); value.Exists() {
 		data.SoftReconfiguration = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "default-originate"); value.Exists() {
+	if value := res.Get(prefix+"default-originate"); value.Exists() {
 		data.DefaultOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultOriginate = types.BoolValue(false)
 	}
-	if value := res.Get(prefix + "default-originate.route-map"); value.Exists() {
+	if value := res.Get(prefix+"default-originate.route-map"); value.Exists() {
 		data.DefaultOriginateRouteMap = types.StringValue(value.String())
 	}
-	if value := res.Get(prefix + "route-map"); value.Exists() {
+	if value := res.Get(prefix+"route-map"); value.Exists() {
 		data.RouteMaps = make([]BGPIPv4UnicastNeighborRouteMapsData, 0)
 		value.ForEach(func(k, v gjson.Result) bool {
 			item := BGPIPv4UnicastNeighborRouteMapsData{}
@@ -516,7 +516,7 @@ func (data *BGPIPv4UnicastNeighborData) fromBody(ctx context.Context, res gjson.
 			return true
 		})
 	}
-	if value := res.Get(prefix + "inherit.peer-policy"); value.Exists() {
+	if value := res.Get(prefix+"inherit.peer-policy"); value.Exists() {
 		data.InheritPeerPolicy = types.StringValue(value.String())
 	}
 }
@@ -526,31 +526,31 @@ func (data *BGPIPv4UnicastNeighborData) fromBody(ctx context.Context, res gjson.
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyXML
 
 func (data *BGPIPv4UnicastNeighbor) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/activate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-reflector-client"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/soft-reconfiguration"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/soft-reconfiguration"); value.Exists() {
 		data.SoftReconfiguration = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-originate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-originate"); value.Exists() {
 		data.DefaultOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultOriginate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-originate/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-originate/route-map"); value.Exists() {
 		data.DefaultOriginateRouteMap = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-map"); value.Exists() {
 		data.RouteMaps = make([]BGPIPv4UnicastNeighborRouteMaps, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BGPIPv4UnicastNeighborRouteMaps{}
@@ -564,7 +564,7 @@ func (data *BGPIPv4UnicastNeighbor) fromBodyXML(ctx context.Context, res xmldot.
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-policy"); value.Exists() {
 		data.InheritPeerPolicy = types.StringValue(value.String())
 	}
 }
@@ -574,31 +574,31 @@ func (data *BGPIPv4UnicastNeighbor) fromBodyXML(ctx context.Context, res xmldot.
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyDataXML
 
 func (data *BGPIPv4UnicastNeighborData) fromBodyXML(ctx context.Context, res xmldot.Result) {
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/activate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/activate"); value.Exists() {
 		data.Activate = types.BoolValue(true)
 	} else {
 		data.Activate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/send-community/send-community-where"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/send-community/send-community-where"); value.Exists() {
 		data.SendCommunity = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-reflector-client"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-reflector-client"); value.Exists() {
 		data.RouteReflectorClient = types.BoolValue(true)
 	} else {
 		data.RouteReflectorClient = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/soft-reconfiguration"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/soft-reconfiguration"); value.Exists() {
 		data.SoftReconfiguration = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-originate"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-originate"); value.Exists() {
 		data.DefaultOriginate = types.BoolValue(true)
 	} else {
 		data.DefaultOriginate = types.BoolValue(false)
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/default-originate/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/default-originate/route-map"); value.Exists() {
 		data.DefaultOriginateRouteMap = types.StringValue(value.String())
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/route-map"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/route-map"); value.Exists() {
 		data.RouteMaps = make([]BGPIPv4UnicastNeighborRouteMapsData, 0)
 		value.ForEach(func(_ int, v xmldot.Result) bool {
 			item := BGPIPv4UnicastNeighborRouteMapsData{}
@@ -612,7 +612,7 @@ func (data *BGPIPv4UnicastNeighborData) fromBodyXML(ctx context.Context, res xml
 			return true
 		})
 	}
-	if value := helpers.GetFromXPath(res, "data"+data.getXPath()+"/inherit/peer-policy"); value.Exists() {
+	if value := helpers.GetFromXPath(res, "data" + data.getXPath() + "/inherit/peer-policy"); value.Exists() {
 		data.InheritPeerPolicy = types.StringValue(value.String())
 	}
 }
@@ -627,8 +627,8 @@ func (data *BGPIPv4UnicastNeighbor) getDeletedItems(ctx context.Context, state B
 		deletedItems = append(deletedItems, fmt.Sprintf("%v/inherit/peer-policy", state.getPath()))
 	}
 	for i := range state.RouteMaps {
-		stateKeyValues := [...]string{state.RouteMaps[i].InOut.ValueString()}
-
+		stateKeyValues := [...]string{ state.RouteMaps[i].InOut.ValueString(),  }
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.RouteMaps[i].InOut.ValueString()).IsZero() {
 			emptyKeys = false
@@ -683,13 +683,13 @@ func (data *BGPIPv4UnicastNeighbor) addDeletedItemsXML(ctx context.Context, stat
 		b = helpers.RemoveFromXPath(b, state.getXPath()+"/inherit/peer-policy")
 	}
 	for i := range state.RouteMaps {
-		stateKeys := [...]string{"inout"}
-		stateKeyValues := [...]string{state.RouteMaps[i].InOut.ValueString()}
+		stateKeys := [...]string{ "inout",  }
+		stateKeyValues := [...]string{ state.RouteMaps[i].InOut.ValueString(),  }
 		predicates := ""
 		for i := range stateKeys {
 			predicates += fmt.Sprintf("[%s='%s']", stateKeys[i], stateKeyValues[i])
 		}
-
+		
 		emptyKeys := true
 		if !reflect.ValueOf(state.RouteMaps[i].InOut.ValueString()).IsZero() {
 			emptyKeys = false
@@ -741,7 +741,8 @@ func (data *BGPIPv4UnicastNeighbor) addDeletedItemsXML(ctx context.Context, stat
 
 func (data *BGPIPv4UnicastNeighbor) getEmptyLeafsDelete(ctx context.Context) []string {
 	emptyLeafsDelete := make([]string, 0)
-
+	
+	
 	if !data.DefaultOriginate.IsNull() && !data.DefaultOriginate.ValueBool() {
 		emptyLeafsDelete = append(emptyLeafsDelete, fmt.Sprintf("%v/default-originate", data.getPath()))
 	}
@@ -765,7 +766,7 @@ func (data *BGPIPv4UnicastNeighbor) getDeletePaths(ctx context.Context) []string
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/inherit/peer-policy", data.getPath()))
 	}
 	for i := range data.RouteMaps {
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 
 		deletePaths = append(deletePaths, fmt.Sprintf("%v/route-map=%v", data.getPath(), strings.Join(keyValues[:], ",")))
 	}
@@ -798,8 +799,8 @@ func (data *BGPIPv4UnicastNeighbor) addDeletePathsXML(ctx context.Context, body 
 		b = helpers.RemoveFromXPath(b, data.getXPath()+"/inherit/peer-policy")
 	}
 	for i := range data.RouteMaps {
-		keys := [...]string{"inout"}
-		keyValues := [...]string{data.RouteMaps[i].InOut.ValueString()}
+		keys := [...]string{ "inout",  }
+		keyValues := [...]string{ data.RouteMaps[i].InOut.ValueString(),  }
 		predicates := ""
 		for i := range keys {
 			predicates += fmt.Sprintf("[%s='%s']", keys[i], keyValues[i])

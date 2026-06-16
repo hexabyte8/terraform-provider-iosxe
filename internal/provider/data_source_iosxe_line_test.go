@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,8 +32,8 @@ import (
 
 func TestAccDataSourceIosxeLine(t *testing.T) {
 	if os.Getenv("LINE") == "" {
-		t.Skip("skipping test, set environment variable LINE")
-	}
+        t.Skip("skipping test, set environment variable LINE")
+    }
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_line.test", "console.0.first", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_line.test", "console.0.exec_timeout_minutes", "45"))
@@ -61,7 +60,7 @@ func TestAccDataSourceIosxeLine(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeLineConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -85,7 +84,7 @@ func testAccDataSourceIosxeLineConfig() string {
 	config += `		password_type = "0"` + "\n"
 	config += `		password = "testpasswd"` + "\n"
 	config += `		logging_synchronous = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	vty = [{` + "\n"
 	config += `		first = 10` + "\n"
 	config += `		last = 27` + "\n"
@@ -104,9 +103,9 @@ func testAccDataSourceIosxeLineConfig() string {
 	config += `		transport_input = ["ssh"]` + "\n"
 	config += `		monitor = true` + "\n"
 	config += `		logging_synchronous = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_line" "test" {
 			depends_on = [iosxe_line.test]

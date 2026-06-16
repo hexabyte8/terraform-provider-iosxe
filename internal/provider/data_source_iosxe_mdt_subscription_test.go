@@ -47,7 +47,7 @@ func TestAccDataSourceIosxeMDTSubscription(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeMDTSubscriptionConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -73,9 +73,9 @@ func testAccDataSourceIosxeMDTSubscriptionConfig() string {
 	config += `		address = "5.6.7.8"` + "\n"
 	config += `		port = 57600` + "\n"
 	config += `		protocol = "grpc-tcp"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_mdt_subscription" "test" {
 			subscription_id = 101

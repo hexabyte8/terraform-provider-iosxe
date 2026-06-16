@@ -21,7 +21,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -55,12 +54,12 @@ func TestAccDataSourceIosxeSystem(t *testing.T) {
 		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_multicast_routing_distributed", "true"))
 	}
 	if os.Getenv("C8000V") != "" {
-		if os.Getenv("C8000V") != "" {
-			checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "multicast_routing_vrfs.0.vrf", "VRF1"))
-		}
-		if os.Getenv("C8000V") != "" {
-			checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "multicast_routing_vrfs.0.distributed", "true"))
-		}
+	if os.Getenv("C8000V") != "" {
+		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "multicast_routing_vrfs.0.vrf", "VRF1"))
+	}
+	if os.Getenv("C8000V") != "" {
+		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "multicast_routing_vrfs.0.distributed", "true"))
+	}
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_name_servers.0", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_name_servers_vrf.0.vrf", "VRF1"))
@@ -68,8 +67,8 @@ func TestAccDataSourceIosxeSystem(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_domain_lookup_nsap", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_domain_lookup_recursive", "true"))
 	if os.Getenv("C9000V") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_domain_lookup_vrfs.0.vrf", "VRF1"))
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_domain_lookup_vrfs.0.source_interface_gigabit_ethernet", "1/0/1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_domain_lookup_vrfs.0.vrf", "VRF1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_domain_lookup_vrfs.0.source_interface_gigabit_ethernet", "1/0/1"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "diagnostic_bootup_level", "minimal"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "memory_free_low_watermark_processor", "203038"))
@@ -79,8 +78,8 @@ func TestAccDataSourceIosxeSystem(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_ssh_time_out", "120"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_ssh_authentication_retries", "3"))
 	if os.Getenv("IOSXE1715") != "" {
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_hosts.0.name", "test.router.com"))
-		checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_hosts.0.ips.0", "3.3.3.3"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_hosts.0.name", "test.router.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "ip_hosts.0.ips.0", "3.3.3.3"))
 	}
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "call_home_contact_email", "email@test.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.iosxe_system.test", "call_home_cisco_tac_1_profile_active", "true"))
@@ -110,8 +109,8 @@ func TestAccDataSourceIosxeSystem(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeSystemPrerequisitesConfig + testAccDataSourceIosxeSystemConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeSystemPrerequisitesConfig+testAccDataSourceIosxeSystemConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -131,7 +130,6 @@ resource "iosxe_yang" "PreReq0" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -160,26 +158,26 @@ func testAccDataSourceIosxeSystemConfig() string {
 		config += `	ip_multicast_routing_distributed = true` + "\n"
 	}
 	if os.Getenv("C8000V") != "" {
-		config += `	multicast_routing_vrfs = [{` + "\n"
-		if os.Getenv("C8000V") != "" {
-			config += `		vrf = "VRF1"` + "\n"
-		}
-		if os.Getenv("C8000V") != "" {
-			config += `		distributed = true` + "\n"
-		}
+	config += `	multicast_routing_vrfs = [{` + "\n"
+	if os.Getenv("C8000V") != "" {
+		config += `		vrf = "VRF1"` + "\n"
+	}
+	if os.Getenv("C8000V") != "" {
+		config += `		distributed = true` + "\n"
+	}
 		config += `	}]` + "\n"
 	}
 	config += `	ip_name_servers = ["1.2.3.4"]` + "\n"
 	config += `	ip_name_servers_vrf = [{` + "\n"
 	config += `		vrf = "VRF1"` + "\n"
 	config += `		servers = ["2.3.4.5"]` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ip_domain_lookup_nsap = true` + "\n"
 	config += `	ip_domain_lookup_recursive = true` + "\n"
 	if os.Getenv("C9000V") != "" {
-		config += `	ip_domain_lookup_vrfs = [{` + "\n"
-		config += `		vrf = "VRF1"` + "\n"
-		config += `		source_interface_gigabit_ethernet = "1/0/1"` + "\n"
+	config += `	ip_domain_lookup_vrfs = [{` + "\n"
+	config += `		vrf = "VRF1"` + "\n"
+	config += `		source_interface_gigabit_ethernet = "1/0/1"` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `	diagnostic_bootup_level = "minimal"` + "\n"
@@ -196,9 +194,9 @@ func testAccDataSourceIosxeSystemConfig() string {
 	config += `	ip_ssh_time_out = 120` + "\n"
 	config += `	ip_ssh_authentication_retries = 3` + "\n"
 	if os.Getenv("IOSXE1715") != "" {
-		config += `	ip_hosts = [{` + "\n"
-		config += `		name = "test.router.com"` + "\n"
-		config += `		ips = ["3.3.3.3"]` + "\n"
+	config += `	ip_hosts = [{` + "\n"
+	config += `		name = "test.router.com"` + "\n"
+	config += `		ips = ["3.3.3.3"]` + "\n"
 		config += `	}]` + "\n"
 	}
 	config += `	call_home_contact_email = "email@test.com"` + "\n"
@@ -226,7 +224,7 @@ func testAccDataSourceIosxeSystemConfig() string {
 	}
 	config += `	depends_on = [iosxe_yang.PreReq0, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_system" "test" {
 			depends_on = [iosxe_system.test]

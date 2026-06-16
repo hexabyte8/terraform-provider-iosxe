@@ -64,8 +64,8 @@ func TestAccDataSourceIosxeBGPIPv4UnicastVRFNeighbor(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceIosxeBGPIPv4UnicastVRFNeighborPrerequisitesConfig + testAccDataSourceIosxeBGPIPv4UnicastVRFNeighborConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceIosxeBGPIPv4UnicastVRFNeighborPrerequisitesConfig+testAccDataSourceIosxeBGPIPv4UnicastVRFNeighborConfig(),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -119,7 +119,6 @@ resource "iosxe_yang" "PreReq3" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
@@ -156,14 +155,14 @@ func testAccDataSourceIosxeBGPIPv4UnicastVRFNeighborConfig() string {
 	config += `	route_maps = [{` + "\n"
 	config += `		in_out = "in"` + "\n"
 	config += `		route_map_name = "RM1"` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	ha_mode_graceful_restart = true` + "\n"
 	config += `	next_hop_self = true` + "\n"
 	config += `	next_hop_self_all = true` + "\n"
 	config += `	advertisement_interval = 300` + "\n"
 	config += `	depends_on = [iosxe_yang.PreReq0, iosxe_yang.PreReq1, iosxe_yang.PreReq2, iosxe_yang.PreReq3, ]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_bgp_ipv4_unicast_vrf_neighbor" "test" {
 			asn = "65000"

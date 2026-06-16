@@ -45,7 +45,7 @@ func TestAccDataSourceIosxeSLA(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceIosxeSLAConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -65,14 +65,14 @@ func testAccDataSourceIosxeSLAConfig() string {
 	config += `		icmp_echo_destination = "192.168.10.10"` + "\n"
 	config += `		icmp_echo_source_ip = "192.168.1.1"` + "\n"
 	config += `		icmp_echo_frequency = 10` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `	schedules = [{` + "\n"
 	config += `		entry_number = 20` + "\n"
 	config += `		life = 4000` + "\n"
 	config += `		start_time_now = true` + "\n"
-	config += `	}]` + "\n"
+		config += `	}]` + "\n"
 	config += `}` + "\n"
-
+	
 	config += `
 		data "iosxe_sla" "test" {
 			depends_on = [iosxe_sla.test]
